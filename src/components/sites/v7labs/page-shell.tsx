@@ -37,34 +37,21 @@ export function PageHero({
   eyebrow,
   title,
   intro,
-  dark = false,
+  dark: _dark = false,
   children,
 }: PageHeroProps) {
+  void _dark;
   return (
-    <header
-      className={`border-b px-5 py-16 md:px-8 md:py-24 ${
-        dark
-          ? "border-white/10 bg-[#010F0F] text-white"
-          : "border-[#DCE1E0] bg-[#F6F4EF] text-[#111318]"
-      }`}
-    >
+    <header className="border-b border-[#DCE1E0] bg-white px-5 py-16 text-[#111318] md:px-8 md:py-24">
       <div className="mx-auto max-w-[1180px]">
-        <p
-          className={`font-mono text-[11px] uppercase tracking-[0.2em] ${
-            dark ? "text-white/45" : "text-[#5B6766]"
-          }`}
-        >
+        <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#5B6766]">
           {eyebrow}
         </p>
         <h1 className="mt-4 max-w-[18ch] font-[family-name:var(--font-aeonik)] text-[40px] leading-[1.05] tracking-[-0.04em] md:text-[56px]">
           {title}
         </h1>
         {intro ? (
-          <p
-            className={`mt-5 max-w-[52ch] text-[17px] leading-[1.55] ${
-              dark ? "text-white/60" : "text-[#5B6766]"
-            }`}
-          >
+          <p className="mt-5 max-w-[52ch] text-[17px] leading-[1.55] text-[#5B6766]">
             {intro}
           </p>
         ) : null}

@@ -71,7 +71,7 @@ export function RoleConfigurator() {
       className="relative scroll-mt-24 overflow-hidden border-t border-[#202630] bg-[#090B0F] text-[#F5F6F8]"
       aria-labelledby={`${baseId}-heading`}
     >
-      <div className="relative mx-auto max-w-[1180px] px-5 py-20 md:px-8 md:py-28">
+      <div className="relative mx-auto max-w-[1180px] px-5 py-24 md:px-8 md:py-32">
         <motion.div
           className="max-w-[40rem]"
           initial={reduceMotion ? false : { opacity: 0, y: enterY }}
@@ -79,26 +79,29 @@ export function RoleConfigurator() {
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: durationEnter, ease: easeOut }}
         >
+          <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#727B8B]">
+            After the platform
+          </p>
           <h2
             id={`${baseId}-heading`}
-            className="font-[family-name:var(--font-aeonik)] text-[36px] leading-[1.06] tracking-[-0.035em] text-[#F5F6F8] md:text-[52px]"
+            className="mt-4 font-[family-name:var(--font-aeonik)] text-[36px] leading-[1.06] tracking-[-0.035em] text-[#F5F6F8] md:text-[52px]"
           >
             Who are you?
           </h2>
           <p className="mt-3 font-[family-name:var(--font-aeonik)] text-[22px] leading-snug tracking-[-0.025em] text-[#F5F6F8] md:text-[28px]">
             Intelligence built around your role.
           </p>
-          <p className="mt-4 max-w-[52ch] text-[16px] leading-[1.6] text-[#A0A7B4] md:text-[17px]">
+          <p className="mt-5 max-w-[52ch] text-[16px] leading-[1.6] text-[#A0A7B4] md:text-[17px]">
             Choose your function. ZeonAI brings the relevant modules and agents
             into focus, so you can start with what matters and expand when
             you&apos;re ready.
           </p>
         </motion.div>
 
-        <div className="mt-8 h-px w-full bg-[#202630]" aria-hidden />
+        <div className="mt-10 h-px w-full bg-[#202630]" aria-hidden />
 
         {/* Top: industry selector + module grid */}
-        <div className="mt-8 grid gap-6 lg:grid-cols-[248px_minmax(0,1fr)] lg:gap-6">
+        <div className="mt-10 grid gap-6 lg:grid-cols-[248px_minmax(0,1fr)] lg:gap-6">
           <aside className="flex flex-col rounded-[12px] border border-white/10 bg-[#101318]/85 p-3.5 shadow-[var(--zeon-shadow-soft)] backdrop-blur-xl">
             <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#727B8B]">
               Select industry

@@ -4,12 +4,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { caseStudies } from "@/components/sites/zeonai/content";
-import {
-  durationEnter,
-  easeOut,
-  enterY,
-  viewportOnce,
-} from "../motion";
+import { durationEnter, easeOut, enterY, viewportOnce } from "../motion";
 import { CaseVisual } from "./case-visuals";
 
 const [featured, secondary, wide, compact] = caseStudies;
@@ -57,6 +52,10 @@ export function CustomerStoriesSection() {
             Real deployments across lending, finance and media, with the results
             each one delivered.
           </p>
+          <p className="mt-3 max-w-[48ch] text-[12px] leading-[1.45] text-[#97A0AE]">
+            Outcome figures from selected deployments — confirm before public
+            launch.
+          </p>
           <Link href="/customers" className="zeon-link-arrow mt-5">
             See all case studies
             <ArrowUpRight className="size-3.5" />
@@ -65,12 +64,8 @@ export function CustomerStoriesSection() {
 
         <div className="mt-12 grid gap-4 md:grid-cols-12 md:gap-5">
           {featured ? (
-            <motion.article
-              className={`group relative flex flex-col overflow-hidden rounded-[10px] border shadow-[var(--zeon-shadow-soft)] transition-[transform,box-shadow] duration-[var(--zeon-duration-hover)] ease-[var(--zeon-ease-out)] hover:-translate-y-px hover:shadow-[var(--zeon-shadow-elevated)] active:scale-[0.995] md:col-span-7 md:row-span-2 ${toneSurface[cardTone.featured]}`}
-              initial={reduceMotion ? false : { opacity: 0, y: enterY }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={viewportOnce}
-              transition={{ duration: durationEnter, ease: easeOut }}
+            <article
+              className={`group relative flex flex-col overflow-hidden rounded-[10px] border shadow-[var(--zeon-shadow-soft)] transition-[box-shadow] duration-[var(--zeon-duration-hover)] ease-[var(--zeon-ease-out)] hover:shadow-[var(--zeon-shadow-elevated)] md:col-span-7 md:row-span-2 ${toneSurface[cardTone.featured]}`}
             >
               <Link
                 href={`/customers/${featured.slug}`}
@@ -107,20 +102,12 @@ export function CustomerStoriesSection() {
                   <ArrowUpRight className="size-3.5" />
                 </span>
               </Link>
-            </motion.article>
+            </article>
           ) : null}
 
           {secondary ? (
-            <motion.article
-              className={`group relative flex flex-col overflow-hidden rounded-[10px] border shadow-[var(--zeon-shadow-soft)] transition-[transform,box-shadow] duration-[var(--zeon-duration-hover)] ease-[var(--zeon-ease-out)] hover:-translate-y-px hover:shadow-[var(--zeon-shadow-elevated)] active:scale-[0.995] md:col-span-5 ${toneSurface[cardTone.secondary]}`}
-              initial={reduceMotion ? false : { opacity: 0, y: enterY }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.25 }}
-              transition={{
-                delay: reduceMotion ? 0 : 0.08,
-                duration: durationEnter,
-                ease: easeOut,
-              }}
+            <article
+              className={`group relative flex flex-col overflow-hidden rounded-[10px] border shadow-[var(--zeon-shadow-soft)] transition-[box-shadow] duration-[var(--zeon-duration-hover)] ease-[var(--zeon-ease-out)] hover:shadow-[var(--zeon-shadow-elevated)] md:col-span-5 ${toneSurface[cardTone.secondary]}`}
             >
               <Link
                 href={`/customers/${secondary.slug}`}
@@ -151,20 +138,12 @@ export function CustomerStoriesSection() {
                   <ArrowUpRight className="size-3.5" />
                 </span>
               </Link>
-            </motion.article>
+            </article>
           ) : null}
 
           {compact ? (
-            <motion.article
-              className={`group relative flex flex-col overflow-hidden rounded-[10px] border shadow-[var(--zeon-shadow-soft)] transition-[transform,box-shadow] duration-[var(--zeon-duration-hover)] ease-[var(--zeon-ease-out)] hover:-translate-y-px hover:shadow-[var(--zeon-shadow-elevated)] active:scale-[0.995] md:col-span-5 ${toneSurface[cardTone.compact]}`}
-              initial={reduceMotion ? false : { opacity: 0, y: enterY }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.25 }}
-              transition={{
-                delay: reduceMotion ? 0 : 0.12,
-                duration: durationEnter,
-                ease: easeOut,
-              }}
+            <article
+              className={`group relative flex flex-col overflow-hidden rounded-[10px] border shadow-[var(--zeon-shadow-soft)] transition-[box-shadow] duration-[var(--zeon-duration-hover)] ease-[var(--zeon-ease-out)] hover:shadow-[var(--zeon-shadow-elevated)] md:col-span-5 ${toneSurface[cardTone.compact]}`}
             >
               <Link
                 href={`/customers/${compact.slug}`}
@@ -192,20 +171,12 @@ export function CustomerStoriesSection() {
                   <ArrowUpRight className="size-3.5" />
                 </span>
               </Link>
-            </motion.article>
+            </article>
           ) : null}
 
           {wide ? (
-            <motion.article
-              className={`group relative overflow-hidden rounded-[10px] border shadow-[var(--zeon-shadow-soft)] transition-[transform,box-shadow] duration-[var(--zeon-duration-hover)] ease-[var(--zeon-ease-out)] hover:-translate-y-px hover:shadow-[var(--zeon-shadow-elevated)] active:scale-[0.995] md:col-span-12 ${toneSurface[cardTone.wide]}`}
-              initial={reduceMotion ? false : { opacity: 0, y: enterY }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{
-                delay: reduceMotion ? 0 : 0.16,
-                duration: durationEnter,
-                ease: easeOut,
-              }}
+            <article
+              className={`group relative overflow-hidden rounded-[10px] border shadow-[var(--zeon-shadow-soft)] transition-[box-shadow] duration-[var(--zeon-duration-hover)] ease-[var(--zeon-ease-out)] hover:shadow-[var(--zeon-shadow-elevated)] md:col-span-12 ${toneSurface[cardTone.wide]}`}
             >
               <Link
                 href={`/customers/${wide.slug}`}
@@ -238,7 +209,7 @@ export function CustomerStoriesSection() {
                   <CaseVisual study={wide} />
                 </div>
               </Link>
-            </motion.article>
+            </article>
           ) : null}
         </div>
       </div>

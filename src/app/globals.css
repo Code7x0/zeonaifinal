@@ -131,19 +131,41 @@
   }
 }
 
-/* ── ZeonAI design tokens (brand preserved; craft from Apple design principles) ── */
+/* ── ZeonAI design tokens — royal blue · black · white system ── */
 .v7-site {
   --zeon-ink: #111318;
-  --zeon-ink-deep: #010f0f;
-  --zeon-ink-soft: #1c1c1c;
+  --zeon-ink-deep: #070b14;
+  --zeon-ink-soft: #151922;
+  --zeon-midnight: #070b14;
+  --zeon-navy: #0b1f4b;
   --zeon-cream: #f6f4ef;
   --zeon-paper: #ffffff;
+  --zeon-sky: #eef2ff;
+  --zeon-slate: #1e293b;
   --zeon-muted: #5b6766;
+  --zeon-muted-on-dark: rgba(255, 255, 255, 0.55);
   --zeon-border: #dce1e0;
+  --zeon-border-blue: #c7d2fe;
+  /* Royal blue family — primary identity accent */
+  --zeon-royal: #245bdb;
+  --zeon-royal-deep: #1d4ed8;
   --zeon-accent: #356dff;
-  --zeon-accent-hover: #2b5ce8;
+  --zeon-accent-hover: #245bdb;
   --zeon-accent-soft: #7ba0ff;
+  --zeon-electric: #3b82f6;
   --zeon-focus: #356dff;
+  --zeon-gradient-royal: linear-gradient(
+    145deg,
+    #0b1f4b 0%,
+    #1d4ed8 48%,
+    #356dff 100%
+  );
+  --zeon-gradient-midnight: linear-gradient(
+    180deg,
+    #070b14 0%,
+    #0b1f4b 100%
+  );
+  --zeon-gradient-sky: linear-gradient(180deg, #eef2ff 0%, #f8fafc 100%);
 
   --zeon-press-scale: 0.97;
   --zeon-hover-lift: -1px;
@@ -188,6 +210,97 @@
 
 .v7-marquee {
   animation: v7-marquee 55s linear infinite;
+}
+
+.v7-marquee-slow {
+  animation-duration: 75s;
+}
+
+/* Dark product screens — explicit CSS so Tailwind scan gaps cannot blank them */
+.zeon-dark-screen {
+  background: #070b14;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 28px 60px -24px rgba(0, 0, 0, 0.65);
+}
+
+.zeon-dark-screen__bar {
+  display: flex;
+  height: 44px;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: #111318;
+  padding: 0 14px;
+}
+
+.zeon-dark-screen__body {
+  background: #070b14;
+  padding: 14px 16px 16px;
+  color: #ffffff;
+}
+
+.zeon-dark-screen__muted {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.zeon-dark-screen__soft {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.zeon-dark-screen__panel {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 6px;
+}
+
+.zeon-dark-screen__panel-strong {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #111318;
+  border-radius: 6px;
+}
+
+.zeon-dark-screen__accent {
+  border: 1px solid rgba(53, 109, 255, 0.4);
+  background: rgba(36, 91, 219, 0.16);
+  border-radius: 6px;
+}
+
+.zeon-dark-screen__chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  background: rgba(36, 91, 219, 0.28);
+  padding: 4px 10px;
+  font-family: ui-monospace, monospace;
+  font-size: 10px;
+  color: #7ba0ff;
+}
+
+.zeon-dark-screen__btn {
+  display: inline-flex;
+  height: 32px;
+  align-items: center;
+  border-radius: 9999px;
+  background: #245bdb;
+  padding: 0 12px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.zeon-dark-screen__btn-light {
+  display: inline-flex;
+  height: 32px;
+  align-items: center;
+  border-radius: 9999px;
+  background: #ffffff;
+  padding: 0 12px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #070b14;
 }
 
 /* Inherit link color unless a text-* utility sets it (e.g. text-white on dark CTAs) */

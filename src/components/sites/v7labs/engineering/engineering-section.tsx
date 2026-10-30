@@ -50,7 +50,7 @@ const LABELS = [
 ];
 
 const glassCard =
-  "inline-flex w-max max-w-[230px] items-center rounded-[2px] border border-white/16 bg-[rgba(12,16,22,0.92)] px-3.5 py-2 text-[13px] font-medium tracking-[-0.015em] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-[12px] md:text-[13.5px]";
+  "inline-flex w-max max-w-[230px] items-center rounded-[2px] border border-black/10 bg-[rgba(17,19,24,0.88)] px-3.5 py-2 text-[13px] font-medium tracking-[-0.015em] text-white md:text-[13.5px]";
 
 /**
  * Angular path from outer label to a precise point on the hub box edge.

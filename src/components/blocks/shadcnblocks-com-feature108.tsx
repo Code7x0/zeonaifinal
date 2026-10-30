@@ -235,7 +235,7 @@ const Feature108 = ({
                 <TabsTrigger
                   key={tab.value}
                   value={tab.value}
-                  className="relative flex items-center gap-2 rounded-full px-3 py-2.5 text-[13px] font-medium text-black/40 outline-none transition-[color,background-color,transform] duration-[var(--zeon-duration-hover,220ms)] ease-out after:absolute after:inset-x-2 after:-bottom-px after:h-[2px] after:rounded-full after:bg-[#356DFF] after:opacity-0 after:transition-opacity hover:bg-black/[0.03] hover:text-[#111318] focus-visible:ring-2 focus-visible:ring-[#356DFF]/35 active:scale-[0.98] data-[state=active]:text-[#111318] data-[state=active]:after:opacity-100"
+                  className="relative flex items-center gap-2 rounded-[6px] px-3 py-2.5 text-[13px] font-medium text-black/40 outline-none transition-[color,background-color,transform] duration-[var(--zeon-duration-hover,220ms)] ease-out after:absolute after:inset-x-3 after:-bottom-px after:h-px after:bg-[#356DFF] after:opacity-0 after:transition-opacity hover:text-[#111318] focus-visible:ring-2 focus-visible:ring-[#356DFF]/35 active:scale-[0.98] data-[state=active]:text-[#111318] data-[state=active]:after:opacity-100 [&_svg]:opacity-45 data-[state=active]:[&_svg]:opacity-75"
                 >
                   {tab.icon}
                   {tab.label}

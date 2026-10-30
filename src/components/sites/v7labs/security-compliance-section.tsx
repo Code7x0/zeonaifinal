@@ -24,7 +24,7 @@ export function SecurityComplianceSection() {
   return (
     <section
       id="security"
-      className="relative z-[1] scroll-mt-24 bg-[#F7F7F7] py-16 md:py-24"
+      className="relative z-[1] scroll-mt-24 bg-[#F6F4EF] py-16 md:py-24"
       aria-labelledby={`${baseId}-heading`}
     >
       <div className="mx-auto max-w-[1180px] px-5 md:px-8">
@@ -35,59 +35,46 @@ export function SecurityComplianceSection() {
           viewport={{ once: true, amount: 0.12 }}
           transition={{ duration: durationEnter, ease: easeOut }}
         >
-          {/* Editorial header */}
           <header className="border-b border-[#D9D9D9] px-6 py-10 sm:px-8 md:px-12 md:py-14">
             <h2
               id={`${baseId}-heading`}
               className="max-w-[18ch] font-[family-name:var(--font-aeonik)] text-[32px] leading-[1.08] tracking-[-0.03em] text-[#111111] sm:text-[40px] md:text-[48px]"
             >
-              Enterprise-grade security and compliance
+              Security and compliance posture
             </h2>
             <p className="mt-5 max-w-[52ch] text-[15px] leading-[1.6] text-[#4F4F4F] md:text-[16px]">
-              Upholding strict data security and privacy standards is at the
-              core of everything we do.
+              Data security and privacy standards sit at the core of how the
+              platform is designed and operated.
             </p>
           </header>
 
-          {/* Compliance highlight row — TODO: verify certification status */}
+          {/* Demoted until certification status is verified */}
           <div
             className="grid border-b border-[#D9D9D9] sm:grid-cols-3"
             role="list"
             aria-label="Compliance positioning"
           >
             {trustLabels.map((label, i) => (
-              <motion.div
+              <div
                 key={label.name}
                 role="listitem"
                 className={
                   i < trustLabels.length - 1
-                    ? "border-b border-[#D9D9D9] px-6 py-8 sm:border-b-0 sm:border-r sm:px-8 sm:py-10 md:px-10 md:py-11"
-                    : "px-6 py-8 sm:px-8 sm:py-10 md:px-10 md:py-11"
+                    ? "border-b border-[#D9D9D9] px-6 py-6 sm:border-b-0 sm:border-r sm:px-8 sm:py-7 md:px-10"
+                    : "px-6 py-6 sm:px-8 sm:py-7 md:px-10"
                 }
-                initial={reduceMotion ? false : { opacity: 0, y: enterYSoft }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.4 }}
-                transition={{
-                  delay: reduceMotion ? 0 : 0.06 * i,
-                  duration: durationUi,
-                  ease: easeOut,
-                }}
               >
-                <p className="font-[family-name:var(--font-aeonik)] text-[28px] leading-none tracking-[-0.03em] text-[#111111] md:text-[34px]">
+                <p className="text-[13px] font-medium tracking-[-0.01em] text-[#111111] md:text-[14px]">
                   {label.name}
                 </p>
-                <p className="mt-3 text-[13px] leading-[1.45] text-[#4F4F4F]">
+                <p className="mt-1.5 text-[12px] leading-[1.45] text-[#6B6B6B]">
                   {label.note}
+                  <span className="text-[#9A9A9A]"> · Status to confirm</span>
                 </p>
-              </motion.div>
+              </div>
             ))}
           </div>
 
-          {/*
-            Continuous capability grid: each cell draws bottom + right border;
-            overflow-hidden on the panel clips the outer edges so shared
-            dividers stay single-thickness.
-          */}
           <div
             className="grid sm:grid-cols-2 lg:grid-cols-3"
             role="list"
@@ -109,7 +96,7 @@ export function SecurityComplianceSection() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.25 }}
                   transition={{
-                    delay: reduceMotion ? 0 : 0.05 * i,
+                    delay: reduceMotion ? 0 : 0.04 * i,
                     duration: durationUi,
                     ease: easeOut,
                   }}
@@ -128,7 +115,6 @@ export function SecurityComplianceSection() {
             })}
           </div>
 
-          {/* Governed AI + Deployment — strong editorial divider */}
           <div className="grid border-t-2 border-[#222222] md:grid-cols-2">
             <div className="border-b border-[#D9D9D9] px-6 py-10 sm:px-8 md:border-b-0 md:border-r md:border-[#D9D9D9] md:px-10 md:py-12">
               <h3 className="font-[family-name:var(--font-aeonik)] text-[22px] leading-[1.15] tracking-[-0.02em] text-[#111111] md:text-[26px]">

@@ -179,14 +179,14 @@ export function ArchitectureSection() {
         }
       >
         <div className="relative mx-auto w-full max-w-[1280px] px-5 md:px-8">
-          <div className="mx-auto max-w-[38rem] text-center">
+          <div className="mx-auto max-w-[34rem] text-center">
             <h2
               id={`${baseId}-heading`}
-              className="font-[family-name:var(--font-aeonik)] text-[36px] leading-[1.08] tracking-[-0.035em] text-white md:text-[48px] lg:text-[52px]"
+              className="font-[family-name:var(--font-aeonik)] text-[34px] leading-[1.08] tracking-[-0.035em] text-white md:text-[44px] lg:text-[48px]"
             >
               The platform in one picture
             </h2>
-            <p className="mx-auto mt-3 max-w-[48ch] text-[14px] leading-[1.55] text-white/55 md:text-[15px]">
+            <p className="mx-auto mt-3 max-w-[44ch] text-[14px] leading-[1.55] text-white/55 md:text-[15px]">
               Every document moves through the same six layers, from the file
               you upload to the record in your ERP. The language model can be
               swapped. The layers underneath are what make the output safe to
@@ -194,7 +194,7 @@ export function ArchitectureSection() {
             </p>
           </div>
 
-          <div className="mt-10 grid items-stretch gap-8 lg:mt-12 lg:grid-cols-[1.2fr_0.95fr_1.15fr] lg:gap-10 xl:gap-12">
+          <div className="mt-9 grid items-stretch gap-8 lg:mt-11 lg:grid-cols-[1.2fr_0.95fr_1.15fr] lg:gap-10 xl:gap-12">
             <div className="flex min-h-[320px] min-w-0 flex-col justify-center lg:min-h-[380px]">
               <ArchitectureDiagram
                 assembledIndex={assembledIndex}

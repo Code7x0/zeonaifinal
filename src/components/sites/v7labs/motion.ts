@@ -28,8 +28,8 @@ export const durationHover = 0.22;
 /** Tabs, menus, crossfades, floating nav */
 export const durationUi = 0.32;
 
-/** Content fade-up entrances */
-export const durationEnter = 0.75;
+/** Content fade-up entrances — short enough to feel authored, not habitual */
+export const durationEnter = 0.55;
 
 /** Coordinated section / hero sequences */
 export const durationSequence = 0.9;

@@ -23,7 +23,7 @@ export function LegalPage({
     <div className="v7-site min-h-screen bg-white text-[#111318]">
       <SiteHeader />
       <main>
-        <header className="border-b border-[#DCE1E8] bg-[#F6F4EF] px-5 py-16 md:px-8 md:py-20">
+        <header className="border-b border-[#DCE1E8] bg-white px-5 py-16 md:px-8 md:py-20">
           <div className="mx-auto max-w-[720px]">
             <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#5B6766]">
               {eyebrow}

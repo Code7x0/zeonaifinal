@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { FadeUp } from "./fade-up";
+import { useReducedMotion } from "motion/react";
 
 type Brand = {
   src: string;
@@ -70,15 +70,13 @@ const BRANDS: Brand[] = [
 
 function BrandMark({ brand }: { brand: Brand }) {
   const isSvg = brand.src.endsWith(".svg");
+  const markClass =
+    "max-h-[36px] w-auto max-w-[120px] object-contain opacity-80 md:max-h-[40px] md:max-w-[132px]";
 
   if (isSvg) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
-      <img
-        src={brand.src}
-        alt={brand.alt}
-        className="max-h-[48px] w-auto max-w-[140px] object-contain"
-      />
+      <img src={brand.src} alt={brand.alt} className={markClass} />
     );
   }
 
@@ -88,47 +86,52 @@ function BrandMark({ brand }: { brand: Brand }) {
       alt={brand.alt}
       width={brand.width}
       height={brand.height}
-      className="max-h-[48px] w-auto max-w-[140px] object-contain"
+      className={markClass}
     />
   );
 }
 
+function BrandCell({ brand }: { brand: Brand }) {
+  return (
+    <div className="flex h-[64px] w-[148px] shrink-0 items-center justify-center px-3 md:h-[72px] md:w-[160px]">
+      <BrandMark brand={brand} />
+    </div>
+  );
+}
+
 export function LogoTicker() {
+  const reduceMotion = useReducedMotion();
   const row = [...BRANDS, ...BRANDS];
 
   return (
-    <section className="overflow-hidden border-y border-black/5 bg-white py-14 md:py-16">
+    <section
+      className="overflow-hidden border-y border-black/5 bg-white py-12 md:py-14"
+      aria-label="Organizations we work with"
+    >
       <div className="mx-auto max-w-[1200px] px-5 text-center md:px-8">
-        <FadeUp
-          as="h2"
-          className="text-[22px] font-medium tracking-[-0.02em] text-[#1a1a1a] md:text-[28px]"
-        >
-          Trusted by Leading Organizations Worldwide
-        </FadeUp>
+        <p className="text-[13px] font-medium tracking-[0.04em] text-black/45 md:text-[14px]">
+          Selected organizations we work with
+        </p>
       </div>
 
-      <div className="relative mt-10">
+      <div className="relative mt-8 group/marquee">
         <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-white to-transparent md:w-28" />
         <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-white to-transparent md:w-28" />
-        <div className="v7-marquee flex w-max items-center gap-4 px-4 md:gap-5">
-          {row.map((brand, i) => (
-            <div
-              key={`${brand.alt}-${i}`}
-              className="flex h-[80px] w-[160px] shrink-0 items-center justify-center bg-white px-4 md:h-[88px] md:w-[172px]"
-            >
-              <BrandMark brand={brand} />
-            </div>
-          ))}
-        </div>
-      </div>
 
-      <FadeUp
-        as="p"
-        delay={0.08}
-        className="mt-12 text-center text-[22px] font-medium tracking-[-0.02em] text-[#1a1a1a] md:text-[28px]"
-      >
-        Faster, Easier, Accurate and Efficient
-      </FadeUp>
+        {reduceMotion ? (
+          <div className="mx-auto flex max-w-[1180px] flex-wrap items-center justify-center gap-x-2 gap-y-1 px-4">
+            {BRANDS.map((brand) => (
+              <BrandCell key={brand.alt} brand={brand} />
+            ))}
+          </div>
+        ) : (
+          <div className="v7-marquee flex w-max items-center gap-2 px-4 md:gap-3 motion-safe:group-hover/marquee:[animation-play-state:paused] motion-safe:group-focus-within/marquee:[animation-play-state:paused]">
+            {row.map((brand, i) => (
+              <BrandCell key={`${brand.alt}-${i}`} brand={brand} />
+            ))}
+          </div>
+        )}
+      </div>
     </section>
   );
 }

@@ -19,10 +19,10 @@ import {
 } from "../motion";
 
 const themeHero: Record<CaseStudy["heroTheme"], string> = {
-  ink: "bg-[#010F0F] text-white",
-  pale: "bg-[#EAF1FA] text-[#010F0F]",
-  paper: "bg-[#F6F4EF] text-[#010F0F]",
-  mist: "bg-[#EDEDED] text-[#010F0F]",
+  ink: "bg-white text-[var(--zeon-ink)]",
+  pale: "bg-white text-[var(--zeon-ink)]",
+  paper: "bg-white text-[var(--zeon-ink)]",
+  mist: "bg-white text-[var(--zeon-ink)]",
 };
 
 type CaseStudyPageProps = {
@@ -55,8 +55,6 @@ export function CaseStudyPage({ slug }: CaseStudyPageProps) {
     .map((s) => getCaseStudy(s))
     .filter((c): c is CaseStudy => Boolean(c));
 
-  const isDark = study.heroTheme === "ink";
-
   return (
     <div className="v7-site min-h-screen bg-white text-[#010F0F]">
       <SiteHeader />
@@ -67,53 +65,33 @@ export function CaseStudyPage({ slug }: CaseStudyPageProps) {
             <div>
               <Link
                 href="/#customers"
-                className={`inline-flex items-center gap-2 text-[13px] transition ${
-                  isDark
-                    ? "text-white/50 hover:text-white"
-                    : "text-[#5B6766] hover:text-[#010F0F]"
-                }`}
+                className="inline-flex items-center gap-2 text-[13px] text-[#5B6766] transition hover:text-[#010F0F]"
               >
                 <ArrowLeft className="size-3.5" />
                 Customer stories
               </Link>
-              <p
-                className={`mt-8 font-mono text-[11px] uppercase tracking-[0.2em] ${
-                  isDark ? "text-white/40" : "text-[#5B6766]"
-                }`}
-              >
+              <p className="mt-8 font-mono text-[11px] uppercase tracking-[0.2em] text-[#5B6766]">
                 {study.industry}
               </p>
-              <p
-                className={`mt-2 text-[14px] ${
-                  isDark ? "text-white/55" : "text-[#5B6766]"
-                }`}
-              >
+              <p className="mt-2 text-[14px] text-[#5B6766]">
                 {study.customer}
               </p>
               <h1 className="mt-4 max-w-[18ch] font-[family-name:var(--font-aeonik)] text-[36px] leading-[1.05] tracking-[-0.04em] md:text-[52px]">
                 {study.title}
               </h1>
-              <p
-                className={`mt-5 max-w-[48ch] text-[16px] leading-[1.6] md:text-[17px] ${
-                  isDark ? "text-white/55" : "text-[#5B6766]"
-                }`}
-              >
+              <p className="mt-5 max-w-[48ch] text-[16px] leading-[1.6] text-[#5B6766] md:text-[17px]">
                 {study.summary}
               </p>
               <div className="mt-8 flex flex-wrap items-baseline gap-3">
                 <span className="font-[family-name:var(--font-aeonik)] text-[44px] leading-none tracking-[-0.04em] md:text-[56px]">
                   {study.metricShort}
                 </span>
-                <span
-                  className={`text-[14px] ${
-                    isDark ? "text-white/45" : "text-[#5B6766]"
-                  }`}
-                >
+                <span className="text-[14px] text-[#5B6766]">
                   {study.metricLabel}
                 </span>
               </div>
             </div>
-            <div className={isDark ? "rounded-[3px] bg-white p-1" : ""}>
+            <div>
               <CaseVisual study={study} />
             </div>
           </div>
@@ -353,33 +331,60 @@ function WorkflowStrip({ study }: { study: CaseStudy }) {
 
 export function CustomersIndexPage() {
   const reduceMotion = useReducedMotion() ?? false;
+  const featured = caseStudies[0];
+  const rest = caseStudies.slice(1);
 
   return (
     <div className="v7-site min-h-screen bg-white text-[#010F0F]">
       <SiteHeader />
       <main>
-        <header className="border-b border-[#DCE1E0] bg-[#F6F4EF] px-5 py-16 md:px-8 md:py-24">
-          <div className="mx-auto max-w-[1180px]">
-            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#5B6766]">
-              05 · Customers / {String(caseStudies.length).padStart(2, "0")} case
-              studies
-            </p>
-            <h1 className="mt-4 max-w-[16ch] font-[family-name:var(--font-aeonik)] text-[40px] leading-[1.05] tracking-[-0.04em] md:text-[56px]">
-              Customers and case studies
-            </h1>
-            <p className="mt-5 max-w-[48ch] text-[17px] leading-[1.55] text-[#5B6766]">
-              Real deployments across lending, finance and media, with the
-              results each one delivered.
-            </p>
-            <p className="mt-4 max-w-[52ch] text-[13px] leading-[1.5] text-[#8A9493]">
-              Figures below are from the ZeonAI preview brief and require
-              business confirmation before public launch.
-            </p>
+        <header className="relative overflow-hidden bg-white text-[#111318]">
+          <div className="relative mx-auto grid max-w-[1180px] gap-10 px-5 py-16 md:grid-cols-2 md:items-end md:gap-14 md:px-8 md:py-24">
+            <div>
+              <p className="text-[13px] font-medium text-[#5B6766]">
+                Customers · {String(caseStudies.length).padStart(2, "0")} case
+                studies
+              </p>
+              <h1 className="mt-4 max-w-[12ch] font-[family-name:var(--font-aeonik)] text-[44px] leading-[1.02] tracking-[-0.045em] md:text-[64px]">
+                Evidence from the field.
+              </h1>
+              <p className="mt-5 max-w-[40ch] text-[17px] leading-[1.55] text-[#5B6766]">
+                Deployments across lending, finance and media. Figures require
+                business confirmation before public launch.
+              </p>
+            </div>
+            {featured ? (
+              <Link
+                href={`/customers/${featured.slug}`}
+                className="group block border border-[#DCE1E0] bg-[#F6F4EF]/60 p-6 no-underline transition hover:border-[#111318]/25"
+              >
+                <p className="font-mono text-[11px] text-[#5B6766]">
+                  {featured.industry}
+                </p>
+                <h2 className="mt-3 font-[family-name:var(--font-aeonik)] text-[28px] tracking-[-0.03em] text-[#111318]">
+                  {featured.title}
+                </h2>
+                <p className="mt-3 text-[14px] leading-[1.5] text-[#5B6766]">
+                  {featured.summary}
+                </p>
+                <div className="mt-6 flex items-baseline gap-2">
+                  <span className="font-[family-name:var(--font-aeonik)] text-[36px] tracking-[-0.03em] text-[#111318]">
+                    {featured.metricShort}
+                  </span>
+                  <span className="text-[12px] text-[#5B6766]">
+                    {featured.metricLabel}
+                  </span>
+                </div>
+                <span className="zeon-link-arrow mt-6 inline-flex">
+                  Read case study
+                </span>
+              </Link>
+            ) : null}
           </div>
         </header>
-        <section className="px-5 py-14 md:px-8 md:py-20">
-          <div className="mx-auto grid max-w-[1180px] gap-4 md:grid-cols-2">
-            {caseStudies.map((study, i) => (
+        <section className="bg-[var(--zeon-sky)] px-5 py-14 md:px-8 md:py-20">
+          <div className="mx-auto grid max-w-[1180px] gap-4 md:grid-cols-3">
+            {rest.map((study, i) => (
               <motion.div
                 key={study.slug}
                 initial={reduceMotion ? false : { opacity: 0, y: enterYSoft }}
@@ -393,15 +398,15 @@ export function CustomersIndexPage() {
               >
                 <Link
                   href={`/customers/${study.slug}`}
-                  className="zeon-surface-interactive group flex h-full flex-col p-6"
+                  className="group flex h-full flex-col rounded-[12px] border border-[var(--zeon-border-blue)] bg-white p-6 transition-[border-color,box-shadow] duration-[var(--zeon-duration-hover)] ease-[var(--zeon-ease-out)] hover:border-[var(--zeon-accent)] hover:shadow-[var(--zeon-shadow-elevated)]"
                 >
-                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#5B6766]">
+                  <p className="font-mono text-[10px] text-[#5B6766]">
                     {study.industry}
                   </p>
                   <h2 className="mt-3 font-[family-name:var(--font-aeonik)] text-[22px] leading-[1.15] tracking-[-0.025em]">
                     {study.title}
                   </h2>
-                  <p className="mt-3 text-[14px] leading-[1.5] text-[#5B6766]">
+                  <p className="mt-3 flex-1 text-[14px] leading-[1.5] text-[#5B6766]">
                     {study.summary}
                   </p>
                   <div className="mt-5 flex items-baseline gap-2">
@@ -412,9 +417,8 @@ export function CustomersIndexPage() {
                       {study.metricLabel}
                     </span>
                   </div>
-                  <span className="mt-auto inline-flex items-center gap-1.5 pt-6 text-[13px] font-medium text-[#155EEF] transition-[gap] duration-300 ease-out group-hover:gap-2.5">
+                  <span className="zeon-link-arrow mt-6 text-[13px]">
                     Read case study
-                    <ArrowUpRight className="size-3.5" />
                   </span>
                 </Link>
               </motion.div>

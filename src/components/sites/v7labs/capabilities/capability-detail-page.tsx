@@ -1,171 +1,184 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
 import {
   capabilities,
   getCapability,
   type Capability,
 } from "@/components/sites/zeonai/content";
-import { PageCtaBand, PageHero, PageShell } from "../page-shell";
+import { PageShell } from "../page-shell";
+import {
+  Chapter,
+  ChapterLabel,
+  ChapterTitle,
+  SecondaryCta,
+  SecondaryHero,
+} from "../secondary/chapter";
+import {
+  AskAiMock,
+  AuditMock,
+  ContractMock,
+  WorkflowMock,
+} from "../secondary/product-mocks";
+
+function mockFor(id: string) {
+  if (id === "ask-ai" || id === "ai-drive" || id === "app-hub") {
+    return <AskAiMock />;
+  }
+  if (id === "contracts") return <ContractMock />;
+  if (id === "dashboards" || id.includes("audit")) return <AuditMock />;
+  return <WorkflowMock />;
+}
 
 export function CapabilitiesIndexPage() {
   return (
     <PageShell>
-      <PageHero
-        eyebrow="02 · Capabilities"
-        title="How ZeonAI is shaping decisions across the enterprise"
-        intro="One platform, every business process, and one place to enhance them."
+      <SecondaryHero
+        label="Capabilities"
+        title="How decisions get shaped."
+        lead="One platform, every business process, and one place to enhance them — with access control and an audit log built in."
+        tone="ink"
+        visual={<AskAiMock />}
       />
-      <section className="px-5 py-14 md:px-8 md:py-20">
-        <div className="mx-auto grid max-w-[1180px] gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <Chapter tone="sky" min={false} className="!min-h-0">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {capabilities.map((cap, i) => (
             <Link
               key={cap.id}
               href={`/platform/${cap.id}`}
-              className="zeon-surface-interactive group flex flex-col p-5"
+              className="group flex flex-col rounded-[12px] border border-[var(--zeon-border-blue)] bg-white p-6 transition-[border-color,box-shadow] duration-[var(--zeon-duration-hover)] ease-[var(--zeon-ease-out)] hover:border-[var(--zeon-accent)] hover:shadow-[var(--zeon-shadow-elevated)]"
             >
-              <p className="font-mono text-[10px] text-[#8A9493]">
+              <p className="font-mono text-[11px] text-[var(--zeon-royal)]">
                 {String(i + 1).padStart(2, "0")}
               </p>
-              <h2 className="mt-2 font-[family-name:var(--font-aeonik)] text-[20px] tracking-[-0.02em] text-[#111318]">
+              <h2 className="mt-3 font-[family-name:var(--font-aeonik)] text-[22px] tracking-[-0.02em]">
                 {cap.title}
               </h2>
-              <p className="mt-2 text-[14px] leading-[1.5] text-[#5B6766]">
+              <p className="mt-2 flex-1 text-[14px] leading-[1.5] text-[#5B6766]">
                 {cap.summary}
               </p>
-              <span className="mt-auto inline-flex items-center gap-1.5 pt-5 text-[13px] font-medium text-[#0977B3] transition-[gap] duration-300 ease-out group-hover:gap-2.5">
+              <span className="zeon-link-arrow mt-6 text-[13px]">
                 Open capability
-                <ArrowUpRight className="size-3.5" />
               </span>
             </Link>
           ))}
         </div>
-      </section>
-      <PageCtaBand
+      </Chapter>
+      <SecondaryCta
+        tone="royal"
         title="See these capabilities in a demo"
-        body="Pick the modules that matter to your role. We will show them on a workflow from your sector."
-        secondaryHref="/#platform"
-        secondaryLabel="Homepage tour"
+        body="Pick the modules that matter to your role."
+        secondaryHref="/platform"
+        secondaryLabel="Platform overview"
       />
     </PageShell>
   );
 }
 
-export function CapabilityDetailPage({ capability }: { capability: Capability }) {
+export function CapabilityDetailPage({
+  capability,
+}: {
+  capability: Capability;
+}) {
   const related = capability.related
     .map((id) => getCapability(id))
     .filter((c): c is Capability => Boolean(c));
 
   return (
     <PageShell>
-      <PageHero
-        eyebrow={`Capability · ${capability.title}`}
+      <SecondaryHero
+        label={`Capability · ${capability.title}`}
         title={capability.title}
-        intro={capability.summary}
-        dark
-      >
-        <p className="mt-6 max-w-[48ch] text-[14px] leading-[1.55] text-white/50">
+        lead={capability.summary}
+        tone="ink"
+        secondaryHref="/platform"
+        secondaryLabel="Platform overview"
+        visual={mockFor(capability.id)}
+      />
+
+      <Chapter tone="paper" min={false} className="!min-h-0">
+        <p className="max-w-[52ch] text-[14px] leading-[1.55] text-[#5B6766]">
           {capability.sampleNote}
         </p>
-        <Link
-          href="/platform"
-          className="mt-6 inline-flex text-[13px] text-white/55 no-underline hover:text-white"
-        >
-          ← Platform overview
-        </Link>
-      </PageHero>
-
-      <section className="border-b border-[#DCE1E0] px-5 py-14 md:px-8 md:py-20">
-        <div className="mx-auto grid max-w-[1180px] gap-10 lg:grid-cols-2">
+        <div className="mt-12 grid gap-12 lg:grid-cols-2">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#5B6766]">
-              The problem
-            </p>
-            <p className="mt-3 text-[17px] leading-[1.55] text-[#111318]">
+            <ChapterLabel>The problem</ChapterLabel>
+            <p className="mt-4 text-[20px] leading-[1.45] tracking-[-0.02em] text-[#111318] md:text-[24px]">
               {capability.problem}
             </p>
           </div>
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#5B6766]">
-              What it does
-            </p>
-            <p className="mt-3 text-[17px] leading-[1.55] text-[#111318]">
+            <ChapterLabel>What it does</ChapterLabel>
+            <p className="mt-4 text-[20px] leading-[1.45] tracking-[-0.02em] text-[#111318] md:text-[24px]">
               {capability.does}
             </p>
           </div>
         </div>
-      </section>
+      </Chapter>
 
-      <section className="border-b border-[#DCE1E0] bg-[#F6F4EF]/50 px-5 py-14 md:px-8 md:py-20">
-        <div className="mx-auto max-w-[1180px]">
-          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#5B6766]">
-            How the workflow works
-          </p>
-          <ol className="mt-8 grid gap-3 md:grid-cols-2">
-            {capability.workflow.map((step, i) => (
-              <li
-                key={step}
-                className="zeon-surface flex gap-4 p-5"
-              >
-                <span className="font-mono text-[12px] text-[#0977B3]">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <span className="text-[15px] leading-[1.5] text-[#111318]">
-                  {step}
-                </span>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
+      <Chapter tone="sky" min={false} className="!min-h-0">
+        <ChapterLabel tone="sky">How the workflow works</ChapterLabel>
+        <ChapterTitle>Steps on the platform.</ChapterTitle>
+        <ol className="mt-10 space-y-0 rounded-[12px] border border-[var(--zeon-border-blue)] bg-white px-5 md:px-8">
+          {capability.workflow.map((step, i) => (
+            <li
+              key={step}
+              className="grid grid-cols-[4rem_minmax(0,1fr)] gap-4 border-t border-[var(--zeon-border-blue)] py-6 first:border-t-0"
+            >
+              <span className="font-mono text-[13px] text-[var(--zeon-royal)]">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className="text-[17px] leading-[1.5] text-[#111318]">
+                {step}
+              </span>
+            </li>
+          ))}
+        </ol>
+      </Chapter>
 
-      <section className="border-b border-[#DCE1E0] px-5 py-14 md:px-8 md:py-20">
-        <div className="mx-auto max-w-[1180px]">
-          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#5B6766]">
-            Governance
-          </p>
-          <p className="mt-3 max-w-[56ch] text-[17px] leading-[1.55] text-[#111318]">
-            {capability.governance}
-          </p>
-          <p className="mt-6 max-w-[48ch] zeon-surface-quiet p-5 text-[14px] leading-[1.55] text-[#5B6766]">
-            <span className="font-medium text-[#111318]">Persona scenario · </span>
-            {capability.persona}
-          </p>
+      <Chapter tone="midnight" min={false} className="!min-h-0">
+        <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+          <div>
+            <ChapterLabel tone="midnight">Governance</ChapterLabel>
+            <p className="mt-4 max-w-[40ch] text-[22px] leading-[1.4] tracking-[-0.02em] text-white md:text-[28px]">
+              {capability.governance}
+            </p>
+            <p className="mt-6 max-w-[44ch] text-[15px] leading-[1.55] text-white/55">
+              <span className="text-white/80">Persona · </span>
+              {capability.persona}
+            </p>
+          </div>
+          <AuditMock />
         </div>
-      </section>
+      </Chapter>
 
       {related.length > 0 ? (
-        <section className="px-5 py-14 md:px-8 md:py-16">
-          <div className="mx-auto max-w-[1180px]">
-            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#5B6766]">
-              Related capabilities
-            </p>
-            <div className="mt-6 grid gap-3 sm:grid-cols-3">
-              {related.map((cap) => (
-                <Link
-                  key={cap.id}
-                  href={`/platform/${cap.id}`}
-                  className="zeon-surface-interactive p-4"
-                >
-                  <h3 className="font-[family-name:var(--font-aeonik)] text-[18px] tracking-[-0.02em]">
-                    {cap.title}
-                  </h3>
-                  <p className="mt-2 text-[13px] leading-[1.5] text-[#5B6766]">
-                    {cap.summary}
-                  </p>
-                </Link>
-              ))}
-            </div>
+        <Chapter tone="cream" min={false} className="!min-h-0">
+          <ChapterLabel tone="cream">Related</ChapterLabel>
+          <div className="mt-6 grid gap-3 sm:grid-cols-3">
+            {related.map((cap) => (
+              <Link
+                key={cap.id}
+                href={`/platform/${cap.id}`}
+                className="rounded-[12px] border border-[var(--zeon-border-blue)] bg-white p-5 transition-[border-color] duration-[var(--zeon-duration-hover)] hover:border-[var(--zeon-accent)]"
+              >
+                <h3 className="font-[family-name:var(--font-aeonik)] text-[18px] tracking-[-0.02em]">
+                  {cap.title}
+                </h3>
+                <p className="mt-2 text-[13px] leading-[1.5] text-[#5B6766]">
+                  {cap.summary}
+                </p>
+              </Link>
+            ))}
           </div>
-        </section>
+        </Chapter>
       ) : null}
 
-      <PageCtaBand
+      <SecondaryCta
+        tone="royal"
         title={`Book a demo of ${capability.title}`}
         body="We will show this capability on a workflow from your role and sector."
-        dark
-        secondaryHref="/platform"
+        secondaryHref="/products"
         secondaryLabel="All capabilities"
       />
     </PageShell>

@@ -123,11 +123,11 @@ function HeaderBar({
                 >
                   <button
                     type="button"
-                    className="group relative inline-flex h-[34px] items-center gap-1 rounded-full px-3 text-[13px] text-black/55 transition-[color,background-color] duration-[var(--zeon-duration-hover)] ease-[var(--zeon-ease-out)] hover:bg-black/[0.04] hover:text-[#111318] data-[open=true]:bg-black/[0.05] data-[open=true]:text-[#111318]"
+                    className="group relative inline-flex h-[34px] items-center gap-1 rounded-full px-3 text-[13px] text-black/55 transition-[color,background-color,box-shadow] duration-[var(--zeon-duration-hover)] ease-[var(--zeon-ease-out)] hover:bg-[#111318] hover:text-white focus-visible:outline-none focus-visible:shadow-[var(--zeon-focus-ring)] data-[open=true]:bg-[#111318] data-[open=true]:text-white data-[open=true]:shadow-[inset_0_0_0_1px_rgba(53,109,255,0.45)]"
                     data-open={isOpen}
                     aria-expanded={isOpen}
-                    aria-controls={panelId}
                     aria-haspopup="true"
+                    aria-controls={panelId}
                     onKeyDown={(e) => onTriggerKeyDown(e, group)}
                     onFocus={() => openGroup(group)}
                     onClick={() =>
@@ -136,16 +136,11 @@ function HeaderBar({
                   >
                     {group.label}
                     <ChevronDown
-                      className={`size-3.5 opacity-60 transition-transform duration-[var(--zeon-duration-hover)] ease-[var(--zeon-ease-out)] ${
-                        isOpen ? "rotate-180" : ""
+                      className={`size-3.5 opacity-60 transition-[transform,opacity,color] duration-[var(--zeon-duration-hover)] ease-[var(--zeon-ease-out)] group-hover:text-white data-[open=true]:text-white ${
+                        isOpen ? "rotate-180 opacity-90" : ""
                       }`}
                       aria-hidden
-                    />
-                    <span
-                      aria-hidden
-                      className={`pointer-events-none absolute inset-x-3 -bottom-px h-[2px] origin-left rounded-full bg-[#356DFF] transition-transform duration-[var(--zeon-duration-hover)] ease-[var(--zeon-ease-out)] ${
-                        isOpen ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
-                      }`}
+                      data-open={isOpen}
                     />
                   </button>
                 </div>
@@ -155,16 +150,6 @@ function HeaderBar({
         </div>
 
         <div className="flex items-center gap-2">
-          <a
-            href="/platform"
-            className="group relative hidden rounded-sm px-1 py-2 text-[13px] text-black/55 no-underline transition-colors duration-[var(--zeon-duration-hover)] ease-[var(--zeon-ease-out)] hover:text-[#111318] sm:inline"
-          >
-            See the platform
-            <span
-              aria-hidden
-              className="pointer-events-none absolute inset-x-1 -bottom-px h-[2px] origin-left scale-x-0 rounded-full bg-[#356DFF] transition-transform duration-[var(--zeon-duration-hover)] ease-[var(--zeon-ease-out)] group-hover:scale-x-100"
-            />
-          </a>
           <ZeonLinkButton href="/demo" tone="soft" size="sm">
             Book a demo
           </ZeonLinkButton>
@@ -210,15 +195,15 @@ function HeaderBar({
                     <a
                       id={`${navId}-${activeGroup.id}-${i}`}
                       href={item.href}
-                      className="group/item block rounded-[8px] px-3 py-3 text-[#111318] no-underline transition-[background-color,transform] duration-[var(--zeon-duration-hover)] ease-[var(--zeon-ease-out)] hover:bg-[#F6F4EF]/90 focus-visible:bg-[#F6F4EF] focus-visible:outline-none focus-visible:shadow-[var(--zeon-focus-ring)] active:scale-[0.995]"
+                      className="group/item block px-3 py-3 text-[#111318] no-underline transition-[background-color,transform,color] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-[#111318]/[0.04] focus-visible:bg-[#111318]/[0.06] focus-visible:outline-none active:scale-[0.995]"
                       onKeyDown={(e) => {
                         if (e.key === "Escape") setOpen(null);
                       }}
                     >
-                      <span className="block text-[14px] font-medium tracking-[-0.01em]">
+                      <span className="block text-[14px] font-medium tracking-[-0.01em] transition-colors duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover/item:text-black">
                         {item.label}
                       </span>
-                      <span className="mt-1 block text-[12px] leading-[1.45] text-[#5B6766]">
+                      <span className="mt-1 block text-[12px] leading-[1.45] text-[#5B6766] transition-colors duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover/item:text-[#3d4544]">
                         {item.description}
                       </span>
                     </a>
