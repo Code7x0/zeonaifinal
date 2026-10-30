@@ -1,0 +1,34 @@
+
+
+
+
+
+
+
+
+	
+<script nonce="4D3Djv7dgFMdbp2Z5VMhRAxPhNXipmIx4qfNkPDXk5w=" src="admin/assets/js/outerjs/hide_header_footer.js"></script>
+<script nonce="4D3Djv7dgFMdbp2Z5VMhRAxPhNXipmIx4qfNkPDXk5w=" type="text/javascript" src="admin/assets/dev_module_list/error.js"></script>
+<div class="main-page-content error-page">
+	<section class="page-p-tb" id="top-content">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+					<div class="iq-error">
+						<img src="/admin/assets/images/outerimages/error-images/oops.png"
+							class="img-fluid iq-error-img" alt="500-error">
+						<h1>Error - 404</h1>
+						<p class="custom-errormessage">The page you are looking for could not be found. Please check the URL or navigate to a different page.</p>
+						<a class="btn btn-primary custom-btn-lg mt-4" href="/index"><i
+							class="fa-solid fa-house mr-2"></i>Back to Home</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+
+
+
+
+

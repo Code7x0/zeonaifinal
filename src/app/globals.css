@@ -1,15 +1,17 @@
+@import url("https://db.onlinewebfonts.com/c/e66905e07608167a84e6ad52f638c3c6?family=Helvetica+Now+Var");
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "lenis/dist/lenis.css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: "Geist", "Geist Fallback", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
-  --font-heading: var(--font-sans);
+  --font-sans: var(--font-aeonik), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, monospace;
+  --font-heading: var(--font-aeonik), ui-sans-serif, system-ui, sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -128,3 +130,554 @@
     @apply font-sans;
   }
 }
+
+/* ── ZeonAI design tokens (brand preserved; craft from Apple design principles) ── */
+.v7-site {
+  --zeon-ink: #111318;
+  --zeon-ink-deep: #010f0f;
+  --zeon-ink-soft: #1c1c1c;
+  --zeon-cream: #f6f4ef;
+  --zeon-paper: #ffffff;
+  --zeon-muted: #5b6766;
+  --zeon-border: #dce1e0;
+  --zeon-accent: #356dff;
+  --zeon-accent-hover: #2b5ce8;
+  --zeon-accent-soft: #7ba0ff;
+  --zeon-focus: #356dff;
+
+  --zeon-press-scale: 0.97;
+  --zeon-hover-lift: -1px;
+  --zeon-duration-press: 100ms;
+  --zeon-duration-hover: 220ms;
+  --zeon-duration-ui: 320ms;
+  --zeon-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --zeon-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+
+  --zeon-glass-bg: rgba(255, 255, 255, 0.72);
+  --zeon-glass-bg-strong: rgba(255, 255, 255, 0.88);
+  --zeon-glass-bg-dark: rgba(10, 10, 12, 0.72);
+  --zeon-glass-blur: 20px;
+  --zeon-glass-saturate: 160%;
+  --zeon-glass-edge: rgba(255, 255, 255, 0.55);
+  --zeon-glass-border: rgba(0, 0, 0, 0.08);
+
+  --zeon-shadow-soft: 0 1px 0 rgba(0, 0, 0, 0.04);
+  --zeon-shadow-float: 0 18px 40px rgba(0, 0, 0, 0.08);
+  --zeon-shadow-elevated: 0 12px 32px -12px rgba(0, 0, 0, 0.18);
+  --zeon-shadow-product: 0 3px 5px 30px rgba(0, 0, 0, 0.12);
+
+  --zeon-radius-sm: 4px;
+  --zeon-radius-md: 8px;
+  --zeon-radius-lg: 14px;
+  --zeon-radius-pill: 9999px;
+
+  --zeon-focus-ring: 0 0 0 2px var(--zeon-paper), 0 0 0 4px var(--zeon-focus);
+  --zeon-focus-ring-dark: 0 0 0 2px var(--zeon-ink-deep),
+    0 0 0 4px var(--zeon-accent-soft);
+}
+
+/* V7 Labs clone motion */
+@keyframes v7-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.v7-marquee {
+  animation: v7-marquee 55s linear infinite;
+}
+
+/* Inherit link color unless a text-* utility sets it (e.g. text-white on dark CTAs) */
+.v7-site a:not([class*="text-"]) {
+  color: inherit;
+}
+
+.v7-site a.text-white,
+.v7-site a[class*="text-white"] {
+  color: #fff;
+}
+
+@keyframes platform-fade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.platform-view-enter {
+  animation: platform-fade 420ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* ── Interaction primitives ── */
+.v7-site .zeon-press {
+  transform: translateZ(0);
+  transition:
+    transform var(--zeon-duration-press) var(--zeon-ease-out),
+    background-color var(--zeon-duration-hover) var(--zeon-ease-out),
+    border-color var(--zeon-duration-hover) var(--zeon-ease-out),
+    box-shadow var(--zeon-duration-hover) var(--zeon-ease-out),
+    color var(--zeon-duration-hover) var(--zeon-ease-out),
+    opacity var(--zeon-duration-hover) var(--zeon-ease-out);
+}
+
+.v7-site .zeon-press:active:not(:disabled):not([aria-disabled="true"]) {
+  transform: scale(var(--zeon-press-scale));
+}
+
+.v7-site .zeon-focusable:focus {
+  outline: none;
+}
+
+.v7-site .zeon-focusable:focus-visible {
+  outline: none;
+  box-shadow: var(--zeon-focus-ring);
+}
+
+.v7-site .zeon-focusable-dark:focus-visible {
+  outline: none;
+  box-shadow: var(--zeon-focus-ring-dark);
+}
+
+/* Buttons */
+.v7-site .zeon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  height: 2.75rem;
+  padding: 0 1.25rem;
+  border-radius: var(--zeon-radius-pill);
+  border: 1px solid transparent;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  transform: translateZ(0);
+  transition:
+    transform var(--zeon-duration-press) var(--zeon-ease-out),
+    background-color var(--zeon-duration-hover) var(--zeon-ease-out),
+    border-color var(--zeon-duration-hover) var(--zeon-ease-out),
+    box-shadow var(--zeon-duration-hover) var(--zeon-ease-out),
+    color var(--zeon-duration-hover) var(--zeon-ease-out),
+    filter var(--zeon-duration-hover) var(--zeon-ease-out);
+}
+
+.v7-site .zeon-btn:focus {
+  outline: none;
+}
+
+.v7-site .zeon-btn:focus-visible {
+  box-shadow: var(--zeon-focus-ring);
+}
+
+.v7-site .zeon-btn:active:not(:disabled):not([aria-disabled="true"]) {
+  transform: scale(var(--zeon-press-scale));
+}
+
+.v7-site .zeon-btn:disabled,
+.v7-site .zeon-btn[aria-disabled="true"] {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.v7-site .zeon-btn-sm {
+  height: 2.125rem;
+  padding: 0 0.875rem;
+  font-size: 12px;
+}
+
+.v7-site .zeon-btn-lg {
+  height: 3rem;
+  padding: 0 1.75rem;
+  font-size: 15px;
+}
+
+.v7-site .zeon-btn-block {
+  width: 100%;
+}
+
+.v7-site .zeon-btn-ink {
+  background: var(--zeon-ink);
+  color: #fff !important;
+}
+
+.v7-site .zeon-btn-ink:hover {
+  background: #000;
+}
+
+.v7-site .zeon-btn-soft {
+  background: var(--zeon-ink-soft);
+  color: #fff !important;
+}
+
+.v7-site .zeon-btn-soft:hover {
+  background: #000;
+}
+
+.v7-site .zeon-btn-accent {
+  background: var(--zeon-accent);
+  color: #fff !important;
+}
+
+.v7-site .zeon-btn-accent:hover {
+  background: var(--zeon-accent-hover);
+}
+
+.v7-site .zeon-btn-light {
+  background: #fff;
+  color: var(--zeon-ink-deep) !important;
+}
+
+.v7-site .zeon-btn-light:hover {
+  background: #f0f2f5;
+}
+
+.v7-site .zeon-btn-ghost {
+  background: transparent;
+  border-color: var(--zeon-border);
+  color: var(--zeon-ink) !important;
+}
+
+.v7-site .zeon-btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.72);
+  border-color: color-mix(in srgb, var(--zeon-accent) 35%, var(--zeon-border));
+}
+
+.v7-site .zeon-btn-ghost-dark {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #fff !important;
+}
+
+.v7-site .zeon-btn-ghost-dark:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.v7-site .zeon-btn-ghost-dark:focus-visible {
+  box-shadow: var(--zeon-focus-ring-dark);
+}
+
+.v7-site .zeon-btn .zeon-btn-arrow {
+  display: inline-block;
+  transition: transform var(--zeon-duration-hover) var(--zeon-ease-out);
+}
+
+.v7-site .zeon-btn:hover .zeon-btn-arrow {
+  transform: translateX(3px);
+}
+
+/* Text links */
+.v7-site .zeon-link {
+  color: var(--zeon-accent);
+  text-decoration: none;
+  transition: color var(--zeon-duration-hover) var(--zeon-ease-out);
+}
+
+.v7-site .zeon-link:hover {
+  color: var(--zeon-accent-hover);
+}
+
+.v7-site .zeon-link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--zeon-accent);
+  text-decoration: none;
+  transition:
+    color var(--zeon-duration-hover) var(--zeon-ease-out),
+    gap var(--zeon-duration-hover) var(--zeon-ease-out);
+}
+
+.v7-site .zeon-link-arrow:hover {
+  gap: 0.55rem;
+  color: var(--zeon-accent-hover);
+}
+
+.v7-site .zeon-link-arrow:focus-visible {
+  outline: none;
+  box-shadow: var(--zeon-focus-ring);
+  border-radius: 2px;
+}
+
+/* Surfaces / cards */
+.v7-site .zeon-surface {
+  background: var(--zeon-paper);
+  border: 1px solid var(--zeon-border);
+  border-radius: var(--zeon-radius-sm);
+  transition:
+    border-color var(--zeon-duration-hover) var(--zeon-ease-out),
+    box-shadow var(--zeon-duration-hover) var(--zeon-ease-out),
+    background-color var(--zeon-duration-hover) var(--zeon-ease-out),
+    transform var(--zeon-duration-hover) var(--zeon-ease-out);
+}
+
+.v7-site .zeon-surface-quiet {
+  background: color-mix(in srgb, var(--zeon-cream) 50%, transparent);
+  border: 1px solid var(--zeon-border);
+  border-radius: var(--zeon-radius-sm);
+}
+
+.v7-site .zeon-surface-glass {
+  background: var(--zeon-glass-bg);
+  border: 1px solid var(--zeon-glass-border);
+  border-radius: var(--zeon-radius-md);
+  box-shadow: var(--zeon-shadow-soft);
+  backdrop-filter: blur(var(--zeon-glass-blur))
+    saturate(var(--zeon-glass-saturate));
+  -webkit-backdrop-filter: blur(var(--zeon-glass-blur))
+    saturate(var(--zeon-glass-saturate));
+}
+
+.v7-site .zeon-surface-interactive {
+  background: var(--zeon-paper);
+  border: 1px solid var(--zeon-border);
+  border-radius: var(--zeon-radius-sm);
+  text-decoration: none;
+  color: inherit;
+  transform: translateZ(0);
+  transition:
+    border-color var(--zeon-duration-hover) var(--zeon-ease-out),
+    box-shadow var(--zeon-duration-hover) var(--zeon-ease-out),
+    background-color var(--zeon-duration-hover) var(--zeon-ease-out),
+    transform var(--zeon-duration-press) var(--zeon-ease-out);
+}
+
+.v7-site .zeon-surface-interactive:hover {
+  border-color: color-mix(in srgb, var(--zeon-accent) 40%, var(--zeon-border));
+  box-shadow: var(--zeon-shadow-elevated);
+  background: color-mix(in srgb, var(--zeon-cream) 35%, white);
+}
+
+.v7-site .zeon-surface-interactive:active {
+  transform: scale(0.995);
+}
+
+.v7-site .zeon-surface-interactive:focus-visible {
+  outline: none;
+  box-shadow: var(--zeon-focus-ring);
+}
+
+/* Glass chrome */
+.v7-site .zeon-glass-nav {
+  background: var(--zeon-glass-bg-strong);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: var(--zeon-shadow-soft);
+  backdrop-filter: blur(var(--zeon-glass-blur))
+    saturate(var(--zeon-glass-saturate));
+  -webkit-backdrop-filter: blur(var(--zeon-glass-blur))
+    saturate(var(--zeon-glass-saturate));
+}
+
+.v7-site .zeon-glass-panel {
+  background: var(--zeon-glass-bg-strong);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: var(--zeon-shadow-float);
+  backdrop-filter: blur(24px) saturate(var(--zeon-glass-saturate));
+  -webkit-backdrop-filter: blur(24px) saturate(var(--zeon-glass-saturate));
+}
+
+.v7-site .zeon-glass-panel::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--zeon-glass-edge),
+    transparent
+  );
+}
+
+/* Forms */
+.v7-site .zeon-field {
+  margin-top: 0.5rem;
+  width: 100%;
+  height: 3rem;
+  border-radius: var(--zeon-radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(12, 12, 14, 0.85);
+  padding: 0 0.875rem;
+  font-size: 14px;
+  color: #f5f5f5;
+  outline: none;
+  transition:
+    border-color var(--zeon-duration-hover) var(--zeon-ease-out),
+    box-shadow var(--zeon-duration-hover) var(--zeon-ease-out),
+    background-color var(--zeon-duration-hover) var(--zeon-ease-out);
+}
+
+.v7-site .zeon-field::placeholder {
+  color: #6b6b6b;
+}
+
+.v7-site .zeon-field:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.v7-site .zeon-field:focus {
+  border-color: color-mix(in srgb, var(--zeon-accent) 70%, transparent);
+  background: rgba(12, 12, 14, 0.95);
+}
+
+.v7-site .zeon-field:focus-visible {
+  box-shadow: var(--zeon-focus-ring-dark);
+}
+
+.v7-site .zeon-field-light {
+  border-color: var(--zeon-border);
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--zeon-ink);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.v7-site .zeon-field-light:hover {
+  border-color: color-mix(in srgb, var(--zeon-accent) 25%, var(--zeon-border));
+}
+
+.v7-site .zeon-field-light:focus {
+  border-color: color-mix(in srgb, var(--zeon-accent) 55%, var(--zeon-border));
+  background: #fff;
+}
+
+.v7-site .zeon-field-light:focus-visible {
+  box-shadow: var(--zeon-focus-ring);
+}
+
+.v7-site .zeon-chip {
+  display: inline-flex;
+  align-items: center;
+  height: 2.5rem;
+  border-radius: var(--zeon-radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: transparent;
+  padding: 0 0.875rem;
+  font-size: 13px;
+  color: #e8e8e8;
+  cursor: pointer;
+  transition:
+    transform var(--zeon-duration-press) var(--zeon-ease-out),
+    background-color var(--zeon-duration-hover) var(--zeon-ease-out),
+    border-color var(--zeon-duration-hover) var(--zeon-ease-out),
+    color var(--zeon-duration-hover) var(--zeon-ease-out);
+}
+
+.v7-site .zeon-chip:hover {
+  border-color: color-mix(in srgb, var(--zeon-accent) 55%, transparent);
+}
+
+.v7-site .zeon-chip:active {
+  transform: scale(var(--zeon-press-scale));
+}
+
+.v7-site .zeon-chip:focus-visible {
+  outline: none;
+  box-shadow: var(--zeon-focus-ring-dark);
+}
+
+.v7-site .zeon-chip[aria-checked="true"],
+.v7-site .zeon-chip[data-selected="true"] {
+  border-color: var(--zeon-accent);
+  background: var(--zeon-accent);
+  color: #fff;
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .v7-site .zeon-glass-nav,
+  .v7-site .zeon-glass-panel,
+  .v7-site .zeon-surface-glass {
+    background: #fff;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .v7-site .zeon-field-light {
+    background: #fff;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .v7-site {
+    --zeon-glass-bg: #ffffff;
+    --zeon-glass-bg-strong: #ffffff;
+    --zeon-glass-bg-dark: #0a0a0c;
+    --zeon-glass-blur: 0px;
+  }
+
+  .v7-site .zeon-glass-nav,
+  .v7-site .zeon-glass-panel,
+  .v7-site .zeon-surface-glass {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+/* Content remains readable if motion scripts fail to hydrate */
+@media (scripting: none) {
+  .v7-site [style*="opacity:0"],
+  .v7-site [style*="opacity: 0"] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v7-marquee {
+    animation: none;
+  }
+
+  .platform-view-enter {
+    animation: none;
+  }
+
+  .v7-site .zeon-press,
+  .v7-site .zeon-btn,
+  .v7-site .zeon-surface-interactive,
+  .v7-site .zeon-chip,
+  .v7-site .zeon-link-arrow,
+  .v7-site .zeon-btn .zeon-btn-arrow {
+    transition: none !important;
+  }
+
+  .v7-site .zeon-press:active,
+  .v7-site .zeon-btn:active,
+  .v7-site .zeon-surface-interactive:active,
+  .v7-site .zeon-chip:active {
+    transform: none !important;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .v7-site .zeon-glass-nav,
+  .v7-site .zeon-glass-panel,
+  .v7-site .zeon-surface-glass {
+    background: #fff;
+    border-color: #111;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .v7-site .zeon-surface,
+  .v7-site .zeon-surface-interactive {
+    border-color: #111;
+  }
+}
+

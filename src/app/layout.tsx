@@ -1,20 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { aeonik } from "@/components/sites/v7labs/fonts";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
-  title: "Website Clone",
-  description: "Pixel-perfect website clone",
+  title: "ZeonAI | Governed enterprise AI",
+  description:
+    "The governed AI platform for enterprise knowledge and workflows. AI Workspace answers from your documents, with citations, agents and audit.",
 };
 
 export default function RootLayout({
@@ -23,11 +14,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="en" className={`${aeonik.variable} h-full antialiased`}>
+      <body className="flex min-h-full flex-col font-[family-name:var(--font-aeonik)]">
+        {children}
+      </body>
     </html>
   );
 }

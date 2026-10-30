@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 72" fill="none">
+  <rect x="0" y="6" width="60" height="60" rx="4" fill="#0769B3"/>
+  <text x="8" y="44" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700">LTF</text>
+  <text x="74" y="34" fill="#0769B3" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700">La Trobe</text>
+  <text x="74" y="56" fill="#054A73" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600">Financial</text>
+</svg>
