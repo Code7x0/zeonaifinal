@@ -9,6 +9,7 @@ import {
   getCapability,
   integrations,
   processSteps,
+  solutions,
   trustItems,
   trustLabels,
 } from "@/components/sites/zeonai/content";
@@ -39,23 +40,48 @@ export function ProductsPage() {
       <SecondaryHero
         label="Product · Capabilities"
         title="Modules on one governed platform."
-        lead="AI Workspace for knowledge, workflows, agents and apps. Open a module — each page pairs the claim with a product surface."
-        tone="ink"
+        lead="DeepDelve products and AI Workspace capabilities — each page pairs the claim with a real product surface."
+        align="center"
         secondaryHref="/platform"
         secondaryLabel="Platform overview"
-        visual={<WorkflowMock />}
       />
+      <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#DCE1E0]">
+        <ChapterLabel>DeepDelve family</ChapterLabel>
+        <ChapterTitle>Four product surfaces.</ChapterTitle>
+        <ChapterLead>
+          Document understanding, invoices, cash-flow visibility and governed
+          enterprise search.
+        </ChapterLead>
+        <div className="mt-10 grid gap-4 md:grid-cols-2">
+          {solutions.map((s) => (
+            <Link
+              key={s.id}
+              href={s.href}
+              className="group flex h-full flex-col border border-[#DCE1E0] bg-white p-6 no-underline transition-colors hover:bg-[#F6F4EF]"
+            >
+              <p className="font-mono text-[11px] text-[#245BDB]">{s.brand}</p>
+              <h2 className="mt-3 font-[family-name:var(--font-aeonik)] text-[24px] tracking-[-0.02em] text-[#111318]">
+                {s.title}
+              </h2>
+              <p className="mt-2 flex-1 text-[14px] leading-[1.5] text-[#5B6766]">
+                {s.body}
+              </p>
+              <span className="zeon-link-arrow mt-6 text-[13px]">Open product</span>
+            </Link>
+          ))}
+        </div>
+      </Chapter>
       <Chapter tone="sky" min={false} className="!min-h-0">
-        <ChapterLabel tone="sky">Module index</ChapterLabel>
+        <ChapterLabel tone="sky">AI Workspace modules</ChapterLabel>
         <ChapterTitle>Open a capability.</ChapterTitle>
         <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {capabilities.map((cap, i) => (
             <Link
               key={cap.id}
               href={`/platform/${cap.id}`}
-              className="group flex h-full flex-col rounded-[12px] border border-[var(--zeon-border-blue)] bg-white p-6 transition-[border-color,box-shadow] duration-[var(--zeon-duration-hover)] ease-[var(--zeon-ease-out)] hover:border-[var(--zeon-accent)] hover:shadow-[var(--zeon-shadow-elevated)]"
+              className="group flex h-full flex-col border border-[#DCE1E0] bg-white p-6 transition-colors hover:bg-white/80"
             >
-              <p className="font-mono text-[11px] text-[var(--zeon-royal)]">
+              <p className="font-mono text-[11px] text-[#245BDB]">
                 {String(i + 1).padStart(2, "0")}
               </p>
               <h2 className="mt-3 font-[family-name:var(--font-aeonik)] text-[24px] tracking-[-0.02em]">
@@ -329,25 +355,45 @@ export function ContactPage() {
         label="Company · Contact"
         title="Talk to our team."
         lead="Tell us about the workflow or knowledge problem that costs you most."
-        tone="cream"
+        align="center"
         primaryHref="mailto:contact@zeonai.com"
-        primaryLabel="contact@zeonai.com"
+        primaryLabel="Email contact@zeonai.com"
         secondaryHref="/demo"
         secondaryLabel="Book a demo"
-        visual={<AskAiMock />}
       />
-      <Chapter tone="paper" min={false} className="!min-h-0">
-        <p className="max-w-[48ch] text-[17px] leading-[1.55] text-[#5B6766]">
-          Prefer a structured request? Use the demo form — it collects role,
-          interest and a short description of your process.
-        </p>
-        <p className="mt-6 max-w-[48ch] text-[13px] text-[#8A9493]">
-          Staging note: the demo form has no submission endpoint configured
-          yet. Until it does, email{" "}
-          <a href="mailto:contact@zeonai.com" className="zeon-link">
-            contact@zeonai.com
-          </a>
-          .
+      <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#DCE1E0]">
+        <div className="mx-auto grid max-w-[900px] gap-8 md:grid-cols-2">
+          <article className="border-t border-[#DCE1E0] pt-6">
+            <h2 className="font-[family-name:var(--font-aeonik)] text-[24px] tracking-[-0.02em]">
+              General enquiry
+            </h2>
+            <p className="mt-3 text-[15px] leading-[1.55] text-[#5B6766]">
+              Product questions, partnerships and press — email the team
+              directly.
+            </p>
+            <a
+              href="mailto:contact@zeonai.com"
+              className="zeon-link-arrow mt-5 inline-flex"
+            >
+              contact@zeonai.com
+            </a>
+          </article>
+          <article className="border-t border-[#DCE1E0] pt-6">
+            <h2 className="font-[family-name:var(--font-aeonik)] text-[24px] tracking-[-0.02em]">
+              Demo request
+            </h2>
+            <p className="mt-3 text-[15px] leading-[1.55] text-[#5B6766]">
+              Prefer a structured request with role and process context? Use
+              the demo page.
+            </p>
+            <Link href="/demo" className="zeon-link-arrow mt-5 inline-flex">
+              Book a demo
+            </Link>
+          </article>
+        </div>
+        <p className="mx-auto mt-12 max-w-[52ch] text-center text-[13px] text-[#8A9493]">
+          No contact form endpoint is configured on this site yet — we do not
+          show a fake success state. Email is the working path.
         </p>
       </Chapter>
     </PageShell>

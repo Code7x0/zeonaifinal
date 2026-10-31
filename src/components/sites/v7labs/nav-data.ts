@@ -30,7 +30,31 @@ export const NAV_GROUPS: readonly NavGroup[] = [
         label: "Products and capabilities",
         href: "/products",
         description:
-          "Ask AI, AI Drive, Workflows, Dashboards, Contracts, App Hub and more.",
+          "DeepDelve DocAI, InvoiceAI, CashfloAI, DeepProbe and AI Workspace modules.",
+      },
+      {
+        label: "DeepProbe",
+        href: "/products/deepprobe",
+        description:
+          "Governed answers from your repositories with citations and access checks.",
+      },
+      {
+        label: "DocAI",
+        href: "/products/docai",
+        description:
+          "Unstructured documents to structured, reviewable fields.",
+      },
+      {
+        label: "InvoiceAI",
+        href: "/products/invoiceai",
+        description:
+          "Extract, match and route invoices with people on exceptions.",
+      },
+      {
+        label: "CashfloAI",
+        href: "/products/cashfloai",
+        description:
+          "Cash-flow visibility from bank statements for lending review.",
       },
       {
         label: "Agent Hub",
@@ -143,6 +167,12 @@ export const NAV_GROUPS: readonly NavGroup[] = [
         label: "Book a demo",
         href: "/demo",
         description: "See AI Workspace on a scenario from your sector.",
+      },
+      {
+        label: "Resources",
+        href: "/resources",
+        description:
+          "Editorial index for articles and notes — populated as content is approved.",
       },
     ],
   },

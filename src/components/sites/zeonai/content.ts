@@ -22,28 +22,28 @@ export const solutions = [
     brand: "DeepDelve® InvoiceAI",
     title: "AI-based AP vendor invoice extraction and workflow",
     body: "Streamline vendor invoice processing. Cut through unstructured documents, automate data extraction, and integrate with ERP systems for validation, approval and posting.",
-    href: "/platform#invoiceai",
+    href: "/products/invoiceai",
   },
   {
     id: "cashfloai",
     brand: "DeepDelve® CashfloAI",
     title: "Bank statement cash flow analysis and underwriting",
     body: "Optimise SMB lending analysis and underwriting. Analyse cash flow from diverse bank statements with 50+ decision parameters for faster, more accurate evaluations.",
-    href: "/platform#cashfloai",
+    href: "/products/cashfloai",
   },
   {
     id: "docai",
     brand: "DeepDelve® DocAI",
     title: "Document processing across enterprise use cases",
     body: "Expense reports, building plans, resumes, ID documents, multilingual packs and lending forms — extract, validate and route with governed AI.",
-    href: "/platform#docai",
+    href: "/products/docai",
   },
   {
     id: "deepprobe",
     brand: "DeepDelve® DeepProbe",
     title: "Actionable insights from enterprise content",
     body: "Generative search that answers from your internal repositories — policies, contracts, SOPs, financial tables and regulatory documents — with current, cited responses.",
-    href: "/platform#deepprobe",
+    href: "/products/deepprobe",
   },
 ] as const;
 
