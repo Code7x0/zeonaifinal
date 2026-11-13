@@ -100,7 +100,7 @@ export function FinalCta() {
   return (
     <section
       id="demo"
-      className="relative z-[1] scroll-mt-24 border-t border-[#D9D9D9] bg-white"
+      className="zeon-section-white relative z-[1] scroll-mt-24 border-t border-[#E9EAEB] [background-image:radial-gradient(ellipse_50%_40%_at_0%_0%,rgba(41,98,255,0.08),transparent_55%),radial-gradient(ellipse_40%_35%_at_100%_100%,rgba(21,183,158,0.06),transparent_50%)]"
       aria-labelledby="demo-heading"
     >
       {/*
@@ -111,11 +111,11 @@ export function FinalCta() {
         <FadeUp as="header" className="order-1 min-w-0">
           <h2
             id="demo-heading"
-            className="font-[family-name:var(--font-aeonik)] text-[40px] leading-[1.05] tracking-[-0.03em] text-[#111111] md:text-[52px] xl:text-[56px]"
+            className="font-[family-name:var(--font-aeonik)] text-[40px] leading-[1.05] tracking-[-0.03em] text-[#181D27] md:text-[52px] xl:text-[56px]"
           >
             Book a demo
           </h2>
-          <p className="mt-5 max-w-[42ch] text-[15px] leading-[1.55] text-[#555555] md:text-[16px]">
+          <p className="mt-5 max-w-[42ch] text-[15px] leading-[1.55] text-[#535862] md:text-[16px]">
             See AI Workspace on a workflow that matters to you. Tell us a little
             about your team and we will arrange a time.
           </p>
@@ -132,7 +132,7 @@ export function FinalCta() {
         </FadeUp>
 
         <FadeUp delay={0.1} className="order-4 min-w-0 lg:order-3">
-          <h3 className="font-[family-name:var(--font-aeonik)] text-[18px] tracking-[-0.02em] text-[#111111] md:text-[20px]">
+          <h3 className="font-[family-name:var(--font-aeonik)] text-[18px] tracking-[-0.02em] text-[#181D27] md:text-[20px]">
             What happens next
           </h3>
           <ol className="mt-4 border-y border-[#D9D9D9]">
@@ -141,14 +141,14 @@ export function FinalCta() {
                 key={step.n}
                 className="grid grid-cols-[2.75rem_minmax(0,1fr)] gap-3 border-b border-[#E0E0E0] py-5 last:border-b-0"
               >
-                <span className="font-mono text-[13px] text-[#356DFF]">
+                <span className="font-mono text-[13px] text-[#2962FF]">
                   {step.n}
                 </span>
                 <span>
-                  <span className="block text-[15px] font-medium text-[#111111]">
+                  <span className="block text-[15px] font-medium text-[#181D27]">
                     {step.title}
                   </span>
-                  <span className="mt-1.5 block text-[13px] leading-[1.55] text-[#555555]">
+                  <span className="mt-1.5 block text-[13px] leading-[1.55] text-[#535862]">
                     {step.body}
                   </span>
                 </span>
@@ -178,7 +178,7 @@ export function FinalCta() {
           >
             Your details
           </h3>
-          <p className="mt-1.5 text-[13px] text-[#8A8A8A]">
+          <p className="mt-1.5 text-[13px] text-[#A4A7AE]">
             All fields are required unless marked optional.
           </p>
 
@@ -293,14 +293,14 @@ export function FinalCta() {
               type="checkbox"
               name="consent"
               required
-              className="mt-0.5 size-4 shrink-0 rounded-[2px] border-white/20 bg-[#0C0C0E] accent-[#356DFF]"
+              className="mt-0.5 size-4 shrink-0 rounded-[2px] border-white/20 bg-[#0C0C0E] accent-[#2962FF]"
             />
             <span>
               I agree that ZeonAI Labs may contact me about this request. See
               the{" "}
               <a
                 href="/privacy-policy"
-                className="text-[#7BA0FF] underline underline-offset-2"
+                className="text-[#8EB8FF] underline underline-offset-2"
               >
                 privacy policy
               </a>
@@ -318,7 +318,7 @@ export function FinalCta() {
                 Email us at{" "}
                 <a
                   href="mailto:contact@zeonai.com"
-                  className="text-[#7BA0FF] underline underline-offset-2"
+                  className="text-[#8EB8FF] underline underline-offset-2"
                 >
                   contact@zeonai.com
                 </a>{" "}

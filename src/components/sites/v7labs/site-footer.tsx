@@ -32,14 +32,14 @@ const LEGAL = [
 ] as const;
 
 const mutedLink =
-  "text-[#8A8A8A] no-underline transition hover:text-white hover:underline hover:underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
+  "text-[#A4A7AE] no-underline transition hover:text-white hover:underline hover:underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
 
 export function SiteFooter() {
   return (
-    <footer className="relative z-[1] overflow-hidden border-t border-[#1A1A1A] bg-[#0A090A] text-[#F5F5F5]">
+    <footer className="relative z-[1] overflow-hidden border-t border-[#252B37] bg-[#181D27] text-[#F5F5F5] [background-image:radial-gradient(ellipse_60%_40%_at_100%_0%,rgba(41,98,255,0.18),transparent_55%)]">
       {/* Utility band — brand, nav, offices */}
       <div className="relative z-20 mx-auto max-w-[1180px] px-5 md:px-8">
-        <FadeUp className="grid gap-12 border-b border-[#1F1F1F] py-14 md:py-16 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,0.9fr)] lg:gap-20">
+        <FadeUp className="grid gap-12 border-b border-[#252B37] py-14 md:py-16 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,0.9fr)] lg:gap-20">
           <div className="max-w-[34rem]">
             <a
               href="/"
@@ -52,7 +52,7 @@ export function SiteFooter() {
             <p className="mt-6 max-w-[36ch] text-[16px] leading-[1.45] tracking-[-0.015em] text-[#F5F5F5] md:text-[18px]">
               Governed AI for enterprise knowledge and workflows.
             </p>
-            <p className="mt-2 text-[14px] leading-[1.5] text-[#8A8A8A]">
+            <p className="mt-2 text-[14px] leading-[1.5] text-[#A4A7AE]">
               AI Workspace, the enterprise AI platform.
             </p>
 
@@ -65,7 +65,7 @@ export function SiteFooter() {
             <p className="mt-2">
               <a
                 href="mailto:contact@zeonai.com"
-                className="text-[13px] text-[#8A8A8A] no-underline transition hover:text-white hover:underline hover:underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                className="text-[13px] text-[#A4A7AE] no-underline transition hover:text-white hover:underline hover:underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               >
                 Talk to our team
               </a>
@@ -88,7 +88,7 @@ export function SiteFooter() {
           </nav>
         </FadeUp>
 
-        <FadeUp delay={0.08} className="border-b border-[#1F1F1F] py-10 md:py-12">
+        <FadeUp delay={0.08} className="border-b border-[#252B37] py-10 md:py-12">
           <h2 className="font-[family-name:var(--font-aeonik)] text-[18px] tracking-[-0.02em] text-white md:text-[20px]">
             Offices
           </h2>
@@ -108,7 +108,7 @@ export function SiteFooter() {
                   </span>
                   {office.region}
                 </p>
-                <p className="mt-2 max-w-[28ch] text-[13px] leading-[1.55] text-[#8A8A8A]">
+                <p className="mt-2 max-w-[28ch] text-[13px] leading-[1.55] text-[#A4A7AE]">
                   {office.address}
                 </p>
               </div>
@@ -120,7 +120,7 @@ export function SiteFooter() {
           delay={0.12}
           className="flex flex-col gap-5 py-6 text-[12px] md:flex-row md:items-center md:justify-between md:gap-8 md:py-7"
         >
-          <p className="text-[#8A8A8A]">
+          <p className="text-[#A4A7AE]">
             © 2026 ZeonAI Labs Private Ltd. All Rights Reserved
           </p>
           <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">

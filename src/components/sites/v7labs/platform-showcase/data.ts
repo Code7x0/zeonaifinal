@@ -102,8 +102,8 @@ export const USE_CASES: UseCase[] = [
   },
 ];
 
-export const ZEON_BLUE = "#0977B3";
-export const ZEON_TEAL = "#20879D";
+export const ZEON_BLUE = "#2962FF";
+export const ZEON_TEAL = "#15B79E";
 
 export const DASHBOARD_VOLUME = [
   { label: "Mon", processed: 1860, completed: 1740 },

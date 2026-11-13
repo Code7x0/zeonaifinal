@@ -59,9 +59,9 @@ export function PlatformShowcase() {
                 role="option"
                 aria-selected={selected}
                 onClick={() => setActiveId(item.id)}
-                className={`group relative flex w-full items-start gap-2.5 border-b border-black/6 px-3.5 py-2.5 text-left transition-colors last:border-b-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#0977B3] ${
+                className={`group relative flex w-full items-start gap-2.5 border-b border-black/6 px-3.5 py-2.5 text-left transition-colors last:border-b-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#2962FF] ${
                   selected
-                    ? "bg-[#0977B3]/[0.07]"
+                    ? "bg-[#2962FF]/[0.07]"
                     : "bg-white hover:bg-black/[0.02]"
                 }`}
               >
@@ -74,7 +74,7 @@ export function PlatformShowcase() {
                 />
                 <span
                   className={`w-5 shrink-0 pt-0.5 text-[10px] tabular-nums tracking-[0.02em] ${
-                    selected ? "font-medium text-[#0977B3]" : "text-black/30"
+                    selected ? "font-medium text-[#2962FF]" : "text-black/30"
                   }`}
                 >
                   {item.index}
@@ -83,7 +83,7 @@ export function PlatformShowcase() {
                   <span
                     className={`block text-[13px] leading-snug tracking-[-0.01em] ${
                       selected
-                        ? "font-medium text-[#0977B3]"
+                        ? "font-medium text-[#2962FF]"
                         : "font-medium text-[#1a1a1a]/80"
                     }`}
                   >
@@ -128,9 +128,9 @@ export function PlatformShowcase() {
                     aria-label={item.title}
                     aria-current={selected ? "page" : undefined}
                     onClick={() => setActiveId(item.id)}
-                    className={`flex size-8 items-center justify-center rounded-md transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0977B3] ${
+                    className={`flex size-8 items-center justify-center rounded-md transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2962FF] ${
                       selected
-                        ? "bg-[#0977B3]/10 text-[#0977B3]"
+                        ? "bg-[#2962FF]/10 text-[#2962FF]"
                         : "text-black/30 hover:bg-black/[0.03] hover:text-black/55"
                     }`}
                   >
@@ -148,7 +148,7 @@ export function PlatformShowcase() {
                   </p>
                   <div className="mt-0.5 flex items-center gap-1.5">
                     <ActiveIcon
-                      className="size-3.5 text-[#0977B3]"
+                      className="size-3.5 text-[#2962FF]"
                       strokeWidth={1.75}
                       aria-hidden
                     />

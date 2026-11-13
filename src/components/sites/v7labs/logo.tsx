@@ -13,7 +13,12 @@ export function V7Logo({ className = "" }: { className?: string }) {
         className="h-[1.4em] w-auto shrink-0"
         priority
       />
-      <span>ZeonAI</span>
+      <span
+        className="bg-[linear-gradient(90deg,#0025FF,#05A1FD)] bg-clip-text text-transparent"
+        style={{ WebkitBackgroundClip: "text" }}
+      >
+        ZeonAI
+      </span>
     </span>
   );
 }

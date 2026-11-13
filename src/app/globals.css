@@ -51,38 +51,119 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  /* DeepProbe primitives — https://deepprobe-colours.netlify.app/ */
+  --dp-blue-50: #eef4ff;
+  --dp-blue-100: #d9e6ff;
+  --dp-blue-200: #bcd3ff;
+  --dp-blue-300: #8eb8ff;
+  --dp-blue-400: #5991ff;
+  --dp-blue-500: #2962ff;
+  --dp-blue-600: #1b46f5;
+  --dp-blue-700: #1433e1;
+  --dp-blue-800: #172ab6;
+  --dp-blue-900: #192a8f;
+  --dp-gray-50: #fafafa;
+  --dp-gray-100: #f5f5f5;
+  --dp-gray-200: #e9eaeb;
+  --dp-gray-300: #d5d7da;
+  --dp-gray-400: #a4a7ae;
+  --dp-gray-500: #717680;
+  --dp-gray-600: #535862;
+  --dp-gray-700: #414651;
+  --dp-gray-800: #252b37;
+  --dp-gray-900: #181d27;
+  --dp-green-50: #ecfdf3;
+  --dp-green-500: #17b26a;
+  --dp-green-600: #079455;
+  --dp-amber-50: #fffaeb;
+  --dp-amber-300: #fec84b;
+  --dp-amber-500: #f79009;
+  --dp-amber-600: #dc6803;
+  --dp-red-50: #fef3f2;
+  --dp-red-500: #f04438;
+  --dp-teal-50: #f0fdf9;
+  --dp-teal-500: #15b79e;
+  --dp-teal-600: #0e9384;
+  --dp-indigo-50: #eef4ff;
+  --dp-indigo-200: #c7d7fe;
+  --dp-indigo-500: #6172f3;
+  --dp-indigo-600: #444ce7;
+  --dp-white: #ffffff;
+  --dp-logo-start: #0025ff;
+  --dp-logo-end: #05a1fd;
+  --dp-gradient-brand: linear-gradient(
+    90deg,
+    var(--dp-logo-start),
+    var(--dp-logo-end)
+  );
+  --dp-gradient-hero: linear-gradient(
+    180deg,
+    var(--dp-white) 0%,
+    var(--dp-blue-50) 55%,
+    var(--dp-gray-50) 100%
+  );
+  --dp-gradient-cta: linear-gradient(
+    135deg,
+    var(--dp-blue-800) 0%,
+    var(--dp-blue-600) 55%,
+    var(--dp-blue-500) 100%
+  );
+
+  /* Semantic (DeepProbe) */
+  --color-bg-default: var(--dp-white);
+  --color-bg-subtle: var(--dp-gray-50);
+  --color-bg-muted: var(--dp-gray-100);
+  --color-bg-brand-subtle: var(--dp-blue-50);
+  --color-bg-inverse: var(--dp-gray-900);
+  --color-text-heading: var(--dp-gray-900);
+  --color-text-body: var(--dp-gray-600);
+  --color-text-muted: var(--dp-gray-500);
+  --color-text-on-brand: var(--dp-white);
+  --color-text-link: var(--dp-blue-700);
+  --color-border-default: var(--dp-gray-200);
+  --color-border-strong: var(--dp-gray-300);
+  --color-action-primary: var(--dp-blue-600);
+  --color-action-primary-hover: var(--dp-blue-700);
+  --color-action-brand: var(--dp-blue-500);
+  --color-focus-ring: var(--dp-blue-400);
+  --color-success: var(--dp-green-500);
+  --color-warning: var(--dp-amber-500);
+  --color-error: var(--dp-red-500);
+  --color-accent-teal: var(--dp-teal-500);
+  --color-accent-indigo: var(--dp-indigo-500);
+
+  --background: var(--dp-white);
+  --foreground: var(--dp-gray-900);
+  --card: var(--dp-white);
+  --card-foreground: var(--dp-gray-900);
+  --popover: var(--dp-white);
+  --popover-foreground: var(--dp-gray-900);
+  --primary: var(--dp-blue-600);
+  --primary-foreground: var(--dp-white);
+  --secondary: var(--dp-blue-50);
+  --secondary-foreground: var(--dp-blue-900);
+  --muted: var(--dp-gray-50);
+  --muted-foreground: var(--dp-gray-500);
+  --accent: var(--dp-blue-50);
+  --accent-foreground: var(--dp-blue-900);
+  --destructive: var(--dp-red-500);
+  --border: var(--dp-gray-200);
+  --input: var(--dp-gray-200);
+  --ring: var(--dp-blue-400);
+  --chart-1: var(--dp-blue-500);
+  --chart-2: var(--dp-indigo-500);
+  --chart-3: var(--dp-teal-500);
+  --chart-4: var(--dp-amber-500);
+  --chart-5: var(--dp-blue-800);
+  --radius: 0.125rem;
+  --sidebar: var(--dp-gray-50);
+  --sidebar-foreground: var(--dp-gray-900);
+  --sidebar-primary: var(--dp-blue-600);
+  --sidebar-primary-foreground: var(--dp-white);
+  --sidebar-accent: var(--dp-blue-50);
+  --sidebar-accent-foreground: var(--dp-blue-900);
+  --sidebar-border: var(--dp-gray-200);
+  --sidebar-ring: var(--dp-blue-400);
 }
 
 .dark {
@@ -131,41 +212,52 @@
   }
 }
 
-/* ── ZeonAI design tokens — royal blue · black · white system ── */
+/* ── ZeonAI design tokens — DeepProbe blue-led system ── */
 .v7-site {
-  --zeon-ink: #111318;
-  --zeon-ink-deep: #070b14;
-  --zeon-ink-soft: #151922;
-  --zeon-midnight: #070b14;
-  --zeon-navy: #0b1f4b;
-  --zeon-cream: #f6f4ef;
-  --zeon-paper: #ffffff;
-  --zeon-sky: #eef2ff;
-  --zeon-slate: #1e293b;
-  --zeon-muted: #5b6766;
-  --zeon-muted-on-dark: rgba(255, 255, 255, 0.55);
-  --zeon-border: #dce1e0;
-  --zeon-border-blue: #c7d2fe;
-  /* Royal blue family — primary identity accent */
-  --zeon-royal: #245bdb;
-  --zeon-royal-deep: #1d4ed8;
-  --zeon-accent: #356dff;
-  --zeon-accent-hover: #245bdb;
-  --zeon-accent-soft: #7ba0ff;
-  --zeon-electric: #3b82f6;
-  --zeon-focus: #356dff;
-  --zeon-gradient-royal: linear-gradient(
-    145deg,
-    #0b1f4b 0%,
-    #1d4ed8 48%,
-    #356dff 100%
-  );
+  color: var(--color-text-heading);
+  background: var(--color-bg-default);
+
+  --zeon-ink: var(--dp-gray-900);
+  --zeon-ink-deep: var(--dp-gray-900);
+  --zeon-ink-soft: var(--dp-gray-800);
+  --zeon-midnight: var(--dp-gray-900);
+  --zeon-navy: var(--dp-blue-900);
+  --zeon-cream: var(--dp-gray-50); /* legacy alias — was beige; now surface */
+  --zeon-paper: var(--dp-white);
+  --zeon-sky: var(--dp-blue-50);
+  --zeon-slate: var(--dp-gray-700);
+  --zeon-muted: var(--dp-gray-600);
+  --zeon-muted-soft: var(--dp-gray-500);
+  --zeon-muted-on-dark: rgba(255, 255, 255, 0.62);
+  --zeon-border: var(--dp-gray-200);
+  --zeon-border-blue: var(--dp-indigo-200);
+  --zeon-royal: var(--dp-blue-600);
+  --zeon-royal-deep: var(--dp-blue-700);
+  --zeon-accent: var(--dp-blue-500);
+  --zeon-accent-hover: var(--dp-blue-700);
+  --zeon-accent-soft: var(--dp-blue-300);
+  --zeon-electric: var(--dp-blue-400);
+  --zeon-focus: var(--dp-blue-400);
+  --zeon-cta: var(--dp-blue-600);
+  --zeon-cta-hover: var(--dp-blue-700);
+  --zeon-teal: var(--dp-teal-500);
+  --zeon-indigo: var(--dp-indigo-500);
+  --zeon-success: var(--dp-green-500);
+  --zeon-warning: var(--dp-amber-500);
+  --zeon-error: var(--dp-red-500);
+  --zeon-gradient-royal: var(--dp-gradient-cta);
   --zeon-gradient-midnight: linear-gradient(
     180deg,
-    #070b14 0%,
-    #0b1f4b 100%
+    var(--dp-gray-900) 0%,
+    var(--dp-blue-900) 100%
   );
-  --zeon-gradient-sky: linear-gradient(180deg, #eef2ff 0%, #f8fafc 100%);
+  --zeon-gradient-sky: linear-gradient(
+    180deg,
+    var(--dp-blue-50) 0%,
+    var(--dp-gray-50) 100%
+  );
+  --zeon-gradient-logo: var(--dp-gradient-brand);
+  --zeon-gradient-hero: var(--dp-gradient-hero);
 
   --zeon-press-scale: 0.97;
   --zeon-hover-lift: -1px;
@@ -175,27 +267,58 @@
   --zeon-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --zeon-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 
-  --zeon-glass-bg: rgba(255, 255, 255, 0.72);
-  --zeon-glass-bg-strong: rgba(255, 255, 255, 0.88);
-  --zeon-glass-bg-dark: rgba(10, 10, 12, 0.72);
+  --zeon-glass-bg: rgba(255, 255, 255, 0.78);
+  --zeon-glass-bg-strong: rgba(255, 255, 255, 0.92);
+  --zeon-glass-bg-dark: rgba(24, 29, 39, 0.78);
   --zeon-glass-blur: 20px;
   --zeon-glass-saturate: 160%;
   --zeon-glass-edge: rgba(255, 255, 255, 0.55);
-  --zeon-glass-border: rgba(0, 0, 0, 0.08);
+  --zeon-glass-border: color-mix(in srgb, var(--dp-blue-500) 12%, transparent);
 
-  --zeon-shadow-soft: 0 1px 0 rgba(0, 0, 0, 0.04);
-  --zeon-shadow-float: 0 18px 40px rgba(0, 0, 0, 0.08);
-  --zeon-shadow-elevated: 0 12px 32px -12px rgba(0, 0, 0, 0.18);
-  --zeon-shadow-product: 0 3px 5px 30px rgba(0, 0, 0, 0.12);
+  --zeon-shadow-soft: 0 1px 0 rgba(24, 29, 39, 0.04);
+  --zeon-shadow-float: 0 18px 40px rgba(27, 70, 245, 0.08);
+  --zeon-shadow-elevated: 0 12px 32px -12px rgba(27, 70, 245, 0.18);
+  --zeon-shadow-product: 0 24px 48px -20px rgba(25, 42, 143, 0.28);
 
-  --zeon-radius-sm: 4px;
-  --zeon-radius-md: 8px;
-  --zeon-radius-lg: 14px;
+  --zeon-radius-sm: 2px;
+  --zeon-radius-md: 4px;
+  --zeon-radius-lg: 8px;
   --zeon-radius-pill: 9999px;
 
   --zeon-focus-ring: 0 0 0 2px var(--zeon-paper), 0 0 0 4px var(--zeon-focus);
   --zeon-focus-ring-dark: 0 0 0 2px var(--zeon-ink-deep),
     0 0 0 4px var(--zeon-accent-soft);
+}
+
+/* Section surface utilities — blue-led rhythm */
+.v7-site .zeon-section-white {
+  background: var(--color-bg-default);
+  color: var(--color-text-heading);
+}
+.v7-site .zeon-section-surface {
+  background: var(--color-bg-subtle);
+  color: var(--color-text-heading);
+}
+.v7-site .zeon-section-tint {
+  background: var(--color-bg-brand-subtle);
+  color: var(--color-text-heading);
+}
+.v7-site .zeon-section-inverse {
+  background: var(--color-bg-inverse);
+  color: var(--dp-white);
+}
+.v7-site .zeon-section-brand {
+  background: var(--dp-gradient-cta);
+  color: var(--dp-white);
+}
+.v7-site .zeon-text-heading {
+  color: var(--color-text-heading);
+}
+.v7-site .zeon-text-body {
+  color: var(--color-text-body);
+}
+.v7-site .zeon-text-muted {
+  color: var(--color-text-muted);
 }
 
 /* V7 Labs clone motion */
@@ -216,14 +339,14 @@
   animation-duration: 75s;
 }
 
-/* Dark product screens — explicit CSS so Tailwind scan gaps cannot blank them */
+/* Dark product screens — DeepProbe inverse surfaces */
 .zeon-dark-screen {
-  background: #070b14;
+  background: var(--dp-gray-900);
   color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 10px;
+  border: 1px solid var(--dp-gray-800);
+  border-radius: 2px;
   overflow: hidden;
-  box-shadow: 0 28px 60px -24px rgba(0, 0, 0, 0.65);
+  box-shadow: 0 28px 60px -24px rgba(25, 42, 143, 0.45);
 }
 
 .zeon-dark-screen__bar {
@@ -231,13 +354,13 @@
   height: 44px;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  background: #111318;
+  border-bottom: 1px solid var(--dp-gray-800);
+  background: #12161f;
   padding: 0 14px;
 }
 
 .zeon-dark-screen__body {
-  background: #070b14;
+  background: var(--dp-gray-900);
   padding: 14px 16px 16px;
   color: #ffffff;
 }
@@ -253,38 +376,38 @@
 .zeon-dark-screen__panel {
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.04);
-  border-radius: 6px;
+  border-radius: 2px;
 }
 
 .zeon-dark-screen__panel-strong {
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: #111318;
-  border-radius: 6px;
+  border: 1px solid var(--dp-gray-800);
+  background: #12161f;
+  border-radius: 2px;
 }
 
 .zeon-dark-screen__accent {
-  border: 1px solid rgba(53, 109, 255, 0.4);
-  background: rgba(36, 91, 219, 0.16);
-  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--dp-blue-500) 45%, transparent);
+  background: color-mix(in srgb, var(--dp-blue-600) 22%, transparent);
+  border-radius: 2px;
 }
 
 .zeon-dark-screen__chip {
   display: inline-flex;
   align-items: center;
-  border-radius: 9999px;
-  background: rgba(36, 91, 219, 0.28);
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--dp-blue-500) 28%, transparent);
   padding: 4px 10px;
   font-family: ui-monospace, monospace;
   font-size: 10px;
-  color: #7ba0ff;
+  color: var(--dp-blue-300);
 }
 
 .zeon-dark-screen__btn {
   display: inline-flex;
   height: 32px;
   align-items: center;
-  border-radius: 9999px;
-  background: #245bdb;
+  border-radius: 2px;
+  background: var(--dp-blue-600);
   padding: 0 12px;
   font-size: 11px;
   font-weight: 500;
@@ -295,12 +418,12 @@
   display: inline-flex;
   height: 32px;
   align-items: center;
-  border-radius: 9999px;
+  border-radius: 2px;
   background: #ffffff;
   padding: 0 12px;
   font-size: 11px;
   font-weight: 500;
-  color: #070b14;
+  color: var(--dp-blue-900);
 }
 
 /* Inherit link color unless a text-* utility sets it (e.g. text-white on dark CTAs) */
@@ -420,40 +543,27 @@
   width: 100%;
 }
 
-.v7-site .zeon-btn-ink {
-  background: var(--zeon-ink);
-  color: #fff !important;
-}
-
-.v7-site .zeon-btn-ink:hover {
-  background: #000;
-}
-
-.v7-site .zeon-btn-soft {
-  background: var(--zeon-ink-soft);
-  color: #fff !important;
-}
-
-.v7-site .zeon-btn-soft:hover {
-  background: #000;
-}
-
+/* Primary marketing CTAs — DeepProbe action blue (ink/soft kept as aliases) */
+.v7-site .zeon-btn-ink,
+.v7-site .zeon-btn-soft,
 .v7-site .zeon-btn-accent {
-  background: var(--zeon-accent);
+  background: var(--color-action-primary);
   color: #fff !important;
 }
 
+.v7-site .zeon-btn-ink:hover,
+.v7-site .zeon-btn-soft:hover,
 .v7-site .zeon-btn-accent:hover {
-  background: var(--zeon-accent-hover);
+  background: var(--color-action-primary-hover);
 }
 
 .v7-site .zeon-btn-light {
   background: #fff;
-  color: var(--zeon-ink-deep) !important;
+  color: var(--dp-blue-900) !important;
 }
 
 .v7-site .zeon-btn-light:hover {
-  background: #f0f2f5;
+  background: var(--dp-blue-50);
 }
 
 .v7-site .zeon-btn-ghost {
@@ -463,8 +573,9 @@
 }
 
 .v7-site .zeon-btn-ghost:hover {
-  background: rgba(255, 255, 255, 0.72);
-  border-color: color-mix(in srgb, var(--zeon-accent) 35%, var(--zeon-border));
+  background: var(--dp-blue-50);
+  border-color: color-mix(in srgb, var(--zeon-accent) 40%, var(--zeon-border));
+  color: var(--dp-blue-700) !important;
 }
 
 .v7-site .zeon-btn-ghost-dark {
@@ -493,13 +604,13 @@
 
 /* Text links */
 .v7-site .zeon-link {
-  color: var(--zeon-accent);
+  color: var(--color-text-link);
   text-decoration: none;
   transition: color var(--zeon-duration-hover) var(--zeon-ease-out);
 }
 
 .v7-site .zeon-link:hover {
-  color: var(--zeon-accent-hover);
+  color: var(--dp-blue-800);
 }
 
 .v7-site .zeon-link-arrow {
@@ -508,7 +619,7 @@
   gap: 0.35rem;
   font-size: 14px;
   font-weight: 500;
-  color: var(--zeon-accent);
+  color: var(--color-text-link);
   text-decoration: none;
   transition:
     color var(--zeon-duration-hover) var(--zeon-ease-out),
@@ -517,7 +628,7 @@
 
 .v7-site .zeon-link-arrow:hover {
   gap: 0.55rem;
-  color: var(--zeon-accent-hover);
+  color: var(--dp-blue-800);
 }
 
 .v7-site .zeon-link-arrow:focus-visible {
@@ -539,7 +650,7 @@
 }
 
 .v7-site .zeon-surface-quiet {
-  background: color-mix(in srgb, var(--zeon-cream) 50%, transparent);
+  background: var(--dp-gray-50);
   border: 1px solid var(--zeon-border);
   border-radius: var(--zeon-radius-sm);
 }
@@ -570,9 +681,9 @@
 }
 
 .v7-site .zeon-surface-interactive:hover {
-  border-color: color-mix(in srgb, var(--zeon-accent) 40%, var(--zeon-border));
+  border-color: color-mix(in srgb, var(--zeon-accent) 45%, var(--zeon-border));
   box-shadow: var(--zeon-shadow-elevated);
-  background: color-mix(in srgb, var(--zeon-cream) 35%, white);
+  background: var(--dp-blue-50);
 }
 
 .v7-site .zeon-surface-interactive:active {
@@ -586,8 +697,8 @@
 
 /* Glass chrome */
 .v7-site .zeon-glass-nav {
-  background: var(--zeon-glass-bg-strong);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  background: color-mix(in srgb, var(--dp-white) 88%, var(--dp-blue-50));
+  border-bottom: 1px solid var(--dp-gray-200);
   box-shadow: var(--zeon-shadow-soft);
   backdrop-filter: blur(var(--zeon-glass-blur))
     saturate(var(--zeon-glass-saturate));

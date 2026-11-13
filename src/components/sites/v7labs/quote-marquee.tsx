@@ -32,11 +32,11 @@ function QuoteCard({
   item: (typeof QUOTES)[number];
 }) {
   return (
-    <figure className="w-[min(520px,80vw)] shrink-0 border border-white/10 bg-[#111] p-6 md:p-7">
+    <figure className="w-[min(520px,80vw)] shrink-0 border border-[var(--dp-gray-800,#252B37)] bg-[#12161f] p-6 md:p-7">
       <blockquote className="font-[family-name:var(--font-aeonik)] text-[20px] leading-[1.3] tracking-[-0.02em] text-white md:text-[22px]">
         {item.quote}
       </blockquote>
-      <figcaption className="mt-5 border-t border-white/10 pt-4 text-[12px] text-white/45">
+      <figcaption className="mt-5 border-t border-[var(--dp-gray-800,#252B37)] pt-4 text-[12px] text-[#A4A7AE]">
         {item.by}
       </figcaption>
     </figure>
@@ -50,26 +50,33 @@ export function QuoteMarquee() {
   return (
     <section
       aria-label="Customer outcomes"
-      className="overflow-hidden border-y border-white/10 bg-[#0a0a0a] py-12 md:py-14"
+      className="zeon-section-inverse overflow-hidden border-y border-[var(--dp-gray-800,#252B37)] py-12 md:py-14"
     >
       <div className="mx-auto mb-6 max-w-[1180px] px-5 md:px-8">
-        <p className="text-[12px] leading-[1.45] text-white/40">
+        <p className="text-[12px] leading-[1.45] text-[#A4A7AE]">
           Outcomes from selected deployments. Figures to confirm before public
           launch.
         </p>
       </div>
 
       {reduceMotion ? (
-        <div className="mx-auto flex max-w-[1180px] flex-col gap-4 px-5 md:flex-row md:overflow-x-auto md:px-8">
+        <div className="mx-auto flex max-w-[1180px] snap-x snap-mandatory flex-col gap-4 overflow-x-auto px-5 md:flex-row md:px-8">
           {QUOTES.map((item) => (
-            <QuoteCard key={item.by} item={item} />
+            <div key={item.by} className="snap-start">
+              <QuoteCard item={item} />
+            </div>
           ))}
         </div>
       ) : (
         <div className="group/quotes">
           <div className="v7-marquee v7-marquee-slow flex w-max gap-4 px-4 md:gap-5 motion-safe:group-hover/quotes:[animation-play-state:paused] motion-safe:group-focus-within/quotes:[animation-play-state:paused]">
             {row.map((item, i) => (
-              <QuoteCard key={`${item.by}-${i}`} item={item} />
+              <div
+                key={`${item.by}-${i}`}
+                aria-hidden={i >= QUOTES.length ? true : undefined}
+              >
+                <QuoteCard item={item} />
+              </div>
             ))}
           </div>
         </div>

@@ -36,12 +36,12 @@ export function ProductChrome({
     >
       <div className="flex h-11 items-center justify-between border-b border-[#E4E4E4] bg-white px-3.5">
         <div className="flex items-center gap-2">
-          <span className="size-2 rounded-full bg-[#111318]" aria-hidden />
-          <span className="text-[12px] font-medium tracking-[-0.01em] text-[#111318]">
+          <span className="size-2 rounded-full bg-[#181D27]" aria-hidden />
+          <span className="text-[12px] font-medium tracking-[-0.01em] text-[#181D27]">
             {title}
           </span>
           {module ? (
-            <span className="rounded-[4px] bg-[#F2F4F7] px-1.5 py-0.5 font-mono text-[10px] text-[#5B6766]">
+            <span className="rounded-[4px] bg-[#F2F4F7] px-1.5 py-0.5 font-mono text-[10px] text-[#535862]">
               {module}
             </span>
           ) : null}
@@ -59,14 +59,14 @@ export function ProductChrome({
 export function AskAiMock({ className }: { className?: string }) {
   return (
     <ProductChrome title="AI Workspace" module="Ask AI" className={className}>
-      <p className="text-[12px] text-[#5B6766]">Query</p>
-      <div className="mt-1.5 rounded-[6px] border border-[#E4E4E4] bg-[#F8F8F8] px-3 py-2.5 text-[13px] text-[#111318]">
+      <p className="text-[12px] text-[#535862]">Query</p>
+      <div className="mt-1.5 rounded-[6px] border border-[#E4E4E4] bg-[#F8F8F8] px-3 py-2.5 text-[13px] text-[#181D27]">
         What does the credit policy say about LVR above 80% for self-employed
         applicants?
       </div>
       <div className="mt-4 space-y-3">
         <div className="rounded-[6px] border border-[#E4E4E4] p-3">
-          <p className="text-[13px] leading-[1.5] text-[#111318]">
+          <p className="text-[13px] leading-[1.5] text-[#181D27]">
             Policy 4.2 requires a senior credit override when LVR exceeds 80%
             for self-employed applicants, with two years of tax returns on
             file.
@@ -75,14 +75,14 @@ export function AskAiMock({ className }: { className?: string }) {
             {["Lending Policy v3.4 · p.12", "Override matrix · §B"].map((c) => (
               <span
                 key={c}
-                className="rounded-[4px] border border-[#DCE1E0] bg-[#F2F4F7] px-2 py-1 font-mono text-[10px] text-[#1d5fbf]"
+                className="rounded-[4px] border border-[#E9EAEB] bg-[#F2F4F7] px-2 py-1 font-mono text-[10px] text-[#1d5fbf]"
               >
                 {c}
               </span>
             ))}
           </div>
         </div>
-        <div className="flex items-center justify-between text-[11px] text-[#5B6766]">
+        <div className="flex items-center justify-between text-[11px] text-[#535862]">
           <span>Access: Credit · Policy</span>
           <span className="font-mono text-[#1d5fbf]">Cited · 2 sources</span>
         </div>
@@ -114,25 +114,25 @@ export function WorkflowMock({ className }: { className?: string }) {
             <span
               className={cn(
                 "flex size-6 items-center justify-center rounded-full font-mono text-[10px]",
-                s.state === "done" && "bg-[#111318] text-white",
+                s.state === "done" && "bg-[#181D27] text-white",
                 s.state === "active" && "bg-[#1d5fbf] text-white",
-                s.state === "queued" && "bg-[#E4E4E4] text-[#5B6766]",
+                s.state === "queued" && "bg-[#E4E4E4] text-[#535862]",
               )}
             >
               {i + 1}
             </span>
-            <span className="flex-1 text-[13px] text-[#111318]">{s.label}</span>
-            <span className="font-mono text-[10px] uppercase text-[#5B6766]">
+            <span className="flex-1 text-[13px] text-[#181D27]">{s.label}</span>
+            <span className="font-mono text-[10px] uppercase text-[#535862]">
               {s.state}
             </span>
           </div>
         ))}
       </div>
       <div className="mt-4 flex items-center justify-between border-t border-[#E4E4E4] pt-3">
-        <span className="text-[12px] text-[#5B6766]">
+        <span className="text-[12px] text-[#535862]">
           Human checkpoint · Sarah Chen
         </span>
-        <span className="inline-flex h-8 items-center rounded-full bg-[#111318] px-3 text-[11px] font-medium text-white">
+        <span className="inline-flex h-8 items-center rounded-full bg-[#181D27] px-3 text-[11px] font-medium text-white">
           Approve exception
         </span>
       </div>
@@ -150,7 +150,7 @@ export function AuditMock({ className }: { className?: string }) {
   return (
     <ProductChrome title="Trust Centre" module="Audit log" className={className}>
       <div className="overflow-hidden rounded-[6px] border border-[#E4E4E4]">
-        <div className="grid grid-cols-[52px_1.2fr_1fr_1.2fr] gap-2 border-b border-[#E4E4E4] bg-[#F8F8F8] px-3 py-2 font-mono text-[10px] text-[#5B6766]">
+        <div className="grid grid-cols-[52px_1.2fr_1fr_1.2fr] gap-2 border-b border-[#E4E4E4] bg-[#F8F8F8] px-3 py-2 font-mono text-[10px] text-[#535862]">
           <span>Time</span>
           <span>Action</span>
           <span>Actor</span>
@@ -161,14 +161,14 @@ export function AuditMock({ className }: { className?: string }) {
             key={r.t + r.a}
             className="grid grid-cols-[52px_1.2fr_1fr_1.2fr] gap-2 border-b border-[#E4E4E4] px-3 py-2.5 text-[12px] last:border-b-0"
           >
-            <span className="font-mono text-[#5B6766]">{r.t}</span>
-            <span className="text-[#111318]">{r.a}</span>
-            <span className="text-[#5B6766]">{r.u}</span>
-            <span className="text-[#111318]">{r.d}</span>
+            <span className="font-mono text-[#535862]">{r.t}</span>
+            <span className="text-[#181D27]">{r.a}</span>
+            <span className="text-[#535862]">{r.u}</span>
+            <span className="text-[#181D27]">{r.d}</span>
           </div>
         ))}
       </div>
-      <p className="mt-3 text-[11px] text-[#5B6766]">
+      <p className="mt-3 text-[11px] text-[#535862]">
         Read-only trail — illustrative layout from the product brief.
       </p>
     </ProductChrome>
@@ -180,10 +180,10 @@ export function ContractMock({ className }: { className?: string }) {
     <ProductChrome title="Contracts" module="Clause review" className={className}>
       <div className="grid gap-3 md:grid-cols-[1.1fr_0.9fr]">
         <div className="rounded-[6px] border border-[#E4E4E4] bg-[#F8F8F8] p-3">
-          <p className="font-mono text-[10px] text-[#5B6766]">Document</p>
-          <p className="mt-2 text-[13px] leading-[1.55] text-[#111318]">
+          <p className="font-mono text-[10px] text-[#535862]">Document</p>
+          <p className="mt-2 text-[13px] leading-[1.55] text-[#181D27]">
             …Supplier shall notify the Buyer of any{" "}
-            <mark className="bg-[#1d5fbf]/15 text-[#111318]">
+            <mark className="bg-[#1d5fbf]/15 text-[#181D27]">
               material change in pricing
             </mark>{" "}
             no less than thirty (30) days prior…
@@ -199,8 +199,8 @@ export function ContractMock({ className }: { className?: string }) {
               key={row.k}
               className="flex items-center justify-between rounded-[6px] border border-[#E4E4E4] px-3 py-2"
             >
-              <span className="text-[12px] text-[#5B6766]">{row.k}</span>
-              <span className="text-[12px] font-medium text-[#111318]">
+              <span className="text-[12px] text-[#535862]">{row.k}</span>
+              <span className="text-[12px] font-medium text-[#181D27]">
                 {row.v}
               </span>
             </div>
@@ -259,8 +259,8 @@ export function OutputIndex({ className }: { className?: string }) {
               className={cn(
                 "block w-full rounded-[4px] px-2 py-2 text-left font-[family-name:var(--font-aeonik)] text-[28px] leading-[1.1] tracking-[-0.03em] transition-colors duration-200 md:text-[36px] lg:text-[44px]",
                 selected
-                  ? "text-[#111318]"
-                  : "text-[#111318]/25 hover:text-[#111318]/55",
+                  ? "text-[#181D27]"
+                  : "text-[#181D27]/25 hover:text-[#181D27]/55",
               )}
             >
               {o.label}
@@ -313,8 +313,8 @@ export function ArchitectureRail({
                       ? "border-white bg-white text-black"
                       : "border-transparent text-white/70 hover:bg-white/5 hover:text-white"
                     : on
-                      ? "border-[#111318] bg-[#111318] text-white"
-                      : "border-transparent text-[#111318]/70 hover:bg-[#111318]/[0.04] hover:text-[#111318]",
+                      ? "border-[#181D27] bg-[#181D27] text-white"
+                      : "border-transparent text-[#181D27]/70 hover:bg-[#181D27]/[0.04] hover:text-[#181D27]",
                 )}
               >
                 <span
@@ -326,7 +326,7 @@ export function ArchitectureRail({
                         : "text-white/45"
                       : dark
                         ? "text-white/40"
-                        : "text-[#111318]/40",
+                        : "text-[#181D27]/40",
                   )}
                 >
                   {layer.id}
@@ -341,7 +341,7 @@ export function ArchitectureRail({
         key={active?.id}
         className={cn(
           "relative min-h-[280px] overflow-hidden border p-6 text-white md:p-8",
-          dark ? "border-white/20 bg-black" : "border-[#DCE1E0] bg-[#111318]",
+          dark ? "border-white/20 bg-black" : "border-[#E9EAEB] bg-[#181D27]",
         )}
       >
         <div className="platform-view-enter">
@@ -436,7 +436,7 @@ export function GovernanceStack({ className }: { className?: string }) {
           className="rounded-[12px] border border-white/10 bg-white/[0.06] p-5 backdrop-blur-md"
           style={{ marginLeft: `${i * 12}px` }}
         >
-          <p className="font-mono text-[11px] text-[#7BA0FF]">0{i + 1}</p>
+          <p className="font-mono text-[11px] text-[#8EB8FF]">0{i + 1}</p>
           <h3 className="mt-2 text-[18px] font-medium tracking-[-0.02em] text-white">
             {l.title}
           </h3>

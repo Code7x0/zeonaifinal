@@ -59,7 +59,7 @@ export function AccessMatrix() {
                   type="button"
                   role="row"
                   onClick={() => setActive(i)}
-                  className="grid w-full grid-cols-[7rem_1fr_1fr] gap-2 border-b px-3 py-2.5 text-left text-[12px] outline-none last:border-b-0 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#0977B3]/45 md:grid-cols-[8rem_1fr_1fr]"
+                  className="grid w-full grid-cols-[7rem_1fr_1fr] gap-2 border-b px-3 py-2.5 text-left text-[12px] outline-none last:border-b-0 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#2962FF]/45 md:grid-cols-[8rem_1fr_1fr]"
                   style={{
                     borderColor: Z.line,
                     backgroundColor: selected ? `${Z.blue}10` : Z.paper,

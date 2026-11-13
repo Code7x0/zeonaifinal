@@ -1,14 +1,19 @@
-/** ZeonAI palette — Engineering section (light editorial surfaces). */
+/** ZeonAI / DeepProbe palette — Engineering section. */
+import { brand, DP } from "../palette";
+
 export const Z = {
-  ink: "#010F0F",
-  paper: "#FFFFFF",
-  mist: "#EDEDED",
-  ink70: "#5B6766",
-  fog: "#9AA8A6",
-  line: "#DCE1E0",
-  blue: "#0977B3",
-  teal: "#20879D",
-  leaf: "#91C63B",
-  gold: "#C78928",
-  ember: "#E1661C",
+  ink: brand.heading,
+  paper: brand.bg,
+  mist: DP.gray[100],
+  ink70: brand.body,
+  fog: DP.gray[400],
+  line: brand.border,
+  blue: brand.brand,
+  teal: brand.teal,
+  leaf: DP.green[500],
+  gold: DP.amber[500],
+  ember: DP.amber[600],
+  tint: brand.tint,
+  cta: brand.cta,
+  indigo: brand.indigo,
 } as const;

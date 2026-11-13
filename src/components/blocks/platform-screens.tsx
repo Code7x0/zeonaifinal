@@ -20,7 +20,7 @@ export const PLATFORM_SCREEN_TITLES: Record<PlatformScreenId, string> = {
   "agent-hub": "ZeonAI · Agent Hub",
 };
 
-const BLUE = "#356DFF";
+const BLUE = "#2962FF";
 
 export type ScreenProps = {
   className?: string;
@@ -50,9 +50,9 @@ export function AppShell({
 }) {
   return (
     <div
-      className={`flex w-full flex-col overflow-hidden rounded-[6px] border border-[#272C33] bg-[#08090B] shadow-[0_24px_80px_rgba(0,0,0,0.45)] ${className}`}
+      className={`flex w-full flex-col overflow-hidden rounded-[6px] border border-[#252B37] bg-[#08090B] shadow-[0_24px_80px_rgba(0,0,0,0.45)] ${className}`}
     >
-      <div className="flex h-10 shrink-0 items-center gap-3 border-b border-[#272C33] bg-[#0D0F12] px-3.5">
+      <div className="flex h-10 shrink-0 items-center gap-3 border-b border-[#252B37] bg-[#0D0F12] px-3.5">
         <div className="flex items-center gap-2 min-w-0 flex-1">
           <span
             className="size-1.5 shrink-0 rounded-full"
@@ -63,7 +63,7 @@ export function AppShell({
             {title}
           </p>
           {moduleLabel ? (
-            <span className="hidden shrink-0 rounded-[3px] border border-[#272C33] bg-[#151920] px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.1em] text-[#6F7885] sm:inline">
+            <span className="hidden shrink-0 rounded-[3px] border border-[#252B37] bg-[#151920] px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.1em] text-[#6F7885] sm:inline">
               {moduleLabel}
             </span>
           ) : null}
@@ -75,7 +75,7 @@ export function AppShell({
           <button
             type="button"
             onClick={onTogglePlay}
-            className="flex size-7 shrink-0 items-center justify-center rounded-[3px] border border-[#272C33] text-[#9BA3AE] outline-none transition-colors hover:border-[#356DFF]/40 hover:text-[#F2F4F7] focus-visible:ring-2 focus-visible:ring-[#356DFF]/50"
+            className="flex size-7 shrink-0 items-center justify-center rounded-[3px] border border-[#252B37] text-[#9BA3AE] outline-none transition-colors hover:border-[#2962FF]/40 hover:text-[#F2F4F7] focus-visible:ring-2 focus-visible:ring-[#2962FF]/50"
             aria-label={playing ? "Pause product tour" : "Play product tour"}
             aria-pressed={playing}
           >
@@ -86,7 +86,7 @@ export function AppShell({
             )}
           </button>
         ) : (
-          <span className="rounded-[3px] border border-[#272C33] px-1.5 py-0.5 font-mono text-[8px] uppercase tracking-[0.08em] text-[#6F7885]">
+          <span className="rounded-[3px] border border-[#252B37] px-1.5 py-0.5 font-mono text-[8px] uppercase tracking-[0.08em] text-[#6F7885]">
             Demo
           </span>
         )}
@@ -107,7 +107,7 @@ function ShellLayout({
 }) {
   return (
     <div className="flex h-full min-h-0">
-      <aside className="hidden w-[168px] shrink-0 flex-col border-r border-[#272C33] bg-[#0D0F12] p-2.5 md:flex lg:w-[180px]">
+      <aside className="hidden w-[168px] shrink-0 flex-col border-r border-[#252B37] bg-[#0D0F12] p-2.5 md:flex lg:w-[180px]">
         {sidebar}
       </aside>
       <div className="min-w-0 flex-1 overflow-hidden">{children}</div>
@@ -126,7 +126,7 @@ function NavItem({
     <div
       className={`rounded-[3px] px-2 py-1.5 text-[11px] ${
         active
-          ? "bg-[#111D35] text-[#F2F4F7]"
+          ? "bg-[#172AB6] text-[#F2F4F7]"
           : "text-[#6F7885]"
       }`}
       style={active ? { boxShadow: `inset 0 0 0 1px ${BLUE}` } : undefined}
@@ -170,7 +170,7 @@ export function AskAiScreen({
       }
     >
       <div className={`flex h-full flex-col ${className}`}>
-        <div className="flex items-center justify-between border-b border-[#272C33] bg-[#111419] px-4 py-2.5">
+        <div className="flex items-center justify-between border-b border-[#252B37] bg-[#12161F] px-4 py-2.5">
           <div>
             <p className="text-[13px] font-medium text-[#F2F4F7]">Ask AI</p>
             <p className="font-mono text-[9px] uppercase tracking-[0.12em] text-[#6F7885]">
@@ -198,7 +198,7 @@ export function AskAiScreen({
             <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-[#6F7885]">
               You
             </p>
-            <div className="mt-1.5 ml-auto max-w-[92%] rounded-[5px] border border-[#272C33] bg-[#151920] px-3.5 py-2.5 md:max-w-[75%]">
+            <div className="mt-1.5 ml-auto max-w-[92%] rounded-[5px] border border-[#252B37] bg-[#151920] px-3.5 py-2.5 md:max-w-[75%]">
               <p className="text-[13px] leading-snug text-[#F2F4F7] md:text-[14px]">
                 What approval do I need for capital spend above budget?
               </p>
@@ -232,11 +232,11 @@ export function AskAiScreen({
               Cited sources
             </p>
             <div className="inline-flex flex-col gap-1.5">
-              <div className="rounded-[4px] border border-[#272C33] bg-[#151920] px-2.5 py-1.5 font-mono text-[11px] text-[#9BA3AE]">
+              <div className="rounded-[4px] border border-[#252B37] bg-[#151920] px-2.5 py-1.5 font-mono text-[11px] text-[#9BA3AE]">
                 <span style={{ color: BLUE }}>[1]</span> Capital expenditure
                 policy v4.pdf · §4.2
               </div>
-              <div className="rounded-[4px] border border-[#272C33] bg-[#151920] px-2.5 py-1.5 font-mono text-[11px] text-[#9BA3AE]">
+              <div className="rounded-[4px] border border-[#252B37] bg-[#151920] px-2.5 py-1.5 font-mono text-[11px] text-[#9BA3AE]">
                 <span style={{ color: BLUE }}>[2]</span> Delegation of
                 authority.docx · v12
               </div>
@@ -244,8 +244,8 @@ export function AskAiScreen({
           </div>
         </div>
 
-        <div className="border-t border-[#272C33] bg-[#111419] px-4 py-2.5">
-          <div className="flex items-center gap-2 rounded-[4px] border border-[#272C33] bg-[#151920] px-3 py-2">
+        <div className="border-t border-[#252B37] bg-[#12161F] px-4 py-2.5">
+          <div className="flex items-center gap-2 rounded-[4px] border border-[#252B37] bg-[#151920] px-3 py-2">
             <span className="min-w-0 flex-1 text-[12px] text-[#6F7885]">
               Ask about your organisation…
             </span>
@@ -295,21 +295,21 @@ export function AiDriveScreen({
       }
     >
       <div className={`flex h-full min-h-0 flex-col ${className}`}>
-        <div className="flex flex-wrap items-center gap-2 border-b border-[#272C33] bg-[#111419] px-4 py-2.5">
-          <div className="min-w-0 flex-1 rounded-[4px] border border-[#272C33] bg-[#151920] px-2.5 py-1.5 text-[12px] text-[#6F7885]">
+        <div className="flex flex-wrap items-center gap-2 border-b border-[#252B37] bg-[#12161F] px-4 py-2.5">
+          <div className="min-w-0 flex-1 rounded-[4px] border border-[#252B37] bg-[#151920] px-2.5 py-1.5 text-[12px] text-[#6F7885]">
             Search governed documents…
           </div>
-          <span className="rounded-[3px] border border-[#272C33] px-2 py-1 font-mono text-[10px] text-[#9BA3AE]">
+          <span className="rounded-[3px] border border-[#252B37] px-2 py-1 font-mono text-[10px] text-[#9BA3AE]">
             Finance
           </span>
-          <span className="hidden rounded-[3px] border border-[#272C33] px-2 py-1 font-mono text-[10px] text-[#9BA3AE] sm:inline">
+          <span className="hidden rounded-[3px] border border-[#252B37] px-2 py-1 font-mono text-[10px] text-[#9BA3AE] sm:inline">
             Indexed
           </span>
         </div>
 
         <div className="grid min-h-0 flex-1 lg:grid-cols-[1.15fr_0.85fr]">
-          <div className="min-h-0 overflow-auto border-b border-[#272C33] lg:border-b-0 lg:border-r">
-            <div className="grid grid-cols-[1.4fr_0.4fr_0.55fr_0.5fr] gap-2 border-b border-[#272C33] bg-[#0D0F12] px-3 py-2 font-mono text-[9px] uppercase tracking-[0.1em] text-[#6F7885]">
+          <div className="min-h-0 overflow-auto border-b border-[#252B37] lg:border-b-0 lg:border-r">
+            <div className="grid grid-cols-[1.4fr_0.4fr_0.55fr_0.5fr] gap-2 border-b border-[#252B37] bg-[#0D0F12] px-3 py-2 font-mono text-[9px] uppercase tracking-[0.1em] text-[#6F7885]">
               <span>Name</span>
               <span>Type</span>
               <span className="hidden sm:inline">Owner</span>
@@ -320,8 +320,8 @@ export function AiDriveScreen({
               return (
                 <div
                   key={name}
-                  className={`grid grid-cols-[1.4fr_0.4fr_0.55fr_0.5fr] gap-2 border-b border-[#272C33]/60 px-3 py-2.5 text-[12px] transition-colors ${
-                    isSel ? "bg-[#111D35]" : "bg-transparent"
+                  className={`grid grid-cols-[1.4fr_0.4fr_0.55fr_0.5fr] gap-2 border-b border-[#252B37]/60 px-3 py-2.5 text-[12px] transition-colors ${
+                    isSel ? "bg-[#172AB6]" : "bg-transparent"
                   }`}
                   style={
                     isSel ? { boxShadow: `inset 2px 0 0 ${BLUE}` } : undefined
@@ -345,7 +345,7 @@ export function AiDriveScreen({
           </div>
 
           <div
-            className={`hidden min-h-0 flex-col overflow-auto bg-[#111419] p-4 transition-opacity duration-300 lg:flex ${
+            className={`hidden min-h-0 flex-col overflow-auto bg-[#12161F] p-4 transition-opacity duration-300 lg:flex ${
               selected ? "opacity-100" : "opacity-40"
             }`}
           >
@@ -359,7 +359,7 @@ export function AiDriveScreen({
               §4.2 Delegated authority. Spend above the approved budget needs
               CFO sign-off past the delegated limit…
             </p>
-            <div className="mt-4 rounded-[4px] border border-[#272C33] bg-[#151920] px-2.5 py-2 font-mono text-[10px] text-[#9BA3AE]">
+            <div className="mt-4 rounded-[4px] border border-[#252B37] bg-[#151920] px-2.5 py-2 font-mono text-[10px] text-[#9BA3AE]">
               Access · Finance · Indexed · Lineage on
             </div>
           </div>
@@ -399,7 +399,7 @@ export function WorkflowsScreen({
       }
     >
       <div className={`flex h-full flex-col ${className}`}>
-        <div className="flex items-center justify-between border-b border-[#272C33] bg-[#111419] px-4 py-2.5">
+        <div className="flex items-center justify-between border-b border-[#252B37] bg-[#12161F] px-4 py-2.5">
           <div>
             <p className="text-[13px] font-medium text-[#F2F4F7]">
               Capital expenditure request
@@ -421,10 +421,10 @@ export function WorkflowsScreen({
             {stages.map(([name, status, owner]) => (
               <div
                 key={name}
-                className="rounded-[4px] border border-[#272C33] bg-[#151920] px-2.5 py-2.5 transition-colors"
+                className="rounded-[4px] border border-[#252B37] bg-[#151920] px-2.5 py-2.5 transition-colors"
                 style={
                   status === "Running"
-                    ? { borderColor: BLUE, background: "#111D35" }
+                    ? { borderColor: BLUE, background: "#172AB6" }
                     : undefined
                 }
               >
@@ -447,7 +447,7 @@ export function WorkflowsScreen({
             ))}
           </div>
 
-          <div className="rounded-[4px] border border-[#272C33] bg-[#111419] px-3.5 py-3">
+          <div className="rounded-[4px] border border-[#252B37] bg-[#12161F] px-3.5 py-3">
             <p className="font-mono text-[9px] uppercase tracking-[0.12em] text-[#6F7885]">
               Activity
             </p>
@@ -528,7 +528,7 @@ export function DashboardsScreen({
           ].map(([label, value, hint]) => (
             <div
               key={label}
-              className="rounded-[4px] border border-[#272C33] bg-[#151920] px-3 py-2.5"
+              className="rounded-[4px] border border-[#252B37] bg-[#151920] px-3 py-2.5"
             >
               <p className="font-mono text-[9px] uppercase tracking-[0.1em] text-[#6F7885]">
                 {label}
@@ -542,7 +542,7 @@ export function DashboardsScreen({
         </div>
 
         <div className="mt-3 grid gap-3 lg:grid-cols-[1.4fr_1fr]">
-          <div className="rounded-[4px] border border-[#272C33] bg-[#111419] p-3">
+          <div className="rounded-[4px] border border-[#252B37] bg-[#12161F] p-3">
             <div className="mb-3 flex items-center justify-between">
               <p className="text-[12px] font-medium text-[#F2F4F7]">
                 Workflow volume
@@ -564,7 +564,7 @@ export function DashboardsScreen({
             </div>
           </div>
 
-          <div className="rounded-[4px] border border-[#272C33] bg-[#111419] p-3">
+          <div className="rounded-[4px] border border-[#252B37] bg-[#12161F] p-3">
             <p className="mb-3 text-[12px] font-medium text-[#F2F4F7]">
               Performance
             </p>
@@ -581,7 +581,7 @@ export function DashboardsScreen({
                       {value}
                     </span>
                   </div>
-                  <div className="h-1 overflow-hidden rounded-full bg-[#272C33]">
+                  <div className="h-1 overflow-hidden rounded-full bg-[#252B37]">
                     <div
                       className="h-full rounded-full transition-[width] duration-500 ease-out"
                       style={{
@@ -628,7 +628,7 @@ export function ContractsScreen({
       }
     >
       <div className={`grid h-full min-h-0 lg:grid-cols-[1.1fr_0.9fr] ${className}`}>
-        <div className="min-h-0 overflow-auto border-b border-[#272C33] p-4 lg:border-b-0 lg:border-r">
+        <div className="min-h-0 overflow-auto border-b border-[#252B37] p-4 lg:border-b-0 lg:border-r">
           <p className="font-mono text-[9px] uppercase tracking-[0.12em] text-[#6F7885]">
             Contoso_MSA_v4.pdf · page 7
           </p>
@@ -639,8 +639,8 @@ export function ContractsScreen({
           <p
             className={`mt-3 rounded-[4px] border px-3 py-2.5 text-[13px] leading-relaxed transition-colors duration-300 ${
               highlight
-                ? "border-[#356DFF]/50 bg-[#111D35] text-[#F2F4F7]"
-                : "border-[#272C33] bg-[#151920] text-[#9BA3AE]"
+                ? "border-[#2962FF]/50 bg-[#172AB6] text-[#F2F4F7]"
+                : "border-[#252B37] bg-[#151920] text-[#9BA3AE]"
             }`}
           >
             Neither party shall be liable for indirect or consequential damages,
@@ -651,7 +651,7 @@ export function ContractsScreen({
             before arbitration…
           </p>
         </div>
-        <div className="space-y-2 overflow-auto bg-[#111419] p-4">
+        <div className="space-y-2 overflow-auto bg-[#12161F] p-4">
           <p className="font-mono text-[9px] uppercase tracking-[0.12em] text-[#6F7885]">
             Extracted terms
           </p>
@@ -664,7 +664,7 @@ export function ContractsScreen({
           ].map(([k, v]) => (
             <div
               key={k}
-              className="flex items-center justify-between rounded-[4px] border border-[#272C33] bg-[#151920] px-3 py-2 text-[12px]"
+              className="flex items-center justify-between rounded-[4px] border border-[#252B37] bg-[#151920] px-3 py-2 text-[12px]"
             >
               <span className="text-[#6F7885]">{k}</span>
               <span className="font-medium text-[#F2F4F7]">{v}</span>
@@ -710,7 +710,7 @@ export function AgentHubScreen({
       }
     >
       <div className={`grid h-full min-h-0 lg:grid-cols-[1.15fr_0.85fr] ${className}`}>
-        <div className="min-h-0 overflow-auto border-b border-[#272C33] p-4 lg:border-b-0 lg:border-r">
+        <div className="min-h-0 overflow-auto border-b border-[#252B37] p-4 lg:border-b-0 lg:border-r">
           <div className="mb-3 flex items-center justify-between">
             <p className="text-[13px] font-medium text-[#F2F4F7]">
               Finance & risk pack
@@ -719,12 +719,12 @@ export function AgentHubScreen({
               Sample · 50+ agents
             </span>
           </div>
-          <ul className="overflow-hidden rounded-[4px] border border-[#272C33]">
+          <ul className="overflow-hidden rounded-[4px] border border-[#252B37]">
             {agents.map(([name, task, status, human], i) => (
               <li
                 key={name}
-                className={`flex items-center justify-between gap-2 border-b border-[#272C33] px-3 py-2.5 last:border-b-0 ${
-                  detail && i === 2 ? "bg-[#111D35]" : "bg-[#111419]"
+                className={`flex items-center justify-between gap-2 border-b border-[#252B37] px-3 py-2.5 last:border-b-0 ${
+                  detail && i === 2 ? "bg-[#172AB6]" : "bg-[#12161F]"
                 }`}
                 style={
                   detail && i === 2
@@ -756,7 +756,7 @@ export function AgentHubScreen({
         </div>
 
         <div
-          className={`space-y-3 overflow-auto bg-[#111419] p-4 transition-opacity duration-300 ${
+          className={`space-y-3 overflow-auto bg-[#12161F] p-4 transition-opacity duration-300 ${
             detail ? "opacity-100" : "opacity-50"
           }`}
         >
@@ -770,10 +770,10 @@ export function AgentHubScreen({
             ID + sanctions pack with human review on exceptions. Runs as a
             workflow of sub-agents with an audit trail on every step.
           </p>
-          <div className="rounded-[4px] border border-[#272C33] bg-[#151920] px-3 py-2 font-mono text-[11px] text-[#9BA3AE]">
+          <div className="rounded-[4px] border border-[#252B37] bg-[#151920] px-3 py-2 font-mono text-[11px] text-[#9BA3AE]">
             Last run · 2m ago · 3 exceptions held
           </div>
-          <div className="rounded-[4px] border border-[#272C33] bg-[#151920] px-3 py-2 font-mono text-[11px] text-[#9BA3AE]">
+          <div className="rounded-[4px] border border-[#252B37] bg-[#151920] px-3 py-2 font-mono text-[11px] text-[#9BA3AE]">
             Holder · Compliance · Review required
           </div>
         </div>

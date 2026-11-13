@@ -54,7 +54,7 @@ export function CapabilitiesIndexPage() {
               <h2 className="mt-3 font-[family-name:var(--font-aeonik)] text-[22px] tracking-[-0.02em]">
                 {cap.title}
               </h2>
-              <p className="mt-2 flex-1 text-[14px] leading-[1.5] text-[#5B6766]">
+              <p className="mt-2 flex-1 text-[14px] leading-[1.5] text-[#535862]">
                 {cap.summary}
               </p>
               <span className="zeon-link-arrow mt-6 text-[13px]">
@@ -97,19 +97,19 @@ export function CapabilityDetailPage({
       />
 
       <Chapter tone="paper" min={false} className="!min-h-0">
-        <p className="max-w-[52ch] text-[14px] leading-[1.55] text-[#5B6766]">
+        <p className="max-w-[52ch] text-[14px] leading-[1.55] text-[#535862]">
           {capability.sampleNote}
         </p>
         <div className="mt-12 grid gap-12 lg:grid-cols-2">
           <div>
             <ChapterLabel>The problem</ChapterLabel>
-            <p className="mt-4 text-[20px] leading-[1.45] tracking-[-0.02em] text-[#111318] md:text-[24px]">
+            <p className="mt-4 text-[20px] leading-[1.45] tracking-[-0.02em] text-[#181D27] md:text-[24px]">
               {capability.problem}
             </p>
           </div>
           <div>
             <ChapterLabel>What it does</ChapterLabel>
-            <p className="mt-4 text-[20px] leading-[1.45] tracking-[-0.02em] text-[#111318] md:text-[24px]">
+            <p className="mt-4 text-[20px] leading-[1.45] tracking-[-0.02em] text-[#181D27] md:text-[24px]">
               {capability.does}
             </p>
           </div>
@@ -128,7 +128,7 @@ export function CapabilityDetailPage({
               <span className="font-mono text-[13px] text-[var(--zeon-royal)]">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <span className="text-[17px] leading-[1.5] text-[#111318]">
+              <span className="text-[17px] leading-[1.5] text-[#181D27]">
                 {step}
               </span>
             </li>
@@ -165,7 +165,7 @@ export function CapabilityDetailPage({
                 <h3 className="font-[family-name:var(--font-aeonik)] text-[18px] tracking-[-0.02em]">
                   {cap.title}
                 </h3>
-                <p className="mt-2 text-[13px] leading-[1.5] text-[#5B6766]">
+                <p className="mt-2 text-[13px] leading-[1.5] text-[#535862]">
                   {cap.summary}
                 </p>
               </Link>

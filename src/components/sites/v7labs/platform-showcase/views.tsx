@@ -29,7 +29,7 @@ function StatusPill({
     ok: "bg-emerald-50 text-emerald-700",
     warn: "bg-amber-50 text-amber-700",
     neutral: "bg-black/[0.04] text-black/60",
-    info: "bg-[#0977B3]/10 text-[#0977B3]",
+    info: "bg-[#2962FF]/10 text-[#2962FF]",
   } as const;
   return (
     <span
@@ -138,7 +138,7 @@ export function DashboardView() {
                 aria-pressed={range === id}
                 className={`rounded px-2 py-1 text-[10px] transition-colors ${
                   range === id
-                    ? "bg-[#0977B3] text-white"
+                    ? "bg-[#2962FF] text-white"
                     : "text-black/55 hover:text-black/80"
                 }`}
               >
@@ -358,7 +358,7 @@ export function QuotesView() {
       <div className="flex flex-wrap gap-2 pt-1">
         <button
           type="button"
-          className="rounded-md bg-[#0977B3] px-3 py-1.5 text-[11px] font-medium text-white"
+          className="rounded-md bg-[#2962FF] px-3 py-1.5 text-[11px] font-medium text-white"
         >
           Submit for approval
         </button>
@@ -406,8 +406,8 @@ export function ContractsView() {
             not exceed the fees paid in the twelve (12) months preceding the
             claim.
           </p>
-          <p className="rounded border border-[#0977B3]/25 bg-[#0977B3]/8 px-2.5 py-2 text-[#0b3d5c] ring-1 ring-[#0977B3]/15">
-            <span className="mb-1 block text-[9px] font-sans font-medium uppercase tracking-[0.06em] text-[#0977B3]">
+          <p className="rounded border border-[#2962FF]/25 bg-[#2962FF]/8 px-2.5 py-2 text-[#0b3d5c] ring-1 ring-[#2962FF]/15">
+            <span className="mb-1 block text-[9px] font-sans font-medium uppercase tracking-[0.06em] text-[#2962FF]">
               Highlighted clause · extraction
             </span>
             Neither party shall be liable for indirect, incidental, special, or
@@ -459,7 +459,7 @@ export function ContractsView() {
           <div className="mt-3 flex gap-2">
             <button
               type="button"
-              className="rounded-md bg-[#0977B3] px-2.5 py-1.5 text-[10px] font-medium text-white"
+              className="rounded-md bg-[#2962FF] px-2.5 py-1.5 text-[10px] font-medium text-white"
             >
               Open review
             </button>
@@ -502,7 +502,7 @@ export function AskAiView() {
         </div>
 
         <div className="rounded-lg border border-black/8 bg-white px-3 py-3">
-          <p className="text-[10px] font-medium uppercase tracking-[0.05em] text-[#0977B3]">
+          <p className="text-[10px] font-medium uppercase tracking-[0.05em] text-[#2962FF]">
             Ask AI
           </p>
           <p className="mt-2 text-[13px] leading-[1.55] text-black/75">
@@ -673,7 +673,7 @@ export function WorkflowsView() {
             key={s.name}
             className={`rounded-lg border px-2.5 py-2.5 ${
               s.status === "Running"
-                ? "border-[#0977B3]/30 bg-[#0977B3]/5"
+                ? "border-[#2962FF]/30 bg-[#2962FF]/5"
                 : "border-black/8 bg-white"
             }`}
           >

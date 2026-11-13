@@ -45,7 +45,7 @@ export function ProductsPage() {
         secondaryHref="/platform"
         secondaryLabel="Platform overview"
       />
-      <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#DCE1E0]">
+      <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#E9EAEB]">
         <ChapterLabel>DeepDelve family</ChapterLabel>
         <ChapterTitle>Four product surfaces.</ChapterTitle>
         <ChapterLead>
@@ -57,13 +57,13 @@ export function ProductsPage() {
             <Link
               key={s.id}
               href={s.href}
-              className="group flex h-full flex-col border border-[#DCE1E0] bg-white p-6 no-underline transition-colors hover:bg-[#F6F4EF]"
+              className="group flex h-full flex-col border border-[#E9EAEB] bg-white p-6 no-underline transition-colors hover:bg-[#FAFAFA]"
             >
-              <p className="font-mono text-[11px] text-[#245BDB]">{s.brand}</p>
-              <h2 className="mt-3 font-[family-name:var(--font-aeonik)] text-[24px] tracking-[-0.02em] text-[#111318]">
+              <p className="font-mono text-[11px] text-[#1B46F5]">{s.brand}</p>
+              <h2 className="mt-3 font-[family-name:var(--font-aeonik)] text-[24px] tracking-[-0.02em] text-[#181D27]">
                 {s.title}
               </h2>
-              <p className="mt-2 flex-1 text-[14px] leading-[1.5] text-[#5B6766]">
+              <p className="mt-2 flex-1 text-[14px] leading-[1.5] text-[#535862]">
                 {s.body}
               </p>
               <span className="zeon-link-arrow mt-6 text-[13px]">Open product</span>
@@ -79,15 +79,15 @@ export function ProductsPage() {
             <Link
               key={cap.id}
               href={`/platform/${cap.id}`}
-              className="group flex h-full flex-col border border-[#DCE1E0] bg-white p-6 transition-colors hover:bg-white/80"
+              className="group flex h-full flex-col border border-[#E9EAEB] bg-white p-6 transition-colors hover:bg-white/80"
             >
-              <p className="font-mono text-[11px] text-[#245BDB]">
+              <p className="font-mono text-[11px] text-[#1B46F5]">
                 {String(i + 1).padStart(2, "0")}
               </p>
               <h2 className="mt-3 font-[family-name:var(--font-aeonik)] text-[24px] tracking-[-0.02em]">
                 {cap.title}
               </h2>
-              <p className="mt-2 flex-1 text-[14px] leading-[1.5] text-[#5B6766]">
+              <p className="mt-2 flex-1 text-[14px] leading-[1.5] text-[#535862]">
                 {cap.summary}
               </p>
               <span className="zeon-link-arrow mt-6 text-[13px]">
@@ -145,7 +145,7 @@ export function AgentLibraryPage() {
                 {cat.agents.map((name) => (
                   <li
                     key={name}
-                    className="mb-2 break-inside-avoid rounded-[8px] border border-[#DCE1E0] bg-[#F6F4EF]/60 px-4 py-3 text-[14px] text-[#111318]"
+                    className="mb-2 break-inside-avoid rounded-[8px] border border-[#E9EAEB] bg-[#FAFAFA]/60 px-4 py-3 text-[14px] text-[#181D27]"
                   >
                     {name}
                   </li>
@@ -154,7 +154,7 @@ export function AgentLibraryPage() {
             </div>
           ))}
         </div>
-        <p className="mt-10 max-w-[52ch] text-[13px] text-[#5B6766]">
+        <p className="mt-10 max-w-[52ch] text-[13px] text-[#535862]">
           Illustrative catalogue from the product brief — not a guarantee that
           every agent is generally available.
         </p>
@@ -216,14 +216,14 @@ export function ArchitecturePage() {
               <h2 className="mt-2 font-[family-name:var(--font-aeonik)] text-[22px] tracking-[-0.02em]">
                 {layer.title}
               </h2>
-              <p className="mt-3 text-[15px] leading-[1.55] text-[#5B6766]">
+              <p className="mt-3 text-[15px] leading-[1.55] text-[#535862]">
                 {layer.description}
               </p>
               <ul className="mt-4 space-y-1.5">
                 {layer.details.map((d) => (
                   <li
                     key={d}
-                    className="border-l-2 border-[var(--zeon-accent)]/40 pl-3 text-[13px] leading-[1.45] text-[#5B6766]"
+                    className="border-l-2 border-[var(--zeon-accent)]/40 pl-3 text-[13px] leading-[1.45] text-[#535862]"
                   >
                     {d}
                   </li>
@@ -275,7 +275,7 @@ export function IntegrationsPage() {
           {integrations.map((name) => (
             <li
               key={name}
-              className="rounded-[10px] border border-[var(--zeon-border-blue)] bg-[var(--zeon-sky)] px-4 py-5 text-[15px] font-medium text-[#111318]"
+              className="rounded-[10px] border border-[var(--zeon-border-blue)] bg-[var(--zeon-sky)] px-4 py-5 text-[15px] font-medium text-[#181D27]"
             >
               {name}
             </li>
@@ -309,7 +309,7 @@ export function HowWeWorkPage() {
           {processSteps.map((step, i) => (
             <article
               key={step.id}
-              className={`border-[#DCE1E0] p-6 md:p-8 ${
+              className={`border-[#E9EAEB] p-6 md:p-8 ${
                 i < processSteps.length - 1 ? "md:border-r" : ""
               } border-b md:border-b-0`}
             >
@@ -318,13 +318,13 @@ export function HowWeWorkPage() {
                 {step.title}
               </h2>
               <p className="mt-2 text-[13px] text-[#8A9493]">{step.timing}</p>
-              <p className="mt-6 text-[16px] leading-[1.55] text-[#5B6766]">
+              <p className="mt-6 text-[16px] leading-[1.55] text-[#535862]">
                 {step.body}
               </p>
             </article>
           ))}
         </div>
-        <p className="mt-10 text-[13px] text-[#5B6766]">
+        <p className="mt-10 text-[13px] text-[#535862]">
           Timelines are the engagement pattern in the product brief — not a
           contractual guarantee for every project.
         </p>
@@ -361,13 +361,13 @@ export function ContactPage() {
         secondaryHref="/demo"
         secondaryLabel="Book a demo"
       />
-      <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#DCE1E0]">
+      <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#E9EAEB]">
         <div className="mx-auto grid max-w-[900px] gap-8 md:grid-cols-2">
-          <article className="border-t border-[#DCE1E0] pt-6">
+          <article className="border-t border-[#E9EAEB] pt-6">
             <h2 className="font-[family-name:var(--font-aeonik)] text-[24px] tracking-[-0.02em]">
               General enquiry
             </h2>
-            <p className="mt-3 text-[15px] leading-[1.55] text-[#5B6766]">
+            <p className="mt-3 text-[15px] leading-[1.55] text-[#535862]">
               Product questions, partnerships and press — email the team
               directly.
             </p>
@@ -378,11 +378,11 @@ export function ContactPage() {
               contact@zeonai.com
             </a>
           </article>
-          <article className="border-t border-[#DCE1E0] pt-6">
+          <article className="border-t border-[#E9EAEB] pt-6">
             <h2 className="font-[family-name:var(--font-aeonik)] text-[24px] tracking-[-0.02em]">
               Demo request
             </h2>
-            <p className="mt-3 text-[15px] leading-[1.55] text-[#5B6766]">
+            <p className="mt-3 text-[15px] leading-[1.55] text-[#535862]">
               Prefer a structured request with role and process context? Use
               the demo page.
             </p>
@@ -417,7 +417,7 @@ export function SecurityPage() {
               key={label.name}
               className="rounded-full border border-[var(--zeon-border-blue)] bg-white px-4 py-2 text-[13px]"
             >
-              <span className="font-medium text-[#111318]">{label.name}</span>
+              <span className="font-medium text-[#181D27]">{label.name}</span>
               <span className="text-[#8A9493]"> · {label.note} · to confirm</span>
             </li>
           ))}
@@ -431,7 +431,7 @@ export function SecurityPage() {
               <h2 className="font-[family-name:var(--font-aeonik)] text-[18px] tracking-[-0.02em]">
                 {item.title}
               </h2>
-              <p className="mt-2 text-[14px] leading-[1.55] text-[#5B6766]">
+              <p className="mt-2 text-[14px] leading-[1.55] text-[#535862]">
                 {item.body}
               </p>
             </article>
@@ -484,14 +484,14 @@ export function ResponsibleAiPage() {
       <Chapter tone="paper" min={false} className="!min-h-0">
         <div className="grid gap-6 md:grid-cols-2">
           {principles.map((p, i) => (
-            <article key={p.title} className="border-t border-[#DCE1E0] pt-6">
+            <article key={p.title} className="border-t border-[#E9EAEB] pt-6">
               <p className="font-mono text-[11px] text-[#1d5fbf]">
                 0{i + 1}
               </p>
               <h2 className="mt-2 font-[family-name:var(--font-aeonik)] text-[24px] tracking-[-0.02em]">
                 {p.title}
               </h2>
-              <p className="mt-3 text-[15px] leading-[1.55] text-[#5B6766]">
+              <p className="mt-3 text-[15px] leading-[1.55] text-[#535862]">
                 {p.body}
               </p>
             </article>

@@ -8,7 +8,7 @@
 import type { CSSProperties, ReactNode } from "react";
 
 const screen: CSSProperties = {
-  background: "#070b14",
+  background: "#181D27",
   color: "#ffffff",
   border: "1px solid rgba(255,255,255,0.14)",
   borderRadius: 10,
@@ -22,12 +22,12 @@ const bar: CSSProperties = {
   alignItems: "center",
   justifyContent: "space-between",
   borderBottom: "1px solid rgba(255,255,255,0.1)",
-  background: "#111318",
+  background: "#181D27",
   padding: "0 14px",
 };
 
 const body: CSSProperties = {
-  background: "#070b14",
+  background: "#181D27",
   color: "#ffffff",
   padding: "14px 16px 16px",
 };
@@ -42,7 +42,7 @@ const panel: CSSProperties = {
 
 const panelStrong: CSSProperties = {
   border: "1px solid rgba(255,255,255,0.12)",
-  background: "#111318",
+  background: "#181D27",
   borderRadius: 6,
 };
 
@@ -61,7 +61,7 @@ const chip: CSSProperties = {
   padding: "4px 8px",
   fontFamily: "ui-monospace, monospace",
   fontSize: 10,
-  color: "#7ba0ff",
+  color: "#8EB8FF",
 };
 
 const btn: CSSProperties = {
@@ -69,7 +69,7 @@ const btn: CSSProperties = {
   height: 32,
   alignItems: "center",
   borderRadius: 9999,
-  background: "#245bdb",
+  background: "#1B46F5",
   padding: "0 12px",
   fontSize: 11,
   fontWeight: 500,
@@ -95,7 +95,7 @@ function LiveChrome({
               width: 8,
               height: 8,
               borderRadius: 999,
-              background: "#356DFF",
+              background: "#2962FF",
               display: "inline-block",
             }}
           />
@@ -184,7 +184,7 @@ export function LiveCitedAnswer() {
             style={{
               fontFamily: "ui-monospace, monospace",
               fontSize: 10,
-              color: "#7ba0ff",
+              color: "#8EB8FF",
             }}
           >
             Answer
@@ -220,7 +220,7 @@ export function LiveCitedAnswer() {
           style={{
             fontFamily: "ui-monospace, monospace",
             fontSize: 11,
-            color: "#7ba0ff",
+            color: "#8EB8FF",
           }}
         >
           Cited · 2 sources
@@ -286,7 +286,7 @@ export function LiveExceptionQueue() {
             padding: "4px 10px",
             fontFamily: "ui-monospace, monospace",
             fontSize: 10,
-            color: "#7ba0ff",
+            color: "#8EB8FF",
           }}
         >
           1 open
@@ -317,9 +317,9 @@ export function LiveExceptionQueue() {
                 flexShrink: 0,
                 background:
                   s.state === "done"
-                    ? "#245bdb"
+                    ? "#1B46F5"
                     : s.state === "active"
-                      ? "#356dff"
+                      ? "#2962FF"
                       : "rgba(255,255,255,0.08)",
                 color:
                   s.state === "queued" ? "rgba(255,255,255,0.4)" : "#fff",
@@ -340,7 +340,7 @@ export function LiveExceptionQueue() {
                 textTransform: "uppercase",
                 color:
                   s.state === "active"
-                    ? "#7ba0ff"
+                    ? "#8EB8FF"
                     : "rgba(255,255,255,0.4)",
               }}
             >

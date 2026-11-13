@@ -62,7 +62,7 @@ export function PlatformPage() {
         </div>
       </Chapter>
 
-      <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#DCE1E0]">
+      <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#E9EAEB]">
         <div className="mx-auto flex max-w-[40rem] flex-col items-center text-center">
           <ChapterLabel>Modules</ChapterLabel>
           <ChapterTitle className="mx-auto">Capabilities on AI Workspace.</ChapterTitle>
@@ -84,7 +84,7 @@ export function PlatformPage() {
                 <h3 className="mt-3 font-[family-name:var(--font-aeonik)] text-[22px] tracking-[-0.02em]">
                   {cap.title}
                 </h3>
-                <p className="mt-2 flex-1 text-[14px] leading-[1.5] text-[#5B6766]">
+                <p className="mt-2 flex-1 text-[14px] leading-[1.5] text-[#535862]">
                   {cap.summary}
                 </p>
                 <span className="zeon-link-arrow mt-5 text-[13px]">
@@ -141,12 +141,12 @@ export function PlatformPage() {
           {AGENT_SAMPLES.map((a) => (
             <article
               key={a.title}
-              className="rounded-[12px] border border-[#DCE1E0] bg-white p-6"
+              className="rounded-[12px] border border-[#E9EAEB] bg-white p-6"
             >
               <h3 className="font-[family-name:var(--font-aeonik)] text-[20px] tracking-[-0.02em]">
                 {a.title}
               </h3>
-              <p className="mt-3 text-[14px] leading-[1.5] text-[#5B6766]">
+              <p className="mt-3 text-[14px] leading-[1.5] text-[#535862]">
                 {a.body}
               </p>
             </article>

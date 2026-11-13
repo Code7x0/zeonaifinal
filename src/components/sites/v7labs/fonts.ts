@@ -1,4 +1,12 @@
+import { Inter } from "next/font/google";
 import localFont from "next/font/local";
+
+/** Self-hosted Inter — Apple HIG fallback for under-the-hood section */
+export const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 /** Primary typeface from scale.com (Aeonik Pro) — used site-wide */
 export const aeonik = localFont({

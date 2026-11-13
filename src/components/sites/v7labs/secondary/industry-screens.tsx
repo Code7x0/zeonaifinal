@@ -8,7 +8,7 @@
 import type { CSSProperties, ReactNode } from "react";
 
 const screen: CSSProperties = {
-  background: "#070b14",
+  background: "#181D27",
   color: "#ffffff",
   border: "1px solid rgba(255,255,255,0.14)",
   borderRadius: 10,
@@ -22,13 +22,13 @@ const bar: CSSProperties = {
   alignItems: "center",
   justifyContent: "space-between",
   borderBottom: "1px solid rgba(255,255,255,0.1)",
-  background: "#111318",
+  background: "#181D27",
   padding: "0 14px",
   color: "#ffffff",
 };
 
 const body: CSSProperties = {
-  background: "#070b14",
+  background: "#181D27",
   color: "#ffffff",
   padding: "14px 16px 16px",
 };
@@ -46,7 +46,7 @@ const panel: CSSProperties = {
 
 const panelStrong: CSSProperties = {
   border: "1px solid rgba(255,255,255,0.12)",
-  background: "#111318",
+  background: "#181D27",
   borderRadius: 6,
 };
 
@@ -64,7 +64,7 @@ const chip: CSSProperties = {
   padding: "4px 10px",
   fontFamily: "ui-monospace, monospace",
   fontSize: 10,
-  color: "#7ba0ff",
+  color: "#8EB8FF",
   whiteSpace: "nowrap",
 };
 
@@ -73,7 +73,7 @@ const btn: CSSProperties = {
   height: 32,
   alignItems: "center",
   borderRadius: 9999,
-  background: "#245bdb",
+  background: "#1B46F5",
   padding: "0 12px",
   fontSize: 11,
   fontWeight: 500,
@@ -89,7 +89,7 @@ const btnLight: CSSProperties = {
   padding: "0 12px",
   fontSize: 11,
   fontWeight: 500,
-  color: "#070b14",
+  color: "#181D27",
 };
 
 function DarkChrome({
@@ -111,7 +111,7 @@ function DarkChrome({
               width: 8,
               height: 8,
               borderRadius: 999,
-              background: "#356DFF",
+              background: "#2962FF",
               display: "inline-block",
               flexShrink: 0,
             }}
@@ -380,7 +380,7 @@ export function SuperScreen() {
               style={{
                 fontFamily: "ui-monospace, monospace",
                 fontSize: 10,
-                color: r.ok ? "rgba(255,255,255,0.45)" : "#7BA0FF",
+                color: r.ok ? "rgba(255,255,255,0.45)" : "#8EB8FF",
               }}
             >
               {r.s}
@@ -452,7 +452,7 @@ export function MediaScreen() {
                   padding: "4px 8px",
                   fontFamily: "ui-monospace, monospace",
                   fontSize: 10,
-                  color: "#7BA0FF",
+                  color: "#8EB8FF",
                 }}
               >
                 {c}
@@ -567,7 +567,7 @@ export function GovScreen() {
                 style={{
                   fontFamily: "ui-monospace, monospace",
                   fontSize: 10,
-                  color: "#7BA0FF",
+                  color: "#8EB8FF",
                 }}
               >
                 {s.p}

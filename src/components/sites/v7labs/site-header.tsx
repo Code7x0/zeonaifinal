@@ -123,7 +123,7 @@ function HeaderBar({
                 >
                   <button
                     type="button"
-                    className="group relative inline-flex h-[34px] items-center gap-1 rounded-full px-3 text-[13px] text-black/55 transition-[color,background-color,box-shadow] duration-[var(--zeon-duration-hover)] ease-[var(--zeon-ease-out)] hover:bg-[#111318] hover:text-white focus-visible:outline-none focus-visible:shadow-[var(--zeon-focus-ring)] data-[open=true]:bg-[#111318] data-[open=true]:text-white data-[open=true]:shadow-[inset_0_0_0_1px_rgba(53,109,255,0.45)]"
+                    className="group relative inline-flex h-[34px] items-center gap-1 rounded-[2px] px-3 text-[13px] text-[var(--dp-gray-600,#535862)] transition-[color,background-color,box-shadow] duration-[var(--zeon-duration-hover)] ease-[var(--zeon-ease-out)] hover:bg-[var(--dp-blue-50,#EEF4FF)] hover:text-[var(--dp-blue-700,#1433E1)] focus-visible:outline-none focus-visible:shadow-[var(--zeon-focus-ring)] data-[open=true]:bg-[var(--dp-blue-600,#1B46F5)] data-[open=true]:text-white data-[open=true]:shadow-[inset_0_0_0_1px_rgba(41,98,255,0.45)]"
                     data-open={isOpen}
                     aria-expanded={isOpen}
                     aria-haspopup="true"
@@ -136,7 +136,7 @@ function HeaderBar({
                   >
                     {group.label}
                     <ChevronDown
-                      className={`size-3.5 opacity-60 transition-[transform,opacity,color] duration-[var(--zeon-duration-hover)] ease-[var(--zeon-ease-out)] group-hover:text-white data-[open=true]:text-white ${
+                      className={`size-3.5 opacity-60 transition-[transform,opacity,color] duration-[var(--zeon-duration-hover)] ease-[var(--zeon-ease-out)] group-hover:text-[var(--dp-blue-700,#1433E1)] data-[open=true]:text-white ${
                         isOpen ? "rotate-180 opacity-90" : ""
                       }`}
                       aria-hidden
@@ -150,7 +150,7 @@ function HeaderBar({
         </div>
 
         <div className="flex items-center gap-2">
-          <ZeonLinkButton href="/demo" tone="soft" size="sm">
+          <ZeonLinkButton href="/demo" tone="accent" size="sm">
             Book a demo
           </ZeonLinkButton>
           <button
@@ -195,7 +195,7 @@ function HeaderBar({
                     <a
                       id={`${navId}-${activeGroup.id}-${i}`}
                       href={item.href}
-                      className="group/item block px-3 py-3 text-[#111318] no-underline transition-[background-color,transform,color] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-[#111318]/[0.04] focus-visible:bg-[#111318]/[0.06] focus-visible:outline-none active:scale-[0.995]"
+                      className="group/item block px-3 py-3 text-[#181D27] no-underline transition-[background-color,transform,color] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-[#181D27]/[0.04] focus-visible:bg-[#181D27]/[0.06] focus-visible:outline-none active:scale-[0.995]"
                       onKeyDown={(e) => {
                         if (e.key === "Escape") setOpen(null);
                       }}
@@ -203,7 +203,7 @@ function HeaderBar({
                       <span className="block text-[14px] font-medium tracking-[-0.01em] transition-colors duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover/item:text-black">
                         {item.label}
                       </span>
-                      <span className="mt-1 block text-[12px] leading-[1.45] text-[#5B6766] transition-colors duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover/item:text-[#3d4544]">
+                      <span className="mt-1 block text-[12px] leading-[1.45] text-[#535862] transition-colors duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover/item:text-[#3d4544]">
                         {item.description}
                       </span>
                     </a>
@@ -251,7 +251,7 @@ function HeaderBar({
                   >
                     <button
                       type="button"
-                      className="flex w-full items-center justify-between py-2 text-left text-[14px] font-medium text-[#111318]"
+                      className="flex w-full items-center justify-between py-2 text-left text-[14px] font-medium text-[#181D27]"
                       aria-expanded={expanded}
                       onClick={() =>
                         setMobileExpanded(expanded ? null : group.label)
@@ -302,7 +302,7 @@ function HeaderBar({
               })}
               <ZeonLinkButton
                 href="/demo"
-                tone="soft"
+                tone="accent"
                 block
                 className="mt-4"
                 onClick={() => setMobileOpen(false)}

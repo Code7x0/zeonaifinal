@@ -9,20 +9,20 @@ import { CaseVisual } from "./case-visuals";
 
 const [featured, secondary, wide, compact] = caseStudies;
 
-/** Homepage bento: two black, two royal blue — checkerboard for contrast. */
-type CardTone = "black" | "royal";
+/** Homepage bento: navy + brand blue checkerboard (DeepProbe). */
+type CardTone = "navy" | "brand";
 
 const cardTone: Record<"featured" | "secondary" | "compact" | "wide", CardTone> =
   {
-    featured: "black",
-    secondary: "royal",
-    compact: "black",
-    wide: "royal",
+    featured: "navy",
+    secondary: "brand",
+    compact: "navy",
+    wide: "brand",
   };
 
 const toneSurface: Record<CardTone, string> = {
-  black: "bg-[#151922] text-white border-[#151922]",
-  royal: "bg-[#245BDB] text-white border-[#245BDB]",
+  navy: "bg-[#181D27] text-white border-[#252B37]",
+  brand: "bg-[#1B46F5] text-white border-[#1B46F5]",
 };
 
 export function CustomerStoriesSection() {
@@ -31,7 +31,7 @@ export function CustomerStoriesSection() {
   return (
     <section
       id="customers"
-      className="relative scroll-mt-24 overflow-hidden border-t border-[#DCE1E8] bg-white text-[#111318]"
+      className="zeon-section-tint relative scroll-mt-24 overflow-hidden border-t border-[#E9EAEB] text-[#181D27]"
       aria-labelledby="customers-heading"
     >
       <div className="relative mx-auto max-w-[1180px] px-5 py-20 md:px-8 md:py-28">

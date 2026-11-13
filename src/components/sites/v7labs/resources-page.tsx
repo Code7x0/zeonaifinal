@@ -29,7 +29,7 @@ export function ResourcesPage() {
         secondaryLabel="Book a demo"
       />
 
-      <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#DCE1E0]">
+      <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#E9EAEB]">
         <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
           <div>
             <ChapterLabel>Featured</ChapterLabel>
@@ -40,11 +40,11 @@ export function ResourcesPage() {
               reading-width layout.
             </ChapterLead>
           </div>
-          <div className="border border-dashed border-[#DCE1E0] bg-[#F6F4EF]/50 p-8">
-            <p className="font-mono text-[11px] tracking-[0.12em] text-[#5B6766] uppercase">
+          <div className="border border-dashed border-[#E9EAEB] bg-[#FAFAFA]/50 p-8">
+            <p className="font-mono text-[11px] tracking-[0.12em] text-[#535862] uppercase">
               Placeholder
             </p>
-            <p className="mt-3 text-[15px] leading-[1.55] text-[#5B6766]">
+            <p className="mt-3 text-[15px] leading-[1.55] text-[#535862]">
               Empty state: no published resources in the local content pack yet.
             </p>
           </div>
@@ -75,12 +75,12 @@ export function ResourcesPage() {
             <li key={item.href}>
               <Link
                 href={item.href}
-                className="block h-full border border-[#DCE1E0] bg-white p-5 no-underline transition-colors hover:bg-[#F6F4EF]"
+                className="block h-full border border-[#E9EAEB] bg-white p-5 no-underline transition-colors hover:bg-[#FAFAFA]"
               >
-                <h3 className="text-[18px] font-medium tracking-[-0.02em] text-[#111318]">
+                <h3 className="text-[18px] font-medium tracking-[-0.02em] text-[#181D27]">
                   {item.title}
                 </h3>
-                <p className="mt-2 text-[13px] leading-[1.5] text-[#5B6766]">
+                <p className="mt-2 text-[13px] leading-[1.5] text-[#535862]">
                   {item.body}
                 </p>
               </Link>

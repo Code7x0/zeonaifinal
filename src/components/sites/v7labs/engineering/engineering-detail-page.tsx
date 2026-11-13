@@ -33,22 +33,22 @@ export function EngineeringDetailPage() {
       <SiteHeader />
       <main>
         {/* Hero */}
-        <header className="relative overflow-hidden bg-white text-[#111318]">
+        <header className="relative overflow-hidden bg-white text-[#181D27]">
           <div className="relative mx-auto max-w-[1100px] px-5 py-16 md:px-8 md:py-24">
             <Link
               href="/#engineering"
-              className="inline-flex items-center gap-2 text-[13px] text-[#5B6766] transition hover:text-[#111318]"
+              className="inline-flex items-center gap-2 text-[13px] text-[#535862] transition hover:text-[#181D27]"
             >
               <ArrowLeft className="size-3.5" />
               Back to overview
             </Link>
-            <p className="mt-8 font-mono text-[11px] uppercase tracking-[0.2em] text-[#5B6766]">
+            <p className="mt-8 font-mono text-[11px] uppercase tracking-[0.2em] text-[#535862]">
               03 · Engineering
             </p>
             <h1 className="mt-3 max-w-[18ch] font-[family-name:var(--font-aeonik)] text-[40px] leading-[1.05] tracking-[-0.04em] md:text-[64px]">
               How it works under the hood
             </h1>
-            <p className="mt-5 max-w-[48ch] text-[17px] leading-[1.55] text-[#5B6766] md:text-[19px]">
+            <p className="mt-5 max-w-[48ch] text-[17px] leading-[1.55] text-[#535862] md:text-[19px]">
               Six pieces, in the order a document meets them — from the hub that
               runs the agents to the audit log nobody can edit.
             </p>
@@ -60,7 +60,7 @@ export function EngineeringDetailPage() {
                 <a
                   key={item.id}
                   href={`#eng-${item.id}`}
-                  className="border border-[#DCE1E0] bg-transparent px-3.5 py-1.5 text-[12px] text-[#111318] transition hover:border-[#111318]"
+                  className="border border-[#E9EAEB] bg-transparent px-3.5 py-1.5 text-[12px] text-[#181D27] transition hover:border-[#181D27]"
                 >
                   {item.id} · {item.label}
                 </a>
@@ -78,7 +78,7 @@ export function EngineeringDetailPage() {
               <section
                 key={item.id}
                 id={`eng-${item.id}`}
-                className="scroll-mt-24 border-b border-[var(--zeon-line,#DCE1E0)]"
+                className="scroll-mt-24 border-b border-[var(--zeon-line,#E9EAEB)]"
               >
                 <div
                   className={`mx-auto grid max-w-[1200px] items-start gap-10 px-5 py-16 md:gap-14 md:px-8 md:py-24 lg:grid-cols-2 ${
@@ -98,16 +98,16 @@ export function EngineeringDetailPage() {
                     >
                       {item.id} · {item.label}
                     </p>
-                    <h2 className="mt-3 font-[family-name:var(--font-aeonik)] text-[32px] leading-[1.1] tracking-[-0.03em] text-[var(--zeon-ink,#010F0F)] md:text-[42px]">
+                    <h2 className="mt-3 font-[family-name:var(--font-aeonik)] text-[32px] leading-[1.1] tracking-[-0.03em] text-[var(--zeon-ink,#181D27)] md:text-[42px]">
                       {item.title}
                     </h2>
-                    <p className="mt-4 max-w-[46ch] text-[16px] leading-[1.6] text-[var(--zeon-ink70,#5B6766)] md:text-[17px]">
+                    <p className="mt-4 max-w-[46ch] text-[16px] leading-[1.6] text-[var(--zeon-ink70,#535862)] md:text-[17px]">
                       {item.body}
                     </p>
                   </motion.div>
 
                   <motion.div
-                    className={`overflow-hidden rounded-2xl border border-[var(--zeon-line,#DCE1E0)] bg-white shadow-[0_24px_60px_rgba(1,15,15,0.08)] ${
+                    className={`overflow-hidden rounded-2xl border border-[var(--zeon-line,#E9EAEB)] bg-white shadow-[0_24px_60px_rgba(1,15,15,0.08)] ${
                       reverse ? "lg:[direction:ltr]" : ""
                     }`}
                     initial={reduceMotion ? false : { opacity: 0, y: enterY }}

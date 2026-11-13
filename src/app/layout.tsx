@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { aeonik } from "@/components/sites/v7labs/fonts";
+import { aeonik, inter } from "@/components/sites/v7labs/fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -14,7 +14,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${aeonik.variable} h-full antialiased`}>
+    <html
+      lang="en"
+      className={`${aeonik.variable} ${inter.variable} h-full antialiased`}
+    >
       <body className="flex min-h-full flex-col font-[family-name:var(--font-aeonik)]">
         {children}
       </body>

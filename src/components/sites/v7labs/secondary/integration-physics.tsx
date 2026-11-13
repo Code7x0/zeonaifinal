@@ -25,21 +25,21 @@ function StaticMesh({ items, className }: Props) {
     >
       <div className="relative mx-auto flex max-w-[720px] flex-wrap items-center justify-center gap-3">
         <div className="flex size-24 flex-col items-center justify-center rounded-full border border-[var(--zeon-royal)]/30 bg-white text-center shadow-[var(--zeon-shadow-elevated)]">
-          <span className="text-[11px] text-[#5B6766]">Hub</span>
-          <span className="mt-1 text-[13px] font-medium text-[#111318]">
+          <span className="text-[11px] text-[#535862]">Hub</span>
+          <span className="mt-1 text-[13px] font-medium text-[#181D27]">
             AI Workspace
           </span>
         </div>
         {items.map((name) => (
           <div
             key={name}
-            className="rounded-full border border-[#DCE1E0] bg-white px-4 py-2 text-[13px] text-[#111318]"
+            className="rounded-full border border-[#E9EAEB] bg-white px-4 py-2 text-[13px] text-[#181D27]"
           >
             {name}
           </div>
         ))}
       </div>
-      <p className="relative mt-6 text-center text-[13px] text-[#5B6766]">
+      <p className="relative mt-6 text-center text-[13px] text-[#535862]">
         Connectors are scoped per engagement — illustrative catalogue from the
         product brief.
       </p>
@@ -99,8 +99,8 @@ export function IntegrationPhysics({ items, className }: Props) {
     const hub = Bodies.circle(w / 2, h / 2, 42, {
       isStatic: true,
       render: {
-        fillStyle: "#245BDB",
-        strokeStyle: "#7BA0FF",
+        fillStyle: "#1B46F5",
+        strokeStyle: "#8EB8FF",
         lineWidth: 2,
       },
     });
@@ -161,7 +161,7 @@ export function IntegrationPhysics({ items, className }: Props) {
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillText("AI Workspace", hub.position.x, hub.position.y);
-      ctx.fillStyle = "#111318";
+      ctx.fillStyle = "#181D27";
       ctx.font = "500 10px system-ui, sans-serif";
       for (const s of satellites) {
         const short =
@@ -218,7 +218,7 @@ export function IntegrationPhysics({ items, className }: Props) {
         className="block w-full touch-none"
         aria-label="Interactive integration map. Drag nodes around the AI Workspace hub."
       />
-      <p className="border-t border-[var(--zeon-border-blue)] px-5 py-3 text-center text-[13px] text-[#5B6766]">
+      <p className="border-t border-[var(--zeon-border-blue)] px-5 py-3 text-center text-[13px] text-[#535862]">
         Drag a system — springs keep it linked to AI Workspace. Connectors are
         scoped per engagement.
       </p>

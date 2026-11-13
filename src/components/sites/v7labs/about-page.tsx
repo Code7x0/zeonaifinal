@@ -82,7 +82,7 @@ export function AboutPage() {
             <FadeUp
               key={item.id}
               delay={staggerDelay(i, 0, 0.06)}
-              className={`border-[#DCE1E0] p-6 md:p-8 ${
+              className={`border-[#E9EAEB] p-6 md:p-8 ${
                 i % 2 === 0 ? "md:border-r" : ""
               } border-b`}
             >
@@ -90,7 +90,7 @@ export function AboutPage() {
               <h3 className="mt-3 font-[family-name:var(--font-aeonik)] text-[24px] tracking-[-0.02em]">
                 {item.title}
               </h3>
-              <p className="mt-3 text-[15px] leading-[1.55] text-[#5B6766]">
+              <p className="mt-3 text-[15px] leading-[1.55] text-[#535862]">
                 {item.body}
               </p>
             </FadeUp>
@@ -109,14 +109,14 @@ export function AboutPage() {
           {processSteps.map((step) => (
             <li
               key={step.id}
-              className="list-none rounded-[12px] border border-[#DCE1E0] bg-[#F6F4EF]/50 p-6"
+              className="list-none rounded-[12px] border border-[#E9EAEB] bg-[#FAFAFA]/50 p-6"
             >
               <p className="font-mono text-[11px] text-[#1d5fbf]">{step.id}</p>
               <h3 className="mt-3 font-[family-name:var(--font-aeonik)] text-[24px] tracking-[-0.02em]">
                 {step.title}
               </h3>
               <p className="mt-1 text-[12px] text-[#8A9493]">{step.timing}</p>
-              <p className="mt-4 text-[15px] leading-[1.55] text-[#5B6766]">
+              <p className="mt-4 text-[15px] leading-[1.55] text-[#535862]">
                 {step.body}
               </p>
             </li>

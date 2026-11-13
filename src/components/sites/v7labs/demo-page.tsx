@@ -64,7 +64,7 @@ export function DemoPage() {
         secondaryLabel="Explore DeepProbe"
       />
 
-      <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#DCE1E0]">
+      <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#E9EAEB]">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-start lg:gap-14">
           <div>
             <ChapterLabel>What we cover</ChapterLabel>
@@ -74,15 +74,15 @@ export function DemoPage() {
             </ChapterLead>
             <ol className="mt-10 space-y-6">
               {AGENDA.map((item) => (
-                <li key={item.n} className="flex gap-4 border-t border-[#DCE1E0] pt-5">
-                  <span className="font-mono text-[12px] text-[#245BDB]">
+                <li key={item.n} className="flex gap-4 border-t border-[#E9EAEB] pt-5">
+                  <span className="font-mono text-[12px] text-[#1B46F5]">
                     {item.n}
                   </span>
                   <div>
                     <p className="text-[16px] font-medium tracking-[-0.02em]">
                       {item.title}
                     </p>
-                    <p className="mt-1 max-w-[40ch] text-[14px] leading-[1.5] text-[#5B6766]">
+                    <p className="mt-1 max-w-[40ch] text-[14px] leading-[1.5] text-[#535862]">
                       {item.body}
                     </p>
                   </div>
@@ -103,7 +103,7 @@ export function DemoPage() {
               Until a form endpoint is wired, submissions are not delivered.
               Email remains the reliable path.
             </ChapterLead>
-            <p className="mt-6 text-[14px] text-[#5B6766]">
+            <p className="mt-6 text-[14px] text-[#535862]">
               Prefer email now:{" "}
               <a href="mailto:contact@zeonai.com" className="zeon-link">
                 contact@zeonai.com
@@ -114,7 +114,7 @@ export function DemoPage() {
           <form
             onSubmit={onSubmit}
             noValidate
-            className="border border-[#DCE1E0] bg-white p-6 md:p-8"
+            className="border border-[#E9EAEB] bg-white p-6 md:p-8"
           >
             <p className="text-[12px] text-[#9AA8A6]">
               Required unless marked optional.
@@ -125,10 +125,10 @@ export function DemoPage() {
               <Field label="Company" name="company" required />
               <Field label="Role or team" name="role" optional />
               <fieldset>
-                <legend className="text-[13px] text-[#111318]">
+                <legend className="text-[13px] text-[#181D27]">
                   Interested in
                 </legend>
-                <div className="mt-2 flex flex-wrap gap-3 text-[13px] text-[#5B6766]">
+                <div className="mt-2 flex flex-wrap gap-3 text-[13px] text-[#535862]">
                   {INTEREST.map((opt) => (
                     <label key={opt} className="inline-flex items-center gap-2">
                       <input type="radio" name="interest" value={opt} required />
@@ -138,7 +138,7 @@ export function DemoPage() {
                 </div>
               </fieldset>
               <label className="block">
-                <span className="text-[13px] text-[#111318]">
+                <span className="text-[13px] text-[#181D27]">
                   Process to discuss
                 </span>
                 <textarea
@@ -159,7 +159,7 @@ export function DemoPage() {
             {status === "error" ? (
               <p
                 role="alert"
-                className="mt-4 border border-[#DCE1E0] bg-[#F6F4EF] px-3 py-3 text-[13px] leading-[1.5] text-[#5B6766]"
+                className="mt-4 border border-[#E9EAEB] bg-[#FAFAFA] px-3 py-3 text-[13px] leading-[1.5] text-[#535862]"
               >
                 This form is not connected to a delivery endpoint yet. Please
                 email{" "}
@@ -174,7 +174,7 @@ export function DemoPage() {
               <ZeonButton type="submit" tone="ink">
                 Submit request
               </ZeonButton>
-              <Link href="/privacy-policy" className="text-[12px] text-[#5B6766]">
+              <Link href="/privacy-policy" className="text-[12px] text-[#535862]">
                 Privacy policy
               </Link>
             </div>
@@ -200,7 +200,7 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="text-[13px] text-[#111318]">
+      <span className="text-[13px] text-[#181D27]">
         {label}
         {optional ? (
           <span className="text-[#9AA8A6]"> · optional</span>

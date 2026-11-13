@@ -121,7 +121,7 @@ export function ArchitectureFlow({
                     className={cn(
                       "flex w-full items-center gap-3 rounded-[8px] border px-3 py-3 text-left transition-colors duration-200",
                       on
-                        ? "border-[#7BA0FF]/55 bg-[#245BDB]"
+                        ? "border-[#8EB8FF]/55 bg-[#1B46F5]"
                         : "border-white/12 bg-white/[0.04] hover:bg-white/[0.08]",
                     )}
                   >
@@ -148,7 +148,7 @@ export function ArchitectureFlow({
       </div>
 
       <div className="rounded-[12px] border border-white/12 bg-white/[0.04] p-6 md:p-8">
-        <p className="font-mono text-[11px] text-[#7BA0FF]">{current?.id}</p>
+        <p className="font-mono text-[11px] text-[#8EB8FF]">{current?.id}</p>
         <h3 className="mt-3 font-[family-name:var(--font-aeonik)] text-[28px] tracking-[-0.03em] text-white md:text-[34px]">
           {current?.title}
         </h3>
@@ -160,7 +160,7 @@ export function ArchitectureFlow({
             {current.details.map((d) => (
               <li
                 key={d}
-                className="border-l-2 border-[#356DFF]/60 pl-3 text-[13px] leading-[1.45] text-white/55"
+                className="border-l-2 border-[#2962FF]/60 pl-3 text-[13px] leading-[1.45] text-white/55"
               >
                 {d}
               </li>

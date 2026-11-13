@@ -200,7 +200,7 @@ export function SecondaryHero({
           <ChapterLabel tone={tone}>{label}</ChapterLabel>
           <h1
             className={cn(
-              "mt-4 font-[family-name:var(--font-aeonik)] text-[44px] leading-[1.02] tracking-[-0.045em] text-[#111318] md:text-[60px] lg:text-[68px]",
+              "mt-4 font-[family-name:var(--font-aeonik)] text-[44px] leading-[1.02] tracking-[-0.045em] text-[#181D27] md:text-[60px] lg:text-[68px]",
               centered ? "max-w-[16ch]" : "max-w-[14ch]",
             )}
           >

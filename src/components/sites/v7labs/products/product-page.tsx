@@ -42,7 +42,7 @@ export function ProductPage({ product }: { product: ProductDef }) {
         secondaryLabel="See how it works"
       />
 
-      <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#DCE1E0]">
+      <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#E9EAEB]">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start lg:gap-14">
           <div>
             <ChapterLabel>{product.brand}</ChapterLabel>
@@ -75,16 +75,16 @@ export function ProductPage({ product }: { product: ProductDef }) {
         </div>
       </Chapter>
 
-      <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#DCE1E0]">
+      <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#E9EAEB]">
         <ChapterLabel>Where it applies</ChapterLabel>
         <ChapterTitle>Use cases from the product brief.</ChapterTitle>
         <div className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {product.useCases.map((u) => (
-            <article key={u.title} className="border-t border-[#DCE1E0] pt-5">
+            <article key={u.title} className="border-t border-[#E9EAEB] pt-5">
               <h3 className="font-[family-name:var(--font-aeonik)] text-[22px] tracking-[-0.02em]">
                 {u.title}
               </h3>
-              <p className="mt-3 text-[14px] leading-[1.55] text-[#5B6766]">
+              <p className="mt-3 text-[14px] leading-[1.55] text-[#535862]">
                 {u.body}
               </p>
             </article>
@@ -111,7 +111,7 @@ export function ProductPage({ product }: { product: ProductDef }) {
               Full architecture page
             </Link>
           </Chapter>
-          <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#DCE1E0]">
+          <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#E9EAEB]">
             <ChapterLabel>Industries</ChapterLabel>
             <ChapterTitle>Regulated, document-heavy work.</ChapterTitle>
             <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -119,12 +119,12 @@ export function ProductPage({ product }: { product: ProductDef }) {
                 <Link
                   key={ind.id}
                   href={`/industries/${ind.id}`}
-                  className="block border border-[#DCE1E0] p-5 no-underline transition-colors hover:bg-[#F6F4EF]"
+                  className="block border border-[#E9EAEB] p-5 no-underline transition-colors hover:bg-[#FAFAFA]"
                 >
-                  <h3 className="text-[16px] font-medium tracking-[-0.02em] text-[#111318]">
+                  <h3 className="text-[16px] font-medium tracking-[-0.02em] text-[#181D27]">
                     {ind.label}
                   </h3>
-                  <p className="mt-2 text-[13px] leading-[1.5] text-[#5B6766]">
+                  <p className="mt-2 text-[13px] leading-[1.5] text-[#535862]">
                     {ind.intro}
                   </p>
                 </Link>
@@ -140,11 +140,11 @@ export function ProductPage({ product }: { product: ProductDef }) {
           <ChapterTitle>Straight answers.</ChapterTitle>
           <div className="mt-10 space-y-6">
             {product.faq.map((item) => (
-              <div key={item.q} className="border-t border-[#DCE1E0] pt-5">
+              <div key={item.q} className="border-t border-[#E9EAEB] pt-5">
                 <h3 className="text-[18px] font-medium tracking-[-0.02em]">
                   {item.q}
                 </h3>
-                <p className="mt-2 max-w-[52ch] text-[15px] leading-[1.55] text-[#5B6766]">
+                <p className="mt-2 max-w-[52ch] text-[15px] leading-[1.55] text-[#535862]">
                   {item.a}
                 </p>
               </div>
@@ -153,7 +153,7 @@ export function ProductPage({ product }: { product: ProductDef }) {
         </Chapter>
       ) : null}
 
-      <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#DCE1E0]">
+      <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#E9EAEB]">
         <ChapterLabel>Related</ChapterLabel>
         <ChapterTitle>Continue on the platform.</ChapterTitle>
         <ul className="mt-8 flex flex-wrap gap-3">
@@ -161,7 +161,7 @@ export function ProductPage({ product }: { product: ProductDef }) {
             <li key={l.href}>
               <Link
                 href={l.href}
-                className="inline-flex border border-[#DCE1E0] px-4 py-2 text-[14px] text-[#111318] no-underline transition-colors hover:border-[#111318]"
+                className="inline-flex border border-[#E9EAEB] px-4 py-2 text-[14px] text-[#181D27] no-underline transition-colors hover:border-[#181D27]"
               >
                 {l.label}
               </Link>

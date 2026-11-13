@@ -45,7 +45,7 @@ export function ConfigWorkbench() {
                 role="tab"
                 aria-selected={mode === id}
                 onClick={() => setMode(id)}
-                className="rounded-full px-3 py-1.5 text-[11px] font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#0977B3]/45"
+                className="rounded-full px-3 py-1.5 text-[11px] font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#2962FF]/45"
                 style={{
                   backgroundColor: mode === id ? Z.paper : "transparent",
                   color: mode === id ? Z.ink : Z.ink70,

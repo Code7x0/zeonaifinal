@@ -44,22 +44,22 @@ export function IndustriesIndexPage() {
             key={industry.id}
             tone={tone}
             min={false}
-            className="!min-h-0 border-b border-[#DCE1E0]"
+            className="!min-h-0 border-b border-[#E9EAEB]"
           >
             <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
               <FadeUp delay={staggerDelay(0, 0, 0.05)}>
                 <ChapterLabel tone={tone}>{industry.platform}</ChapterLabel>
-                <h2 className="mt-3 font-[family-name:var(--font-aeonik)] text-[36px] leading-[1.05] tracking-[-0.035em] text-[#111318] md:text-[48px]">
+                <h2 className="mt-3 font-[family-name:var(--font-aeonik)] text-[36px] leading-[1.05] tracking-[-0.035em] text-[#181D27] md:text-[48px]">
                   {industry.label}
                 </h2>
-                <p className="mt-4 max-w-[42ch] text-[16px] leading-[1.55] text-[#5B6766]">
+                <p className="mt-4 max-w-[42ch] text-[16px] leading-[1.55] text-[#535862]">
                   {industry.intro}
                 </p>
                 <div className="mt-6 flex flex-wrap gap-2">
                   {industry.process.map((step, si) => (
                     <span
                       key={step}
-                      className="inline-flex items-center gap-2 text-[13px] text-[#111318]"
+                      className="inline-flex items-center gap-2 text-[13px] text-[#181D27]"
                     >
                       {si > 0 ? (
                         <ArrowRight
@@ -83,7 +83,7 @@ export function IndustriesIndexPage() {
           </Chapter>
         );
       })}
-      <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#DCE1E0]">
+      <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#E9EAEB]">
         <ChapterLabel tone="paper">Same platform</ChapterLabel>
         <ChapterTitle>Sector agents. Shared governance.</ChapterTitle>
         <ChapterLead tone="paper">
@@ -115,14 +115,14 @@ export function IndustryDetailPage({ industry }: { industry: Industry }) {
         visual={industryVisual(industry.id)}
       />
       <Chapter tone="cream" min={false} className="!min-h-0">
-        <div className="grid gap-8 border-b border-[#DCE1E0] pb-10 md:grid-cols-2">
+        <div className="grid gap-8 border-b border-[#E9EAEB] pb-10 md:grid-cols-2">
           <div>
             <ChapterLabel tone="cream">Process</ChapterLabel>
             <div className="mt-4 flex flex-wrap items-center gap-2">
               {industry.process.map((step, i) => (
                 <span
                   key={step}
-                  className="inline-flex items-center gap-2 text-[18px] tracking-[-0.02em] text-[#111318]"
+                  className="inline-flex items-center gap-2 text-[18px] tracking-[-0.02em] text-[#181D27]"
                 >
                   {i > 0 ? (
                     <ArrowRight className="size-4 text-[#8A9493]" aria-hidden />
@@ -134,7 +134,7 @@ export function IndustryDetailPage({ industry }: { industry: Industry }) {
           </div>
           <div>
             <ChapterLabel tone="cream">Platform focus</ChapterLabel>
-            <p className="mt-4 text-[18px] text-[#111318]">{industry.platform}</p>
+            <p className="mt-4 text-[18px] text-[#181D27]">{industry.platform}</p>
           </div>
         </div>
         <ChapterLabel tone="cream">Use cases</ChapterLabel>
@@ -143,17 +143,17 @@ export function IndustryDetailPage({ industry }: { industry: Industry }) {
           {industry.useCases.map((uc, i) => (
             <article
               key={uc.title}
-              className={`border-[#DCE1E0] p-6 md:p-8 ${
+              className={`border-[#E9EAEB] p-6 md:p-8 ${
                 i % 2 === 0 ? "md:border-r" : ""
               } border-b`}
             >
               <h3 className="font-[family-name:var(--font-aeonik)] text-[24px] tracking-[-0.02em]">
                 {uc.title}
               </h3>
-              <p className="mt-4 text-[15px] leading-[1.55] text-[#5B6766]">
+              <p className="mt-4 text-[15px] leading-[1.55] text-[#535862]">
                 {uc.body}
               </p>
-              <p className="mt-4 text-[13px] text-[#5B6766]">
+              <p className="mt-4 text-[13px] text-[#535862]">
                 Human review sits on the exceptions and approvals that change a
                 record of value.
               </p>

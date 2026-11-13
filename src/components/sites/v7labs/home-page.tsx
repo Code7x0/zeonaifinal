@@ -17,7 +17,7 @@ import { TrustSection } from "./trust-section";
 export function V7HomePage() {
   return (
     <SmoothScroll>
-      <div className="v7-site min-h-screen bg-white text-black">
+      <div className="v7-site min-h-screen bg-[var(--color-bg-default,#FFFFFF)] text-[var(--color-text-heading,#181D27)]">
         <SiteHeader />
         <main>
           <Hero />

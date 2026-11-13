@@ -19,7 +19,7 @@ import { ArchitectureDemo } from "./architecture-demos";
 import { parseDetailPair } from "./architecture-illustrations";
 import { easeInOut } from "./motion";
 
-const BLACK = "#000000";
+const BLACK = "#181D27";
 const LAYER_COUNT = architectureLayers.length;
 /** Shorter pin distance so each layer resolves in ~one natural scroll gesture. */
 const DESKTOP_VH_PER_LAYER = 52;

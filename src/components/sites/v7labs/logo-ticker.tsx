@@ -105,18 +105,18 @@ export function LogoTicker() {
 
   return (
     <section
-      className="overflow-hidden border-y border-black/5 bg-white py-12 md:py-14"
+      className="zeon-section-surface overflow-hidden border-y border-[var(--dp-gray-200,#E9EAEB)] py-12 md:py-14"
       aria-label="Organizations we work with"
     >
       <div className="mx-auto max-w-[1200px] px-5 text-center md:px-8">
-        <p className="text-[13px] font-medium tracking-[0.04em] text-black/45 md:text-[14px]">
+        <p className="text-[13px] font-medium tracking-[0.04em] text-[var(--dp-gray-500,#717680)] md:text-[14px]">
           Selected organizations we work with
         </p>
       </div>
 
       <div className="relative mt-8 group/marquee">
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-white to-transparent md:w-28" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-white to-transparent md:w-28" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-[#FAFAFA] to-transparent md:w-28" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-[#FAFAFA] to-transparent md:w-28" />
 
         {reduceMotion ? (
           <div className="mx-auto flex max-w-[1180px] flex-wrap items-center justify-center gap-x-2 gap-y-1 px-4">

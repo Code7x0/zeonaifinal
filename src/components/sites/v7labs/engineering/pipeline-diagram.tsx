@@ -255,7 +255,7 @@ export function PipelineDiagram() {
                 key={s.id}
                 type="button"
                 onClick={() => setActive(i)}
-                className="rounded-md border px-3 py-2 text-left outline-none focus-visible:ring-2 focus-visible:ring-[#0977B3]/45"
+                className="rounded-md border px-3 py-2 text-left outline-none focus-visible:ring-2 focus-visible:ring-[#2962FF]/45"
                 style={{
                   borderColor: i === active ? Z.blue : Z.line,
                   backgroundColor: i === active ? `${Z.blue}10` : Z.paper,

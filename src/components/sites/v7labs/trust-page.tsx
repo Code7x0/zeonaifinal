@@ -78,7 +78,7 @@ export function TrustPage() {
               <h3 className="mt-3 font-[family-name:var(--font-aeonik)] text-[22px] tracking-[-0.02em]">
                 {step.title}
               </h3>
-              <p className="mt-3 text-[15px] leading-[1.5] text-[#5B6766]">
+              <p className="mt-3 text-[15px] leading-[1.5] text-[#535862]">
                 {step.body}
               </p>
             </li>
@@ -91,8 +91,8 @@ export function TrustPage() {
         <ChapterLead>
           Who can see a case is separate from who can act on it.
         </ChapterLead>
-        <div className="mt-10 overflow-hidden rounded-[12px] border border-[#DCE1E0]">
-          <div className="grid grid-cols-3 gap-0 border-b border-[#DCE1E0] bg-[#F6F4EF] px-4 py-3 text-[12px] font-medium text-[#5B6766] md:px-6">
+        <div className="mt-10 overflow-hidden rounded-[12px] border border-[#E9EAEB]">
+          <div className="grid grid-cols-3 gap-0 border-b border-[#E9EAEB] bg-[#FAFAFA] px-4 py-3 text-[12px] font-medium text-[#535862] md:px-6">
             <span>Tier</span>
             <span>Can see</span>
             <span>Can act</span>
@@ -100,11 +100,11 @@ export function TrustPage() {
           {VISIBILITY.map((row) => (
             <div
               key={row.tier}
-              className="grid grid-cols-3 gap-0 border-b border-[#DCE1E0] px-4 py-5 text-[14px] last:border-b-0 md:px-6"
+              className="grid grid-cols-3 gap-0 border-b border-[#E9EAEB] px-4 py-5 text-[14px] last:border-b-0 md:px-6"
             >
-              <span className="font-medium text-[#111318]">{row.tier}</span>
-              <span className="text-[#5B6766]">{row.see}</span>
-              <span className="text-[#5B6766]">{row.act}</span>
+              <span className="font-medium text-[#181D27]">{row.tier}</span>
+              <span className="text-[#535862]">{row.see}</span>
+              <span className="text-[#535862]">{row.act}</span>
             </div>
           ))}
         </div>
@@ -156,12 +156,12 @@ export function TrustPage() {
           {trustItems.map((item) => (
             <article
               key={item.title}
-              className="rounded-[12px] border border-[#DCE1E0] bg-white p-5"
+              className="rounded-[12px] border border-[#E9EAEB] bg-white p-5"
             >
               <h3 className="font-[family-name:var(--font-aeonik)] text-[18px] tracking-[-0.02em]">
                 {item.title}
               </h3>
-              <p className="mt-2 text-[14px] leading-[1.55] text-[#5B6766]">
+              <p className="mt-2 text-[14px] leading-[1.55] text-[#535862]">
                 {item.body}
               </p>
             </article>
@@ -174,7 +174,7 @@ export function TrustPage() {
               <Link
                 key={d}
                 href="/deployment"
-                className="rounded-full border border-[#DCE1E0] bg-white px-4 py-2 text-[13px] text-[#111318] no-underline transition hover:border-[#1d5fbf]/40"
+                className="rounded-full border border-[#E9EAEB] bg-white px-4 py-2 text-[13px] text-[#181D27] no-underline transition hover:border-[#1d5fbf]/40"
               >
                 {d}
               </Link>

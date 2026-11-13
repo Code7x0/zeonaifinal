@@ -107,7 +107,7 @@ const PLATFORM_TABS: {
 
 export function FeatureBentos() {
   return (
-    <section id="platform" className="scroll-mt-24 bg-white">
+    <section id="platform" className="zeon-section-tint scroll-mt-24">
       <Feature108
         heading="How ZeonAI is shaping decisions across the enterprise"
         description="One platform, every business process, and one place to enhance them — with access control and an audit log built in."

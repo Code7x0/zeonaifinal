@@ -16,7 +16,7 @@ const PALETTES: Record<Variant, Palette> = {
   light: {
     ink: "#292929",
     line: "#292929",
-    blue: "#0977B3",
+    blue: "#2962FF",
     muted: "#9a9a9a",
     surface: "#fff",
     panel: "#f7f7f7",

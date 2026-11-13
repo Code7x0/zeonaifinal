@@ -14,7 +14,7 @@ function DemoChrome({
 }) {
   return (
     <div className="flex h-full flex-col overflow-hidden rounded-lg border border-white/12 bg-black shadow-[0_24px_60px_rgba(0,0,0,0.55)]">
-      <div className="flex h-8 shrink-0 items-center gap-2 border-b border-white/10 bg-[#0a0a0a] px-3">
+      <div className="flex h-8 shrink-0 items-center gap-2 border-b border-white/10 bg-[#181D27] px-3">
         <span className="flex gap-1" aria-hidden>
           <span className="size-1.5 rounded-full bg-white/25" />
           <span className="size-1.5 rounded-full bg-white/25" />

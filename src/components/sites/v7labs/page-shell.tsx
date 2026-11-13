@@ -16,7 +16,7 @@ type PageShellProps = {
 export function PageShell({ children, className = "" }: PageShellProps) {
   return (
     <SmoothScroll>
-      <div className={`v7-site min-h-screen bg-white text-[#111318] ${className}`}>
+      <div className={`v7-site min-h-screen bg-white text-[#181D27] ${className}`}>
         <SiteHeader />
         <main>{children}</main>
         <SiteFooter />
@@ -42,16 +42,16 @@ export function PageHero({
 }: PageHeroProps) {
   void _dark;
   return (
-    <header className="border-b border-[#DCE1E0] bg-white px-5 py-16 text-[#111318] md:px-8 md:py-24">
+    <header className="border-b border-[#E9EAEB] bg-white px-5 py-16 text-[#181D27] md:px-8 md:py-24">
       <div className="mx-auto max-w-[1180px]">
-        <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#5B6766]">
+        <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#535862]">
           {eyebrow}
         </p>
         <h1 className="mt-4 max-w-[18ch] font-[family-name:var(--font-aeonik)] text-[40px] leading-[1.05] tracking-[-0.04em] md:text-[56px]">
           {title}
         </h1>
         {intro ? (
-          <p className="mt-5 max-w-[52ch] text-[17px] leading-[1.55] text-[#5B6766]">
+          <p className="mt-5 max-w-[52ch] text-[17px] leading-[1.55] text-[#535862]">
             {intro}
           </p>
         ) : null}
@@ -83,7 +83,7 @@ export function PageCtaBand({
   return (
     <section
       className={`px-5 py-16 md:px-8 md:py-20 ${
-        dark ? "bg-[#010F0F] text-white" : "bg-[#F6F4EF] text-[#111318]"
+        dark ? "bg-[#181D27] text-white" : "bg-[#FAFAFA] text-[#181D27]"
       }`}
     >
       <div className="mx-auto flex max-w-[1180px] flex-col gap-6 md:flex-row md:items-end md:justify-between">
@@ -93,7 +93,7 @@ export function PageCtaBand({
           </h2>
           <p
             className={`mt-3 text-[16px] leading-[1.55] ${
-              dark ? "text-white/55" : "text-[#5B6766]"
+              dark ? "text-white/55" : "text-[#535862]"
             }`}
           >
             {body}
