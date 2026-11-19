@@ -164,7 +164,7 @@ export function FinalCta() {
         <form
           onSubmit={onSubmit}
           autoComplete="on"
-          className="relative min-w-0 overflow-hidden rounded-[12px] border border-white/12 bg-[#0A0A0C]/92 p-5 shadow-[0_24px_80px_-40px_rgba(0,0,0,0.55)] backdrop-blur-xl sm:p-7"
+          className="zeon-glass-float relative min-w-0 overflow-hidden border-white/12 bg-[rgba(10,10,12,0.88)] p-5 sm:p-7"
           style={{
             backgroundImage:
               "linear-gradient(165deg, rgba(18,18,20,0.96) 0%, rgba(10,10,12,0.94) 48%, rgba(8,8,10,0.96) 100%)",

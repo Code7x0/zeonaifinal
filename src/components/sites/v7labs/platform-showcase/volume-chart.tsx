@@ -201,7 +201,7 @@ export function VolumeChart({ data, rangeLabel }: VolumeChartProps) {
           <span key={d.label}>{d.label}</span>
         ))}
       </div>
-      <p className="sr-only">Peak illustrative volume near {Math.round(max)}</p>
+      <p className="sr-only">Peak sample volume near {Math.round(max)}</p>
     </div>
   );
 }

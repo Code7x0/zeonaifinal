@@ -1,4 +1,4 @@
-/** ZeonAI / DeepProbe palette — Engineering section. */
+/** ZeonAI brand palette — Engineering section. */
 import { brand, DP } from "../palette";
 
 export const Z = {

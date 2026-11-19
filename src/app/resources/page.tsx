@@ -4,7 +4,7 @@ import { ResourcesPage } from "@/components/sites/v7labs/resources-page";
 export const metadata: Metadata = {
   title: "Resources | ZeonAI",
   description:
-    "Editorial resources and product notes. Case studies and DeepDelve product pages while articles are prepared.",
+    "Engineering notes, case studies and product pages from ZeonAI.",
 };
 
 export default function ResourcesRoute() {

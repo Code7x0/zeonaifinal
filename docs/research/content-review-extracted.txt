@@ -1,0 +1,395 @@
+ZeonAI Website — Content Review
+Nov 17, 2026 · @Biswa Gourav SIngh
+The site is well built and consistent in design, but the copy is not ready to launch. Internal drafting notes are published as page text on about 15 pages, and the pages disagree with each other on products, modules, offices and sectors. This review covers the copy on all 44 pages of the staging site.
+Decisions
+Confirmed by Biswa on 17 Nov 2026. These settle the discrepancies listed further down; where the two disagree, this table wins.
+Topic
+Decision
+What the web team does
+Manifest AI
+Channel partner, a separate company
+Replace "the consulting arm" on /about and /how-we-work with channel-partner wording
+Certifications
+ISO/IEC 42001, ISO 27001, SOC 2 Type I and SOC 2 Type II are held
+Show all four with official marks; remove every "to confirm" label
+Module count
+9 modules
+Use 9 everywhere; remove Dashboard, Notifications and Search from the home role picker and governance widget
+Agent count
+Keep "50+"
+Expand /agent-library beyond the 17 listed so the page supports the number
+Locations
+India, UAE, Australia / Pacific, USA
+Use this list in the footer and on /about; remove Canada and the city-by-city Australian list
+Sectors
+Merge both lists
+Keep the six sector pages and add Construction, Telco and Medtech; align the /about sector line
+Customer names
+Named, with logos
+Put the customer name and logo on each case study; align the logo strip with approved clients
+Defense deployment
+"A national defense customer"
+Do not name the customer anywhere on the site
+Connectors
+Full list
+ERP: SAP, Oracle, Dynamics 365, NetSuite, Xero, Yardi, Pronto, TechnologyOne, MYOB, Sage, Infor, Epicor, Workday. Data: Oracle data warehouse, Snowflake, Databricks, SQL Server, PostgreSQL, MySQL, BigQuery, Redshift, Teradata. Documents: SharePoint, OneDrive, Google Drive, email
+Color palette
+Staging site palette
+Keep the bright blue and dark navy as built; the October brief palette is not used
+Hero message
+Agents first
+Rewrite the homepage headline around building agents for medium to large enterprises
+Spelling
+American
+organization, color, optimize, defense, license; change "organisation" in the product mock-ups
+The five biggest problems
+Internal notes are live on the page. About 15 pages carry lines written for the copywriter, not the buyer. The full list is in the next section.
+Three product naming systems. The platform is "AI Workspace". /products is headed "DeepDelve family" and lists "DeepDelve® DeepProbe", InvoiceAI, CashfloAI and DocAI. Mock-ups say "DeepProbe · Ask AI". Decided: DeepDelve becomes Agent Hub and DeepProbe becomes AI Workspace everywhere; see the naming section below.
+The site sells by saying what it is not. "Not slideware", "not bolted on", "not a universal plug-and-play claim", "not a guarantee", "not a performance claim". The tone is defensive and undersells the product.
+Agents are buried. ZeonAI builds agents for medium to large enterprises, but the hero headline does not mention agents and Agent Hub is module 09 of 9.
+Proof is anonymous and does not match the logos. All four case studies are unnamed. The logo strip shows ten organisations; the October brief lists a different client set (Telikom PNG, PMO PNG, Post-Courier, HL Landscapes, Orthocell, Paladin), none of which appear.
+Naming: DeepDelve becomes Agent Hub, DeepProbe becomes AI Workspace
+Replace "DeepDelve" with "Agent Hub" everywhere it appears. It occurs 15 times across six pages, plus the header menu. Drop the ® unless "Agent Hub" is a registered mark.
+Where
+As published
+Change to
+Header menu, Product
+"DeepDelve DocAI, InvoiceAI, CashfloAI, DeepProbe and AI Workspace modules"
+"Agent Hub DocAI, InvoiceAI, CashfloAI and AI Workspace modules"
+/products intro
+"DeepDelve products and AI Workspace capabilities"
+"Agent Hub products and AI Workspace capabilities"
+/products section heading
+"DeepDelve family"
+"Agent Hub family"
+/products cards, product page headings and browser tab titles
+"DeepDelve® InvoiceAI", "DeepDelve® CashfloAI", "DeepDelve® DocAI"
+"Agent Hub InvoiceAI", "Agent Hub CashfloAI", "Agent Hub DocAI"
+/products card, /products/deepprobe heading and tab title
+"DeepDelve® DeepProbe"
+"AI Workspace"
+Four product pages, closing line
+"We will show the relevant DeepDelve surface with governance in view."
+"We will show the relevant Agent Hub product with governance in view."
+/demo form, "Interested in"
+Options: AI Workspace, Agent Hub, DeepDelve products, Both
+Remove "DeepDelve products"; "Agent Hub" is already an option
+DeepProbe becomes AI Workspace everywhere. Besides the product card and page in the table, it also appears in these places:
+Mock-up label "DeepProbe · Ask AI" on /demo and /products/deepprobe: change to "AI Workspace · Ask AI".
+"Related" links on the DocAI and CashfloAI pages: relabel "AI Workspace".
+The FAQ answer on /products/deepprobe ("DeepProbe answers from your repositories…"): start it with "AI Workspace".
+The link list on /resources.
+The page address /products/deepprobe: rename it and redirect the old address.
+Internal notes to remove (claims stay)
+Each line below is a drafting note published as visible page text. Remove the note only. Keep the product claim it sits beside: figures, certifications, connectors and outcomes all stay.
+Page
+Line as published
+Action
+Home
+"Outcomes from selected deployments. Figures to confirm before public launch." (appears twice)
+Keep the figures; delete the note
+Home
+"STATUS TO CONFIRM" on SOC 2, ISO 27001 and GDPR
+Keep the certifications; remove only the "status to confirm" label
+Home
+"Module boxes stay put — only the ticks, counts and agents change."
+Delete
+Home
+"AFTER THE PLATFORM" label above "Who are you?"
+Delete
+/platform
+"The sheet on the right is an HTML product fragment — labels and flows from the ZeonAI brief, not invented metrics."
+Delete
+/platform
+"Portfolio examples — maturity varies by engagement."
+Delete
+/platform
+"Connectors are scoped per engagement — not a universal plug-and-play claim." and "illustrative catalogue from the product brief"
+Replace with "Connectors are scoped per engagement."
+/platform/agent-hub, /agents
+"portfolio note: about 30% in production, about 50% in pilot/developed, about 20% still to be developed"
+Delete
+/platform/agent-hub, /agents
+"Portfolio maturity varies by agent."
+Delete
+/platform/app-hub
+"Coming-soon items are labelled and not presented as generally available."
+Delete
+Nine capability pages
+"Read-only trail — illustrative layout from the product brief."
+Replace with "Sample data"
+/agent-library
+"Illustrative catalogue from the product brief — not a guarantee that every agent is generally available."
+Delete
+/integrations
+"Availability depends on the customer environment. Confirm supported connectors with the product team before environment-specific claims."
+Delete
+/integrations
+"Drag a node to feel how each system stays linked to AI Workspace."
+Delete or rewrite as a plain caption
+/products/deepprobe
+"Interface below uses illustrative sample data so the layout stays readable — not a live customer claim."
+Replace with "Sample data"
+/products/deepprobe
+"Use cases from the product brief."
+Replace with "Use cases"
+/products/invoiceai
+"Do not treat the product as autonomous posting."
+Replace with "A person approves every exception before anything posts."
+/products/cashfloai
+"Values are illustrative sample data for UI demonstration — not a performance claim."
+Replace with "Sample data"
+/products/cashfloai
+"Underwriting parameters inform a human decision, not an invented score claim."
+Replace with "Underwriting parameters inform a human decision."
+/demo
+"Framed as a working session outline — not a guarantee of outcomes."
+Delete
+/how-we-work
+"Timelines are the engagement pattern in the product brief — not a contractual guarantee for every project."
+Replace with "Typical timeline; confirmed during discovery."
+/about
+"They shape the product, the engagements and this website."
+Delete
+/about
+Principle 04: "Say it once, quietly… never overclaim."
+Delete; it is a style rule, not a company principle
+/trust
+"Practices from the brief"
+Replace with "Security practices"
+/trust
+"Certification status and environment-specific controls require confirmation before stronger public claims."
+Delete
+/security
+"Verify certification status, encryption, 2FA, archiving, DR and data sovereignty with the security owner before stronger public claims."
+Delete
+/responsible-ai
+"Formal AI ethics policies from related company materials require confirmation before publication as ZeonAI product commitments."
+Delete
+/deployment
+"Do not treat this list as a guarantee of native support in every region or classification."
+Replace with "Deployment is scoped during discovery."
+/contact
+"No contact form endpoint is configured on this site yet — we do not show a fake success state. Email is the working path."
+Delete; connect the form or remove it
+/resources
+"Waiting on approved copy. We do not invent thought leadership titles, authors or dates… Placeholder. Empty state: no published resources in the local content pack yet."
+Replace with links to the published engineering notes, or hide the page
+Discrepancies between pages
+Most rows are now settled in the Decisions table at the top; apply the same answer everywhere.
+Topic
+One place says
+Another place says
+Module count
+Home role picker: 12 modules
+/platform: 9 modules; home governance widget: a different 9
+Modules with no page
+Home lists Dashboard, Notifications and Search
+No page exists for any of the three
+Agent count
+Home: "50+ agents"
+/agent-library lists 17
+Offices
+Footer: India, UAE, Canada
+/about: Brisbane, Perth, Sydney, Melbourne, Pacific, UAE
+Sectors
+/about: Financial services, Construction, Public sector, Medtech, Telco, Property
+Industry pages: Financial, Superannuation, Media, Government, Defence, Metals
+Manifest AI
+/about: "the consulting arm"
+To confirm: Manifest is understood to be a channel partner and a separate company
+Certifications
+/trust: SOC 2, ISO 27001, GDPR "to confirm"
+Keep these claims and remove "to confirm"; add ISO/IEC 42001 and SOC 2 Type I
+Connectors
+/integrations: SAP, Microsoft 365, Dynamics 365, NetSuite, SharePoint
+Also supported: Yardi, Xero, Pronto, TechnologyOne, Snowflake, Databricks
+Market signals
+Most mock-ups are Australian (LVR, ABN, Pty Ltd)
+/engineering uses GST at 18% and 2025 dates
+Case study coverage
+Six industry pages
+Case studies exist for three sectors only
+Company name
+Footer: "Zeon AI Labs Private Ltd"
+Demo form: "ZeonAI Labs"
+Spelling
+Logo strip: "organizations"
+Product mock-ups: "organisation"
+Encryption claim
+/trust: "End-to-end encryption for data at rest and in transit"
+Keep the claim; optional tighter wording: encrypted at rest and in transit
+Page by page
+Pages
+State
+Main issue
+Fix
+Home
+Strong but long
+The six-layer story is told twice; no product visual in the hero; placeholder notes
+Cut one six-layer section; put a product visual in the hero
+/platform
+Good structure
+Internal notes; repeats the six layers a third time
+Remove notes; link to /architecture instead of repeating it
+Nine capability pages
+Thin
+About 40% of each is boilerplate; the same invoice audit log appears on all nine, including Quotes and Opportunity
+Give each page its own example, audit sample and one proof point
+/agents, /platform/agent-hub
+Duplicate
+Identical pages
+Keep one, redirect the other
+/agent-library
+Very thin
+17 agent names with no description
+One line per agent: what it reads, what it produces
+/products and four product pages
+Best written
+Legacy "DeepDelve" naming; FAQ answers written as warnings
+Rename to Agent Hub; rewrite FAQs as plain answers
+/industries and six sector pages
+Thinnest section
+Each sector page is four one-line use cases; Government, Defence and Metals have no proof
+Add the sector problem, one worked example and one proof point each
+/customers and four case studies
+Solid template
+All anonymous; "10,000+ users onboarded" is unclear in a document-processing story
+Name at least two customers; check each figure
+/architecture, /engineering
+Detailed
+Overlap with each other and with Home
+Keep both, cross-link, and remove the Home duplicate
+/integrations
+Very thin
+Six names
+List the full connector set by group: ERP, data platforms, documents
+/about, /how-we-work
+Thin
+No founders, founding year, team size, certifications or programmes; delivery steps duplicated
+Add company facts; fold How we work into About
+/trust, /security, /responsible-ai, /deployment
+Thin and hedged
+/security is a subset of /trust; /deployment is five words and a warning
+Merge Security into Trust; describe the three deployment modes properly
+/demo, /contact
+Functional
+Contact form not connected
+Connect or remove the form
+/resources
+Empty
+Placeholder text
+Link the published engineering notes
+Privacy, Terms
+Not reviewed for legal accuracy
+
+Legal review before launch
+Also missing: sitemap.xml and robots.txt both return 404, and the homepage has no social share image.
+Visual additions: logos, badges and imagery
+Logos and badges lift the site most on the pages that are text-only today. In priority order:
+#
+Where
+Add
+Why it works
+1
+/integrations
+A logo wall grouped as ERP, data platforms and documents, replacing the generic invoice mock-up
+The page is six text names today; logos show the breadth at a glance
+2
+Home, under the product section
+A "Works with" strip of 8–10 connector logos
+A second proof strip that answers "will it fit our systems" early
+3
+/platform and the Technology page, connector sections
+Logos in place of the text chips
+Same list, far more recognisable
+4
+/trust, /security, home security block
+Official ISO/IEC 42001 and SOC 2 marks instead of text pills
+Badges read as proof; text pills read as claims
+5
+/deployment and the Technology page deployment modes
+AWS, Azure and Google Cloud logos on the cloud mode
+Makes the three modes scannable
+6
+Home and /about
+A "Partners and programmes" strip: Manifest, Datec, Upekkha, Amii
+Credibility the company has but the site does not show
+7
+Home client strip
+All logos in one grey tone at one height
+Today they are mixed colours and sizes, and one sits in a white box
+8
+Four case study pages
+Customer logo at the top, plus a named quote with a headshot where cleared
+Turns an anonymous story into evidence
+9
+/about
+Founder photos, a map with office pins, and a short timeline from 2021
+The page has no people or places on it
+10
+/agent-library
+One icon per agent, colour-coded by the four categories
+Turns a plain list of 17 names into a browsable catalogue
+11
+Six industry pages, /integrations, /about
+A hero visual specific to each page
+Sector pages have text-only heroes; Integrations and About reuse the same faded invoice mock-up
+Rules for the designer:
+One treatment: all third-party logos in a single grey, equal height, with colour only on hover.
+Official files only: take each logo from the vendor&apos;s brand page and follow its usage rules.
+Only what is true: show a connector logo only if that connector works today, and a certification mark only if it is held.
+No model-vendor logos: the brief says to stay model-agnostic.
+Video placements
+The site has one video today, a decorative loop beside the demo form. Add real product footage in these eight places, in this order.
+#
+Where
+What the video shows
+Format
+1
+Home hero
+Ask AI answering a question with citations appearing, in a browser frame under the headline
+20–30s silent loop, autoplay
+2
+Home, six-tab product section
+One real screen recording per tab, replacing the coded mock-ups
+10–15s silent loop per tab
+3
+Capability pages (/platform/ask-ai, /platform/dashboards, /agents and the rest)
+A walkthrough of that capability at the top of the page
+60–90s, click to play, captions
+4
+Four case study pages
+The workflow before and after, or a customer on camera if cleared
+30–45s
+5
+Technology page
+Rule builder, rerun from any step, and "view calculation" on a dashboard
+10–20s silent loops, replacing three mock-ups
+6
+Industry pages
+One sector use case each
+30s
+7
+About
+Founder on why governed AI, and how we work with customers
+60–90s, click to play
+8
+Demo page
+"What you will see in the demo", replacing the decorative animation
+45–60s
+Rules for every clip:
+Loops: muted, under 30 seconds, a still image shown first, loaded only when scrolled into view.
+Longer videos: click to play, with captions. Never autoplay with sound.
+Content: sample data only; no customer names or figures visible in a recording.
+Consistency: the same browser frame, zoom level and cursor style across all clips, at 16:9.
+Not on: trust, security and legal pages, architecture diagrams, or as a page background.
+Fix order
+☐ Remove every internal note and placeholder listed above, keeping the claims. One sweep; the main launch blocker.
+☐ Replace DeepDelve with Agent Hub and DeepProbe with AI Workspace everywhere, per the naming section.
+☐ Reconcile every row in the discrepancy table.
+☐ Merge duplicates: the two Agent Hub pages, Security into Trust, How we work into About.
+☐ Thicken the industry pages, the agent library and integrations.
+☐ Name at least two customers and align the logo strip with approved clients.
+☐ Rewrite the negative lines as positive claims, and put agents in the hero.
+☐ Add sitemap.xml, robots.txt and a social share image.

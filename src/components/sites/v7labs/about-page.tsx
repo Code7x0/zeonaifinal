@@ -11,8 +11,9 @@ import {
   SecondaryCta,
   SecondaryHero,
 } from "./secondary/chapter";
-import { WorkflowMock } from "./secondary/product-mocks";
 import { FadeUp } from "./fade-up";
+import { VideoSection } from "@/components/sites/v7labs/video";
+import { PartnersProgramsStrip } from "./partners-programs-strip";
 import { staggerDelay } from "./motion";
 
 const PRINCIPLES = [
@@ -24,17 +25,12 @@ const PRINCIPLES = [
   {
     id: "02",
     title: "Action and attention",
-    body: "Minimise the time something takes and the cognitive load of doing it. The page as much as the product.",
+    body: "Minimize the time something takes and the cognitive load of doing it. The page as much as the product.",
   },
   {
     id: "03",
     title: "People decide",
     body: "Agents extract, match and draft. Anything that changes a record of value goes to a named person first, and the log says who.",
-  },
-  {
-    id: "04",
-    title: "Say it once, quietly",
-    body: "Short lines, one idea at a time, no superlatives. Name the workflow, give the number, never overclaim.",
   },
 ] as const;
 
@@ -44,28 +40,45 @@ export function AboutPage() {
       <SecondaryHero
         label="About ZeonAI"
         title="Built with the people who'll use it."
-        lead="ZeonAI Labs builds AI Workspace. Manifest AI is the consulting arm that discovers friction, designs agents and takes use cases into production on the same platform."
+        lead="ZeonAI Labs builds AI Workspace. Manifest AI is a channel partner and separate company that discovers friction, designs agents and takes use cases into production on the same platform."
         tone="ink"
         primaryHref="/demo"
         primaryLabel="Talk to our team"
-        secondaryHref="/how-we-work"
+        secondaryHref="/about#how-we-work"
         secondaryLabel="How we work"
-        visual={<WorkflowMock />}
       />
+
+      <Chapter tone="paper" min={false} className="!min-h-0">
+        <VideoSection
+          assetId="about-founder"
+          eyebrow="Governed AI"
+          headline="Why governed AI matters."
+          body="We work alongside customers on document-heavy workflows — access control, human review and an audit log are part of the platform, not an afterthought."
+          after="What you will see when founder footage is ready: how ZeonAI partners through discovery and into production."
+          layout="split"
+          cta={
+            <Link href="/demo" className="zeon-btn zeon-btn-ink">
+              Talk to our team
+            </Link>
+          }
+        />
+      </Chapter>
+
+      <PartnersProgramsStrip variant="paper" />
 
       <Chapter tone="royal" min={false} className="!min-h-0">
         <div className="grid gap-10 md:grid-cols-2">
           <div>
             <ChapterLabel tone="royal">Presence</ChapterLabel>
             <p className="mt-3 text-[20px] leading-[1.4] tracking-[-0.02em] text-white">
-              Brisbane · Perth · Sydney · Melbourne · Pacific · UAE
+              India · United Arab Emirates · Canada
             </p>
           </div>
           <div>
             <ChapterLabel tone="royal">Sectors</ChapterLabel>
             <p className="mt-3 text-[20px] leading-[1.4] tracking-[-0.02em] text-white">
-              Financial services · Construction · Public sector · Medtech ·
-              Telco · Property
+              Financial services · Superannuation · Media · Government · Defense ·
+              Metals and manufacturing · Construction · Medtech · Telco · Property
             </p>
           </div>
         </div>
@@ -73,10 +86,7 @@ export function AboutPage() {
 
       <Chapter tone="sky" min={false} className="!min-h-0">
         <ChapterLabel tone="sky">Principles</ChapterLabel>
-        <ChapterTitle>Four things we hold to.</ChapterTitle>
-        <ChapterLead tone="sky">
-          They shape the product, the engagements and this website.
-        </ChapterLead>
+        <ChapterTitle>Three things we hold to.</ChapterTitle>
         <div className="mt-12 grid gap-0 md:grid-cols-2">
           {PRINCIPLES.map((item, i) => (
             <FadeUp
@@ -102,8 +112,8 @@ export function AboutPage() {
         <ChapterLabel>How we work</ChapterLabel>
         <ChapterTitle>Problem to production.</ChapterTitle>
         <ChapterLead>
-          Manifest AI runs discovery and delivery beside the product team —
-          consulting arm, not a separate stack.
+          Manifest AI is a channel partner and separate company that runs
+          discovery and delivery beside the ZeonAI Labs product team.
         </ChapterLead>
         <ol className="mt-12 grid gap-4 md:grid-cols-3">
           {processSteps.map((step) => (
@@ -122,9 +132,13 @@ export function AboutPage() {
             </li>
           ))}
         </ol>
-        <Link href="/how-we-work" className="zeon-link-arrow mt-8 inline-flex">
-          Full delivery page
-        </Link>
+        <p className="mt-8 text-[13px] text-[#535862]">
+          Full delivery steps are on this page — see{" "}
+          <a href="#how-we-work" className="zeon-link">
+            How we work
+          </a>
+          .
+        </p>
       </Chapter>
 
       <SecondaryCta

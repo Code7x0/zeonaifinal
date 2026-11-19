@@ -4,7 +4,7 @@ import { DeploymentPage } from "@/components/sites/v7labs/ia-pages";
 export const metadata: Metadata = {
   title: "Deployment options | ZeonAI",
   description:
-    "On-premises, private cloud and major clouds — confirm per engagement.",
+    "On-premises, private cloud and major clouds — scoped during discovery.",
 };
 
 export default function DeploymentRoute() {

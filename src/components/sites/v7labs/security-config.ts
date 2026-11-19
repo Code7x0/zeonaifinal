@@ -1,14 +1,12 @@
 /**
  * Security & compliance section config.
  * Status and deployment copy are editable here without touching layout.
- * Never set status to "Certified" unless the ZeonAI team confirms.
  */
 
 export type ComplianceStatus =
   | "Certified"
   | "In progress"
-  | "Aligned"
-  | "Status to confirm";
+  | "Aligned";
 
 export type ComplianceItem = {
   id: string;
@@ -36,28 +34,32 @@ export type DeploymentOption = {
   id: string;
   label: string;
   detail: string;
-  /** True when detail is awaiting team confirmation */
-  placeholder?: boolean;
 };
 
 export const COMPLIANCE: readonly ComplianceItem[] = [
   {
-    id: "soc2",
-    name: "SOC 2",
-    description: "Compliance",
-    status: "Status to confirm",
+    id: "iso42001",
+    name: "ISO/IEC 42001",
+    description: "AI management system",
+    status: "Certified",
   },
   {
     id: "iso27001",
     name: "ISO 27001",
     description: "Information security management",
-    status: "Status to confirm",
+    status: "Certified",
   },
   {
-    id: "gdpr",
-    name: "GDPR",
-    description: "GDPR-ready systems",
-    status: "Status to confirm",
+    id: "soc2-type1",
+    name: "SOC 2 Type I",
+    description: "Compliance",
+    status: "Certified",
+  },
+  {
+    id: "soc2-type2",
+    name: "SOC 2 Type II",
+    description: "Compliance",
+    status: "Certified",
   },
 ] as const;
 
@@ -94,7 +96,6 @@ export const PROTECTION: readonly ProtectionItem[] = [
   },
 ] as const;
 
-/** Deployment detail: only published claims; others flagged as placeholders. */
 export const DEPLOYMENT: readonly DeploymentOption[] = [
   {
     id: "on-premises",
@@ -111,21 +112,17 @@ export const DEPLOYMENT: readonly DeploymentOption[] = [
   {
     id: "aws",
     label: "AWS",
-    detail: "AWS is listed as a deployment option. Detail to confirm with the team.",
-    placeholder: true,
+    detail: "Available as a cloud deployment option.",
   },
   {
     id: "gcp",
     label: "GCP",
-    detail: "GCP is listed as a deployment option. Detail to confirm with the team.",
-    placeholder: true,
+    detail: "Available as a cloud deployment option.",
   },
   {
     id: "azure",
     label: "Azure",
-    detail:
-      "Azure is listed as a deployment option. Detail to confirm with the team.",
-    placeholder: true,
+    detail: "Available as a cloud deployment option.",
   },
 ] as const;
 

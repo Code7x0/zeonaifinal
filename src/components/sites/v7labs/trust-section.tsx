@@ -21,7 +21,7 @@ import {
 } from "./trust-config";
 import { easeOut } from "./motion";
 
-/** DeepProbe inverse surfaces for Governed by Design. */
+/** ZeonAI inverse surfaces for Governed by Design. */
 const ACCENT = "#2962FF";
 const ACCENT_SOFT = "#111C32";
 const PRIMARY = "#F5F6F8";

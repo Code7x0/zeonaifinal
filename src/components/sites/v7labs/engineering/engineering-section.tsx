@@ -46,7 +46,7 @@ const H = HOOD;
 /**
  * Deep-tech six-layer document journey.
  * Behaviour: select layer, Play walkthrough, CAPEX-2291 on the rail.
- * Visual: DeepProbe palette, sharp geometry, one-viewport density.
+ * Visual: ZeonAI brand palette, sharp geometry, one-viewport density.
  */
 export function EngineeringSection() {
   const baseId = useId();
@@ -185,6 +185,14 @@ export function EngineeringSection() {
           >
             How it works under the hood
           </h2>
+          <p className="mt-4">
+            <Link
+              href="/architecture"
+              className="text-[14px] font-medium text-[#1B46F5] underline-offset-4 hover:underline"
+            >
+              Explore the six-layer reference architecture
+            </Link>
+          </p>
           <p
             className="mx-auto mt-2 max-w-[560px] text-[18px] leading-[1.5]"
             style={{ color: H.gray600 }}
@@ -702,13 +710,13 @@ function Inspector({
             >
               {stage.lead}
             </p>
-            <a
-              href="#architecture"
+            <Link
+              href="/architecture"
               className="mt-3 inline-flex min-h-[44px] items-center text-[14px] transition-colors hover:text-[#D9E6FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
               style={{ color: H.blue300, outlineColor: H.blue400 }}
             >
-              See this layer in the platform diagram ↑
-            </a>
+              See this layer in the full architecture diagram →
+            </Link>
           </div>
 
           <div
@@ -929,13 +937,13 @@ function MobileTimeline({
                       </span>
                       {s.forCapex}
                     </p>
-                    <a
-                      href="#architecture"
+                    <Link
+                      href="/architecture"
                       className="inline-flex min-h-[44px] items-center text-[14px]"
                       style={{ color: H.blue300 }}
                     >
-                      See this layer in the platform diagram ↑
-                    </a>
+                      See this layer in the architecture diagram →
+                    </Link>
                   </div>
                 </motion.div>
               ) : null}

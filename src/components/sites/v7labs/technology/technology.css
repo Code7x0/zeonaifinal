@@ -1,0 +1,322 @@
+/* Ported from docs/research/zeonai-technology-v2.html — scoped under .zeon-tech */
+
+/* Tokens copied from the live site (--dp-*). Swap here to re-theme. */
+.zeon-tech{font-family:var(--body);font-size:16px;line-height:1.6;color:var(--g-900);-webkit-font-smoothing:antialiased;
+  --blue-50:#eef4ff;--blue-100:#d9e6ff;--blue-200:#bcd3ff;--blue-300:#8eb8ff;--blue-400:#5991ff;--blue-500:#2962ff;--blue-600:#1b46f5;
+  --g-50:#fafafa;--g-100:#f5f5f5;--g-200:#e9eaeb;--g-300:#d5d7da;--g-400:#a4a7ae;--g-500:#717680;--g-600:#535862;--g-700:#414651;--g-800:#252b37;--g-900:#181d27;
+  --ink:#181d27;--ink-2:#10141c;--ink-line:rgba(255,255,255,.10);--ink-soft:rgba(255,255,255,.62);
+  --green:#17b26a;--amber:#f79009;--red:#f04438;
+  --display:var(--font-aeonik),ui-sans-serif,system-ui,sans-serif;
+  --body:var(--font-aeonik),ui-sans-serif,system-ui,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --max:1200px;--gut:32px;
+}
+.zeon-tech,.zeon-tech *{box-sizing:border-box}
+/* Clear sticky chips (+ optional floating main nav) when jumping to a section */
+.zeon-tech [id]{
+  scroll-margin-top: calc(
+    var(--zeon-header-offset, 0px) + var(--zeon-tech-chips-height, 56px) + 16px
+  );
+}
+
+.zeon-tech a{color:inherit;text-decoration:none}
+.zeon-tech a:focus-visible,.zeon-tech button:focus-visible{outline:2px solid var(--blue-500);outline-offset:2px;border-radius:6px}
+.zeon-tech .wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gut)}
+.zeon-tech .mono{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.zeon-tech h1,.zeon-tech h2,.zeon-tech h3{font-family:var(--display);font-weight:400;margin:0;letter-spacing:-.03em;line-height:1.08}
+.zeon-tech h1{font-size:clamp(40px,6.2vw,72px)}
+.zeon-tech h2{font-size:clamp(30px,3.8vw,46px)}
+.zeon-tech h3{font-size:19px;letter-spacing:-.01em;line-height:1.3;font-weight:500}
+.zeon-tech p{margin:0}
+
+/* Hero */
+.zeon-tech .hero{background:var(--ink);color:#fff;position:relative;overflow:hidden}
+.zeon-tech .hero:before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--ink-line) 1px,transparent 1px),linear-gradient(90deg,var(--ink-line) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse 70% 80% at 80% 0%,#000 0%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse 70% 80% at 80% 0%,#000 0%,transparent 70%);opacity:.6}
+.zeon-tech .hero .wrap{position:relative;padding-top:96px;padding-bottom:72px}
+.zeon-tech .hero .mono{color:var(--blue-300)}
+.zeon-tech .hero h1{margin:22px 0 26px;max-width:900px}
+.zeon-tech .hero .lede{font-size:19px;color:var(--ink-soft);max-width:620px;line-height:1.55}
+.zeon-tech .facts{display:grid;grid-template-columns:repeat(4,1fr);margin-top:72px;border-top:1px solid var(--ink-line)}
+.zeon-tech .facts div{padding:24px 24px 0 0;border-right:1px solid var(--ink-line);margin-right:24px}
+.zeon-tech .facts div:last-child{border:0;margin:0}
+.zeon-tech .facts b{display:block;font-family:var(--display);font-weight:400;font-size:22px;letter-spacing:-.02em;margin-bottom:6px}
+.zeon-tech .facts span{font-size:14px;color:var(--ink-soft);line-height:1.5;display:block}
+
+/* Chip nav */
+/*
+ * Sticky chip rail tracks --zeon-header-offset from SiteHeader:
+ * navbar visible (in-flow or floating) → sit below it; otherwise top: 0.
+ * z-index below floating header (60), above page content.
+ */
+.zeon-tech .chips{
+  position:sticky;
+  top:var(--zeon-header-offset, 0px);
+  z-index:45;
+  background:color-mix(in srgb,#fff 82%,#EEF4FF);
+  backdrop-filter:blur(22px) saturate(165%);
+  -webkit-backdrop-filter:blur(22px) saturate(165%);
+  border-bottom:1px solid color-mix(in srgb,var(--g-200) 70%,transparent);
+  box-shadow:0 1px 0 rgba(255,255,255,.55),0 8px 24px -16px rgba(24,29,39,.16);
+  transition:top .28s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.zeon-tech .chips .wrap{display:flex;gap:8px;padding-top:12px;padding-bottom:12px;overflow-x:auto;scrollbar-width:none}
+.zeon-tech .chips .wrap::-webkit-scrollbar{display:none}
+.zeon-tech .chips a{font-family:var(--mono);font-size:11px;letter-spacing:.04em;white-space:nowrap;padding:7px 12px;border:1px solid var(--g-200);border-radius:10px;color:var(--g-600);background:rgba(255,255,255,.55);box-shadow:inset 0 1px 0 rgba(255,255,255,.65);transition:transform .22s cubic-bezier(.34,1.2,.64,1),box-shadow .22s ease,border-color .22s ease,background .22s ease}
+.zeon-tech .chips a:hover{border-color:var(--g-400);transform:translateY(-1px);box-shadow:0 6px 16px -10px rgba(27,70,245,.2)}
+.zeon-tech .chips a.on{border-color:var(--blue-600);color:var(--blue-600);background:#fff;box-shadow:0 1px 0 rgba(24,29,39,.04),0 8px 20px -12px rgba(27,70,245,.22)}
+@media (prefers-reduced-motion: reduce){
+  .zeon-tech .chips{transition:none}
+}
+
+/* Architecture */
+.zeon-tech .arch{background:var(--ink);color:#fff;padding:0 0 112px}
+.zeon-tech .arch .head{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:end;padding-top:72px;margin-bottom:48px}
+.zeon-tech .arch .head p{color:var(--ink-soft);max-width:440px}
+.zeon-tech .stack{display:grid;grid-template-columns:1fr 220px;gap:16px}
+.zeon-tech .layers{display:flex;flex-direction:column;gap:10px}
+.zeon-tech .layer{display:grid;grid-template-columns:56px 240px 1fr 24px;align-items:center;gap:16px;padding:20px 24px;border:1px solid var(--ink-line);border-radius:10px;background:rgba(255,255,255,.025);transition:border-color .2s,background .2s,transform .2s}
+.zeon-tech .layer:hover{border-color:var(--blue-400);background:rgba(41,98,255,.10);transform:translateX(4px)}
+.zeon-tech .layer .n{font-family:var(--mono);font-size:12px;color:var(--blue-300)}
+.zeon-tech .layer .t{font-family:var(--display);font-size:20px;letter-spacing:-.02em}
+.zeon-tech .layer .d{display:flex;flex-wrap:wrap;gap:6px}
+.zeon-tech .tag{font-family:var(--mono);font-size:11px;padding:4px 9px;border:1px solid var(--ink-line);border-radius:4px;color:var(--ink-soft);white-space:nowrap}
+.zeon-tech .layer .go{color:var(--ink-soft);font-size:16px}
+.zeon-tech .rail{border:1px solid rgba(89,145,255,.45);border-radius:10px;padding:22px 20px;background:linear-gradient(180deg,rgba(41,98,255,.16),rgba(41,98,255,.04));display:flex;flex-direction:column}
+.zeon-tech .rail .mono{color:var(--blue-300);margin-bottom:6px}
+.zeon-tech .rail p{font-size:13px;color:var(--ink-soft);line-height:1.5;margin-bottom:18px}
+.zeon-tech .rail ul{list-style:none;margin:auto 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.zeon-tech .rail li{font-size:14px;display:flex;gap:10px;align-items:center}
+.zeon-tech .rail li:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--blue-400);flex:none}
+.zeon-tech .arch .note{margin-top:18px;color:rgba(255,255,255,.4)}
+
+/* Pillar sections */
+.zeon-tech .pillar{padding:112px 0;border-bottom:1px solid var(--g-200)}
+.zeon-tech .pillar.tint{background:var(--blue-50)}
+.zeon-tech .pillar.dark{background:var(--ink);color:#fff;border-color:transparent}
+.zeon-tech .pillar .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:72px;align-items:center}
+.zeon-tech .pillar .eyebrow{color:var(--blue-600);margin-bottom:18px;display:block}
+.zeon-tech .pillar.dark .eyebrow{color:var(--blue-300)}
+.zeon-tech .pillar h2{margin-bottom:20px}
+.zeon-tech .pillar .lede{font-size:18px;color:var(--g-600);line-height:1.55;max-width:520px}
+.zeon-tech .pillar.dark .lede{color:var(--ink-soft)}
+.zeon-tech .points{margin-top:36px;border-top:1px solid var(--g-200)}
+.zeon-tech .pillar.tint .points,.zeon-tech .pillar.tint .points div{border-color:var(--blue-100)}
+.zeon-tech .pillar.dark .points,.zeon-tech .pillar.dark .points div{border-color:var(--ink-line)}
+.zeon-tech .points div{display:grid;grid-template-columns:180px 1fr;gap:20px;padding:16px 0;border-bottom:1px solid var(--g-200);font-size:15px}
+.zeon-tech .points b{font-weight:500}
+.zeon-tech .points span{color:var(--g-600)}
+.zeon-tech .pillar.dark .points span{color:var(--ink-soft)}
+.zeon-tech .more{display:inline-flex;gap:8px;margin-top:28px;font-size:14px;font-weight:500;color:var(--blue-600)}
+.zeon-tech .more:hover{gap:12px}
+
+/* Mock windows */
+.zeon-tech .mock{background:#fff;border:1px solid var(--g-200);border-radius:12px;box-shadow:0 8px 24px rgba(24,29,39,.06);overflow:hidden;position:sticky;top:calc(var(--zeon-header-offset, 0px) + var(--zeon-tech-chips-height, 56px) + 24px);font-size:13px}
+.zeon-tech .mock .bar{display:flex;align-items:center;gap:10px;padding:11px 16px;border-bottom:1px solid var(--g-200);font-family:var(--mono);font-size:11px;color:var(--g-500)}
+.zeon-tech .mock .bar i{display:flex;gap:4px}
+.zeon-tech .mock .bar i:before,.zeon-tech .mock .bar i:after,.zeon-tech .mock .bar i b{content:"";width:6px;height:6px;border-radius:50%;background:var(--g-300);display:block}
+.zeon-tech .mock .bar em{margin-left:auto;font-style:normal;border:1px solid var(--g-200);border-radius:4px;padding:2px 7px;font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+.zeon-tech .mock .body{padding:20px}
+.zeon-tech .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--g-500);margin-bottom:10px}
+.zeon-tech .pill{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:4px;border:1px solid var(--g-200);color:var(--g-600);white-space:nowrap}
+.zeon-tech .pill.ok{color:#079455;border-color:#abefc6;background:#ecfdf3}
+.zeon-tech .pill.warn{color:#b54708;border-color:#fedf89;background:#fffaeb}
+.zeon-tech .pill.no{color:#b42318;border-color:#fecdca;background:#fef3f2}
+.zeon-tech .pill.b{color:var(--blue-600);border-color:var(--blue-200);background:var(--blue-50)}
+.zeon-tech .row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--g-100)}
+.zeon-tech .row:last-child{border:0}
+.zeon-tech .row .grow{flex:1;min-width:0}
+.zeon-tech .row small,.zeon-tech .node small{display:block;color:var(--g-500);font-size:12px}
+.zeon-tech .num{font-family:var(--mono);font-size:11px;color:var(--g-400);width:22px;flex:none}
+
+/* runtime graph */
+.zeon-tech .graph{display:grid;gap:8px}
+.zeon-tech .node{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--g-200);border-radius:8px;position:relative}
+.zeon-tech .node.sel{border-color:var(--blue-500);background:var(--blue-50)}
+.zeon-tech .fork{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.zeon-tech .foot{margin-top:16px;padding-top:14px;border-top:1px solid var(--g-200);display:flex;justify-content:space-between;align-items:center;gap:12px;color:var(--g-600);font-size:12px}
+.zeon-tech .mini{font-family:var(--mono);font-size:11px;padding:6px 10px;border-radius:6px;background:var(--g-900);color:#fff;white-space:nowrap}
+
+/* retrieval */
+.zeon-tech .cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.zeon-tech .cmp>div{border:1px solid var(--g-200);border-radius:8px;padding:14px}
+.zeon-tech .cmp>div.good{border-color:var(--blue-300);background:var(--blue-50)}
+.zeon-tech .cmp p{font-size:13px;line-height:1.5;color:var(--g-700)}
+.zeon-tech .cmp mark{background:#fef0c7;color:inherit;padding:0 2px;border-radius:2px}
+.zeon-tech .cmp .good mark{background:var(--blue-200)}
+.zeon-tech .ans{margin-top:14px;border:1px solid var(--g-200);border-radius:8px;padding:14px}
+.zeon-tech .ans sup{font-family:var(--mono);color:var(--blue-600);font-size:10px}
+.zeon-tech .src{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.zeon-tech .src span{font-family:var(--mono);font-size:11px;color:var(--g-600);border:1px solid var(--g-200);border-radius:4px;padding:3px 8px}
+
+/* calc */
+.zeon-tech .kpi{border:1px solid var(--g-200);border-radius:8px;padding:16px}
+.zeon-tech .kpi b{display:block;font-family:var(--display);font-weight:400;font-size:40px;letter-spacing:-.03em;line-height:1.1;margin:4px 0}
+.zeon-tech .calc{margin-top:12px;background:var(--g-900);color:#e9eaeb;border-radius:8px;padding:16px;font-family:var(--mono);font-size:12px;line-height:1.8}
+.zeon-tech .calc span{color:var(--blue-300)}.calc u{text-decoration:none;color:#75e0a7}
+
+/* router */
+.zeon-tech .seg{display:inline-flex;border:1px solid var(--g-200);border-radius:8px;padding:3px;margin-bottom:16px;background:var(--g-50)}
+.zeon-tech .seg button{font:500 12px var(--body);border:0;background:transparent;padding:6px 12px;border-radius:6px;color:var(--g-600);cursor:pointer}
+.zeon-tech .seg button.on{background:#fff;color:var(--g-900);box-shadow:0 1px 2px rgba(24,29,39,.12)}
+.zeon-tech .tier{font-family:var(--mono);font-size:11px;padding:3px 8px;border-radius:4px;white-space:nowrap}
+.zeon-tech .tier.r{background:var(--g-900);color:#fff}.tier.f{background:var(--blue-100);color:#172ab6}.tier.s{background:var(--g-100);color:var(--g-700)}
+
+/* meter */
+.zeon-tech .bar-row{display:grid;grid-template-columns:150px 1fr 64px;gap:12px;align-items:center;padding:9px 0;font-size:13px}
+.zeon-tech .track{height:8px;border-radius:4px;background:var(--g-100);overflow:hidden}
+.zeon-tech .track i{display:block;height:100%;background:var(--blue-500);border-radius:4px}
+.zeon-tech .track i.hot{background:var(--amber)}
+.zeon-tech .bar-row span:last-child{font-family:var(--mono);font-size:11px;color:var(--g-600);text-align:right}
+
+/* deployment */
+.zeon-tech .modes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:56px}
+.zeon-tech .mode{border:1px solid var(--ink-line);border-radius:12px;padding:28px;background:rgba(255,255,255,.025)}
+.zeon-tech .mode .mono{color:var(--blue-300)}
+.zeon-tech .mode h3{margin:14px 0 10px;font-size:22px;font-weight:400;letter-spacing:-.02em}
+.zeon-tech .mode p{font-size:15px;color:var(--ink-soft)}
+.zeon-tech .bound{margin-top:22px;border:1px dashed rgba(142,184,255,.5);border-radius:8px;padding:12px;display:flex;flex-wrap:wrap;gap:6px;position:relative}
+.zeon-tech .bound:before{content:attr(data-l);position:absolute;top:-8px;left:10px;background:var(--ink);padding:0 6px;font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue-300)}
+.zeon-tech .out{margin-top:10px;font-family:var(--mono);font-size:11px;color:rgba(255,255,255,.45)}
+.zeon-tech .pillar.dark .wide{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:end}
+.zeon-tech .pillar.dark .points{margin-top:56px;display:grid;grid-template-columns:1fr 1fr;column-gap:72px}
+
+/* connectors */
+.zeon-tech .conn{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:56px}
+.zeon-tech .conn>div{border:1px solid var(--g-200);border-radius:12px;padding:24px;background:#fff}
+.zeon-tech .conn .lbl{margin-bottom:16px}
+.zeon-tech .logos{display:flex;flex-wrap:wrap;gap:8px}
+.zeon-tech .logos span{font-size:14px;padding:7px 12px;border:1px solid var(--g-200);border-radius:6px;background:var(--g-50)}
+.zeon-tech .flow{margin-top:16px;display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:12px;align-items:center;border:1px solid var(--g-200);border-radius:12px;padding:24px;background:#fff}
+.zeon-tech .flow div b{display:block;font-weight:500;margin-bottom:2px}
+.zeon-tech .flow div span{font-size:14px;color:var(--g-600)}
+.zeon-tech .flow em{font-style:normal;color:var(--blue-500);font-size:18px}
+
+/* notes */
+.zeon-tech .notes{padding:112px 0;background:var(--g-50);border-bottom:1px solid var(--g-200)}
+.zeon-tech .notes .head{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:48px}
+.zeon-tech .notes .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.zeon-tech .note-card{display:flex;flex-direction:column;border:1px solid var(--g-200);border-radius:12px;padding:24px;background:#fff;min-height:210px;transition:transform .2s,box-shadow .2s,border-color .2s}
+a.note-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(24,29,39,.06);border-color:var(--blue-300)}
+.zeon-tech .note-card .mono{color:var(--g-500);display:flex;justify-content:space-between}
+.zeon-tech .note-card h3{margin:18px 0 10px;font-size:20px;font-weight:400;letter-spacing:-.02em}
+.zeon-tech .note-card p{font-size:14px;color:var(--g-600)}
+.zeon-tech .note-card .read{margin-top:auto;padding-top:18px;font-size:14px;font-weight:500;color:var(--blue-600)}
+.zeon-tech .note-card.soon{background:transparent;border-style:dashed}
+.zeon-tech .note-card.soon .read{color:var(--g-400)}
+
+/* Diagrams */
+.zeon-tech .mock{position:static}
+.zeon-tech .dia{position:relative;margin-top:64px;border:1px solid var(--g-200);border-radius:16px;padding:26px 32px 36px;background-color:#fff;background-image:radial-gradient(var(--g-200) 1px,transparent 1px);background-size:18px 18px}
+.zeon-tech .dia>.lbl{display:inline-block;background:#fff;padding:2px 10px 2px 0;margin-bottom:22px;color:var(--blue-600)}
+.zeon-tech .wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;overflow:visible}
+.zeon-tech .w0{fill:none;stroke:var(--blue-200);stroke-width:1.5}
+.zeon-tech .w1{fill:none;stroke:var(--blue-500);stroke-width:1.5;stroke-linecap:round;stroke-dasharray:2 16;animation:flow 1.2s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-18}}
+.zeon-tech .p0{fill:var(--blue-300)}.p1{fill:#fff;stroke:var(--blue-500);stroke-width:1.5}
+.zeon-tech .fl{display:flex;align-items:center;gap:64px}
+.zeon-tech .nd{flex:1;min-width:0;background:#fff;border:1px solid var(--g-200);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:2px;box-shadow:0 1px 2px rgba(24,29,39,.05),0 6px 16px rgba(24,29,39,.04)}
+.zeon-tech .ic{width:32px;height:32px;border-radius:8px;background:var(--blue-50);color:var(--blue-600);display:grid;place-items:center;margin-bottom:10px;flex:none}
+.zeon-tech .ic svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.zeon-tech .nd b{font-weight:500;font-size:15px;line-height:1.3}
+.zeon-tech .nd span{font-size:13px;color:var(--g-600);line-height:1.4}
+.zeon-tech .nd.k{background:var(--ink);border-color:var(--ink);color:#fff}
+.zeon-tech .nd.k span{color:var(--ink-soft)}
+.zeon-tech .nd.k .ic{background:rgba(255,255,255,.1);color:#fff}
+.zeon-tech .nd.b{background:var(--blue-600);border-color:var(--blue-600);color:#fff}
+.zeon-tech .nd.b span{color:rgba(255,255,255,.82)}
+.zeon-tech .nd.b .ic{background:rgba(255,255,255,.18);color:#fff}
+.zeon-tech .nd.sm{flex:none;flex-direction:row;align-items:center;justify-content:space-between;gap:10px;padding:11px 14px}
+.zeon-tech .nd.sm b{font-size:14px;white-space:nowrap}
+.zeon-tech .nd.x{border-style:dashed;background:var(--g-50);box-shadow:none}
+.zeon-tech .nd.x b{color:var(--g-400);font-weight:400}
+.zeon-tech .stk{flex:1.3;min-width:0;display:flex;flex-direction:column;gap:10px}
+.zeon-tech .lane{border:1px dashed var(--g-300);border-radius:12px;padding:12px 14px 14px;background:rgba(255,255,255,.85)}
+.zeon-tech .lane>.lbl{margin-bottom:10px}
+.zeon-tech .lane .fl{gap:28px}
+.zeon-tech .lane .nd{padding:10px 12px;text-align:center;box-shadow:none}
+.zeon-tech .lane .nd b{font-size:13.5px}
+.zeon-tech .gates{flex:3.6;display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+.zeon-tech .gt{background:#fff;border:1px solid var(--blue-200);border-radius:12px;padding:16px 8px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;font-size:12.5px;font-weight:500;line-height:1.25;box-shadow:0 1px 2px rgba(24,29,39,.05)}
+.zeon-tech .gt .ic{margin:0}
+.zeon-tech .keys{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:12px}
+.zeon-tech .keys.k3{grid-template-columns:repeat(3,1fr)}
+.zeon-tech .keys div{border:1px solid var(--g-200);border-radius:12px;padding:16px 18px;background:#fff}
+.zeon-tech .keys b{display:block;font-weight:500;font-size:15px;margin-bottom:2px}
+.zeon-tech .keys span{font-size:13.5px;color:var(--g-600);line-height:1.45;display:block}
+@media (prefers-reduced-motion:reduce){.zeon-tech .w1{animation:none}}
+@media (max-width:960px){
+.zeon-tech .dia{margin-top:36px;padding:20px 20px 24px}
+.zeon-tech .fl{flex-direction:column;align-items:stretch;gap:34px}
+.zeon-tech .nd,.zeon-tech .stk{flex:none}
+.zeon-tech .nd:not(.sm){flex-direction:row;flex-wrap:wrap;align-items:center;column-gap:12px}
+.zeon-tech .nd:not(.sm) .ic{margin:0;grid-row:span 2}
+.zeon-tech .nd:not(.sm) b{flex:1}
+.zeon-tech .nd:not(.sm)>span:not(.ic){flex-basis:100%;margin-top:6px}
+.zeon-tech .lane .fl{flex-direction:row;gap:14px;align-items:stretch}
+.zeon-tech .lane .nd{flex:1;padding:10px 6px;justify-content:center}
+.zeon-tech .lane .nd b{font-size:12.5px}
+.zeon-tech .gates{grid-template-columns:1fr;gap:8px}
+.zeon-tech .gt{flex-direction:row;justify-content:flex-start;text-align:left;padding:10px 14px;font-size:14px}
+.zeon-tech .keys,.zeon-tech .keys.k3{grid-template-columns:1fr 1fr}
+}
+@media (max-width:520px){.zeon-tech .keys,.zeon-tech .keys.k3{grid-template-columns:1fr}}
+
+/* reveal */
+.zeon-tech .rv{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+.zeon-tech .rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+.zeon-tech .rv{opacity:1;transform:none;transition:none}
+.zeon-tech .layer:hover{transform:none}
+}
+
+@media (max-width:960px){
+.zeon-tech{--gut:20px}
+.zeon-tech .hero .wrap{padding-top:64px;padding-bottom:48px}
+.zeon-tech .facts{grid-template-columns:1fr 1fr;margin-top:48px}
+.zeon-tech .facts div{border-right:0;margin:0;padding:20px 16px 4px 0}
+.zeon-tech .arch{padding-bottom:64px}
+.zeon-tech .arch .head{grid-template-columns:1fr;gap:16px}
+.zeon-tech .stack{grid-template-columns:1fr}
+.zeon-tech .layer{grid-template-columns:36px 1fr 20px;padding:16px}
+.zeon-tech .layer .d{grid-column:2/4;grid-row:2}
+.zeon-tech .pillar,.zeon-tech .notes,.zeon-tech .cta{padding:64px 0}
+.zeon-tech .pillar .grid,.zeon-tech .pillar.dark .wide{grid-template-columns:1fr;gap:36px}
+.zeon-tech .pillar.dark .points{grid-template-columns:1fr;margin-top:36px}
+.zeon-tech .mock{position:static}
+.zeon-tech .points div{grid-template-columns:1fr;gap:4px}
+.zeon-tech .modes,.zeon-tech .conn,.zeon-tech .notes .cards{grid-template-columns:1fr}
+.zeon-tech .modes,.zeon-tech .conn{margin-top:36px}
+.zeon-tech .flow{grid-template-columns:1fr}
+.zeon-tech .flow em{transform:rotate(90deg);justify-self:start}
+.zeon-tech .cmp{grid-template-columns:1fr}
+.zeon-tech .bar-row{grid-template-columns:110px 1fr 56px}
+.zeon-tech .notes .head{flex-direction:column;align-items:start}
+.zeon-tech .wrap.grid{grid-template-columns:1fr;gap:36px}
+}
+
+.zeon-tech .notes-eyebrow{color:var(--blue-600)}
+.zeon-tech .more-flush{margin:0}
+.zeon-tech .cmp-note{margin-top:10px;font-size:12px}
+.zeon-tech .cmp-note.muted{color:var(--g-500)}
+.zeon-tech .cmp-note.blue{color:var(--blue-600)}
+.zeon-tech .lbl-blue{color:var(--blue-600)}
+.zeon-tech .lbl-mt{margin-top:18px}
+.zeon-tech .lbl-reset{margin:0}
+.zeon-tech .muted-icon{color:var(--g-400)}
+.zeon-tech .kpi-pills{display:flex;gap:8px;flex-wrap:wrap}
+.zeon-tech .grid-end{align-items:end}
+.zeon-tech .dia-tight{margin-top:16px}
+.zeon-tech .conn-footnote{margin-top:20px;color:var(--g-400)}
+.zeon-tech .rule-quote{color:var(--g-700)}
+.zeon-tech .ans-draft{background:var(--blue-50);border-color:var(--blue-200)}
+.zeon-tech .notes h2{margin-top:18px}
+.zeon-tech .cta .btn{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500;padding:10px 20px;border-radius:999px;background:var(--blue-600);color:#fff;border:1px solid var(--blue-600);white-space:nowrap}
+.zeon-tech .cta .btn:hover{background:var(--blue-500)}
+.zeon-tech .cta .btn.ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.28)}
+.zeon-tech .cta .btn.ghost:hover{border-color:#fff;background:transparent}
+.zeon-tech .cta .btn.white{background:#fff;color:var(--g-900);border-color:#fff}
+.zeon-tech .ic svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.zeon-tech .wrap.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:72px;align-items:center}
+.zeon-tech .pillar.dark .wrap.wide{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:end}
+.zeon-tech .wrap.grid-end{align-items:end}
+.zeon-tech .calc u{text-decoration:none;color:#75e0a7}

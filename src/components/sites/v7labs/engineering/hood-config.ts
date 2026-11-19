@@ -1,6 +1,6 @@
 /**
- * DeepProbe tokens + stage config for "How it works under the hood".
- * Palette: https://deepprobe-colours.netlify.app/
+ * ZeonAI tokens + stage config for "How it works under the hood".
+ * Palette: ZeonAI brand blues (see palette.ts).
  * Brand blue only — no per-layer rainbow tints.
  */
 
@@ -13,7 +13,7 @@ export const HOOD = {
   /** UI text inherits site Aeonik; mono only for IDs / LAYER / IN / OUT. */
   mono: '"JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace',
   logoGradient: "linear-gradient(90deg, #0025FF 0%, #05A1FD 100%)",
-  /** DeepProbe mapped colours */
+  /** ZeonAI brand blues */
   blue50: "#EEF4FF",
   blue100: "#D9E6FF",
   blue200: "#BCD3FF",

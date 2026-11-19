@@ -14,7 +14,7 @@ export function Solutions() {
           Our business solutions
         </h2>
         <p className="mt-5 max-w-[52ch] text-[17px] leading-[1.55] text-[var(--zeon-ink70)] md:text-[18px]">
-          DeepDelve® products for invoices, cash-flow underwriting, document
+          Agent Hub products for invoices, cash-flow underwriting, document
           intelligence and governed enterprise search — on the same AI Workspace
           foundation.
         </p>

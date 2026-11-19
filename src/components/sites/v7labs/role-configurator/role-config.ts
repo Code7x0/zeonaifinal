@@ -1,21 +1,18 @@
 /**
  * Single source of truth for the "Who are you?" section.
- * Module ids match the fixed 12-box grid. Draft mappings — confirm with ZeonAI.
+ * Module ids match the fixed 9-box grid.
  */
 
 export const MODULE_IDS = [
   "Ask AI",
   "AI Drive",
   "Workflows",
-  "Dashboard",
   "Agent Hub",
-  "Notifications",
   "AI Dashboards",
   "Contract Intelligence",
   "App Hub",
   "Quote Management",
   "Opportunity Management",
-  "Search",
 ] as const;
 
 export type ModuleId = (typeof MODULE_IDS)[number];
@@ -35,9 +32,9 @@ export const ROLE_CONFIG: readonly RoleConfig[] = [
       "Ask AI",
       "AI Drive",
       "Workflows",
-      "Dashboard",
       "Agent Hub",
-      "Notifications",
+      "AI Dashboards",
+      "Quote Management",
     ],
     agents: [
       "InvoiceAI",
@@ -53,8 +50,8 @@ export const ROLE_CONFIG: readonly RoleConfig[] = [
       "AI Drive",
       "Contract Intelligence",
       "Workflows",
-      "Search",
-      "Notifications",
+      "Agent Hub",
+      "App Hub",
     ],
     agents: ["Contract analysis"],
   },
@@ -67,7 +64,7 @@ export const ROLE_CONFIG: readonly RoleConfig[] = [
       "Workflows",
       "Quote Management",
       "Opportunity Management",
-      "Notifications",
+      "Agent Hub",
     ],
     agents: ["Invoice 3-way match"],
   },
@@ -78,9 +75,9 @@ export const ROLE_CONFIG: readonly RoleConfig[] = [
       "Ask AI",
       "AI Drive",
       "Workflows",
-      "Search",
       "Agent Hub",
-      "Notifications",
+      "Contract Intelligence",
+      "AI Dashboards",
     ],
     agents: ["KYC intelligence"],
   },
@@ -91,9 +88,9 @@ export const ROLE_CONFIG: readonly RoleConfig[] = [
       "Ask AI",
       "Workflows",
       "AI Dashboards",
-      "Dashboard",
       "Agent Hub",
-      "Notifications",
+      "Opportunity Management",
+      "App Hub",
     ],
     agents: ["Knowledge discovery"],
   },
@@ -104,9 +101,9 @@ export const ROLE_CONFIG: readonly RoleConfig[] = [
       "Ask AI",
       "AI Drive",
       "Workflows",
-      "Dashboard",
       "Agent Hub",
-      "Notifications",
+      "AI Dashboards",
+      "Contract Intelligence",
     ],
     agents: ["Loan origination", "KYC intelligence"],
   },

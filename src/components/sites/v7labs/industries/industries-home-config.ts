@@ -9,7 +9,10 @@ export type IndustryCardId =
   | "media"
   | "gov"
   | "defence"
-  | "metals";
+  | "metals"
+  | "construction"
+  | "telco"
+  | "medtech";
 
 export type IndustryCard = {
   id: IndustryCardId;
@@ -68,9 +71,9 @@ export const INDUSTRY_CARDS: readonly IndustryCard[] = [
   {
     id: "defence",
     href: "/industries/defence",
-    label: "Defence",
-    a11yName: "Explore defence",
-    exploreLabel: "Explore defence",
+    label: "Defense",
+    a11yName: "Explore defense",
+    exploreLabel: "Explore defense",
     outcome:
       "Knowledge discovery for classified environments, deployed on your own infrastructure.",
     agents: ["Secure knowledge discovery"],
@@ -84,6 +87,36 @@ export const INDUSTRY_CARDS: readonly IndustryCard[] = [
     exploreLabel: "Explore metals",
     outcome: "Less paperwork between the plant floor and the finance team.",
     agents: ["Vendor invoice processing"],
+  },
+  {
+    id: "construction",
+    href: "/industries/construction",
+    label: "Construction",
+    a11yName: "Explore construction",
+    exploreLabel: "Explore construction",
+    outcome:
+      "Plans, permits, and subcontractor paperwork with governed extraction.",
+    agents: ["Permit and plan intake"],
+  },
+  {
+    id: "telco",
+    href: "/industries/telco",
+    label: "Telco",
+    a11yName: "Explore telco",
+    exploreLabel: "Explore telco",
+    outcome:
+      "Service contracts and operational records at telecom scale.",
+    agents: ["Vendor contract review"],
+  },
+  {
+    id: "medtech",
+    href: "/industries/medtech",
+    label: "Medtech",
+    a11yName: "Explore medtech",
+    exploreLabel: "Explore medtech",
+    outcome:
+      "Regulated document packs with human review on compliance records.",
+    agents: ["Regulatory submission intake"],
   },
 ] as const;
 

@@ -116,7 +116,7 @@ export function DashboardView() {
             <SampleBadge />
           </div>
           <p className="mt-0.5 text-[10px] text-black/40">
-            Finance workspace · illustrative metrics
+            Finance workspace · Sample data
           </p>
         </div>
         <div className="flex items-center gap-1.5">

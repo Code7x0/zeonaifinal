@@ -4,15 +4,15 @@
  */
 
 export const TRUST_MODULES = [
-  "Agent Hub",
-  "Workflows",
-  "Dashboard",
-  "AI Drive",
   "Ask AI",
+  "AI Drive",
+  "Workflows",
+  "Agent Hub",
   "AI Dashboards",
-  "Notifications",
-  "Search",
   "Contract Intelligence",
+  "App Hub",
+  "Quote Management",
+  "Opportunity Management",
 ] as const;
 
 export type TrustModule = (typeof TRUST_MODULES)[number];
@@ -24,9 +24,9 @@ export const TRUST_CONFIG = {
     granted: [
       "Agent Hub",
       "Workflows",
-      "Dashboard",
       "AI Drive",
       "Ask AI",
+      "AI Dashboards",
     ] as const satisfies readonly TrustModule[],
   },
   steps: [

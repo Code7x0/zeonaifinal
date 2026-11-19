@@ -35,7 +35,7 @@ const GOVERNANCE_STEPS = [
 const VISIBILITY = [
   {
     tier: "General",
-    see: "Everyone in the organisation",
+    see: "Everyone in the organization",
     act: "The current holder",
   },
   {
@@ -140,7 +140,7 @@ export function TrustPage() {
       </Chapter>
 
       <Chapter tone="mist" min={false} className="!min-h-0">
-        <ChapterLabel tone="mist">Practices from the brief</ChapterLabel>
+        <ChapterLabel tone="mist">Security practices</ChapterLabel>
         <ul className="mt-6 flex flex-wrap gap-2">
           {trustLabels.map((label) => (
             <li
@@ -148,7 +148,7 @@ export function TrustPage() {
               className="rounded-full border border-[var(--zeon-border-blue)] bg-white px-4 py-2 text-[13px]"
             >
               <span className="font-medium">{label.name}</span>
-              <span className="text-[#8A9493]"> · {label.note} · to confirm</span>
+              <span className="text-[#8A9493]"> · {label.note}</span>
             </li>
           ))}
         </ul>
@@ -181,10 +181,6 @@ export function TrustPage() {
             ))}
           </div>
         </div>
-        <p className="mt-8 text-[12px] text-[#8A9493]">
-          Certification status and environment-specific controls require
-          confirmation before stronger public claims.
-        </p>
       </Chapter>
 
       <SecondaryCta

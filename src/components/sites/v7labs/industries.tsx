@@ -13,9 +13,12 @@ import {
   Check,
   Factory,
   FileText,
+  HardHat,
+  HeartPulse,
   Landmark,
   Lock,
   Newspaper,
+  Radio,
   Shield,
 } from "lucide-react";
 import {
@@ -24,8 +27,7 @@ import {
   type IndustryCard,
   type IndustryCardId,
 } from "./industries/industries-home-config";
-
-/** DeepProbe palette — no beige, no rainbow. */
+/** ZeonAI brand palette — no beige, no rainbow. */
 const C = {
   white: "#FFFFFF",
   surface: "#FAFAFA",
@@ -59,10 +61,13 @@ const ICONS: Record<IndustryCardId, typeof Building2> = {
   gov: Building2,
   defence: Shield,
   metals: Factory,
+  construction: HardHat,
+  telco: Radio,
+  medtech: HeartPulse,
 };
 
 /**
- * Industries bento — polished composition on DeepProbe tokens.
+ * Industries bento — polished composition on ZeonAI palette tokens.
  * Outcomes marquee is a separate sibling on the homepage; do not touch it.
  */
 export function Industries() {
@@ -72,7 +77,6 @@ export function Industries() {
 
   const featured = INDUSTRY_CARDS.find((c) => c.featured)!;
   const rest = INDUSTRY_CARDS.filter((c) => !c.featured);
-  const [superCard, mediaCard, govCard, defenceCard, metalsCard] = rest;
 
   return (
     <section
@@ -106,21 +110,21 @@ export function Industries() {
             <FeaturedCard card={featured} revealed={revealed} reduceMotion={reduceMotion} />
           </CardMotion>
 
-          <CardMotion index={1} revealed={revealed} reduceMotion={reduceMotion}>
-            <SectorCard card={superCard!} />
-          </CardMotion>
-          <CardMotion index={2} revealed={revealed} reduceMotion={reduceMotion}>
-            <SectorCard card={mediaCard!} />
-          </CardMotion>
-          <CardMotion index={3} revealed={revealed} reduceMotion={reduceMotion}>
-            <SectorCard card={govCard!} />
-          </CardMotion>
-          <CardMotion index={4} revealed={revealed} reduceMotion={reduceMotion}>
-            <SectorCard card={defenceCard!} />
-          </CardMotion>
-          <CardMotion index={5} revealed={revealed} reduceMotion={reduceMotion} className="md:col-span-2 xl:col-span-1">
-            <SectorCard card={metalsCard!} />
-          </CardMotion>
+          {rest.map((card, index) => (
+            <CardMotion
+              key={card.id}
+              index={index + 1}
+              revealed={revealed}
+              reduceMotion={reduceMotion}
+              className={
+                index === rest.length - 1
+                  ? "md:col-span-2 xl:col-span-1"
+                  : undefined
+              }
+            >
+              <SectorCard card={card} />
+            </CardMotion>
+          ))}
         </div>
 
         <div className="mt-10">
@@ -175,12 +179,7 @@ function FeaturedCard({
     <Link
       href={card.href}
       aria-label={card.a11yName}
-      className="group relative flex h-full flex-col overflow-hidden p-8 text-white no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2962FF] xl:min-h-[526px] xl:flex-row xl:gap-8"
-      style={{
-        borderRadius: 2,
-        background:
-          "linear-gradient(135deg, #172AB6 0%, #1B46F5 60%, #2962FF 100%)",
-      }}
+      className="zeon-surface-brand zeon-lift group relative flex h-full flex-col overflow-hidden p-8 text-white no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2962FF] xl:min-h-[526px] xl:flex-row xl:gap-8"
     >
       {/* 32px grid overlay, fades toward bottom-left */}
       <span
@@ -225,10 +224,7 @@ function FeaturedCard({
           <p className="text-[14px]" style={{ color: "#D9E6FF" }}>
             {card.agents.join(" · ")}
           </p>
-          <span
-            className="mt-5 inline-flex h-11 min-h-[44px] w-full items-center justify-center gap-2 bg-white px-5 text-[14px] font-medium text-[#192A8F] transition-colors group-hover:bg-[#EEF4FF] sm:w-auto xl:h-10 xl:min-h-[40px]"
-            style={{ borderRadius: 2 }}
-          >
+          <span className="zeon-btn zeon-btn-light mt-5 inline-flex h-11 min-h-[44px] w-full !rounded-[10px] sm:w-auto xl:h-10 xl:min-h-[40px]">
             {card.exploreLabel}
             <ArrowRight
               className="size-3.5 transition-transform duration-150 group-hover:translate-x-1"
@@ -351,19 +347,14 @@ function SectorCard({ card }: { card: IndustryCard }) {
     <Link
       href={card.href}
       aria-label={card.a11yName}
-      className="group flex h-full min-h-[240px] flex-col p-6 no-underline transition-[border-color] duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 sm:min-h-[255px]"
+      className={`group flex h-full min-h-[240px] flex-col p-6 no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 sm:min-h-[255px] ${
+        dark
+          ? "zeon-surface-ink zeon-lift"
+          : "zeon-surface-interactive"
+      }`}
       style={{
-        borderRadius: 2,
-        background: dark ? C.dark : C.white,
-        border: `1px solid ${dark ? C.darkBorder : C.border}`,
         color: dark ? C.white : C.heading,
         outlineColor: dark ? C.blue400 : C.brand,
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = dark ? C.blue400 : C.brand;
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = dark ? C.darkBorder : C.border;
       }}
     >
       {/* 1. Icon + title */}

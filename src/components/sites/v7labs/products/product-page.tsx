@@ -29,7 +29,7 @@ function HeroVisual({ slug }: { slug: ProductDef["slug"] }) {
 }
 
 export function ProductPage({ product }: { product: ProductDef }) {
-  const isProbe = product.slug === "deepprobe";
+  const isProbe = product.slug === "ai-workspace";
 
   return (
     <PageShell>
@@ -49,10 +49,7 @@ export function ProductPage({ product }: { product: ProductDef }) {
             <ChapterTitle className="!max-w-[18ch] !text-[36px] md:!text-[48px]">
               {product.promise}
             </ChapterTitle>
-            <ChapterLead>
-              Interface below uses illustrative sample data so the layout stays
-              readable — not a live customer claim.
-            </ChapterLead>
+            <ChapterLead>Sample data.</ChapterLead>
           </div>
           <HeroVisual slug={product.slug} />
         </div>
@@ -77,7 +74,7 @@ export function ProductPage({ product }: { product: ProductDef }) {
 
       <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#E9EAEB]">
         <ChapterLabel>Where it applies</ChapterLabel>
-        <ChapterTitle>Use cases from the product brief.</ChapterTitle>
+        <ChapterTitle>Use cases</ChapterTitle>
         <div className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {product.useCases.map((u) => (
             <article key={u.title} className="border-t border-[#E9EAEB] pt-5">
@@ -173,7 +170,7 @@ export function ProductPage({ product }: { product: ProductDef }) {
       <SecondaryCta
         tone="midnight"
         title="See this product on your workflow."
-        body="Bring a document pack or process. We will show the relevant DeepDelve surface with governance in view."
+        body="We will show the relevant Agent Hub product with governance in view."
         secondaryHref="/products"
         secondaryLabel="All products"
       />

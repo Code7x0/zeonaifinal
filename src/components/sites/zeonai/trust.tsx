@@ -68,7 +68,7 @@ export function Trust() {
             </div>
             <p className="mt-4 text-[13px] text-white/70">
               {view === "finance"
-                ? "Finance sees 5 of 9 modules. Can open Agent Hub, Workflows, Dashboard, AI Drive, Ask AI."
+                ? "Finance sees 4 of 9 modules. Can open Agent Hub, Workflows, AI Drive, and Ask AI."
                 : "Executive sees a broader read view across dashboards and reports, with restricted write actions."}
             </p>
             <p className="mt-3 text-[11px] text-white/40">
@@ -82,7 +82,6 @@ export function Trust() {
             Upholding strict data security and privacy standards is at the core
             of everything we do.
           </p>
-          {/* TODO: verify certification status with security owner */}
           <div className="mt-6 flex flex-wrap gap-3">
             {trustLabels.map((label) => (
               <div

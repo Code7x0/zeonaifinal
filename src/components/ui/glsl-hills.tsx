@@ -160,7 +160,7 @@ export function GLSLHills({
 
               void main(void) {
                 float opacity = (96.0 - length(vPosition)) / 256.0 * 0.6;
-                /* Soft DeepProbe blue-grey hills */
+                /* Soft ZeonAI blue-grey hills */
                 vec3 color = vec3(0.52, 0.60, 0.88);
                 gl_FragColor = vec4(color, opacity);
               }

@@ -2,16 +2,24 @@
 
 import Link from "next/link";
 import {
+  Landmark,
+  BookOpen,
+  Factory,
+  Scale,
+  type LucideIcon,
+} from "lucide-react";
+import {
+  agentCatalogNote,
   agentCategories,
   architectureLayers,
   capabilities,
   deployments,
   getCapability,
-  integrations,
   processSteps,
   solutions,
   trustItems,
   trustLabels,
+  type AgentCategory,
 } from "@/components/sites/zeonai/content";
 import { CapabilityDetailPage } from "./capabilities/capability-detail-page";
 import { PageShell } from "./page-shell";
@@ -32,7 +40,10 @@ import {
   WorkflowMock,
 } from "./secondary/product-mocks";
 import { ArchitectureFlow } from "./secondary/architecture-flow";
-import { IntegrationPhysics } from "./secondary/integration-physics";
+import {
+  ConnectorLogoCatalogue,
+  IntegrationEcosystem,
+} from "./integrations/integration-ecosystem";
 
 export function ProductsPage() {
   return (
@@ -40,13 +51,13 @@ export function ProductsPage() {
       <SecondaryHero
         label="Product · Capabilities"
         title="Modules on one governed platform."
-        lead="DeepDelve products and AI Workspace capabilities — each page pairs the claim with a real product surface."
+        lead="Agent Hub products and AI Workspace capabilities — each page pairs the claim with a real product surface."
         align="center"
         secondaryHref="/platform"
         secondaryLabel="Platform overview"
       />
       <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#E9EAEB]">
-        <ChapterLabel>DeepDelve family</ChapterLabel>
+        <ChapterLabel>Agent Hub</ChapterLabel>
         <ChapterTitle>Four product surfaces.</ChapterTitle>
         <ChapterLead>
           Document understanding, invoices, cash-flow visibility and governed
@@ -57,7 +68,7 @@ export function ProductsPage() {
             <Link
               key={s.id}
               href={s.href}
-              className="group flex h-full flex-col border border-[#E9EAEB] bg-white p-6 no-underline transition-colors hover:bg-[#FAFAFA]"
+              className="zeon-surface-interactive group flex h-full flex-col p-6 no-underline"
             >
               <p className="font-mono text-[11px] text-[#1B46F5]">{s.brand}</p>
               <h2 className="mt-3 font-[family-name:var(--font-aeonik)] text-[24px] tracking-[-0.02em] text-[#181D27]">
@@ -79,7 +90,7 @@ export function ProductsPage() {
             <Link
               key={cap.id}
               href={`/platform/${cap.id}`}
-              className="group flex h-full flex-col border border-[#E9EAEB] bg-white p-6 transition-colors hover:bg-white/80"
+              className="zeon-surface-interactive group flex h-full flex-col p-6"
             >
               <p className="font-mono text-[11px] text-[#1B46F5]">
                 {String(i + 1).padStart(2, "0")}
@@ -124,40 +135,70 @@ export function AgentsPage() {
   return null;
 }
 
+const AGENT_CATEGORY_ICONS: Record<AgentCategory["icon"], LucideIcon> = {
+  finance: Landmark,
+  lending: Scale,
+  operations: Factory,
+  knowledge: BookOpen,
+};
+
 export function AgentLibraryPage() {
   return (
     <PageShell>
       <SecondaryHero
         label="Product · Agent library"
         title="Agents by function."
-        lead="Portfolio examples from the ZeonAI brief. About 30% in production, about 50% in pilot or developed, about 20% still to be built — maturity varies."
+        lead="Agents grouped by function — each runs a governed workflow with people on the exceptions."
         tone="ink"
         align="center"
       />
       <Chapter tone="paper" min={false} className="!min-h-0">
-        <div className="space-y-14">
-          {agentCategories.map((cat) => (
-            <div key={cat.title}>
-              <h2 className="font-[family-name:var(--font-aeonik)] text-[28px] tracking-[-0.03em] md:text-[36px]">
-                {cat.title}
-              </h2>
-              <ul className="mt-5 columns-1 gap-3 sm:columns-2 lg:columns-3">
-                {cat.agents.map((name) => (
-                  <li
-                    key={name}
-                    className="mb-2 break-inside-avoid rounded-[8px] border border-[#E9EAEB] bg-[#FAFAFA]/60 px-4 py-3 text-[14px] text-[#181D27]"
-                  >
-                    {name}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-        <p className="mt-10 max-w-[52ch] text-[13px] text-[#535862]">
-          Illustrative catalogue from the product brief — not a guarantee that
-          every agent is generally available.
+        <p className="max-w-[60ch] text-[15px] leading-[1.55] text-[#535862]">
+          {agentCatalogNote}
         </p>
+        <div className="mt-12 space-y-14">
+          {agentCategories.map((cat) => {
+            const Icon = AGENT_CATEGORY_ICONS[cat.icon];
+            return (
+              <div key={cat.title}>
+                <div className="flex items-center gap-3">
+                  <span className="zeon-surface flex size-10 items-center justify-center text-[#1B46F5]">
+                    <Icon className="size-5" aria-hidden />
+                  </span>
+                  <h2 className="font-[family-name:var(--font-aeonik)] text-[28px] tracking-[-0.03em] md:text-[36px]">
+                    {cat.title}
+                  </h2>
+                </div>
+                <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                  {cat.agents.map((agent) => (
+                    <li
+                      key={agent.name}
+                      className="zeon-surface-quiet flex h-full flex-col p-4"
+                    >
+                      <p className="text-[15px] font-medium text-[#181D27]">
+                        {agent.name}
+                      </p>
+                      <p className="mt-2 text-[13px] leading-[1.45] text-[#535862]">
+                        <span className="font-mono text-[11px] uppercase tracking-wide text-[#8A9493]">
+                          Reads
+                        </span>
+                        <br />
+                        {agent.reads}
+                      </p>
+                      <p className="mt-2 text-[13px] leading-[1.45] text-[#535862]">
+                        <span className="font-mono text-[11px] uppercase tracking-wide text-[#8A9493]">
+                          Produces
+                        </span>
+                        <br />
+                        {agent.produces}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
+        </div>
         <Link href="/agents" className="zeon-link-arrow mt-6 inline-flex">
           How Agent Hub works
         </Link>
@@ -208,7 +249,7 @@ export function ArchitecturePage() {
           {architectureLayers.map((layer) => (
             <article
               key={layer.key}
-              className="rounded-[12px] border border-[var(--zeon-border-blue)] bg-white p-6"
+              className="zeon-surface p-6"
             >
               <p className="font-mono text-[11px] text-[var(--zeon-royal)]">
                 {layer.id}
@@ -256,31 +297,23 @@ export function IntegrationsPage() {
         visual={<WorkflowMock />}
       />
       <Chapter tone="sky" min={false} className="!min-h-0">
-        <ChapterLabel tone="sky">Connection map</ChapterLabel>
-        <ChapterTitle>Hub and systems of record.</ChapterTitle>
+        <ChapterLabel tone="sky">09 · Connectors</ChapterLabel>
+        <ChapterTitle>Your systems. One intelligent workspace.</ChapterTitle>
         <ChapterLead tone="sky">
-          Drag a node to feel how each system stays linked to AI Workspace.
+          Bring your enterprise systems together through governed AI agents.
+          Connect the ERP, data warehouse and document platforms your teams
+          already rely on.
         </ChapterLead>
         <div className="mt-10">
-          <IntegrationPhysics items={integrations} />
+          <IntegrationEcosystem />
         </div>
       </Chapter>
       <Chapter tone="paper" min={false} className="!min-h-0">
         <ChapterLabel>Catalogue</ChapterLabel>
-        <ChapterLead>
-          Availability depends on the customer environment. Confirm supported
-          connectors with the product team before environment-specific claims.
-        </ChapterLead>
-        <ul className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
-          {integrations.map((name) => (
-            <li
-              key={name}
-              className="rounded-[10px] border border-[var(--zeon-border-blue)] bg-[var(--zeon-sky)] px-4 py-5 text-[15px] font-medium text-[#181D27]"
-            >
-              {name}
-            </li>
-          ))}
-        </ul>
+        <ChapterLead>Connectors are scoped per engagement.</ChapterLead>
+        <div className="mt-10">
+          <ConnectorLogoCatalogue />
+        </div>
       </Chapter>
       <SecondaryCta
         tone="ink"
@@ -299,7 +332,7 @@ export function HowWeWorkPage() {
       <SecondaryHero
         label="Company · Delivery"
         title="Problem. Ideation. Solution."
-        lead="The same three steps on every engagement. Manifest AI — the consulting arm of ZeonAI — runs discovery and delivery beside the product team."
+        lead="The same three steps on every engagement. Manifest AI is a channel partner and separate company that runs discovery and delivery beside the ZeonAI Labs product team."
         tone="ink"
         secondaryHref="/about"
         secondaryLabel="About ZeonAI"
@@ -325,15 +358,14 @@ export function HowWeWorkPage() {
           ))}
         </div>
         <p className="mt-10 text-[13px] text-[#535862]">
-          Timelines are the engagement pattern in the product brief — not a
-          contractual guarantee for every project.
+          Typical timeline; confirmed during discovery.
         </p>
       </Chapter>
       <Chapter tone="sky" min={false} className="!min-h-0">
         <ChapterLabel tone="sky">Delivery pattern</ChapterLabel>
         <ChapterTitle>Discovery beside the product team.</ChapterTitle>
         <ChapterLead tone="sky">
-          Manifest AI runs the engagement. ZeonAI Labs builds the platform both
+          Manifest AI is a channel partner. ZeonAI Labs builds the platform both
           teams ship on.
         </ChapterLead>
       </Chapter>
@@ -391,10 +423,6 @@ export function ContactPage() {
             </Link>
           </article>
         </div>
-        <p className="mx-auto mt-12 max-w-[52ch] text-center text-[13px] text-[#8A9493]">
-          No contact form endpoint is configured on this site yet — we do not
-          show a fake success state. Email is the working path.
-        </p>
       </Chapter>
     </PageShell>
   );
@@ -405,8 +433,8 @@ export function SecurityPage() {
     <PageShell>
       <SecondaryHero
         label="Trust · Security"
-        title="Security practices, stated carefully."
-        lead="Labels below come from the product brief and require confirmation before public certification claims."
+        title="Security practices."
+        lead="Access control, encryption, authentication and audit capabilities built into AI Workspace."
         tone="ink"
         visual={<AuditMock />}
       />
@@ -418,7 +446,7 @@ export function SecurityPage() {
               className="rounded-full border border-[var(--zeon-border-blue)] bg-white px-4 py-2 text-[13px]"
             >
               <span className="font-medium text-[#181D27]">{label.name}</span>
-              <span className="text-[#8A9493]"> · {label.note} · to confirm</span>
+              <span className="text-[#8A9493]"> · {label.note}</span>
             </li>
           ))}
         </ul>
@@ -426,7 +454,7 @@ export function SecurityPage() {
           {trustItems.map((item) => (
             <article
               key={item.title}
-              className="rounded-[12px] border border-[var(--zeon-border-blue)] bg-white p-5"
+              className="zeon-surface p-5"
             >
               <h2 className="font-[family-name:var(--font-aeonik)] text-[18px] tracking-[-0.02em]">
                 {item.title}
@@ -437,10 +465,6 @@ export function SecurityPage() {
             </article>
           ))}
         </div>
-        <p className="mt-8 text-[12px] text-[#8A9493]">
-          Verify certification status, encryption, 2FA, archiving, DR and data
-          sovereignty with the security owner before stronger public claims.
-        </p>
       </Chapter>
       <SecondaryCta
         title="Discuss controls for your environment"
@@ -497,10 +521,6 @@ export function ResponsibleAiPage() {
             </article>
           ))}
         </div>
-        <p className="mt-10 text-[13px] text-[#8A9493]">
-          Formal AI ethics policies from related company materials require
-          confirmation before publication as ZeonAI product commitments.
-        </p>
       </Chapter>
       <SecondaryCta
         tone="ink"
@@ -519,7 +539,7 @@ export function DeploymentPage() {
       <SecondaryHero
         label="Trust · Deployment"
         title="Deployment on your terms."
-        lead="Options listed in the product brief. Confirm supported configurations with the product owner for each environment."
+        lead="On-premises, private cloud and major public clouds — scoped to your environment."
         tone="cream"
       />
       <Chapter tone="ink" min={false} className="!min-h-0">
@@ -527,23 +547,22 @@ export function DeploymentPage() {
           {deployments.map((d) => (
             <li
               key={d}
-              className="rounded-[12px] border border-white/12 bg-white/[0.04] px-5 py-8 text-center text-[18px] font-medium tracking-[-0.02em] text-white backdrop-blur-sm"
+              className="zeon-glass-float border-white/12 bg-[rgba(255,255,255,0.08)] px-5 py-8 text-center text-[18px] font-medium tracking-[-0.02em] text-white"
             >
               {d}
             </li>
           ))}
         </ul>
         <p className="mt-8 max-w-[52ch] text-[13px] leading-[1.5] text-white/45">
-          Do not treat this list as a guarantee of native support in every
-          region or classification. Scope deployment during discovery.
+          Deployment is scoped during discovery.
         </p>
       </Chapter>
       <SecondaryCta
         tone="paper"
         title="Talk through deployment constraints"
         body="Residency, private cloud and on-premises needs should be on the table early."
-        secondaryHref="/security"
-        secondaryLabel="Security"
+        secondaryHref="/trust"
+        secondaryLabel="Trust Centre"
       />
     </PageShell>
   );

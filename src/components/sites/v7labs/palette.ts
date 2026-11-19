@@ -1,6 +1,6 @@
 /**
- * DeepProbe / ZeonAI brand palette.
- * Source: https://deepprobe-colours.netlify.app/
+ * ZeonAI brand palette.
+ * Source: https://deepprobe-colours.netlify.app/ (legacy palette reference)
  * Prefer CSS variables (var(--dp-*) / var(--zeon-*)) in components;
  * use this module only where JS needs raw hex (canvas, charts, motion).
  */

@@ -1,9 +1,14 @@
 /**
- * DeepDelve product pages — copy from ZeonAI content / solutions SoT.
- * Sample UI values are illustrative demo content, not verified metrics.
+ * Agent Hub and AI Workspace product pages — copy from ZeonAI content SoT.
+ * Sample UI values are demonstration content, not verified metrics.
  */
 
-export type ProductSlug = "docai" | "invoiceai" | "cashfloai" | "deepprobe";
+export type ProductSlug =
+  | "docai"
+  | "invoiceai"
+  | "cashfloai"
+  | "ai-workspace"
+  | "deepprobe";
 
 export type ProductDef = {
   slug: ProductSlug;
@@ -18,10 +23,10 @@ export type ProductDef = {
   faq: readonly { q: string; a: string }[];
 };
 
-export const PRODUCTS: Record<ProductSlug, ProductDef> = {
+export const PRODUCTS: Record<"docai" | "invoiceai" | "cashfloai" | "ai-workspace", ProductDef> = {
   docai: {
     slug: "docai",
-    brand: "DeepDelve® DocAI",
+    brand: "Agent Hub DocAI",
     label: "Product · DocumentAI",
     title: "Documents become structured, reviewable information.",
     lead: "Expense reports, building plans, resumes, ID packs, multilingual files and lending forms — extract, validate and route with governed AI.",
@@ -72,7 +77,7 @@ export const PRODUCTS: Record<ProductSlug, ProductDef> = {
     crossLinks: [
       { href: "/products/invoiceai", label: "InvoiceAI" },
       { href: "/products/cashfloai", label: "CashfloAI" },
-      { href: "/products/deepprobe", label: "DeepProbe" },
+      { href: "/products/ai-workspace", label: "AI Workspace" },
     ],
     faq: [
       {
@@ -81,13 +86,13 @@ export const PRODUCTS: Record<ProductSlug, ProductDef> = {
       },
       {
         q: "Where do outputs go?",
-        a: "Structured tables, downloads, or connectors scoped per engagement — not a universal plug-and-play claim.",
+        a: "Structured tables, downloads, or connectors scoped per engagement.",
       },
     ],
   },
   invoiceai: {
     slug: "invoiceai",
-    brand: "DeepDelve® InvoiceAI",
+    brand: "Agent Hub InvoiceAI",
     label: "Product · InvoiceAI",
     title: "Capture, check, match and route invoices.",
     lead: "Streamline vendor invoice processing. Cut through unstructured documents, automate extraction, and integrate with ERP for validation, approval and posting.",
@@ -145,18 +150,18 @@ export const PRODUCTS: Record<ProductSlug, ProductDef> = {
     faq: [
       {
         q: "Can InvoiceAI approve without a person?",
-        a: "Exceptions and mismatches are routed for human review. Do not treat the product as autonomous posting.",
+        a: "A person approves every exception before anything posts.",
       },
     ],
   },
   cashfloai: {
     slug: "cashfloai",
-    brand: "DeepDelve® CashfloAI",
+    brand: "Agent Hub CashfloAI",
     label: "Product · CashfloAI",
     title: "Cash-flow visibility from bank statements.",
-    lead: "Optimise SMB lending analysis and underwriting. Analyse cash flow from diverse bank statements with decision parameters for faster, more accurate evaluations.",
+    lead: "Optimize SMB lending analysis and underwriting. Analyze cash flow from diverse bank statements with decision parameters for faster, more accurate evaluations.",
     promise:
-      "Financial documents become a reviewable cash view — illustrative values, source-linked where the product supports it.",
+      "Financial documents become a reviewable cash view — sample data, source-linked where the product supports it.",
     workflow: [
       {
         id: "01",
@@ -177,12 +182,12 @@ export const PRODUCTS: Record<ProductSlug, ProductDef> = {
       {
         id: "04",
         title: "View",
-        body: "A finance dashboard summarises due, overdue and period comparison — sample data labelled.",
+        body: "A finance dashboard summarizes due, overdue and period comparison — sample data.",
       },
       {
         id: "05",
         title: "Decide",
-        body: "Underwriting parameters inform a human decision, not an invented score claim.",
+        body: "Underwriting parameters inform a human decision.",
         human: true,
       },
     ],
@@ -199,19 +204,19 @@ export const PRODUCTS: Record<ProductSlug, ProductDef> = {
     crossLinks: [
       { href: "/products/invoiceai", label: "InvoiceAI" },
       { href: "/products/docai", label: "DocAI" },
-      { href: "/products/deepprobe", label: "DeepProbe" },
+      { href: "/products/ai-workspace", label: "AI Workspace" },
     ],
     faq: [
       {
         q: "Are dashboard figures real performance claims?",
-        a: "No. Figures in product previews are illustrative sample data for UI demonstration.",
+        a: "No. Figures in product previews are sample data for UI demonstration.",
       },
     ],
   },
-  deepprobe: {
-    slug: "deepprobe",
-    brand: "DeepDelve® DeepProbe",
-    label: "Product · DeepProbe",
+  "ai-workspace": {
+    slug: "ai-workspace",
+    brand: "AI Workspace",
+    label: "Product · AI Workspace",
     title: "Answers with evidence, permissions and a trail.",
     lead: "Generative search across policies, contracts, SOPs, financial tables and regulatory documents — current, cited responses from your repositories.",
     promise:
@@ -255,20 +260,30 @@ export const PRODUCTS: Record<ProductSlug, ProductDef> = {
     ],
     crossLinks: [
       { href: "/architecture", label: "Architecture" },
-      { href: "/platform", label: "AI Workspace" },
+      { href: "/platform", label: "Platform overview" },
       { href: "/trust", label: "Trust Centre" },
     ],
     faq: [
       {
         q: "How is this different from a generic chatbot?",
-        a: "DeepProbe answers from your repositories with citations, role-based access and an audit trail — not open-web invention.",
+        a: "AI Workspace answers from your repositories with citations, role-based access and an audit trail — not open-web invention.",
       },
     ],
   },
 };
 
-export const PRODUCT_SLUGS = Object.keys(PRODUCTS) as ProductSlug[];
+export const PRODUCT_ROUTE_SLUGS = Object.keys(PRODUCTS) as [
+  "docai",
+  "invoiceai",
+  "cashfloai",
+  "ai-workspace",
+];
+
+export type ProductRouteSlug = (typeof PRODUCT_ROUTE_SLUGS)[number];
+
+export const PRODUCT_SLUGS = PRODUCT_ROUTE_SLUGS as readonly ProductSlug[];
 
 export function getProduct(slug: string): ProductDef | undefined {
-  return PRODUCTS[slug as ProductSlug];
+  const resolved = slug === "deepprobe" ? "ai-workspace" : slug;
+  return PRODUCTS[resolved as keyof typeof PRODUCTS];
 }

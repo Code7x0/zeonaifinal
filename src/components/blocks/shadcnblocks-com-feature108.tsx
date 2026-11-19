@@ -12,14 +12,14 @@ import { Tabs, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import { Layout, Pointer, Zap } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
-import {
-  AppShell,
-  PLATFORM_SCREENS,
-  PLATFORM_SCREEN_TITLES,
-  type PlatformScreenId,
-} from "@/components/blocks/platform-screens";
+import type { PlatformScreenId } from "@/components/blocks/platform-screens";
 import { FadeUp } from "@/components/sites/v7labs/fade-up";
 import { durationUi, easeOut } from "@/components/sites/v7labs/motion";
+import {
+  HOME_TAB_VIDEO,
+  ProductVideo,
+  getVideoAsset,
+} from "@/components/sites/v7labs/video";
 
 /** Per-scene dwell so Ask AI answer/citations can be read. */
 const SCENE_MS: Record<string, number> = {
@@ -132,9 +132,9 @@ const Feature108 = ({
 
   const activeTab = tabs.find((t) => t.value === active) ?? tabs[0];
   const screenId = activeTab?.content.screenId;
-  const shellTitle =
-    (screenId && PLATFORM_SCREEN_TITLES[screenId]) ||
-    `ZeonAI · ${activeTab?.label ?? "Workspace"}`;
+  const videoId =
+    HOME_TAB_VIDEO[activeTab?.value ?? ""] ??
+    (screenId ? HOME_TAB_VIDEO[screenId] : undefined);
   const sceneMs =
     (screenId && SCENE_MS[screenId]) ||
     SCENE_MS[active] ||
@@ -193,16 +193,6 @@ const Feature108 = ({
     softPauseUntil.current = Date.now() + MANUAL_PAUSE_MS;
   };
 
-  const onTogglePlay = () => {
-    if (tourPaused) {
-      setTourPaused(false);
-      softPauseUntil.current = 0;
-      setProgress(0);
-    } else {
-      setTourPaused(true);
-    }
-  };
-
   return (
     <div
       ref={sectionRef}
@@ -228,14 +218,14 @@ const Feature108 = ({
         <Tabs value={active} onValueChange={onManualSelect} className="mt-12">
           <div className="w-full">
             <TabsList
-              className="flex w-full flex-wrap items-center justify-center gap-1 border-b border-black/8 pb-0"
+              className="zeon-surface-glass mx-auto flex w-full max-w-[920px] flex-wrap items-center justify-center gap-1 rounded-[var(--zeon-radius-xl)] border border-[var(--zeon-glass-border)] p-1.5"
               aria-label="Platform modules"
             >
               {tabs.map((tab) => (
                 <TabsTrigger
                   key={tab.value}
                   value={tab.value}
-                  className="relative flex items-center gap-2 rounded-[6px] px-3 py-2.5 text-[13px] font-medium text-black/40 outline-none transition-[color,background-color,transform] duration-[var(--zeon-duration-hover,220ms)] ease-out after:absolute after:inset-x-3 after:-bottom-px after:h-px after:bg-[#2962FF] after:opacity-0 after:transition-opacity hover:text-[#181D27] focus-visible:ring-2 focus-visible:ring-[#2962FF]/35 active:scale-[0.98] data-[state=active]:text-[#181D27] data-[state=active]:after:opacity-100 [&_svg]:opacity-45 data-[state=active]:[&_svg]:opacity-75"
+                  className="relative flex items-center gap-2 rounded-[10px] px-3 py-2.5 text-[13px] font-medium text-black/40 outline-none transition-[color,background-color,transform,box-shadow] duration-[var(--zeon-duration-hover,280ms)] ease-[var(--zeon-ease-spring)] hover:bg-white/70 hover:text-[#181D27] focus-visible:ring-2 focus-visible:ring-[#2962FF]/35 active:scale-[0.98] data-[state=active]:bg-white data-[state=active]:text-[#181D27] data-[state=active]:shadow-[var(--zeon-elev-1)] [&_svg]:opacity-45 data-[state=active]:[&_svg]:opacity-75"
                 >
                   {tab.icon}
                   {tab.label}
@@ -265,26 +255,28 @@ const Feature108 = ({
 
           {/* Compact scene caption — product screen is the hero */}
           <div className="mt-5 flex flex-wrap items-end justify-center gap-3 text-center sm:justify-between sm:text-left">
-            <div className="relative mx-auto min-h-[1.5em] w-full max-w-[48ch] sm:mx-0">
+            <div className="relative mx-auto min-h-[3.25rem] w-full max-w-[48ch] sm:mx-0">
               <AnimatePresence mode="wait" initial={false}>
-                <motion.p
+                <motion.div
                   key={active}
-                  className="text-[15px] font-medium tracking-[-0.015em] text-[#181D27] md:text-[16px]"
-                  initial={
-                    reduceMotion ? false : { opacity: 0, y: 8 }
-                  }
+                  initial={reduceMotion ? false : { opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={
-                    reduceMotion ? undefined : { opacity: 0, y: -6 }
-                  }
+                  exit={reduceMotion ? undefined : { opacity: 0, y: -6 }}
                   transition={
                     reduceMotion
                       ? { duration: 0 }
                       : { duration: durationUi, ease: easeOut }
                   }
                 >
-                  {activeTab?.content.title}
-                </motion.p>
+                  <p className="text-[15px] font-medium tracking-[-0.015em] text-[#181D27] md:text-[16px]">
+                    {activeTab?.content.title}
+                  </p>
+                  {activeTab?.content.description ? (
+                    <p className="mt-1 text-[13px] leading-[1.45] text-[#717680]">
+                      {activeTab.content.description}
+                    </p>
+                  ) : null}
+                </motion.div>
               </AnimatePresence>
             </div>
             <a
@@ -295,47 +287,37 @@ const Feature108 = ({
             </a>
           </div>
 
-          <div className="mt-5 w-full">
-            <AppShell
-              title={shellTitle}
-              moduleLabel={activeTab?.label}
-              playing={!tourPaused && autoplay && !reduceMotion && inView}
-              onTogglePlay={onTogglePlay}
-              showPlayControl={autoplay && !reduceMotion}
-            >
-              {tabs.map((tab) => {
-                const id = tab.content.screenId;
-                const Screen = id ? PLATFORM_SCREENS[id] : null;
-                if (!Screen) return null;
-                const isActive = tab.value === active;
-                return (
-                  <div
-                    key={tab.value}
-                    className="absolute inset-0"
-                    style={{
-                      opacity: isActive ? 1 : 0,
-                      transform:
-                        reduceMotion || isActive
-                          ? "translateY(0)"
-                          : "translateY(6px)",
-                      transition: reduceMotion
-                        ? "none"
-                        : `opacity ${CROSSFADE_MS}ms ease, transform ${CROSSFADE_MS}ms ease`,
-                      pointerEvents: isActive ? "auto" : "none",
-                      zIndex: isActive ? 1 : 0,
-                    }}
-                    aria-hidden={!isActive}
-                    {...(!isActive ? { inert: true } : {})}
-                  >
-                    <Screen
-                      active={isActive}
-                      progress={isActive ? progress : 0}
-                      reduceMotion={reduceMotion}
-                    />
-                  </div>
-                );
-              })}
-            </AppShell>
+          <div className="relative mt-5 w-full">
+            {tabs.map((tab) => {
+              const id =
+                HOME_TAB_VIDEO[tab.value] ??
+                (tab.content.screenId
+                  ? HOME_TAB_VIDEO[tab.content.screenId]
+                  : undefined);
+              if (!id) return null;
+              const isActive = tab.value === active;
+              void getVideoAsset(id);
+              return (
+                <div
+                  key={tab.value}
+                  className="w-full"
+                  hidden={!isActive}
+                  aria-hidden={!isActive}
+                  {...(!isActive ? { inert: true } : {})}
+                >
+                  <ProductVideo
+                    assetId={id}
+                    active={isActive && inView && !tourPaused}
+                    tone="ink"
+                  />
+                </div>
+              );
+            })}
+            {!videoId ? (
+              <p className="rounded-[12px] border border-[#E9EAEB] bg-white p-8 text-center text-[14px] text-[#717680]">
+                Product recording for this module is pending.
+              </p>
+            ) : null}
             <p className="sr-only" aria-live="polite">
               Showing {activeTab?.label}
             </p>

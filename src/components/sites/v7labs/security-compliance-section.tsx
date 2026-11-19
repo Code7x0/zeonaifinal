@@ -418,11 +418,6 @@ export function SecurityComplianceSection() {
                       <p className="mt-2 max-w-[48ch] text-[14px] leading-[1.55] text-[#A0A7B4]">
                         {selected.detail}
                       </p>
-                      {selected.placeholder ? (
-                        <p className="mt-2 font-mono text-[9px] uppercase tracking-[0.12em] text-[#727B8B]">
-                          Placeholder · confirm with ZeonAI team
-                        </p>
-                      ) : null}
                     </motion.div>
                   </AnimatePresence>
                 </div>

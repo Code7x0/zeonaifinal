@@ -50,9 +50,9 @@ export function AppShell({
 }) {
   return (
     <div
-      className={`flex w-full flex-col overflow-hidden rounded-[6px] border border-[#252B37] bg-[#08090B] shadow-[0_24px_80px_rgba(0,0,0,0.45)] ${className}`}
+      className={`zeon-window zeon-window-ink flex w-full flex-col overflow-hidden bg-[#08090B] ${className}`}
     >
-      <div className="flex h-10 shrink-0 items-center gap-3 border-b border-[#252B37] bg-[#0D0F12] px-3.5">
+      <div className="relative z-[3] flex h-10 shrink-0 items-center gap-3 border-b border-[#252B37] bg-[#0D0F12]/90 px-3.5 backdrop-blur-md">
         <div className="flex items-center gap-2 min-w-0 flex-1">
           <span
             className="size-1.5 shrink-0 rounded-full"
@@ -247,7 +247,7 @@ export function AskAiScreen({
         <div className="border-t border-[#252B37] bg-[#12161F] px-4 py-2.5">
           <div className="flex items-center gap-2 rounded-[4px] border border-[#252B37] bg-[#151920] px-3 py-2">
             <span className="min-w-0 flex-1 text-[12px] text-[#6F7885]">
-              Ask about your organisation…
+              Ask about your organization…
             </span>
             <span
               className="flex size-6 items-center justify-center rounded-[3px] text-white"

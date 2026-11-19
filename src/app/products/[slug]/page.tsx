@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import {
   getProduct,
-  PRODUCT_SLUGS,
-  type ProductSlug,
+  PRODUCT_ROUTE_SLUGS,
+  type ProductRouteSlug,
 } from "@/components/sites/v7labs/products/product-data";
 import { ProductPage } from "@/components/sites/v7labs/products/product-page";
 
 type Props = { params: Promise<{ slug: string }> };
 
 export function generateStaticParams() {
-  return PRODUCT_SLUGS.map((slug) => ({ slug }));
+  return PRODUCT_ROUTE_SLUGS.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -25,8 +25,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProductRoute({ params }: Props) {
   const { slug } = await params;
+  if (slug === "deepprobe") {
+    redirect("/products/ai-workspace");
+  }
   const product = getProduct(slug);
-  if (!product || !PRODUCT_SLUGS.includes(slug as ProductSlug)) {
+  if (!product || !PRODUCT_ROUTE_SLUGS.includes(slug as ProductRouteSlug)) {
     notFound();
   }
   return <ProductPage product={product} />;

@@ -10,6 +10,7 @@ import {
 } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { useLenis } from "lenis/react";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
   durationNav,
@@ -19,8 +20,19 @@ import {
   staggerFast,
 } from "./motion";
 import { V7Logo } from "./logo";
+import {
+  clearHeaderChromeOffset,
+  setHeaderChromeOffset,
+} from "./nav-chrome";
 import { NAV_GROUPS, type NavGroup } from "./nav-data";
 import { ZeonLinkButton } from "./zeon-ui";
+
+function groupIsActive(group: NavGroup, pathname: string) {
+  return group.items.some((item) => {
+    const path = item.href.split("#")[0] ?? item.href;
+    return path === pathname || (path !== "/" && pathname.startsWith(`${path}/`));
+  });
+}
 
 type HeaderBarProps = {
   open: string | null;
@@ -43,6 +55,7 @@ function HeaderBar({
   showMega,
 }: HeaderBarProps) {
   const reduceMotion = useReducedMotion() ?? false;
+  const pathname = usePathname() ?? "/";
   const navId = useId();
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -96,7 +109,7 @@ function HeaderBar({
   const activeGroup = NAV_GROUPS.find((g) => g.label === open) ?? null;
 
   return (
-    <header className="zeon-glass-nav relative z-50">
+    <header className="zeon-glass-nav relative z-50" data-zeon-nav-bar>
       <div className="mx-auto flex h-[60px] max-w-[1400px] items-center justify-between gap-4 px-5 md:px-8">
         <div className="flex items-center gap-8">
           <a
@@ -114,6 +127,7 @@ function HeaderBar({
           >
             {NAV_GROUPS.map((group) => {
               const isOpen = open === group.label;
+              const isActive = groupIsActive(group, pathname);
               const panelId = `${navId}-panel-${group.id}`;
               return (
                 <div
@@ -123,8 +137,10 @@ function HeaderBar({
                 >
                   <button
                     type="button"
-                    className="group relative inline-flex h-[34px] items-center gap-1 rounded-[2px] px-3 text-[13px] text-[var(--dp-gray-600,#535862)] transition-[color,background-color,box-shadow] duration-[var(--zeon-duration-hover)] ease-[var(--zeon-ease-out)] hover:bg-[var(--dp-blue-50,#EEF4FF)] hover:text-[var(--dp-blue-700,#1433E1)] focus-visible:outline-none focus-visible:shadow-[var(--zeon-focus-ring)] data-[open=true]:bg-[var(--dp-blue-600,#1B46F5)] data-[open=true]:text-white data-[open=true]:shadow-[inset_0_0_0_1px_rgba(41,98,255,0.45)]"
+                    className="group relative inline-flex h-[34px] items-center gap-1 rounded-[2px] px-3 text-[13px] text-[var(--dp-gray-600,#535862)] transition-[color,background-color,box-shadow] duration-[var(--zeon-duration-hover)] ease-[var(--zeon-ease-out)] hover:bg-[var(--dp-blue-50,#EEF4FF)] hover:text-[var(--dp-blue-700,#1433E1)] focus-visible:outline-none focus-visible:shadow-[var(--zeon-focus-ring)] data-[open=true]:bg-[var(--dp-blue-600,#1B46F5)] data-[open=true]:text-white data-[open=true]:shadow-[inset_0_0_0_1px_rgba(41,98,255,0.45)] data-[active=true]:bg-[var(--dp-blue-50,#EEF4FF)] data-[active=true]:text-[var(--dp-blue-700,#1433E1)] data-[active=true]:data-[open=true]:bg-[var(--dp-blue-600,#1B46F5)] data-[active=true]:data-[open=true]:text-white"
                     data-open={isOpen}
+                    data-active={isActive && !isOpen}
+                    aria-current={isActive ? "page" : undefined}
                     aria-expanded={isOpen}
                     aria-haspopup="true"
                     aria-controls={panelId}
@@ -322,6 +338,7 @@ function HeaderBar({
  * - At top / scrolling down: in-flow header scrolls away with the page (not sticky).
  * - Scrolling up / top-edge hover: fixed bar slides in.
  * - Desktop: multi-column mega-menu (links only).
+ * - Publishes --zeon-header-offset for sticky page rails (Technology chips, etc.).
  */
 export function SiteHeader() {
   const [open, setOpen] = useState<string | null>(null);
@@ -332,20 +349,30 @@ export function SiteHeader() {
   const nearTopHover = useRef(false);
   const scrollY = useRef(0);
   const mobileOpenRef = useRef(mobileOpen);
+  const inflowRef = useRef<HTMLDivElement>(null);
+  const headerHeightRef = useRef(60);
+  const inflowVisibleRef = useRef(true);
+  const floatingVisibleRef = useRef(false);
   const reduceMotion = useReducedMotion();
 
   mobileOpenRef.current = mobileOpen;
 
+  const publishHeaderOffset = useCallback(() => {
+    const height = headerHeightRef.current || 60;
+    const occupiesTop =
+      inflowVisibleRef.current || floatingVisibleRef.current;
+    setHeaderChromeOffset(occupiesTop ? height : 0, height);
+  }, []);
+
   const syncFloating = useCallback(() => {
     const past = scrollY.current > 80;
-    if (!past) {
-      setFloatingVisible(false);
-      return;
-    }
-    setFloatingVisible(
-      scrollingUp.current || nearTopHover.current || mobileOpenRef.current,
-    );
-  }, []);
+    const next = past
+      ? scrollingUp.current || nearTopHover.current || mobileOpenRef.current
+      : false;
+    floatingVisibleRef.current = next;
+    setFloatingVisible((prev) => (prev === next ? prev : next));
+    publishHeaderOffset();
+  }, [publishHeaderOffset]);
 
   useLenis(({ scroll, direction }) => {
     scrollY.current = scroll;
@@ -379,6 +406,43 @@ export function SiteHeader() {
     syncFloating();
   }, [mobileOpen, syncFloating]);
 
+  /* Measure real navbar height; observe whether the in-flow bar still intersects. */
+  useEffect(() => {
+    const inflow = inflowRef.current;
+    if (!inflow) return;
+
+    const measureHeight = () => {
+      const bar =
+        inflow.querySelector<HTMLElement>("[data-zeon-nav-bar]") ??
+        document.querySelector<HTMLElement>("[data-zeon-nav-bar]");
+      const h = bar?.getBoundingClientRect().height;
+      if (h && h > 0) headerHeightRef.current = h;
+      publishHeaderOffset();
+    };
+
+    measureHeight();
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        inflowVisibleRef.current = Boolean(entry?.isIntersecting);
+        publishHeaderOffset();
+      },
+      { threshold: 0, rootMargin: "0px" },
+    );
+    io.observe(inflow);
+
+    const ro = new ResizeObserver(() => measureHeight());
+    ro.observe(inflow);
+    const bar = inflow.querySelector("[data-zeon-nav-bar]");
+    if (bar) ro.observe(bar);
+
+    return () => {
+      io.disconnect();
+      ro.disconnect();
+      clearHeaderChromeOffset();
+    };
+  }, [publishHeaderOffset]);
+
   const barProps = {
     open,
     setOpen,
@@ -390,7 +454,7 @@ export function SiteHeader() {
 
   return (
     <>
-      <div className="relative z-50">
+      <div className="relative z-50" ref={inflowRef} data-zeon-nav-inflow>
         <HeaderBar {...barProps} showMega={!floatingVisible} />
       </div>
 
@@ -399,6 +463,7 @@ export function SiteHeader() {
           <motion.div
             key="floating-nav"
             className="fixed inset-x-0 top-0 z-[60]"
+            data-zeon-nav-floating=""
             initial={reduceMotion ? false : { y: "-100%", opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={

@@ -17,6 +17,12 @@ import {
   enterYSoft,
   staggerDelay,
 } from "../motion";
+import {
+  VIDEO_ASSETS,
+  VideoSection,
+  caseVideoId,
+  getVideoAsset,
+} from "@/components/sites/v7labs/video";
 
 const themeHero: Record<CaseStudy["heroTheme"], string> = {
   ink: "bg-white text-[var(--zeon-ink)]",
@@ -54,6 +60,10 @@ export function CaseStudyPage({ slug }: CaseStudyPageProps) {
   const related = study.related
     .map((s) => getCaseStudy(s))
     .filter((c): c is CaseStudy => Boolean(c));
+
+  const caseFilmId = caseVideoId(study.slug);
+  const hasCaseFilm = caseFilmId in VIDEO_ASSETS;
+  const caseFilmAsset = hasCaseFilm ? getVideoAsset(caseFilmId) : null;
 
   return (
     <div className="v7-site min-h-screen bg-white text-[#181D27]">
@@ -96,6 +106,21 @@ export function CaseStudyPage({ slug }: CaseStudyPageProps) {
             </div>
           </div>
         </header>
+
+        {hasCaseFilm && caseFilmAsset ? (
+          <section className="border-b border-[#E9EAEB] bg-[var(--zeon-sky)] px-5 py-14 md:px-8 md:py-20">
+            <div className="mx-auto max-w-[1180px]">
+              <VideoSection
+                assetId={caseFilmId}
+                eyebrow="Case film"
+                headline={study.title}
+                body={study.summary}
+                after={caseFilmAsset.description}
+                layout="split"
+              />
+            </div>
+          </section>
+        ) : null}
 
         {/* Results */}
         <section className="border-b border-[#E9EAEB] bg-white px-5 py-14 md:px-8 md:py-20">

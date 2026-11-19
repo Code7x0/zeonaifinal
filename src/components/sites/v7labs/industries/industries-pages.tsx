@@ -18,6 +18,12 @@ import {
 import { industryScreen } from "../secondary/industry-screens";
 import { FadeUp } from "../fade-up";
 import { staggerDelay } from "../motion";
+import {
+  VIDEO_ASSETS,
+  VideoSection,
+  getVideoAsset,
+  industryVideoId,
+} from "@/components/sites/v7labs/video";
 
 const TONES = ["paper", "paper", "paper", "paper", "paper", "paper"] as const;
 
@@ -87,8 +93,9 @@ export function IndustriesIndexPage() {
         <ChapterLabel tone="paper">Same platform</ChapterLabel>
         <ChapterTitle>Sector agents. Shared governance.</ChapterTitle>
         <ChapterLead tone="paper">
-          Financial services, superannuation, media, government, defence and
-          manufacturing — each with agents, one control plane.
+          Financial services, superannuation, media, government, defense,
+          manufacturing, construction, telco, and medtech — each with agents, one
+          control plane.
         </ChapterLead>
       </Chapter>
       <SecondaryCta
@@ -103,6 +110,12 @@ export function IndustriesIndexPage() {
 }
 
 export function IndustryDetailPage({ industry }: { industry: Industry }) {
+  const sectorVideoId = industryVideoId(industry.id);
+  const hasSectorVideo = sectorVideoId in VIDEO_ASSETS;
+  const sectorVideoAsset = hasSectorVideo
+    ? getVideoAsset(sectorVideoId)
+    : null;
+
   return (
     <PageShell>
       <SecondaryHero
@@ -112,8 +125,57 @@ export function IndustryDetailPage({ industry }: { industry: Industry }) {
         tone="ink"
         secondaryHref="/industries"
         secondaryLabel="All industries"
-        visual={industryVisual(industry.id)}
+        visual={hasSectorVideo ? undefined : industryVisual(industry.id)}
       />
+
+      {hasSectorVideo && sectorVideoAsset ? (
+        <Chapter tone="paper" min={false} className="!min-h-0">
+          <VideoSection
+            assetId={sectorVideoId}
+            eyebrow="Sector workflow"
+            headline={industry.label}
+            body={industry.intro}
+            after={`Sample flow: ${industry.process.join(" → ")}. ${sectorVideoAsset.description}`}
+            layout="split"
+            cta={
+              <Link href="/demo" className="zeon-btn zeon-btn-ink">
+                Book a demo
+              </Link>
+            }
+          />
+        </Chapter>
+      ) : null}
+
+      {"sectorProblem" in industry && industry.sectorProblem ? (
+        <Chapter tone="paper" min={false} className="!min-h-0 border-b border-[#E9EAEB]">
+          <ChapterLabel>Sector problem</ChapterLabel>
+          <p className="mt-4 max-w-[52ch] text-[16px] leading-[1.55] text-[#535862]">
+            {industry.sectorProblem}
+          </p>
+          {"workedExample" in industry && industry.workedExample ? (
+            <div className="mt-10">
+              <ChapterLabel>Worked example</ChapterLabel>
+              <p className="mt-4 max-w-[52ch] text-[16px] leading-[1.55] text-[#535862]">
+                {industry.workedExample}
+              </p>
+            </div>
+          ) : null}
+          {"howAgentsAddress" in industry && industry.howAgentsAddress ? (
+            <div className="mt-10">
+              <ChapterLabel>How agents address it</ChapterLabel>
+              <p className="mt-4 max-w-[52ch] text-[16px] leading-[1.55] text-[#535862]">
+                {industry.howAgentsAddress}
+              </p>
+            </div>
+          ) : null}
+          {"relevantProduct" in industry && industry.relevantProduct ? (
+            <p className="mt-8 font-mono text-[13px] text-[#1B46F5]">
+              {industry.relevantProduct}
+            </p>
+          ) : null}
+        </Chapter>
+      ) : null}
+
       <Chapter tone="cream" min={false} className="!min-h-0">
         <div className="grid gap-8 border-b border-[#E9EAEB] pb-10 md:grid-cols-2">
           <div>

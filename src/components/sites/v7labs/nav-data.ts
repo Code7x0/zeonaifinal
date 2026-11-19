@@ -10,7 +10,7 @@ export type NavItem = {
 };
 
 export type NavGroup = {
-  id: "product" | "industries" | "company" | "trust";
+  id: "product" | "technology" | "industries" | "company" | "trust";
   label: string;
   items: readonly NavItem[];
 };
@@ -30,11 +30,11 @@ export const NAV_GROUPS: readonly NavGroup[] = [
         label: "Products and capabilities",
         href: "/products",
         description:
-          "DeepDelve DocAI, InvoiceAI, CashfloAI, DeepProbe and AI Workspace modules.",
+          "Agent Hub DocAI, InvoiceAI, CashfloAI, AI Workspace and platform modules.",
       },
       {
-        label: "DeepProbe",
-        href: "/products/deepprobe",
+        label: "AI Workspace",
+        href: "/products/ai-workspace",
         description:
           "Governed answers from your repositories with citations and access checks.",
       },
@@ -89,6 +89,72 @@ export const NAV_GROUPS: readonly NavGroup[] = [
     ],
   },
   {
+    id: "technology",
+    label: "Technology",
+    items: [
+      {
+        label: "Technology overview",
+        href: "/technology#architecture",
+        description: "Five layers and one governance rail.",
+      },
+      {
+        label: "Agent runtime",
+        href: "/technology#runtime",
+        description: "Our own runtime: frozen logic, rerun from any step.",
+      },
+      {
+        label: "Retrieval",
+        href: "/technology#retrieval",
+        description: "Context-aware indexing with cited answers.",
+      },
+      {
+        label: "Memory",
+        href: "/technology#memory",
+        description: "Personal and organization memory, working together.",
+      },
+      {
+        label: "AI-assisted determinism",
+        href: "/technology#determinism",
+        description: "Models interpret; rules and code execute.",
+      },
+      {
+        label: "Model router",
+        href: "/technology#router",
+        description: "The right model for each step, inside your policy.",
+      },
+      {
+        label: "Token economics",
+        href: "/technology#tokens",
+        description: "Every model call metered and budgeted.",
+      },
+      {
+        label: "Agent security",
+        href: "/technology#security",
+        description: "Five gates between an agent and your systems.",
+      },
+      {
+        label: "Sovereign deployment",
+        href: "/technology#sovereign",
+        description: "Your cloud, private cloud or air-gapped.",
+      },
+      {
+        label: "Connectors",
+        href: "/technology#connectors",
+        description: "ERP, data warehouses and document stores.",
+      },
+      {
+        label: "Agent evaluation",
+        href: "/technology#evaluation",
+        description: "No agent ships on a demo.",
+      },
+      {
+        label: "Rule builder",
+        href: "/technology#rules",
+        description: "Rules written by an agent, proved before they run.",
+      },
+    ],
+  },
+  {
     id: "industries",
     label: "Industries",
     items: [
@@ -123,10 +189,28 @@ export const NAV_GROUPS: readonly NavGroup[] = [
           "Answers from policy and data, with classification-aware access.",
       },
       {
-        label: "Defence",
+        label: "Defense",
         href: "/industries/defence",
         description:
           "Knowledge discovery for classified environments on your infrastructure.",
+      },
+      {
+        label: "Construction",
+        href: "/industries/construction",
+        description:
+          "Plans, permits and vendor paperwork with governed extraction.",
+      },
+      {
+        label: "Telco",
+        href: "/industries/telco",
+        description:
+          "Service records, contracts and operational documents at scale.",
+      },
+      {
+        label: "Medtech",
+        href: "/industries/medtech",
+        description:
+          "Regulated document packs with human review on exceptions.",
       },
       {
         label: "Metals and manufacturing",
@@ -144,11 +228,11 @@ export const NAV_GROUPS: readonly NavGroup[] = [
         label: "About ZeonAI",
         href: "/about",
         description:
-          "Product lab and platform. Manifest AI is the consulting arm.",
+          "Product lab and platform. Manifest AI is a channel partner.",
       },
       {
         label: "How we work",
-        href: "/how-we-work",
+        href: "/about#how-we-work",
         description:
           "Problem, ideation, solution — friction mapped with your team.",
       },
@@ -188,9 +272,9 @@ export const NAV_GROUPS: readonly NavGroup[] = [
       },
       {
         label: "Security and compliance",
-        href: "/security",
+        href: "/trust",
         description:
-          "Documented security practices — certification status pending confirmation.",
+          "Documented security practices and certified compliance programs.",
       },
       {
         label: "Responsible AI",
@@ -202,7 +286,7 @@ export const NAV_GROUPS: readonly NavGroup[] = [
         label: "Deployment options",
         href: "/deployment",
         description:
-          "On-premises, private cloud and major clouds — confirm per engagement.",
+          "On-premises, private cloud and major clouds — scoped during discovery.",
       },
       {
         label: "Privacy policy",

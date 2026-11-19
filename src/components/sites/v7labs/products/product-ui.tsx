@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Signature product interfaces for DeepDelve pages.
+ * Signature product interfaces for Agent Hub product pages.
  * Sample data only — labelled in UI. Inline styles where needed for reliable paint.
  */
 
@@ -321,8 +321,7 @@ export function CashflowPreview() {
             {detail.source}
           </p>
           <p className="mt-2 text-[12px] leading-[1.45] text-[#535862]">
-            Values are illustrative sample data for UI demonstration — not a
-            performance claim.
+            Sample data
           </p>
         </div>
       </div>
@@ -330,7 +329,7 @@ export function CashflowPreview() {
   );
 }
 
-/** DeepProbe — Ask AI with clickable citations → document highlight */
+/** ZeonAI — Ask AI with clickable citations → document highlight */
 export function ProbeAskPreview() {
   const [cite, setCite] = useState(0);
   const sources = [
@@ -351,7 +350,7 @@ export function ProbeAskPreview() {
   ] as const;
 
   return (
-    <ProductChrome title="AI Workspace" module="DeepProbe · Ask AI">
+    <ProductChrome title="AI Workspace" module="AI Workspace · Ask AI">
       <div
         style={{
           border: "1px solid #E9EAEB",

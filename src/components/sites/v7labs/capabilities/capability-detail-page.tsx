@@ -20,6 +20,12 @@ import {
   ContractMock,
   WorkflowMock,
 } from "../secondary/product-mocks";
+import {
+  VIDEO_ASSETS,
+  VideoSection,
+  capabilityVideoId,
+  getVideoAsset,
+} from "@/components/sites/v7labs/video";
 
 function mockFor(id: string) {
   if (id === "ask-ai" || id === "ai-drive" || id === "app-hub") {
@@ -46,7 +52,7 @@ export function CapabilitiesIndexPage() {
             <Link
               key={cap.id}
               href={`/platform/${cap.id}`}
-              className="group flex flex-col rounded-[12px] border border-[var(--zeon-border-blue)] bg-white p-6 transition-[border-color,box-shadow] duration-[var(--zeon-duration-hover)] ease-[var(--zeon-ease-out)] hover:border-[var(--zeon-accent)] hover:shadow-[var(--zeon-shadow-elevated)]"
+              className="zeon-surface-interactive group flex flex-col p-6"
             >
               <p className="font-mono text-[11px] text-[var(--zeon-royal)]">
                 {String(i + 1).padStart(2, "0")}
@@ -84,6 +90,12 @@ export function CapabilityDetailPage({
     .map((id) => getCapability(id))
     .filter((c): c is Capability => Boolean(c));
 
+  const walkthroughId = capabilityVideoId(capability.id);
+  const hasWalkthrough = walkthroughId in VIDEO_ASSETS;
+  const walkthroughAsset = hasWalkthrough
+    ? getVideoAsset(walkthroughId)
+    : null;
+
   return (
     <PageShell>
       <SecondaryHero
@@ -93,8 +105,26 @@ export function CapabilityDetailPage({
         tone="ink"
         secondaryHref="/platform"
         secondaryLabel="Platform overview"
-        visual={mockFor(capability.id)}
+        visual={hasWalkthrough ? undefined : mockFor(capability.id)}
       />
+
+      {hasWalkthrough && walkthroughAsset ? (
+        <Chapter tone="sky" min={false} className="!min-h-0">
+          <VideoSection
+            assetId={walkthroughId}
+            eyebrow="Product walkthrough"
+            headline={capability.does}
+            body={walkthroughAsset.topic}
+            after={walkthroughAsset.description}
+            layout="split"
+            cta={
+              <Link href="/demo" className="zeon-btn zeon-btn-ink">
+                Book a demo
+              </Link>
+            }
+          />
+        </Chapter>
+      ) : null}
 
       <Chapter tone="paper" min={false} className="!min-h-0">
         <p className="max-w-[52ch] text-[14px] leading-[1.55] text-[#535862]">
@@ -160,7 +190,7 @@ export function CapabilityDetailPage({
               <Link
                 key={cap.id}
                 href={`/platform/${cap.id}`}
-                className="rounded-[12px] border border-[var(--zeon-border-blue)] bg-white p-5 transition-[border-color] duration-[var(--zeon-duration-hover)] hover:border-[var(--zeon-accent)]"
+                className="zeon-surface-interactive block p-5"
               >
                 <h3 className="font-[family-name:var(--font-aeonik)] text-[18px] tracking-[-0.02em]">
                   {cap.title}

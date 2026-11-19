@@ -10,8 +10,8 @@ import {
   ChapterTitle,
   SecondaryHero,
 } from "./secondary/chapter";
-import { ProbeAskPreview } from "./products/product-ui";
 import { ZeonButton } from "./zeon-ui";
+import { VideoSection } from "@/components/sites/v7labs/video";
 
 const AGENDA = [
   {
@@ -31,7 +31,7 @@ const AGENDA = [
   },
 ] as const;
 
-const INTEREST = ["AI Workspace", "Agent Hub", "DeepDelve products", "Both"] as const;
+const INTEREST = ["AI Workspace", "Agent Hub", "Both"] as const;
 
 /**
  * Dedicated demo conversion page — does not reuse homepage FinalCta video band.
@@ -60,8 +60,8 @@ export function DemoPage() {
         align="center"
         primaryHref="#request"
         primaryLabel="Request a time"
-        secondaryHref="/products/deepprobe"
-        secondaryLabel="Explore DeepProbe"
+        secondaryHref="/products/ai-workspace"
+        secondaryLabel="Explore AI Workspace"
       />
 
       <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#E9EAEB]">
@@ -69,9 +69,6 @@ export function DemoPage() {
           <div>
             <ChapterLabel>What we cover</ChapterLabel>
             <ChapterTitle>Proposed meeting agenda.</ChapterTitle>
-            <ChapterLead>
-              Framed as a working session outline — not a guarantee of outcomes.
-            </ChapterLead>
             <ol className="mt-10 space-y-6">
               {AGENDA.map((item) => (
                 <li key={item.n} className="flex gap-4 border-t border-[#E9EAEB] pt-5">
@@ -90,7 +87,14 @@ export function DemoPage() {
               ))}
             </ol>
           </div>
-          <ProbeAskPreview />
+          <VideoSection
+            assetId="demo-expectations"
+            eyebrow="Preview"
+            headline="What you will see in the demo"
+            body="A governed walkthrough aligned to the agenda — cited answers, agents and human checkpoints on a workflow that matters to your team."
+            after="Click to play when product footage is in place; until then the poster sets expectations for the session."
+            layout="stack"
+          />
         </div>
       </Chapter>
 
@@ -100,8 +104,7 @@ export function DemoPage() {
             <ChapterLabel tone="mist">Request</ChapterLabel>
             <ChapterTitle>Tell us a little.</ChapterTitle>
             <ChapterLead tone="mist">
-              Until a form endpoint is wired, submissions are not delivered.
-              Email remains the reliable path.
+              Share your role and workflow context. We respond by email.
             </ChapterLead>
             <p className="mt-6 text-[14px] text-[#535862]">
               Prefer email now:{" "}

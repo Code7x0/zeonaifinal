@@ -140,9 +140,6 @@ export function RoleConfigurator() {
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: durationEnter, ease: easeOut }}
         >
-          <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#727B8B]">
-            After the platform
-          </p>
           <h2
             id={`${baseId}-heading`}
             className="mt-4 font-[family-name:var(--font-aeonik)] text-[36px] leading-[1.06] tracking-[-0.035em] text-[#F5F6F8] md:text-[52px]"
@@ -153,8 +150,7 @@ export function RoleConfigurator() {
             Intelligence built around your role.
           </p>
           <p className="mt-5 max-w-[52ch] text-[16px] leading-[1.6] text-[#A0A7B4] md:text-[17px]">
-            Choose your function. Module boxes stay put — only the ticks,
-            counts and agents change.
+            Choose your function. Module availability updates for each role.
           </p>
         </motion.div>
 
@@ -217,7 +213,7 @@ export function RoleConfigurator() {
           id={`${baseId}-board`}
           role="tabpanel"
           aria-labelledby={`${baseId}-tab-${role.slug}`}
-          className="mt-8 rounded-[12px] border border-white/10 bg-[#12161F]/90 p-4 shadow-[var(--zeon-shadow-soft)] backdrop-blur-xl md:p-6"
+          className="zeon-glass-float mt-8 border-white/10 bg-[rgba(18,22,31,0.78)] p-4 md:p-6"
         >
           <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
             <div>

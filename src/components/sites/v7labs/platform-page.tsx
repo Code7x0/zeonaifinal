@@ -1,11 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import {
-  architectureLayers,
-  capabilities,
-  integrations,
-} from "@/components/sites/zeonai/content";
+import { capabilities, integrations } from "@/components/sites/zeonai/content";
 import { PageShell } from "./page-shell";
 import {
   Chapter,
@@ -15,11 +11,7 @@ import {
   SecondaryCta,
   SecondaryHero,
 } from "./secondary/chapter";
-import {
-  ArchitectureRail,
-  IntegrationMesh,
-  OutputIndex,
-} from "./secondary/product-mocks";
+import { IntegrationMesh, OutputIndex } from "./secondary/product-mocks";
 import { FadeUp } from "./fade-up";
 import { staggerDelay } from "./motion";
 
@@ -52,10 +44,9 @@ export function PlatformPage() {
 
       <Chapter tone="cream" id="capabilities" min={false} className="!min-h-0">
         <ChapterLabel tone="cream">What the platform produces</ChapterLabel>
-        <ChapterTitle>Live outputs, not slideware.</ChapterTitle>
+        <ChapterTitle>Live product outputs.</ChapterTitle>
         <ChapterLead tone="cream">
-          Select an output. The sheet on the right is an HTML product fragment —
-          labels and flows from the ZeonAI brief, not invented metrics.
+          Select an output. The sheet on the right shows a real product surface.
         </ChapterLead>
         <div className="mt-12">
           <OutputIndex />
@@ -100,30 +91,21 @@ export function PlatformPage() {
         <ChapterLabel tone="ink">Reference architecture</ChapterLabel>
         <ChapterTitle>Six layers from sources to safe outputs.</ChapterTitle>
         <ChapterLead tone="ink">
-          Select a layer to see what it does. The same stack underpins Ask AI,
-          agents and audit.
+          Connectors, governed knowledge, agents, runtime, calculation, and
+          outputs sit on one stack. The architecture page walks each layer with
+          diagrams and examples.
         </ChapterLead>
-        <div className="mt-12">
-          <ArchitectureRail
-            dark
-            layers={architectureLayers.map((l) => ({
-              id: l.id,
-              title: l.title,
-              description: l.description,
-            }))}
-          />
-        </div>
         <Link
           href="/architecture"
           className="zeon-link-arrow mt-10 inline-flex !text-white"
         >
-          Full architecture page
+          View architecture
         </Link>
       </Chapter>
 
       <Chapter tone="royal" min={false} className="!min-h-0">
         <ChapterLabel tone="royal">Why the stack matters</ChapterLabel>
-        <ChapterTitle>Governance is structural, not bolted on.</ChapterTitle>
+        <ChapterTitle>Governance is structural.</ChapterTitle>
         <ChapterLead tone="royal">
           Access checks, human review and the audit trail sit in the layers —
           so every module inherits the same controls.
@@ -134,14 +116,14 @@ export function PlatformPage() {
         <ChapterLabel tone="mist">Agent Hub</ChapterLabel>
         <ChapterTitle>Agents for the paperwork that piles up.</ChapterTitle>
         <ChapterLead tone="mist">
-          Portfolio examples — maturity varies by engagement. People stay on
-          the exceptions.
+          Repeatable agents for document-heavy work. People stay on the
+          exceptions.
         </ChapterLead>
         <div className="mt-12 grid gap-4 md:grid-cols-3">
           {AGENT_SAMPLES.map((a) => (
             <article
               key={a.title}
-              className="rounded-[12px] border border-[#E9EAEB] bg-white p-6"
+              className="zeon-surface p-6"
             >
               <h3 className="font-[family-name:var(--font-aeonik)] text-[20px] tracking-[-0.02em]">
                 {a.title}
@@ -166,8 +148,7 @@ export function PlatformPage() {
         <ChapterLabel tone="sky">Integrations</ChapterLabel>
         <ChapterTitle>Systems of record, connected with care.</ChapterTitle>
         <ChapterLead tone="sky">
-          Connectors are scoped per engagement — not a universal plug-and-play
-          claim.
+          Connectors are scoped per engagement.
         </ChapterLead>
         <div className="mt-12">
           <IntegrationMesh items={integrations} />

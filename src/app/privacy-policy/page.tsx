@@ -23,9 +23,9 @@ export default function PrivacyPolicyPage() {
         <h2>What we collect</h2>
         <p>
           If you contact us through the website, the details you choose to send
-          us: your name, work email, phone number, organisation, role and the
+          us: your name, work email, phone number, organization, role and the
           message you write. The contact form sends your enquiry to us, and we
-          store the name, email address, organisation and message you enter.
+          store the name, email address, organization and message you enter.
           When you submit the contact form, we may also store a scrambled
           (hashed) code derived from your internet address, never the address
           itself, to limit repeat or automated submissions.

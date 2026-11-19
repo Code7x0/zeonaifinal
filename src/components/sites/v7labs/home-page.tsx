@@ -2,6 +2,8 @@ import { ArchitectureSection } from "./architecture-section";
 import { CustomerStoriesSection } from "./customer-stories";
 import { EngineeringSection } from "./engineering/engineering-section";
 import { FeatureBentos } from "./feature-bentos";
+import { PartnersProgramsStrip } from "./partners-programs-strip";
+import { WorksWithStrip } from "./works-with-strip";
 import { FinalCta } from "./final-cta";
 import { Hero } from "./hero";
 import { Industries } from "./industries";
@@ -22,9 +24,11 @@ export function V7HomePage() {
         <main>
           <Hero />
           <LogoTicker />
+          <PartnersProgramsStrip />
           <Industries />
           <QuoteMarquee />
           <FeatureBentos />
+          <WorksWithStrip />
           <ArchitectureSection />
           <EngineeringSection />
           <RoleConfigurator />

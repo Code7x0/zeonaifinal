@@ -1,6 +1,7 @@
 import type {
   AnchorHTMLAttributes,
   ButtonHTMLAttributes,
+  CSSProperties,
   ReactNode,
 } from "react";
 import { cn } from "@/lib/utils";
@@ -61,7 +62,11 @@ export function ZeonButton({
       {...props}
     >
       {children}
-      {arrow ? <span className="zeon-btn-arrow" aria-hidden>→</span> : null}
+      {arrow ? (
+        <span className="zeon-btn-arrow" aria-hidden>
+          →
+        </span>
+      ) : null}
     </button>
   );
 }
@@ -95,7 +100,11 @@ export function ZeonLinkButton({
       {...props}
     >
       {children}
-      {arrow ? <span className="zeon-btn-arrow" aria-hidden>→</span> : null}
+      {arrow ? (
+        <span className="zeon-btn-arrow" aria-hidden>
+          →
+        </span>
+      ) : null}
     </a>
   );
 }
@@ -112,37 +121,64 @@ export function ZeonTextLink({
   ...props
 }: ZeonTextLinkProps) {
   return (
-    <a className={cn(arrow ? "zeon-link-arrow" : "zeon-link", className)} {...props}>
+    <a
+      className={cn(arrow ? "zeon-link-arrow" : "zeon-link", className)}
+      {...props}
+    >
       {children}
       {arrow ? <span aria-hidden>→</span> : null}
     </a>
   );
 }
 
-type SurfaceVariant = "default" | "quiet" | "glass" | "interactive";
+export type SurfaceVariant =
+  | "default"
+  | "quiet"
+  | "glass"
+  | "interactive"
+  | "ink"
+  | "brand";
 
 const surfaceClass: Record<SurfaceVariant, string> = {
   default: "zeon-surface",
   quiet: "zeon-surface-quiet",
   glass: "zeon-surface-glass",
   interactive: "zeon-surface-interactive",
+  ink: "zeon-surface-ink",
+  brand: "zeon-surface-brand",
 };
 
+export type ElevationLevel = 0 | 1 | 2 | 3 | 4;
+
 type ZeonSurfaceProps = {
-  as?: "div" | "article" | "li" | "section";
+  as?: "div" | "article" | "li" | "section" | "figure";
   variant?: SurfaceVariant;
+  /** Override elevation when needed (default comes from variant) */
+  elevation?: ElevationLevel;
   className?: string;
+  style?: CSSProperties;
   children: ReactNode;
 };
 
 export function ZeonSurface({
   as: Tag = "div",
   variant = "default",
+  elevation,
   className,
+  style,
   children,
 }: ZeonSurfaceProps) {
   return (
-    <Tag className={cn(surfaceClass[variant], className)}>{children}</Tag>
+    <Tag
+      className={cn(
+        surfaceClass[variant],
+        elevation != null && `zeon-elev-${elevation}`,
+        className,
+      )}
+      style={style}
+    >
+      {children}
+    </Tag>
   );
 }
 
@@ -159,5 +195,35 @@ export function ZeonSurfaceLink({
     <a className={cn("zeon-surface-interactive", className)} {...props}>
       {children}
     </a>
+  );
+}
+
+type ZeonWindowProps = {
+  as?: "div" | "figure" | "article";
+  tone?: "light" | "ink";
+  className?: string;
+  style?: CSSProperties;
+  children: ReactNode;
+};
+
+/** Floating application / browser frame surface */
+export function ZeonWindow({
+  as: Tag = "div",
+  tone = "light",
+  className,
+  style,
+  children,
+}: ZeonWindowProps) {
+  return (
+    <Tag
+      className={cn(
+        "zeon-window",
+        tone === "ink" && "zeon-window-ink",
+        className,
+      )}
+      style={style}
+    >
+      {children}
+    </Tag>
   );
 }

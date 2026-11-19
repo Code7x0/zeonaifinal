@@ -9,7 +9,7 @@ import { CaseVisual } from "./case-visuals";
 
 const [featured, secondary, wide, compact] = caseStudies;
 
-/** Homepage bento: navy + brand blue checkerboard (DeepProbe). */
+/** Homepage bento: navy + brand blue checkerboard (ZeonAI palette). */
 type CardTone = "navy" | "brand";
 
 const cardTone: Record<"featured" | "secondary" | "compact" | "wide", CardTone> =
@@ -21,8 +21,8 @@ const cardTone: Record<"featured" | "secondary" | "compact" | "wide", CardTone> 
   };
 
 const toneSurface: Record<CardTone, string> = {
-  navy: "bg-[#181D27] text-white border-[#252B37]",
-  brand: "bg-[#1B46F5] text-white border-[#1B46F5]",
+  navy: "zeon-surface-ink zeon-lift text-white",
+  brand: "zeon-surface-brand zeon-lift text-white",
 };
 
 export function CustomerStoriesSection() {
@@ -52,10 +52,6 @@ export function CustomerStoriesSection() {
             Real deployments across lending, finance and media, with the results
             each one delivered.
           </p>
-          <p className="mt-3 max-w-[48ch] text-[12px] leading-[1.45] text-[#97A0AE]">
-            Outcome figures from selected deployments — confirm before public
-            launch.
-          </p>
           <Link href="/customers" className="zeon-link-arrow mt-5">
             See all case studies
             <ArrowUpRight className="size-3.5" />
@@ -65,7 +61,7 @@ export function CustomerStoriesSection() {
         <div className="mt-12 grid gap-4 md:grid-cols-12 md:gap-5">
           {featured ? (
             <article
-              className={`group relative flex flex-col overflow-hidden rounded-[10px] border shadow-[var(--zeon-shadow-soft)] transition-[box-shadow] duration-[var(--zeon-duration-hover)] ease-[var(--zeon-ease-out)] hover:shadow-[var(--zeon-shadow-elevated)] md:col-span-7 md:row-span-2 ${toneSurface[cardTone.featured]}`}
+              className={`group relative flex flex-col overflow-hidden md:col-span-7 md:row-span-2 ${toneSurface[cardTone.featured]}`}
             >
               <Link
                 href={`/customers/${featured.slug}`}
@@ -107,7 +103,7 @@ export function CustomerStoriesSection() {
 
           {secondary ? (
             <article
-              className={`group relative flex flex-col overflow-hidden rounded-[10px] border shadow-[var(--zeon-shadow-soft)] transition-[box-shadow] duration-[var(--zeon-duration-hover)] ease-[var(--zeon-ease-out)] hover:shadow-[var(--zeon-shadow-elevated)] md:col-span-5 ${toneSurface[cardTone.secondary]}`}
+              className={`group relative flex flex-col overflow-hidden md:col-span-5 ${toneSurface[cardTone.secondary]}`}
             >
               <Link
                 href={`/customers/${secondary.slug}`}
@@ -143,7 +139,7 @@ export function CustomerStoriesSection() {
 
           {compact ? (
             <article
-              className={`group relative flex flex-col overflow-hidden rounded-[10px] border shadow-[var(--zeon-shadow-soft)] transition-[box-shadow] duration-[var(--zeon-duration-hover)] ease-[var(--zeon-ease-out)] hover:shadow-[var(--zeon-shadow-elevated)] md:col-span-5 ${toneSurface[cardTone.compact]}`}
+              className={`group relative flex flex-col overflow-hidden md:col-span-5 ${toneSurface[cardTone.compact]}`}
             >
               <Link
                 href={`/customers/${compact.slug}`}
@@ -176,7 +172,7 @@ export function CustomerStoriesSection() {
 
           {wide ? (
             <article
-              className={`group relative overflow-hidden rounded-[10px] border shadow-[var(--zeon-shadow-soft)] transition-[box-shadow] duration-[var(--zeon-duration-hover)] ease-[var(--zeon-ease-out)] hover:shadow-[var(--zeon-shadow-elevated)] md:col-span-12 ${toneSurface[cardTone.wide]}`}
+              className={`group relative overflow-hidden md:col-span-12 ${toneSurface[cardTone.wide]}`}
             >
               <Link
                 href={`/customers/${wide.slug}`}

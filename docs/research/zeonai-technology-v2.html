@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Technology | ZeonAI</title>
+<meta name="description" content="The engineering behind governed autonomy: an in-house agent runtime, context-aware retrieval, user memory, model routing, token metering, agent security and sovereign deployment.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Tokens copied from the live site (--dp-*). Swap here to re-theme. */
+:root{
+  --blue-50:#eef4ff;--blue-100:#d9e6ff;--blue-200:#bcd3ff;--blue-300:#8eb8ff;--blue-400:#5991ff;--blue-500:#2962ff;--blue-600:#1b46f5;
+  --g-50:#fafafa;--g-100:#f5f5f5;--g-200:#e9eaeb;--g-300:#d5d7da;--g-400:#a4a7ae;--g-500:#717680;--g-600:#535862;--g-700:#414651;--g-800:#252b37;--g-900:#181d27;
+  --ink:#181d27;--ink-2:#10141c;--ink-line:rgba(255,255,255,.10);--ink-soft:rgba(255,255,255,.62);
+  --green:#17b26a;--amber:#f79009;--red:#f04438;
+  --display:"aeonik","Manrope","Inter",system-ui,sans-serif;
+  --body:"aeonik","Inter",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --max:1200px;--gut:32px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:120px}
+body{margin:0;background:#fff;color:var(--g-900);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gut)}
+.mono{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;letter-spacing:-.03em;line-height:1.08}
+h1{font-size:clamp(40px,6.2vw,72px)}
+h2{font-size:clamp(30px,3.8vw,46px)}
+h3{font-size:19px;letter-spacing:-.01em;line-height:1.3;font-weight:500}
+p{margin:0}
+
+/* Header */
+.hdr{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--g-200)}
+.hdr .wrap{display:flex;align-items:center;height:61px;gap:36px}
+.logo{display:flex;align-items:center;gap:9px;font-family:var(--display);font-weight:600;font-size:17px;color:var(--blue-600)}
+.logo i{width:22px;height:22px;border-radius:6px;border:2px solid var(--blue-600);display:block;position:relative}
+.logo i:after{content:"";position:absolute;inset:4px;border-radius:2px;background:var(--blue-600)}
+.nav{display:flex;gap:6px;flex:1;align-items:center}
+.nav a{font-size:14px;color:var(--g-700);padding:7px 12px;border-radius:6px}
+.nav a.on{background:var(--blue-600);color:#fff}
+.btn{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500;padding:10px 20px;border-radius:999px;background:var(--blue-600);color:#fff;border:1px solid var(--blue-600);white-space:nowrap}
+.btn:hover{background:var(--blue-500)}
+.btn.ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.28)}
+.btn.ghost:hover{border-color:#fff;background:transparent}
+.btn.white{background:#fff;color:var(--g-900);border-color:#fff}
+
+.has-menu{position:static}
+.mega{display:none;position:absolute;left:0;right:0;top:61px;background:#fff;border-bottom:1px solid var(--g-200);box-shadow:0 16px 32px rgba(24,29,39,.08)}
+.has-menu:hover .mega,.has-menu:focus-within .mega{display:block}
+.mega .wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 32px;height:auto;padding-top:24px;padding-bottom:28px;align-items:start}
+.mega a{display:block;padding:10px 12px;border-radius:8px;color:var(--g-900)}
+.mega a:hover{background:var(--g-50)}
+.mega b{display:block;font-weight:500;font-size:15px}
+.mega span{display:block;font-size:13px;color:var(--g-600);line-height:1.4}
+
+/* Hero */
+.hero{background:var(--ink);color:#fff;position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--ink-line) 1px,transparent 1px),linear-gradient(90deg,var(--ink-line) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse 70% 80% at 80% 0%,#000 0%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse 70% 80% at 80% 0%,#000 0%,transparent 70%);opacity:.6}
+.hero .wrap{position:relative;padding-top:96px;padding-bottom:72px}
+.hero .mono{color:var(--blue-300)}
+.hero h1{margin:22px 0 26px;max-width:900px}
+.hero .lede{font-size:19px;color:var(--ink-soft);max-width:620px;line-height:1.55}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);margin-top:72px;border-top:1px solid var(--ink-line)}
+.facts div{padding:24px 24px 0 0;border-right:1px solid var(--ink-line);margin-right:24px}
+.facts div:last-child{border:0;margin:0}
+.facts b{display:block;font-family:var(--display);font-weight:400;font-size:22px;letter-spacing:-.02em;margin-bottom:6px}
+.facts span{font-size:14px;color:var(--ink-soft);line-height:1.5;display:block}
+
+/* Chip nav */
+.chips{position:sticky;top:61px;z-index:40;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--g-200)}
+.chips .wrap{display:flex;gap:8px;padding-top:12px;padding-bottom:12px;overflow-x:auto;scrollbar-width:none}
+.chips .wrap::-webkit-scrollbar{display:none}
+.chips a{font-family:var(--mono);font-size:11px;letter-spacing:.04em;white-space:nowrap;padding:7px 12px;border:1px solid var(--g-200);border-radius:6px;color:var(--g-600)}
+.chips a:hover{border-color:var(--g-400)}
+.chips a.on{border-color:var(--blue-600);color:var(--blue-600);background:var(--blue-50)}
+
+/* Architecture */
+.arch{background:var(--ink);color:#fff;padding:0 0 112px}
+.arch .head{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:end;padding-top:72px;margin-bottom:48px}
+.arch .head p{color:var(--ink-soft);max-width:440px}
+.stack{display:grid;grid-template-columns:1fr 220px;gap:16px}
+.layers{display:flex;flex-direction:column;gap:10px}
+.layer{display:grid;grid-template-columns:56px 240px 1fr 24px;align-items:center;gap:16px;padding:20px 24px;border:1px solid var(--ink-line);border-radius:10px;background:rgba(255,255,255,.025);transition:border-color .2s,background .2s,transform .2s}
+.layer:hover{border-color:var(--blue-400);background:rgba(41,98,255,.10);transform:translateX(4px)}
+.layer .n{font-family:var(--mono);font-size:12px;color:var(--blue-300)}
+.layer .t{font-family:var(--display);font-size:20px;letter-spacing:-.02em}
+.layer .d{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-family:var(--mono);font-size:11px;padding:4px 9px;border:1px solid var(--ink-line);border-radius:4px;color:var(--ink-soft);white-space:nowrap}
+.layer .go{color:var(--ink-soft);font-size:16px}
+.rail{border:1px solid rgba(89,145,255,.45);border-radius:10px;padding:22px 20px;background:linear-gradient(180deg,rgba(41,98,255,.16),rgba(41,98,255,.04));display:flex;flex-direction:column}
+.rail .mono{color:var(--blue-300);margin-bottom:6px}
+.rail p{font-size:13px;color:var(--ink-soft);line-height:1.5;margin-bottom:18px}
+.rail ul{list-style:none;margin:auto 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.rail li{font-size:14px;display:flex;gap:10px;align-items:center}
+.rail li:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--blue-400);flex:none}
+.arch .note{margin-top:18px;color:rgba(255,255,255,.4)}
+
+/* Pillar sections */
+.pillar{padding:112px 0;border-bottom:1px solid var(--g-200)}
+.pillar.tint{background:var(--blue-50)}
+.pillar.dark{background:var(--ink);color:#fff;border-color:transparent}
+.pillar .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:72px;align-items:center}
+.pillar .eyebrow{color:var(--blue-600);margin-bottom:18px;display:block}
+.pillar.dark .eyebrow{color:var(--blue-300)}
+.pillar h2{margin-bottom:20px}
+.pillar .lede{font-size:18px;color:var(--g-600);line-height:1.55;max-width:520px}
+.pillar.dark .lede{color:var(--ink-soft)}
+.points{margin-top:36px;border-top:1px solid var(--g-200)}
+.pillar.tint .points,.pillar.tint .points div{border-color:var(--blue-100)}
+.pillar.dark .points,.pillar.dark .points div{border-color:var(--ink-line)}
+.points div{display:grid;grid-template-columns:180px 1fr;gap:20px;padding:16px 0;border-bottom:1px solid var(--g-200);font-size:15px}
+.points b{font-weight:500}
+.points span{color:var(--g-600)}
+.pillar.dark .points span{color:var(--ink-soft)}
+.more{display:inline-flex;gap:8px;margin-top:28px;font-size:14px;font-weight:500;color:var(--blue-600)}
+.more:hover{gap:12px}
+
+/* Mock windows */
+.mock{background:#fff;border:1px solid var(--g-200);border-radius:12px;box-shadow:0 8px 24px rgba(24,29,39,.06);overflow:hidden;position:sticky;top:140px;font-size:13px}
+.mock .bar{display:flex;align-items:center;gap:10px;padding:11px 16px;border-bottom:1px solid var(--g-200);font-family:var(--mono);font-size:11px;color:var(--g-500)}
+.mock .bar i{display:flex;gap:4px}.mock .bar i:before,.mock .bar i:after,.mock .bar i b{content:"";width:6px;height:6px;border-radius:50%;background:var(--g-300);display:block}
+.mock .bar em{margin-left:auto;font-style:normal;border:1px solid var(--g-200);border-radius:4px;padding:2px 7px;font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+.mock .body{padding:20px}
+.lbl{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--g-500);margin-bottom:10px}
+.pill{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:4px;border:1px solid var(--g-200);color:var(--g-600);white-space:nowrap}
+.pill.ok{color:#079455;border-color:#abefc6;background:#ecfdf3}
+.pill.warn{color:#b54708;border-color:#fedf89;background:#fffaeb}
+.pill.no{color:#b42318;border-color:#fecdca;background:#fef3f2}
+.pill.b{color:var(--blue-600);border-color:var(--blue-200);background:var(--blue-50)}
+.row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--g-100)}
+.row:last-child{border:0}
+.row .grow{flex:1;min-width:0}
+.row small,.node small{display:block;color:var(--g-500);font-size:12px}
+.num{font-family:var(--mono);font-size:11px;color:var(--g-400);width:22px;flex:none}
+
+/* runtime graph */
+.graph{display:grid;gap:8px}
+.node{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--g-200);border-radius:8px;position:relative}
+.node.sel{border-color:var(--blue-500);background:var(--blue-50)}
+.fork{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.foot{margin-top:16px;padding-top:14px;border-top:1px solid var(--g-200);display:flex;justify-content:space-between;align-items:center;gap:12px;color:var(--g-600);font-size:12px}
+.mini{font-family:var(--mono);font-size:11px;padding:6px 10px;border-radius:6px;background:var(--g-900);color:#fff;white-space:nowrap}
+
+/* retrieval */
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cmp>div{border:1px solid var(--g-200);border-radius:8px;padding:14px}
+.cmp>div.good{border-color:var(--blue-300);background:var(--blue-50)}
+.cmp p{font-size:13px;line-height:1.5;color:var(--g-700)}
+.cmp mark{background:#fef0c7;color:inherit;padding:0 2px;border-radius:2px}
+.cmp .good mark{background:var(--blue-200)}
+.ans{margin-top:14px;border:1px solid var(--g-200);border-radius:8px;padding:14px}
+.ans sup{font-family:var(--mono);color:var(--blue-600);font-size:10px}
+.src{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.src span{font-family:var(--mono);font-size:11px;color:var(--g-600);border:1px solid var(--g-200);border-radius:4px;padding:3px 8px}
+
+/* calc */
+.kpi{border:1px solid var(--g-200);border-radius:8px;padding:16px}
+.kpi b{display:block;font-family:var(--display);font-weight:400;font-size:40px;letter-spacing:-.03em;line-height:1.1;margin:4px 0}
+.calc{margin-top:12px;background:var(--g-900);color:#e9eaeb;border-radius:8px;padding:16px;font-family:var(--mono);font-size:12px;line-height:1.8}
+.calc span{color:var(--blue-300)}.calc u{text-decoration:none;color:#75e0a7}
+
+/* router */
+.seg{display:inline-flex;border:1px solid var(--g-200);border-radius:8px;padding:3px;margin-bottom:16px;background:var(--g-50)}
+.seg button{font:500 12px var(--body);border:0;background:transparent;padding:6px 12px;border-radius:6px;color:var(--g-600);cursor:pointer}
+.seg button.on{background:#fff;color:var(--g-900);box-shadow:0 1px 2px rgba(24,29,39,.12)}
+.tier{font-family:var(--mono);font-size:11px;padding:3px 8px;border-radius:4px;white-space:nowrap}
+.tier.r{background:var(--g-900);color:#fff}.tier.f{background:var(--blue-100);color:#172ab6}.tier.s{background:var(--g-100);color:var(--g-700)}
+
+/* meter */
+.bar-row{display:grid;grid-template-columns:150px 1fr 64px;gap:12px;align-items:center;padding:9px 0;font-size:13px}
+.track{height:8px;border-radius:4px;background:var(--g-100);overflow:hidden}
+.track i{display:block;height:100%;background:var(--blue-500);border-radius:4px}
+.track i.hot{background:var(--amber)}
+.bar-row span:last-child{font-family:var(--mono);font-size:11px;color:var(--g-600);text-align:right}
+
+/* deployment */
+.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:56px}
+.mode{border:1px solid var(--ink-line);border-radius:12px;padding:28px;background:rgba(255,255,255,.025)}
+.mode .mono{color:var(--blue-300)}
+.mode h3{margin:14px 0 10px;font-size:22px;font-weight:400;letter-spacing:-.02em}
+.mode p{font-size:15px;color:var(--ink-soft)}
+.bound{margin-top:22px;border:1px dashed rgba(142,184,255,.5);border-radius:8px;padding:12px;display:flex;flex-wrap:wrap;gap:6px;position:relative}
+.bound:before{content:attr(data-l);position:absolute;top:-8px;left:10px;background:var(--ink);padding:0 6px;font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue-300)}
+.out{margin-top:10px;font-family:var(--mono);font-size:11px;color:rgba(255,255,255,.45)}
+.pillar.dark .wide{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:end}
+.pillar.dark .points{margin-top:56px;display:grid;grid-template-columns:1fr 1fr;column-gap:72px}
+
+/* connectors */
+.conn{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:56px}
+.conn>div{border:1px solid var(--g-200);border-radius:12px;padding:24px;background:#fff}
+.conn .lbl{margin-bottom:16px}
+.logos{display:flex;flex-wrap:wrap;gap:8px}
+.logos span{font-size:14px;padding:7px 12px;border:1px solid var(--g-200);border-radius:6px;background:var(--g-50)}
+.flow{margin-top:16px;display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:12px;align-items:center;border:1px solid var(--g-200);border-radius:12px;padding:24px;background:#fff}
+.flow div b{display:block;font-weight:500;margin-bottom:2px}
+.flow div span{font-size:14px;color:var(--g-600)}
+.flow em{font-style:normal;color:var(--blue-500);font-size:18px}
+
+/* notes */
+.notes{padding:112px 0;background:var(--g-50);border-bottom:1px solid var(--g-200)}
+.notes .head{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:48px}
+.notes .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.note-card{display:flex;flex-direction:column;border:1px solid var(--g-200);border-radius:12px;padding:24px;background:#fff;min-height:210px;transition:transform .2s,box-shadow .2s,border-color .2s}
+a.note-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(24,29,39,.06);border-color:var(--blue-300)}
+.note-card .mono{color:var(--g-500);display:flex;justify-content:space-between}
+.note-card h3{margin:18px 0 10px;font-size:20px;font-weight:400;letter-spacing:-.02em}
+.note-card p{font-size:14px;color:var(--g-600)}
+.note-card .read{margin-top:auto;padding-top:18px;font-size:14px;font-weight:500;color:var(--blue-600)}
+.note-card.soon{background:transparent;border-style:dashed}
+.note-card.soon .read{color:var(--g-400)}
+
+/* CTA + footer */
+.cta{background:var(--ink);color:#fff;padding:112px 0}
+.cta .wrap{display:flex;justify-content:space-between;align-items:end;gap:32px;flex-wrap:wrap}
+.cta h2{max-width:640px}
+.cta p{color:var(--ink-soft);margin-top:16px;max-width:520px}
+.cta .acts{display:flex;gap:12px;flex-wrap:wrap}
+.ftr{background:var(--ink);color:rgba(255,255,255,.45);border-top:1px solid var(--ink-line);padding:28px 0;font-size:13px}
+.ftr .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+
+/* Diagrams */
+.mock{position:static}
+.dia{position:relative;margin-top:64px;border:1px solid var(--g-200);border-radius:16px;padding:26px 32px 36px;background-color:#fff;background-image:radial-gradient(var(--g-200) 1px,transparent 1px);background-size:18px 18px}
+.dia>.lbl{display:inline-block;background:#fff;padding:2px 10px 2px 0;margin-bottom:22px;color:var(--blue-600)}
+.wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;overflow:visible}
+.w0{fill:none;stroke:var(--blue-200);stroke-width:1.5}
+.w1{fill:none;stroke:var(--blue-500);stroke-width:1.5;stroke-linecap:round;stroke-dasharray:2 16;animation:flow 1.2s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-18}}
+.p0{fill:var(--blue-300)}.p1{fill:#fff;stroke:var(--blue-500);stroke-width:1.5}
+.fl{display:flex;align-items:center;gap:64px}
+.nd{flex:1;min-width:0;background:#fff;border:1px solid var(--g-200);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:2px;box-shadow:0 1px 2px rgba(24,29,39,.05),0 6px 16px rgba(24,29,39,.04)}
+.ic{width:32px;height:32px;border-radius:8px;background:var(--blue-50);color:var(--blue-600);display:grid;place-items:center;margin-bottom:10px;flex:none}
+.ic svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.nd b{font-weight:500;font-size:15px;line-height:1.3}
+.nd span{font-size:13px;color:var(--g-600);line-height:1.4}
+.nd.k{background:var(--ink);border-color:var(--ink);color:#fff}.nd.k span{color:var(--ink-soft)}.nd.k .ic{background:rgba(255,255,255,.1);color:#fff}
+.nd.b{background:var(--blue-600);border-color:var(--blue-600);color:#fff}.nd.b span{color:rgba(255,255,255,.82)}.nd.b .ic{background:rgba(255,255,255,.18);color:#fff}
+.nd.sm{flex:none;flex-direction:row;align-items:center;justify-content:space-between;gap:10px;padding:11px 14px}.nd.sm b{font-size:14px;white-space:nowrap}
+.nd.x{border-style:dashed;background:var(--g-50);box-shadow:none}.nd.x b{color:var(--g-400);font-weight:400}
+.stk{flex:1.3;min-width:0;display:flex;flex-direction:column;gap:10px}
+.lane{border:1px dashed var(--g-300);border-radius:12px;padding:12px 14px 14px;background:rgba(255,255,255,.85)}
+.lane>.lbl{margin-bottom:10px}
+.lane .fl{gap:28px}.lane .nd{padding:10px 12px;text-align:center;box-shadow:none}.lane .nd b{font-size:13.5px}
+.gates{flex:3.6;display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+.gt{background:#fff;border:1px solid var(--blue-200);border-radius:12px;padding:16px 8px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;font-size:12.5px;font-weight:500;line-height:1.25;box-shadow:0 1px 2px rgba(24,29,39,.05)}
+.gt .ic{margin:0}
+.keys{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:12px}
+.keys.k3{grid-template-columns:repeat(3,1fr)}
+.keys div{border:1px solid var(--g-200);border-radius:12px;padding:16px 18px;background:#fff}
+.keys b{display:block;font-weight:500;font-size:15px;margin-bottom:2px}
+.keys span{font-size:13.5px;color:var(--g-600);line-height:1.45;display:block}
+@media (prefers-reduced-motion:reduce){.w1{animation:none}}
+@media (max-width:960px){
+  .dia{margin-top:36px;padding:20px 20px 24px}
+  .fl{flex-direction:column;align-items:stretch;gap:34px}
+  .nd,.stk{flex:none}
+  .nd:not(.sm){flex-direction:row;flex-wrap:wrap;align-items:center;column-gap:12px}
+  .nd:not(.sm) .ic{margin:0;grid-row:span 2}
+  .nd:not(.sm) b{flex:1}.nd:not(.sm)>span:not(.ic){flex-basis:100%;margin-top:6px}
+  .lane .fl{flex-direction:row;gap:14px;align-items:stretch}.lane .nd{flex:1;padding:10px 6px;justify-content:center}.lane .nd b{font-size:12.5px}
+  .gates{grid-template-columns:1fr;gap:8px}
+  .gt{flex-direction:row;justify-content:flex-start;text-align:left;padding:10px 14px;font-size:14px}
+  .keys,.keys.k3{grid-template-columns:1fr 1fr}
+}
+@media (max-width:520px){.keys,.keys.k3{grid-template-columns:1fr}}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}.layer:hover{transform:none}}
+
+@media (max-width:960px){
+  :root{--gut:20px}
+  .nav{display:none}.hdr .wrap{justify-content:space-between}
+  .hero .wrap{padding-top:64px;padding-bottom:48px}
+  .facts{grid-template-columns:1fr 1fr;margin-top:48px}
+  .facts div{border-right:0;margin:0;padding:20px 16px 4px 0}
+  .arch{padding-bottom:64px}.arch .head{grid-template-columns:1fr;gap:16px}
+  .stack{grid-template-columns:1fr}
+  .layer{grid-template-columns:36px 1fr 20px;padding:16px}
+  .layer .d{grid-column:2/4;grid-row:2}
+  .pillar,.notes,.cta{padding:64px 0}
+  .pillar .grid,.pillar.dark .wide{grid-template-columns:1fr;gap:36px}
+  .pillar.dark .points{grid-template-columns:1fr;margin-top:36px}
+  .mock{position:static}
+  .points div{grid-template-columns:1fr;gap:4px}
+  .modes,.conn,.notes .cards{grid-template-columns:1fr}
+  .modes,.conn{margin-top:36px}
+  .flow{grid-template-columns:1fr}.flow em{transform:rotate(90deg);justify-self:start}
+  .cmp{grid-template-columns:1fr}
+  .bar-row{grid-template-columns:110px 1fr 56px}
+  .notes .head{flex-direction:column;align-items:start}
+}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="wrap">
+    <a class="logo" href="/"><i></i>ZeonAI</a>
+    <nav class="nav">
+      <a href="/platform">Product</a>
+      <span class="has-menu"><a class="on" href="/technology">Technology ▾</a><div class="mega"><div class="wrap"><a href="/technology#architecture"><b>Technology overview</b><span>Five layers and one governance rail.</span></a><a href="/technology#runtime"><b>Agent runtime</b><span>Our own runtime: frozen logic, rerun from any step.</span></a><a href="/technology#retrieval"><b>Retrieval</b><span>Context-aware indexing with cited answers.</span></a><a href="/technology#memory"><b>Memory</b><span>Personal and organisation memory, working together.</span></a><a href="/technology#determinism"><b>AI-assisted determinism</b><span>Models interpret; rules and code execute.</span></a><a href="/technology#router"><b>Model router</b><span>The right model for each step, inside your policy.</span></a><a href="/technology#tokens"><b>Token economics</b><span>Every model call metered and budgeted.</span></a><a href="/technology#security"><b>Agent security</b><span>Five gates between an agent and your systems.</span></a><a href="/technology#sovereign"><b>Sovereign deployment</b><span>Your cloud, private cloud or air-gapped.</span></a><a href="/technology#connectors"><b>Connectors</b><span>ERP, data warehouses and document stores.</span></a><a href="/technology#evaluation"><b>Agent evaluation</b><span>No agent ships on a demo.</span></a><a href="/technology#rules"><b>Rule builder</b><span>Rules written by an agent, proved before they run.</span></a></div></div></span>
+      <a href="/industries">Industries</a>
+      <a href="/about">Company</a>
+      <a href="/trust">Trust</a>
+    </nav>
+    <a class="btn" href="/demo">Book a demo</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="mono">Technology</span>
+    <h1>The engineering behind governed autonomy.</h1>
+    <p class="lede">Agents are easy to demo and hard to trust. These are the systems we built in-house so that an agent's work can be checked, repeated and kept inside your boundary.</p>
+    <div class="facts">
+      <div><b>Built in-house</b><span>Our own agent runtime. No vendor agent framework underneath.</span></div>
+      <div><b>Cited to the source</b><span>Every claim in an answer links to the passage it came from.</span></div>
+      <div><b>Deterministic by design</b><span>Models interpret; fixed rules and code execute. Same input, same result.</span></div>
+      <div><b>Air-gap ready</b><span>Runs where there is no route to the internet at all.</span></div>
+    </div>
+  </div>
+</section>
+
+<nav class="chips" aria-label="On this page">
+  <div class="wrap">
+    <a href="#architecture">00 · architecture</a>
+    <a href="#runtime">01 · agent runtime</a>
+    <a href="#retrieval">02 · retrieval</a>
+    <a href="#memory">03 · memory</a>
+    <a href="#determinism">04 · ai-assisted determinism</a>
+    <a href="#router">05 · model router</a>
+    <a href="#tokens">06 · token economics</a>
+    <a href="#security">07 · agent security</a>
+    <a href="#sovereign">08 · sovereign deployment</a>
+    <a href="#connectors">09 · connectors</a>
+    <a href="#evaluation">10 · agent evaluation</a>
+    <a href="#rules">11 · rule builder</a>
+  </div>
+</nav>
+
+<section class="arch" id="architecture">
+  <div class="wrap">
+    <div class="head rv">
+      <h2>Five layers.<br>One governance rail.</h2>
+      <p>Data moves up through the layers. Identity, access and audit run alongside every one of them, so no layer can be reached around the controls.</p>
+    </div>
+    <div class="stack rv">
+      <div class="layers">
+        <a class="layer" href="#determinism"><span class="n">05</span><span class="t">Apps and outputs</span><span class="d"><span class="tag">ask ai</span><span class="tag">dashboards</span><span class="tag">agent hub</span><span class="tag">erp post</span></span><span class="go">→</span></a>
+        <a class="layer" href="#runtime"><span class="n">04</span><span class="t">Agent runtime</span><span class="d"><span class="tag">graph execution</span><span class="tag">frozen logic</span><span class="tag">rule builder</span><span class="tag">human tasks</span><span class="tag">rerun</span></span><span class="go">→</span></a>
+        <a class="layer" href="#router"><span class="n">03</span><span class="t">Model layer</span><span class="d"><span class="tag">router</span><span class="tag">frontier or open-weight</span><span class="tag">token meter</span></span><span class="go">→</span></a>
+        <a class="layer" href="#retrieval"><span class="n">02</span><span class="t">Knowledge layer</span><span class="d"><span class="tag">context-aware index</span><span class="tag">hybrid retrieval</span><span class="tag">personal + organisation memory</span></span><span class="go">→</span></a>
+        <a class="layer" href="#connectors"><span class="n">01</span><span class="t">Governed data access</span><span class="d"><span class="tag">connectors</span><span class="tag">read-only fetch</span><span class="tag">document processing</span></span><span class="go">→</span></a>
+      </div>
+      <a class="rail" href="#security">
+        <span class="mono">Governance rail</span>
+        <p>Applied to every request, at every layer.</p>
+        <ul><li>Verified identity</li><li>Access check before retrieval</li><li>Sandboxed execution</li><li>Human approval on writes</li><li>Cost limits</li><li>Release evaluation</li><li>Read-only audit log</li></ul>
+      </a>
+    </div>
+    <p class="mono note">Select a layer to jump to it</p>
+  </div>
+</section>
+
+<!-- 01 -->
+<section class="pillar" id="runtime">
+  <div class="wrap grid">
+    <div class="rv">
+      <span class="mono eyebrow">01 · Agent runtime</span>
+      <h2>An agent runtime we wrote ourselves.</h2>
+      <p class="lede">A loop-based agent core with graph execution: workflows branch, run in parallel and merge. Nothing in the loop is a black box we cannot open, fix or explain to your auditor.</p>
+    </div>
+    <div class="mock rv">
+      <div class="bar"><i><b></b></i>Run · invoice exception<em>Sample data</em></div>
+      <div class="body">
+        <div class="graph">
+          <div class="node"><span class="num">01</span><span class="grow">Data sourcing</span><span class="pill ok">Done</span></div>
+          <div class="fork">
+            <div class="node"><span class="num">02a</span><span class="grow">Read invoice</span><span class="pill ok">Done</span></div>
+            <div class="node"><span class="num">02b</span><span class="grow">Read PO</span><span class="pill ok">Done</span></div>
+          </div>
+          <div class="node sel"><span class="num">03</span><span class="grow">Business rules<small>freight_variance · rule v7 · frozen</small></span><span class="pill b">Overridden</span></div>
+          <div class="node"><span class="num">04</span><span class="grow">Controller approval</span><span class="pill warn">Waiting</span></div>
+          <div class="node"><span class="num">05</span><span class="grow">ERP post</span><span class="pill">Queued</span></div>
+        </div>
+        <div class="foot"><span>Value changed at step 03 by a reviewer</span><span class="mini">Rerun from 03 ↻</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="wrap"><div class="dia rv" data-links="a>b,b>c,c>r1,c>r2,c>r3"><div class="lbl">Generate once · freeze · execute</div><div class="fl"><div class="nd " data-n="a"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l2.2 6.8L21 12l-6.8 2.2L12 21l-2.2-6.8L3 12l6.8-2.2z"/></svg></span><b>Model drafts the rule</b><span>From plain language</span></div><div class="nd " data-n="b"><span class="ic"><svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span><b>A person reviews it</b><span>Before anything runs</span></div><div class="nd k" data-n="c"><span class="ic"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></span><b>Frozen · v7</b><span>Versioned and locked</span></div><div class="stk"><div class="nd sm" data-n="r1"><b>Run 1</b><span class="pill ok">same result</span></div><div class="nd sm" data-n="r2"><b>Run 2</b><span class="pill ok">same result</span></div><div class="nd sm" data-n="r3"><b>Run 3</b><span class="pill ok">same result</span></div></div></div></div><div class="keys rv"><div><b>Frozen logic</b><span>Same input, same result.</span></div><div><b>Explainable values</b><span>Assigned, calculated or assumed: always recorded.</span></div><div><b>Rerun from any step</b><span>Fix one value, replay from there.</span></div><div><b>Skills that compound</b><span>Learns from good runs. No retraining.</span></div></div></div>
+</section>
+
+<!-- 02 -->
+<section class="pillar tint" id="retrieval">
+  <div class="wrap grid">
+    <div class="rv">
+      <span class="mono eyebrow">02 · Retrieval</span>
+      <h2>Retrieval that reads the whole document first.</h2>
+      <p class="lede">Most pipelines cut a document into passages and index each one alone. A line like “this reduced churn by 18%” then loses what “this” was. We index every passage with the document around it still in view.</p>
+      <a class="more" href="https://zeonai.hashnode.dev/late-chunking-jina-v4-context-aware-embeddings-self-hosted-on-gcp" target="_blank" rel="noopener">Read the engineering note <span>→</span></a>
+    </div>
+    <div class="mock rv">
+      <div class="bar"><i><b></b></i>Index · Retention_review.pdf<em>Sample data</em></div>
+      <div class="body">
+        <div class="cmp">
+          <div><div class="lbl">Indexed alone</div><p>“<mark>This</mark> reduced churn by 18% in the second half.”</p><p style="margin-top:10px;color:var(--g-500);font-size:12px">What reduced it? The passage no longer says.</p></div>
+          <div class="good"><div class="lbl" style="color:var(--blue-600)">Indexed in context</div><p>“<mark>This</mark> reduced churn by 18% in the second half.”</p><p style="margin-top:10px;color:var(--blue-600);font-size:12px">this → the loyalty pricing change, §2.1</p></div>
+        </div>
+        <div class="ans">
+          <div class="lbl">Answer</div>
+          <p>The loyalty pricing change reduced churn by 18% in the second half.<sup>[1]</sup> It was approved by the pricing committee in March.<sup>[2]</sup></p>
+          <div class="src"><span>[1] Retention_review.pdf · §4.3</span><span>[2] Committee_minutes.docx · p.2</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="wrap"><div class="dia rv" data-links="a>b,b>c,c>d,d>e"><div class="lbl">From document to cited answer</div><div class="fl"><div class="nd " data-n="a"><span class="ic"><svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M10 12h5M10 16h5"/></svg></span><b>Whole document</b><span>Text, tables, page images</span></div><div class="nd " data-n="b"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 10h16M4 14h10M4 18h7"/></svg></span><b>Read in full</b><span>Before any cutting</span></div><div class="nd k" data-n="c"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg></span><b>Passages keep context</b><span>Each one knows its document</span></div><div class="nd " data-n="d"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg></span><b>Hybrid search</b><span>Keyword and meaning, access-checked</span></div><div class="nd b" data-n="e"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></svg></span><b>Cited answer</b><span>Every claim linked to a passage</span></div></div></div><div class="keys rv"><div><b>Context-aware</b><span>Every passage knows its document.</span></div><div><b>Hybrid, multimodal</b><span>Text, tables and page images in one index.</span></div><div><b>Cited</b><span>Every claim links to its source passage.</span></div><div><b>Inside your boundary</b><span>Documents never leave to be indexed.</span></div></div></div>
+</section>
+
+<!-- 03 -->
+<section class="pillar" id="memory">
+  <div class="wrap grid">
+    <div class="rv">
+      <span class="mono eyebrow">03 · Memory</span>
+      <h2>Two memories. One assistant.</h2>
+      <p class="lede">Organisation memory is everything your company already knows: its documents, systems and data, reached through connectors and the index. Personal memory is how you work. Our agent harness brings the two together on every request, so an answer is grounded in the organisation and shaped for the person asking.</p>
+    </div>
+    <div class="mock rv">
+      <div class="bar"><i><b></b></i>What I remember<em>Sample data</em></div>
+      <div class="body">
+        <div class="lbl">Preferences</div>
+        <div class="row"><span class="grow">Show amounts in millions</span><span class="pill b">You said</span><span style="color:var(--g-400)">✎ ✕</span></div>
+        <div class="row"><span class="grow">Tables before charts</span><span class="pill">Learned · 3 chats</span><span style="color:var(--g-400)">✎ ✕</span></div>
+        <div class="lbl" style="margin-top:18px">About your work</div>
+        <div class="row"><span class="grow">Procurement lead<small>Projects: Harbour Road · North Depot · Quay 4</small></span><span class="pill b">You said</span><span style="color:var(--g-400)">✎ ✕</span></div>
+        <div class="lbl" style="margin-top:18px">Recent work</div>
+        <div class="row"><span class="grow">Q3 portfolio summary<small>27 Oct · from Portfolio_Q3.xlsx</small></span><span style="color:var(--g-400)">✕</span></div>
+        <div class="lbl" style="margin-top:18px">From your organisation · reached live</div><div class="row"><span class="grow">Procurement policy v6<small>Document library · cited</small></span><span class="pill ok">Access checked</span></div><div class="row"><span class="grow">Vendor ledger<small>ERP · governed fetch</small></span><span class="pill">Read-only</span></div><div class="foot"><span>Personal notes are private to you. Organisation knowledge follows your access.</span><span class="pill ok">Scoped</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="wrap"><div class="dia rv" data-links="s1>p,s2>o,s3>o,s4>o,p>h,o>h,h>a"><div class="lbl">Personal and organisation memory, through one harness</div><div class="fl"><div class="stk"><div class="nd sm" data-n="s1"><b>What you tell it</b><span class="pill ok">private</span></div><div class="nd sm" data-n="s2"><b>Connectors</b><span class="pill b">live</span></div><div class="nd sm" data-n="s3"><b>Vector index</b><span class="pill b">cited</span></div><div class="nd sm" data-n="s4"><b>ERP and data</b><span class="pill b">read</span></div></div><div class="stk" style="flex:1.5"><div class="nd " data-n="p"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></span><b>Personal memory</b><span>Your preferences, role and recent work. Yours alone.</span></div><div class="nd " data-n="o"><span class="ic"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/></svg></span><b>Organisation memory</b><span>Documents, systems and data. Access-checked for each person.</span></div></div><div class="nd k" data-n="h"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="19" cy="19" r="2"/><path d="M7 12h3c4 0 3-7 7-7M10 12c4 0 3 7 7 7"/></svg></span><b>Agent harness</b><span>Brings both to every request, inside your permissions</span></div><div class="nd b" data-n="a"><span class="ic"><svg viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="11" rx="3"/><path d="M12 8V4M9.5 13v2M14.5 13v2"/></svg></span><b>Grounded and personal</b><span>The organisation’s knowledge, answered the way you work</span></div></div></div><div class="keys k3 rv"><div><b>Organisation memory</b><span>A gold mine: everything your company already knows, in reach.</span></div><div><b>Personal memory</b><span>How you work, remembered across chats and pages.</span></div><div><b>Better together</b><span>Your role and projects point the agent at the right knowledge.</span></div><div><b>Permissions travel</b><span>Organisation memory honours each person’s access.</span></div><div><b>Only you teach it</b><span>A document cannot plant a personal memory.</span></div><div><b>Yours to see and delete</b><span>Every personal note is visible and removable.</span></div></div></div>
+</section>
+
+<!-- 04 -->
+<section class="pillar tint" id="determinism">
+  <div class="wrap grid">
+    <div class="rv">
+      <span class="mono eyebrow">04 · AI-assisted determinism</span>
+      <h2>Probabilistic where it helps. Deterministic where it counts.</h2>
+      <p class="lede">A language model can give two answers to the same question. So we use it for what it is good at, reading messy input and proposing, and hand execution to fixed rules and code. The result is consistent, predictable and auditable, down to every number on a dashboard.</p>
+      <a class="more" href="https://zeonai.hashnode.dev/what-it-really-takes-to-build-an-ai-dashboard" target="_blank" rel="noopener">Read the engineering note <span>→</span></a>
+    </div>
+    <div class="mock rv">
+      <div class="bar"><i><b></b></i>Dashboard · Collections<em>Sample data</em></div>
+      <div class="body">
+        <div class="kpi">
+          <div class="lbl" style="margin:0">Collection rate</div>
+          <b>92.4%</b>
+          <div style="display:flex;gap:8px;flex-wrap:wrap"><span class="pill ok">Computed</span><span class="pill">Locked</span><span class="pill b">View calculation ▾</span></div>
+        </div>
+        <div class="calc">
+          <span>collection_rate</span> = Σ collected ÷ Σ invoiced<br>
+          &nbsp;&nbsp;Σ collected &nbsp;= 154,308,000<br>
+          &nbsp;&nbsp;Σ invoiced &nbsp;&nbsp;= 167,000,000<br>
+          &nbsp;&nbsp;rows used &nbsp;&nbsp;&nbsp;= 1,284 <span>(14 subtotal rows excluded)</span><br>
+          <u>✓ recomputed from source · matches tile</u>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="wrap"><div class="dia rv" data-links="m1>m2,m2>m3,c1>c2,c2>c3,l1>d,l2>d"><div class="lbl">AI interprets · deterministic logic executes</div><div class="fl"><div class="stk" style="flex:2.8"><div class="lane" data-n="l1"><div class="lbl">AI · interprets</div><div class="fl"><div class="nd " data-n="m1"><b>Reads messy input</b></div><div class="nd " data-n="m2"><b>Classifies and proposes</b></div><div class="nd " data-n="m3"><b>Writes the logic once</b></div></div></div><div class="lane" data-n="l2"><div class="lbl" style="color:var(--g-900)">Deterministic · executes</div><div class="fl"><div class="nd k" data-n="c1"><b>Rules and code run</b></div><div class="nd k" data-n="c2"><b>Schemas validate</b></div><div class="nd k" data-n="c3"><b>Result locked</b></div></div></div></div><div class="nd b" data-n="d"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></svg></span><b>Same input, same result</b><span>Consistent, predictable, auditable</span></div></div></div><div class="keys k3 rv"><div><b>AI handles the mess</b><span>Unstructured text, scans and spreadsheets, interpreted.</span></div><div><b>Logic governs execution</b><span>Fixed rules and code run the action, not the model.</span></div><div><b>Written once, run every time</b><span>The model drafts the rule. Every run repeats it exactly.</span></div><div><b>Guardrails</b><span>Structured outputs, validation and workflow limits.</span></div><div><b>Pinned behaviour</b><span>Prompts and models are versioned, so results stay stable.</span></div><div><b>Every number computed</b><span>Dashboard figures come from code, with the calculation shown.</span></div></div></div>
+</section>
+
+<!-- 05 -->
+<section class="pillar" id="router">
+  <div class="wrap grid">
+    <div class="rv">
+      <span class="mono eyebrow">05 · Model router</span>
+      <h2>The right model for each step.</h2>
+      <p class="lede">One workflow may plan with a reasoning model, extract with a fast one and classify with a small one. Our router decides step by step, inside a policy your organisation sets.</p>
+    </div>
+    <div class="mock rv">
+      <div class="bar"><i><b></b></i>Routing · month-end pack<em>Sample data</em></div>
+      <div class="body">
+        <div class="seg" role="tablist"><button class="on" data-p="cloud">Cloud policy</button><button data-p="one">Single approved model</button><button data-p="air">Air-gapped</button></div>
+        <div id="routes"></div>
+        <div class="foot"><span id="route-note"></span><span class="pill ok">Within policy</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="wrap"><div class="dia rv" data-links="a>b,b>t1,b>t2,b>t3,t1>c,t2>c,t3>c"><div class="lbl">One step, routed</div><div class="fl"><div class="nd " data-n="a"><span class="ic"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/><path d="M11 7.5h5.5V13"/></svg></span><b>A workflow step</b><span>Plan, extract, classify, write</span></div><div class="nd k" data-n="b"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="19" cy="19" r="2"/><path d="M7 12h3c4 0 3-7 7-7M10 12c4 0 3 7 7 7"/></svg></span><b>Router</b><span>Inside your policy</span></div><div class="stk"><div class="nd sm" data-n="t1"><b>Reasoning</b><span class="tier r">deep</span></div><div class="nd sm" data-n="t2"><b>Fast</b><span class="tier f">parallel</span></div><div class="nd sm" data-n="t3"><b>Small</b><span class="tier s">low cost</span></div></div><div class="nd b" data-n="c"><span class="ic"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="16" rx="2"/><path d="M9 9h6M9 13h6M9 17h3"/></svg></span><b>Metered and logged</b><span>Model, cost and fallback recorded</span></div></div></div><div class="keys rv"><div><b>Model-agnostic</b><span>Swap the model, keep the workflow.</span></div><div><b>Your allow-list</b><span>One approved model means one model.</span></div><div><b>Fallback</b><span>Switches within policy and records it.</span></div><div><b>Fewer calls</b><span>Cache, fan out, search first.</span></div></div></div>
+</section>
+
+<!-- 06 -->
+<section class="pillar tint" id="tokens">
+  <div class="wrap grid">
+    <div class="rv">
+      <span class="mono eyebrow">06 · Token economics</span>
+      <h2>Every token accounted for.</h2>
+      <p class="lede">Agents spend. Each model call is metered against the organisation, the user and the agent that made it, so cost is a governed quantity and not a surprise at the end of the month.</p>
+    </div>
+    <div class="mock rv">
+      <div class="bar"><i><b></b></i>Usage · this month<em>Sample data</em></div>
+      <div class="body">
+        <div class="lbl">By agent · credits</div>
+        <div class="bar-row"><span>Invoice matching</span><div class="track"><i style="width:62%"></i></div><span>6,210</span></div>
+        <div class="bar-row"><span>Bank reconciliation</span><div class="track"><i style="width:41%"></i></div><span>4,090</span></div>
+        <div class="bar-row"><span>Contract review</span><div class="track"><i class="hot" style="width:93%"></i></div><span>9,340</span></div>
+        <div class="bar-row"><span>Ask AI</span><div class="track"><i style="width:28%"></i></div><span>2,780</span></div>
+        <div class="lbl" style="margin-top:18px">Limits</div>
+        <div class="row"><span class="grow">Organisation pool</span><span class="pill ok">71% used</span></div>
+        <div class="row"><span class="grow">Contract review · agent budget</span><span class="pill warn">93% · alert sent</span></div>
+        <div class="row"><span class="grow">Per-task cap</span><span class="pill">12 steps</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="wrap"><div class="dia rv" data-links="a>b,b>p1,b>p2,b>p3,p1>c,p2>c,p3>c"><div class="lbl">Where every call is counted</div><div class="fl"><div class="nd " data-n="a"><span class="ic"><svg viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="11" rx="3"/><path d="M12 8V4M9.5 13v2M14.5 13v2"/></svg></span><b>Every model call</b><span>Chat, agent or background job</span></div><div class="nd k" data-n="b"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 17a8 8 0 1116 0"/><path d="M12 17l4-6"/></svg></span><b>One meter</b><span>No path around it</span></div><div class="stk"><div class="nd sm" data-n="p1"><b>Organisation pool</b><span class="pill ok">71%</span></div><div class="nd sm" data-n="p2"><b>User allowance</b><span class="pill ok">38%</span></div><div class="nd sm" data-n="p3"><b>Agent budget</b><span class="pill warn">93%</span></div></div><div class="nd b" data-n="c"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg></span><b>At the limit: stop and alert</b><span>Never a surprise bill</span></div></div></div><div class="keys rv"><div><b>One meter</b><span>No call goes around it.</span></div><div><b>Budgets that hold</b><span>Agents stop at their limit.</span></div><div><b>Cheaper by design</b><span>Tiering and caching, same quality.</span></div><div><b>Visible</b><span>Cost per team, agent and workflow.</span></div></div></div>
+</section>
+
+<!-- 07 -->
+<section class="pillar" id="security">
+  <div class="wrap grid">
+    <div class="rv">
+      <span class="mono eyebrow">07 · Agent security</span>
+      <h2>Agents with less authority than the people they work for.</h2>
+      <p class="lede">An agent acts for a person and can never do more than that person can. The limits are enforced in code around the model, not asked of it in a prompt.</p>
+    </div>
+    <div class="mock rv">
+      <div class="bar"><i><b></b></i>Tool calls · agent run<em>Sample data</em></div>
+      <div class="body">
+        <div class="row"><span class="num">01</span><span class="grow">search_documents<small>as finance.manager · 2 withheld, outside access</small></span><span class="pill ok">Allowed</span></div>
+        <div class="row"><span class="num">02</span><span class="grow">fetch_ledger<small>read-only · governed fetch</small></span><span class="pill ok">Allowed</span></div>
+        <div class="row"><span class="num">03</span><span class="grow">search_documents<small>extra parameter: org_id</small></span><span class="pill no">Refused</span></div>
+        <div class="row"><span class="num">04</span><span class="grow">run_analysis<small>sandbox · no network · 41 s · destroyed</small></span><span class="pill ok">Allowed</span></div>
+        <div class="row"><span class="num">05</span><span class="grow">route_for_approval<small>changes a record</small></span><span class="pill warn">Needs you</span></div>
+        <div class="foot"><span>5 calls logged · user, arguments, result, model version</span><span class="pill">Audit</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="wrap"><div class="dia rv" data-links="a>g1,g1>g2,g2>g3,g3>g4,g4>g5,g5>s"><div class="lbl">Five gates between an agent and your systems</div><div class="fl"><div class="nd k" data-n="a"><span class="ic"><svg viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="11" rx="3"/><path d="M12 8V4M9.5 13v2M14.5 13v2"/></svg></span><b>Agent</b><span>Acting for one person</span></div><div class="gates"><div class="gt" data-n="g1"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></span>Verified identity</div><div class="gt" data-n="g2"><span class="ic"><svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M10 12h5M10 16h5"/></svg></span>Closed tool contract</div><div class="gt" data-n="g3"><span class="ic"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></span>Access check</div><div class="gt" data-n="g4"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.4 8-8 9-4.6-1-8-4-8-9V6z"/></svg></span>Sandbox</div><div class="gt" data-n="g5"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></svg></span>Human approval</div></div><div class="nd b" data-n="s"><span class="ic"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="6" rx="1.5"/><rect x="4" y="14" width="16" height="6" rx="1.5"/><path d="M8 7h.01M8 17h.01"/></svg></span><b>Your systems</b><span>Read-only unless a person confirms</span></div></div></div><div class="keys k3 rv"><div><b>Identity on every call</b><span>Sees only what its user can open.</span></div><div><b>Closed contracts</b><span>Invented parameters are refused.</span></div><div><b>Content is data</b><span>Reading something grants nothing.</span></div><div><b>Sandboxed code</b><span>No network. Destroyed after the run.</span></div><div><b>Humans confirm writes</b><span>Create, change, route, delete: all wait.</span></div><div><b>Read-only by default</b><span>Agents never query your systems directly.</span></div></div></div>
+</section>
+
+<!-- 08 -->
+<section class="pillar dark" id="sovereign">
+  <div class="wrap">
+    <div class="wide rv">
+      <div>
+        <span class="mono eyebrow">08 · Sovereign deployment</span>
+        <h2>Your boundary.<br>Your models.</h2>
+      </div>
+      <p class="lede">The same platform runs in three places. You choose where the data sits and which models may touch it, and that choice is built into the deployment, not left to configuration.</p>
+    </div>
+    <div class="modes rv">
+      <div class="mode">
+        <span class="mono">Mode 01</span>
+        <h3>Your cloud, your region</h3>
+        <p>Deployed into your own AWS, Azure or Google Cloud account. Data stays in the region you choose.</p>
+        <div class="bound" data-l="Your account · your region"><span class="tag">platform</span><span class="tag">data</span><span class="tag">index</span></div>
+        <div class="out">models → your approved gateway</div>
+      </div>
+      <div class="mode">
+        <span class="mono">Mode 02</span>
+        <h3>Private cloud</h3>
+        <p>A dedicated environment for one organisation, with the frontier model you choose.</p>
+        <div class="bound" data-l="Dedicated environment"><span class="tag">platform</span><span class="tag">data</span><span class="tag">index</span><span class="tag">model endpoint</span></div>
+        <div class="out">no shared tenancy</div>
+      </div>
+      <div class="mode">
+        <span class="mono">Mode 03</span>
+        <h3>Air-gapped, on-premises</h3>
+        <p>No route to the internet. Open-weight models on your own GPUs. Delivered for a national defence customer.</p>
+        <div class="bound" data-l="Your network"><span class="tag">platform</span><span class="tag">data</span><span class="tag">index</span><span class="tag">models</span><span class="tag">gpus</span></div>
+        <div class="out">outbound connections: none</div>
+      </div>
+    </div>
+    <div class="points rv">
+      <div><b>Weights stay with you</b><span>Open-weight models are stored and served on your hardware. No call leaves to an outside model provider.</span></div>
+      <div><b>Signed delivery</b><span>Each release arrives as a signed bundle with a bill of materials you can verify before anything is loaded.</span></div>
+      <div><b>Known provenance</b><span>Every component and model is listed with its publisher, country of origin and licence. You decide what is admissible.</span></div>
+      <div><b>Yours to operate</b><span>Telemetry is off. Your team can restart, upgrade and roll back the platform after handover.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 -->
+<section class="pillar" id="connectors">
+  <div class="wrap">
+    <div class="grid rv" style="align-items:end">
+      <div>
+        <span class="mono eyebrow">09 · Connectors</span>
+        <h2>Works with the systems you already run.</h2>
+      </div>
+      <p class="lede">Agents are only as useful as the systems they can reach. We connect to the ERP, the warehouse and the document store, including the ones that predate the cloud.</p>
+    </div>
+    <div class="conn rv">
+      <div><div class="lbl">ERP and finance</div><div class="logos"><span>SAP</span><span>Oracle</span><span>Microsoft Dynamics 365</span><span>NetSuite</span><span>Xero</span><span>Yardi</span><span>Pronto</span><span>TechnologyOne</span><span>MYOB</span><span>Sage</span><span>Infor</span><span>Epicor</span><span>Workday</span></div></div>
+      <div><div class="lbl">Data platforms and warehouses</div><div class="logos"><span>Oracle data warehouse</span><span>Snowflake</span><span>Databricks</span><span>SQL Server</span><span>PostgreSQL</span><span>MySQL</span><span>BigQuery</span><span>Redshift</span><span>Teradata</span></div></div>
+      <div><div class="lbl">Documents and messages</div><div class="logos"><span>SharePoint</span><span>OneDrive</span><span>Google Drive</span><span>Email</span><span>Object storage</span><span>File upload</span></div></div>
+    </div>
+    <div class="dia rv" style="margin-top:16px" data-links="a>b,b>c"><div class="lbl">How an agent reaches your data</div><div class="fl"><div class="nd " data-n="a"><span class="ic"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></span><b>Read-only access</b><span>To a selected database, from a fixed, whitelisted address.</span></div><div class="nd k" data-n="b"><span class="ic"><svg viewBox="0 0 24 24"><path d="M9 3v5M15 3v5M6 8h12v3a6 6 0 01-12 0zM12 17v4"/></svg></span><b>Governed fetch</b><span>Code writes the query. Aggregation runs in your database, so raw rows stay there.</span></div><div class="nd b" data-n="c"><span class="ic"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="16" rx="2"/><path d="M9 9h6M9 13h6M9 17h3"/></svg></span><b>A record of what was read</b><span>Every fetch is logged. No runaway queries on a live system.</span></div></div></div>
+    <p class="mono" style="margin-top:20px;color:var(--g-400)">Connectors are scoped per engagement</p>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="pillar tint" id="evaluation">
+  <div class="wrap grid">
+    <div class="rv">
+      <span class="mono eyebrow">10 · Agent evaluation</span>
+      <h2>No agent ships on a demo.</h2>
+      <p class="lede">One good answer proves little. Before an agent, a prompt or a model change reaches you, it runs a suite built from real work, and it is graded on how it got there as well as on what it produced.</p>
+    </div>
+    <div class="mock rv"><div class="bar"><i><b></b></i>Release check · invoice agent v12<em>Sample data</em></div><div class="body"><div class="lbl">Against v11 · 180 scenarios · 5 runs each</div><div class="row"><span class="grow">Task success</span><span class="pill">96% · was 94%</span><span class="pill ok">Up</span></div><div class="row"><span class="grow">Same result on repeat runs</span><span class="pill">5 of 5</span><span class="pill ok">Held</span></div><div class="row"><span class="grow">Cross-user leak probes<small>release blocker if above zero</small></span><span class="pill">0 leaks</span><span class="pill ok">Pass</span></div><div class="row"><span class="grow">Planted instructions followed</span><span class="pill">0 of 24</span><span class="pill ok">Pass</span></div><div class="row"><span class="grow">Cost per run</span><span class="pill">−12%</span><span class="pill ok">Down</span></div><div class="row"><span class="grow">Expert review · exceptions</span><span class="pill">3 flagged</span><span class="pill warn">Reviewed</span></div><div class="foot"><span>Every step of every run is kept for inspection</span><span class="mini">Cleared to ship ✓</span></div></div></div>
+  </div>
+  <div class="wrap"><div class="dia rv" data-links="a>b,b>c,c>g1,c>g2,c>g3,g1>d,g2>d,g3>d"><div class="lbl">From scenario to release gate</div><div class="fl"><div class="nd " data-n="a"><span class="ic"><svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M10 12h5M10 16h5"/></svg></span><b>Scenario suite</b><span>Real cases, messy data, attacks</span></div><div class="nd " data-n="b"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 11a8 8 0 0114-4l2 2M20 4v5h-5M20 13a8 8 0 01-14 4l-2-2M4 20v-5h5"/></svg></span><b>Agent runs</b><span>Repeated, not once</span></div><div class="nd k" data-n="c"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="19" cy="19" r="2"/><path d="M7 12h3c4 0 3-7 7-7M10 12c4 0 3 7 7 7"/></svg></span><b>Full trajectory</b><span>Every step, tool call and cost</span></div><div class="stk"><div class="nd sm" data-n="g1"><b>Code checks</b></div><div class="nd sm" data-n="g2"><b>Model grader</b></div><div class="nd sm" data-n="g3"><b>Expert review</b></div></div><div class="nd b" data-n="d"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.4 8-8 9-4.6-1-8-4-8-9V6z"/></svg></span><b>Release gate</b><span>Hold or beat the last version</span></div></div></div><div class="keys k3 rv"><div><b>Graded on the path</b><span>Not only on the final answer.</span></div><div><b>Beyond accuracy</b><span>Cost, speed and consistency all count.</span></div><div><b>Attacks included</b><span>Planted instructions and cross-user probes.</span></div><div><b>Regression gate</b><span>A change ships only if the scores hold.</span></div><div><b>Graders are checked</b><span>Code where it can be, experts where it matters.</span></div><div><b>On your work</b><span>Measured in your domain, not on a public leaderboard.</span></div></div></div>
+</section>
+
+<!-- 11 -->
+<section class="pillar" id="rules">
+  <div class="wrap grid">
+    <div class="rv">
+      <span class="mono eyebrow">11 · Rule builder</span>
+      <h2>Rules written by an agent. Proved before they run.</h2>
+      <p class="lede">Reconciliation lives in its rules: does this invoice match that order, within what tolerance, and what happens when it does not. An analyst describes the check in plain language. An agent drafts the rule, tests it and shows its working. Nothing changes until the analyst applies it.</p>
+    </div>
+    <div class="mock rv"><div class="bar"><i><b></b></i>Rule assistant · remittance match<em>Sample data</em></div><div class="body"><div class="lbl">You asked</div><p style="color:var(--g-700)">“Match the supplier on the remittance to the ERP vendor. Ignore case and spaces. Amounts within 1%.”</p><div class="ans" style="background:var(--blue-50);border-color:var(--blue-200)"><div class="lbl" style="color:var(--blue-600)">Draft 2 · reads as</div><p>If the names agree and the amounts are within 1%, mark <b>Matching</b>. If a field is missing, send to <b>Review</b>. Otherwise <b>Not matching</b>.</p></div><div class="lbl" style="margin-top:16px">Tested on 4 samples</div><div class="row"><span class="grow">Exact match</span><span class="pill">Matching</span><span class="pill ok">As expected</span></div><div class="row"><span class="grow">“Ltd” against “Limited”</span><span class="pill">Matching</span><span class="pill ok">As expected</span></div><div class="row"><span class="grow">Amount 1.4% over</span><span class="pill">Not matching</span><span class="pill ok">As expected</span></div><div class="row"><span class="grow">Supplier name missing</span><span class="pill">Review</span><span class="pill ok">As expected</span></div><div class="foot"><span>Checks clean · 1 line changed from draft 1</span><span class="mini">Apply rule</span></div></div></div>
+  </div>
+  <div class="wrap"><div class="dia rv" data-links="a>b,b>c,c>d,d>e"><div class="lbl">From a sentence to a rule in production</div><div class="fl"><div class="nd " data-n="a"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H10l-6 4z"/></svg></span><b>Describe the check</b><span>In plain language</span></div><div class="nd " data-n="b"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l2.2 6.8L21 12l-6.8 2.2L12 21l-2.2-6.8L3 12l6.8-2.2z"/></svg></span><b>Agent asks, then drafts</b><span>One question at a time</span></div><div class="nd k" data-n="c"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.4 8-8 9-4.6-1-8-4-8-9V6z"/></svg></span><b>Checked by the engine</b><span>Never graded by the model itself</span></div><div class="nd " data-n="d"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg></span><b>Run on samples</b><span>Pass, fail, missing and edge cases</span></div><div class="nd b" data-n="e"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></svg></span><b>You apply</b><span>Versioned, with its tests attached</span></div></div></div><div class="keys k3 rv"><div><b>Asks before it drafts</b><span>Ambiguity gets a question, not a guess.</span></div><div><b>No invented fields</b><span>Only data that exists in your documents and ERP.</span></div><div><b>Tested on every draft</b><span>Including a case that should fail.</span></div><div><b>Works before data exists</b><span>It builds a labelled sample set to test on.</span></div><div><b>Small, visible changes</b><span>“Ignore case” changes one line, and shows it.</span></div><div><b>You apply</b><span>The agent never writes to a live rule.</span></div></div></div>
+</section>
+
+<section class="notes" id="notes">
+  <div class="wrap">
+    <div class="head rv">
+      <div><span class="mono" style="color:var(--blue-600)">Engineering notes</span><h2 style="margin-top:18px">How we got here, in our engineers' words.</h2></div>
+      <a class="more" style="margin:0" href="https://zeonai.hashnode.dev" target="_blank" rel="noopener">All notes <span>→</span></a>
+    </div>
+    <div class="cards rv">
+      <a class="note-card" href="https://zeonai.hashnode.dev/late-chunking-jina-v4-context-aware-embeddings-self-hosted-on-gcp" target="_blank" rel="noopener">
+        <span class="mono"><span>Retrieval</span><span>Published</span></span>
+        <h3>Late chunking: context-aware embeddings, self-hosted</h3>
+        <p>Why we embed the whole document before we cut it up, and what it took to serve that ourselves.</p>
+        <span class="read">Read the note →</span>
+      </a>
+      <a class="note-card" href="https://zeonai.hashnode.dev/what-it-really-takes-to-build-an-ai-dashboard" target="_blank" rel="noopener">
+        <span class="mono"><span>Dashboards</span><span>Published</span></span>
+        <h3>What it really takes to build an AI dashboard</h3>
+        <p>Contract drift, wrong averages and vanishing KPIs, and why arithmetic had to leave the model.</p>
+        <span class="read">Read the note →</span>
+      </a>
+      <div class="note-card soon">
+        <span class="mono"><span>Data access</span><span>Coming soon</span></span>
+        <h3>Why our agents never query your ERP directly</h3>
+        <p>Governed, read-only fetch as the only door into a system of record.</p>
+        <span class="read">In review</span>
+      </div>
+      <div class="note-card soon">
+        <span class="mono"><span>Runtime</span><span>Coming soon</span></span>
+        <h3>Generate once, freeze, execute</h3>
+        <p>Getting auditable, repeatable logic out of a language model.</p>
+        <span class="read">In review</span>
+      </div>
+      <div class="note-card soon">
+        <span class="mono"><span>Memory</span><span>Coming soon</span></span>
+        <h3>Memory is a hint, not the truth</h3>
+        <p>Designing recall that cannot leak across users and cannot be planted by a document.</p>
+        <span class="read">In review</span>
+      </div>
+      <div class="note-card soon">
+        <span class="mono"><span>Deployment</span><span>Coming soon</span></span>
+        <h3>Running agentic AI fully air-gapped</h3>
+        <p>Open-weight models, signed delivery and tool calling with no outbound connection.</p>
+        <span class="read">In review</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap">
+    <div>
+      <h2>Bring your architect.<br>We will bring ours.</h2>
+      <p>A working session with the engineers who built the platform, on your constraints: models, data residency, access and audit.</p>
+    </div>
+    <div class="acts"><a class="btn ghost" href="/contact">Talk to our engineers</a><a class="btn white" href="/demo">Book a demo</a></div>
+  </div>
+</section>
+<footer class="ftr"><div class="wrap"><span>© 2026 ZeonAI Labs. All rights reserved.</span><span>Screens show sample data, not customer data.</span></div></footer>
+
+<script>
+// Router mock
+const ROUTES={
+  cloud:{note:"3 tiers · chosen per step",rows:[["Plan the pack","Reasoning","r"],["Extract 240 invoices","Fast · parallel","f"],["Classify exceptions","Small","s"],["Write the summary","Reasoning","r"]]},
+  one:{note:"1 approved model · via your gateway",rows:[["Plan the pack","Approved model","r"],["Extract 240 invoices","Approved model · parallel","r"],["Classify exceptions","Approved model","r"],["Write the summary","Approved model","r"]]},
+  air:{note:"Open-weight · on your GPUs",rows:[["Plan the pack","Local · large","r"],["Extract 240 invoices","Local · large · parallel","r"],["Classify exceptions","Local · small","s"],["Write the summary","Local · large","r"]]}
+};
+function drawRoutes(p){
+  const r=ROUTES[p];
+  document.getElementById('routes').innerHTML=r.rows.map((x,i)=>`<div class="row"><span class="num">0${i+1}</span><span class="grow">${x[0]}</span><span class="tier ${x[2]}">${x[1]}</span></div>`).join('');
+  document.getElementById('route-note').textContent=r.note;
+}
+document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.seg button').forEach(x=>x.classList.remove('on'));b.classList.add('on');drawRoutes(b.dataset.p);
+}));
+drawRoutes('cloud');
+
+
+// Diagram connectors: curved wires drawn between nodes, redrawn on resize
+function wire(d){
+  let svg=d.querySelector('.wires');
+  if(!svg){svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('class','wires');svg.setAttribute('aria-hidden','true');d.appendChild(svg)}
+  const R=d.getBoundingClientRect(),get=id=>d.querySelector('[data-n="'+id+'"]'),seen=new Set();let lines='',ports='';
+  d.dataset.links.split(',').forEach(l=>{
+    const [a,b]=l.split('>');let A=get(a),B=get(b);if(!A||!B)return;
+    let ra=A.getBoundingClientRect(),rb=B.getBoundingClientRect(),x1,y1,x2,y2,p;
+    if(rb.left>=ra.right-2){
+      x1=ra.right-R.left;y1=ra.top+ra.height/2-R.top;x2=rb.left-R.left;y2=rb.top+rb.height/2-R.top;
+      const c=(x2-x1)/2;p=`M${x1} ${y1}C${x1+c} ${y1},${x2-c} ${y2},${x2} ${y2}`;
+    }else{
+      const ga=A.closest('.stk,.gates')||A,gb=B.closest('.stk,.gates')||B;if(ga===gb)return;
+      ra=ga.getBoundingClientRect();rb=gb.getBoundingClientRect();
+      x1=ra.left+ra.width/2-R.left;y1=ra.bottom-R.top;x2=rb.left+rb.width/2-R.left;y2=rb.top-R.top;
+      const c=(y2-y1)/2;p=`M${x1} ${y1}C${x1} ${y1+c},${x2} ${y2-c},${x2} ${y2}`;
+    }
+    const k=[x1,y1,x2,y2].map(Math.round).join();if(seen.has(k))return;seen.add(k);
+    lines+=`<path class="w0" d="${p}"/><path class="w1" d="${p}"/>`;
+    if(Math.hypot(x2-x1,y2-y1)>26)ports+=`<circle class="p0" cx="${x1}" cy="${y1}" r="2.5"/><circle class="p1" cx="${x2}" cy="${y2}" r="3.5"/>`;
+  });
+  svg.innerHTML=lines+ports;
+}
+const dias=[...document.querySelectorAll('.dia[data-links]')];
+const ro=new ResizeObserver(es=>es.forEach(e=>wire(e.target)));
+dias.forEach(d=>{wire(d);ro.observe(d)});
+window.addEventListener('load',()=>dias.forEach(wire));
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>dias.forEach(wire));
+
+// Reveal on scroll
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+// Chip scroll-spy
+const chips=[...document.querySelectorAll('.chips a')];
+const secs=chips.map(c=>document.querySelector(c.getAttribute('href')));
+const spy=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){const i=secs.indexOf(e.target);chips.forEach((c,j)=>c.classList.toggle('on',i===j));
+    const c=chips[i],w=c.parentElement;w.scrollTo({left:c.offsetLeft-w.clientWidth/2+c.clientWidth/2,behavior:'smooth'});}
+}),{rootMargin:'-45% 0px -50% 0px'});
+secs.forEach(s=>s&&spy.observe(s));
+</script>
+</body>
+</html>

@@ -8,9 +8,9 @@ const TIERS = [
   {
     id: "general",
     name: "General",
-    see: "Everyone in the organisation",
+    see: "Everyone in the organization",
     act: "The current holder",
-    note: "Visible organisation-wide. Only the current holder can act.",
+    note: "Visible organization-wide. Only the current holder can act.",
   },
   {
     id: "protected",

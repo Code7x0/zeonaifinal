@@ -10,13 +10,18 @@ import {
   pressTransition,
   staggerEnter,
 } from "./motion";
+import { ProductVideo } from "./video";
 import { ZeonLinkButton } from "./zeon-ui";
 
+/**
+ * Homepage hero — agents-first headline + Placement 1 product video
+ * (`home-hero`: Ask AI with citations). Poster until the recording ships.
+ */
 export function Hero() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <section className="relative isolate min-h-[calc(100svh-60px)] overflow-hidden bg-[var(--dp-gradient-hero,#EEF4FF)]">
+    <section className="relative isolate overflow-hidden bg-[var(--dp-gradient-hero,#EEF4FF)]">
       <div
         className="pointer-events-none absolute inset-0 z-0"
         style={{
@@ -25,7 +30,7 @@ export function Hero() {
         }}
         aria-hidden
       />
-      <div className="pointer-events-none absolute inset-0 z-0 opacity-70">
+      <div className="pointer-events-none absolute inset-0 z-0 opacity-50">
         {reduceMotion ? null : (
           <GLSLHills
             width="100%"
@@ -38,70 +43,106 @@ export function Hero() {
         )}
       </div>
 
-      <div className="relative z-10 mx-auto flex min-h-[calc(100svh-60px)] max-w-[1400px] flex-col items-center justify-center px-5 pb-20 pt-16 text-center md:px-8">
-        <motion.h1
-          className="font-[family-name:var(--font-aeonik)] text-[44px] leading-[1.02] tracking-[-0.03em] text-[#181D27] md:text-[60px] md:leading-[1.02] md:tracking-[-1.8px]"
-          initial={reduceMotion ? false : { opacity: 0, y: enterY }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={
-            reduceMotion
-              ? { duration: 0 }
-              : { duration: durationEnter, delay: 0.06, ease: easeOut }
-          }
-        >
-          The governed AI platform
-          <br />
-          for enterprise knowledge and workflows.
-        </motion.h1>
-
-        <motion.p
-          className="mt-7 max-w-[48ch] text-[17px] leading-[1.55] text-[#535862] md:text-[18px]"
-          initial={reduceMotion ? false : { opacity: 0, y: enterY }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={
-            reduceMotion
-              ? { duration: 0 }
-              : {
-                  duration: durationEnter,
-                  delay: 0.06 + staggerEnter,
-                  ease: easeOut,
-                }
-          }
-        >
-          AI Workspace answers from your documents and{" "}
-          <strong className="font-medium text-[#181D27]">cites every source</strong>.
-          Agents read, check and route paperwork; people approve what matters.
-          Access control and an audit log are built in.
-        </motion.p>
-
-        <motion.div
-          className="mt-10 flex flex-wrap items-center justify-center gap-3"
-          initial={reduceMotion ? false : { opacity: 0, y: enterY }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={
-            reduceMotion
-              ? { duration: 0 }
-              : {
-                  duration: durationEnter,
-                  delay: 0.06 + staggerEnter * 2,
-                  ease: easeOut,
-                }
-          }
-        >
-          <motion.div
-            whileTap={
+      <div className="relative z-10 mx-auto flex max-w-[1180px] flex-col px-5 pb-16 pt-14 md:px-8 md:pb-24 md:pt-20">
+        <div className="mx-auto max-w-[52rem] text-center">
+          <motion.p
+            className="font-[family-name:var(--font-aeonik)] text-[13px] font-medium tracking-[0.04em] text-[#1B46F5] md:text-[14px]"
+            initial={reduceMotion ? false : { opacity: 0, y: enterY }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={
               reduceMotion
-                ? undefined
-                : { scale: pressScale, transition: pressTransition }
+                ? { duration: 0 }
+                : { duration: durationEnter, delay: 0.02, ease: easeOut }
             }
           >
-            <ZeonLinkButton href="/demo" tone="accent" size="lg">
-              Book a demo
-            </ZeonLinkButton>
+            ZeonAI
+          </motion.p>
+
+          <motion.h1
+            className="mt-4 font-[family-name:var(--font-aeonik)] text-[40px] leading-[1.02] tracking-[-0.03em] text-[#181D27] md:text-[56px] md:leading-[1.02] md:tracking-[-1.6px]"
+            initial={reduceMotion ? false : { opacity: 0, y: enterY }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={
+              reduceMotion
+                ? { duration: 0 }
+                : { duration: durationEnter, delay: 0.06, ease: easeOut }
+            }
+          >
+            Build governed AI agents
+            <br />
+            for the enterprise.
+          </motion.h1>
+
+          <motion.p
+            className="mx-auto mt-6 max-w-[48ch] text-[16px] leading-[1.55] text-[#535862] md:text-[17px]"
+            initial={reduceMotion ? false : { opacity: 0, y: enterY }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={
+              reduceMotion
+                ? { duration: 0 }
+                : {
+                    duration: durationEnter,
+                    delay: 0.06 + staggerEnter,
+                    ease: easeOut,
+                  }
+            }
+          >
+            AI Workspace answers from your repositories with citations and
+            role checks. Agent Hub agents read, match, and route operational
+            work — people approve what changes a record of value.
+          </motion.p>
+
+          <motion.div
+            className="mt-8 flex flex-wrap items-center justify-center gap-3"
+            initial={reduceMotion ? false : { opacity: 0, y: enterY }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={
+              reduceMotion
+                ? { duration: 0 }
+                : {
+                    duration: durationEnter,
+                    delay: 0.06 + staggerEnter * 2,
+                    ease: easeOut,
+                  }
+            }
+          >
+            <motion.div
+              whileTap={
+                reduceMotion
+                  ? undefined
+                  : { scale: pressScale, transition: pressTransition }
+              }
+            >
+              <ZeonLinkButton href="/demo" tone="accent" size="lg">
+                Book a demo
+              </ZeonLinkButton>
+            </motion.div>
+            <a href="#platform" className="zeon-link-arrow !text-[14px]">
+              See the platform
+            </a>
           </motion.div>
-          <a href="#platform" className="zeon-link-arrow !text-[14px]">
-            See the platform
-          </a>
+        </div>
+
+        <motion.div
+          className="mx-auto mt-12 w-full max-w-[920px] md:mt-14"
+          initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={
+            reduceMotion
+              ? { duration: 0 }
+              : {
+                  duration: durationEnter,
+                  delay: 0.06 + staggerEnter * 3,
+                  ease: easeOut,
+                }
+          }
+        >
+          <ProductVideo assetId="home-hero" tone="light" tilt />
+          <p className="mt-3 text-center text-[12px] leading-[1.45] text-[#717680]">
+            Ask AI answering from governed documents — citations appear with the
+            claim. Sample interface; silent product loop when the recording is
+            published.
+          </p>
         </motion.div>
       </div>
     </section>

@@ -54,11 +54,6 @@ export function Capabilities() {
                 50+ agents in our portfolio
               </p>
             </div>
-            {/* TODO: confirm maturity split with product before public launch */}
-            <p className="max-w-[36ch] text-[12px] text-[var(--zeon-fog)]">
-              Portfolio maturity: about 30% in production, about 50% developed
-              or in pilot, about 20% still to be developed.
-            </p>
           </div>
           <div className="mt-8 grid gap-6 md:grid-cols-2">
             {agentCategories.map((cat) => (
@@ -69,10 +64,10 @@ export function Capabilities() {
                 <ul className="mt-3 space-y-2">
                   {cat.agents.map((agent) => (
                     <li
-                      key={agent}
+                      key={agent.name}
                       className="border-t border-[var(--zeon-line)] pt-2 text-[13px] text-[var(--zeon-ink70)]"
                     >
-                      {agent}
+                      {agent.name}
                     </li>
                   ))}
                 </ul>

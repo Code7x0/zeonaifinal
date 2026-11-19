@@ -11,17 +11,13 @@ import {
   SecondaryHero,
 } from "./secondary/chapter";
 
-/**
- * Resources index — no fabricated articles.
- * Featured slot reserved until approved editorial content exists.
- */
 export function ResourcesPage() {
   return (
     <PageShell>
       <SecondaryHero
         label="Company · Resources"
         title="Notes from the work."
-        lead="An editorial index for approved articles and product notes. Until posts are published, use the case studies and product pages."
+        lead="Articles and engineering notes as they are published. Until then, explore case studies, the platform architecture and product pages."
         align="center"
         primaryHref="/case-studies"
         primaryLabel="Case studies"
@@ -30,40 +26,30 @@ export function ResourcesPage() {
       />
 
       <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#E9EAEB]">
-        <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
-          <div>
-            <ChapterLabel>Featured</ChapterLabel>
-            <ChapterTitle>Waiting on approved copy.</ChapterTitle>
-            <ChapterLead>
-              We do not invent thought leadership titles, authors or dates. When
-              articles are cleared for publication, they will appear here in a
-              reading-width layout.
-            </ChapterLead>
-          </div>
-          <div className="border border-dashed border-[#E9EAEB] bg-[#FAFAFA]/50 p-8">
-            <p className="font-mono text-[11px] tracking-[0.12em] text-[#535862] uppercase">
-              Placeholder
-            </p>
-            <p className="mt-3 text-[15px] leading-[1.55] text-[#535862]">
-              Empty state: no published resources in the local content pack yet.
-            </p>
-          </div>
-        </div>
+        <ChapterLabel>Featured</ChapterLabel>
+        <ChapterTitle>Engineering notes</ChapterTitle>
+        <ChapterLead>
+          Pipeline, access control, rules and audit — how governed AI is built
+          into the platform.
+        </ChapterLead>
+        <Link href="/engineering" className="zeon-link-arrow mt-8 inline-flex">
+          Open engineering
+        </Link>
       </Chapter>
 
       <Chapter tone="mist" min={false} className="!min-h-0">
-        <ChapterLabel tone="mist">Meanwhile</ChapterLabel>
-        <ChapterTitle>Read what is already real.</ChapterTitle>
+        <ChapterLabel tone="mist">Explore</ChapterLabel>
+        <ChapterTitle>Read what is on the site today.</ChapterTitle>
         <ul className="mt-10 grid gap-3 md:grid-cols-3">
           {[
             {
               href: "/case-studies",
               title: "Case studies",
-              body: "Lending, finance and media deployments from the product brief.",
+              body: "Lending, finance and media deployments.",
             },
             {
-              href: "/products/deepprobe",
-              title: "DeepProbe",
+              href: "/products/ai-workspace",
+              title: "AI Workspace",
               body: "Governed answers with citations and access boundaries.",
             },
             {

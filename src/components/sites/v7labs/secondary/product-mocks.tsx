@@ -30,11 +30,11 @@ export function ProductChrome({
     <div
       data-ui
       className={cn(
-        "overflow-hidden rounded-[8px] border border-[#E4E4E4] bg-[#F2F4F7] shadow-[0_24px_60px_-28px_rgba(0,0,0,0.35)]",
+        "zeon-window overflow-hidden bg-[#F2F4F7]",
         className,
       )}
     >
-      <div className="flex h-11 items-center justify-between border-b border-[#E4E4E4] bg-white px-3.5">
+      <div className="relative z-[3] flex h-11 items-center justify-between border-b border-[#E4E4E4]/90 bg-white/80 px-3.5 backdrop-blur-md">
         <div className="flex items-center gap-2">
           <span className="size-2 rounded-full bg-[#181D27]" aria-hidden />
           <span className="text-[12px] font-medium tracking-[-0.01em] text-[#181D27]">
@@ -169,7 +169,7 @@ export function AuditMock({ className }: { className?: string }) {
         ))}
       </div>
       <p className="mt-3 text-[11px] text-[#535862]">
-        Read-only trail — illustrative layout from the product brief.
+        Sample data
       </p>
     </ProductChrome>
   );
@@ -415,8 +415,7 @@ export function IntegrationMesh({
       </div>
 
       <p className="border-t border-white/15 px-5 py-3 text-[12px] leading-[1.45] text-white/40 md:px-6">
-        Connectors are scoped per engagement — illustrative catalogue from the
-        product brief.
+        Connectors are scoped per engagement.
       </p>
     </div>
   );
