@@ -34,7 +34,7 @@ function industryVisual(id: string) {
 
 export function IndustriesIndexPage() {
   return (
-    <PageShell className="bg-[#FAFBFC]">
+    <PageShell className="bg-[var(--dp-gray-50)]">
       <IndustriesGatewayHero
         label="Industries"
         title="Regulated, document-heavy work."
@@ -171,14 +171,15 @@ export function IndustriesIndexPage() {
 
 export function IndustryDetailPage({ industry }: { industry: Industry }) {
   const sectorVideoId = industryVideoId(industry.id);
-  const hasSectorVideo = sectorVideoId in VIDEO_ASSETS;
-  const sectorVideoAsset = hasSectorVideo
-    ? getVideoAsset(sectorVideoId)
-    : null;
+  const sectorVideoAsset =
+    sectorVideoId in VIDEO_ASSETS ? getVideoAsset(sectorVideoId) : null;
+  const hasSectorVideo = Boolean(
+    sectorVideoAsset?.status === "ready" && sectorVideoAsset.src,
+  );
   const sheetCode = industry.id.slice(0, 6).toUpperCase();
 
   return (
-    <PageShell className="bg-[#FAFBFC]">
+    <PageShell className="bg-[var(--dp-gray-50)]">
       <Band tone="ink" className="!py-0">
         <div className="grid items-end gap-10 py-16 md:py-20 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
           <div>
@@ -351,7 +352,7 @@ export function IndustryDetailPage({ industry }: { industry: Industry }) {
               <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#717680]">
                 Platform focus
               </p>
-              <div className="mt-5 border border-[#E5E7EB] bg-[#FAFBFC] px-2 py-2">
+              <div className="mt-5 border border-[#E5E7EB] bg-[var(--dp-gray-50)] px-2 py-2">
                 <SectorGlyph id={industry.id} />
               </div>
               <p className="mt-4 font-[family-name:var(--font-aeonik)] text-[20px] tracking-[-0.02em] text-[#181D27]">

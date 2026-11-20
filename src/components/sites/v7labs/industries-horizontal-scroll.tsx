@@ -38,7 +38,7 @@ const PANEL_TONES: PanelTone[] = [
     title: "text-[#181D27]",
     body: "text-[#535862]",
     step: "text-[#181D27]",
-    stepArrow: "text-[#8A9493]",
+    stepArrow: "text-[var(--zeon-muted-soft)]",
     link: "zeon-link-arrow",
     edge: "border-[#E9EAEB]",
   },
@@ -64,7 +64,7 @@ const PANEL_TONES: PanelTone[] = [
   },
   {
     surface:
-      "bg-[linear-gradient(160deg,#FFFFFF_0%,#EEF4FF_55%,#E8ECF4_100%)]",
+      "bg-[linear-gradient(160deg,#FFFFFF_0%,#EEF4FF_55%,#D9E6FF_100%)]",
     label: "text-[#1433E1]",
     title: "text-[#181D27]",
     body: "text-[#414651]",

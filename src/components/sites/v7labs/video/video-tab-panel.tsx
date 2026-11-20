@@ -66,7 +66,12 @@ export function VideoTabPanel({
         aria-hidden={!active}
         {...(!active ? { inert: true } : {})}
       >
-        <ProductVideo assetId={assetId} active={active} tone={tone} />
+        <ProductVideo
+          assetId={assetId}
+          active={active}
+          tone={tone}
+          preferAutoplay
+        />
       </div>
     </div>
   );

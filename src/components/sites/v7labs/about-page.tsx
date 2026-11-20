@@ -137,7 +137,7 @@ function Band({
         ? "bg-[var(--zeon-sky)] text-[var(--zeon-ink)]"
         : tone === "mist"
           ? "bg-[#F3F5F8] text-[var(--zeon-ink)]"
-          : "bg-[#FAFBFC] text-[var(--zeon-ink)]";
+          : "bg-[var(--dp-gray-50)] text-[var(--zeon-ink)]";
   return (
     <section id={id} className={cn(bg, className)}>
       <div className="mx-auto max-w-[1180px] px-5 py-16 md:px-8 md:py-20">
@@ -240,7 +240,7 @@ function Panel({
 
 export function AboutPage() {
   return (
-    <PageShell className="bg-[#FAFBFC]">
+    <PageShell className="bg-[var(--dp-gray-50)]">
       {/* Hero — particles field + open type (Heron), Trust sheet chrome */}
       <FluidParticlesBackground
         tone="zeon"
@@ -339,7 +339,7 @@ export function AboutPage() {
           eyebrow="Governed AI"
           headline="Why governed AI matters."
           body="We work alongside customers on document-heavy workflows — access control, human review and an audit log are part of the platform, not an afterthought."
-          after="What you will see when founder footage is ready: how ZeonAI partners through discovery and into production."
+          after="How ZeonAI partners through discovery and into production."
           layout="split"
           cta={
             <Link href="/demo" className="zeon-btn zeon-btn-ink">

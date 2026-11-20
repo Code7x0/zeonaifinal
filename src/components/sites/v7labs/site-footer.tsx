@@ -192,7 +192,7 @@ export function SiteFooter() {
   }, [reduceMotion]);
 
   return (
-    <footer className="relative z-[1] border-t border-[#E5E7EB] bg-[#FAFBFC] text-[#181D27]">
+    <footer className="relative z-[1] border-t border-[#E5E7EB] bg-[var(--dp-gray-50)] text-[#181D27]">
       <div className={`mx-auto max-w-[1280px] border-x ${cellBorder}`}>
         {/* Top editorial nav grid */}
         <div

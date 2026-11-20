@@ -5,10 +5,11 @@ import { SiteFooter } from "./site-footer";
 import { SiteHeader } from "./site-header";
 import { SmoothScroll } from "./smooth-scroll";
 import { ZeonLinkButton } from "./zeon-ui";
+import { cn } from "@/lib/utils";
 
 type PageShellProps = {
   children: ReactNode;
-  /** Dark ink hero band — optional class on outer wrapper */
+  /** Optional class on outer wrapper (e.g. surface tint) */
   className?: string;
 };
 
@@ -16,7 +17,12 @@ type PageShellProps = {
 export function PageShell({ children, className = "" }: PageShellProps) {
   return (
     <SmoothScroll>
-      <div className={`v7-site min-h-screen bg-white text-[#181D27] ${className}`}>
+      <div
+        className={cn(
+          "v7-site min-h-screen bg-[var(--zeon-paper)] text-[var(--zeon-ink)]",
+          className,
+        )}
+      >
         <SiteHeader />
         <main>{children}</main>
         <SiteFooter />
@@ -42,16 +48,12 @@ export function PageHero({
 }: PageHeroProps) {
   void _dark;
   return (
-    <header className="border-b border-[#E9EAEB] bg-white px-5 py-16 text-[#181D27] md:px-8 md:py-24">
+    <header className="border-b border-[var(--zeon-border)] bg-[var(--zeon-paper)] px-5 py-16 text-[var(--zeon-ink)] md:px-8 md:py-24">
       <div className="mx-auto max-w-[1180px]">
-        <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#535862]">
-          {eyebrow}
-        </p>
-        <h1 className="mt-4 max-w-[18ch] font-[family-name:var(--font-aeonik)] text-[40px] leading-[1.05] tracking-[-0.04em] md:text-[56px]">
-          {title}
-        </h1>
+        <p className="zeon-type-eyebrow">{eyebrow}</p>
+        <h1 className="zeon-type-page mt-4 max-w-[18ch]">{title}</h1>
         {intro ? (
-          <p className="mt-5 max-w-[52ch] text-[17px] leading-[1.55] text-[#535862]">
+          <p className="zeon-type-lead mt-5 max-w-[var(--zeon-measure-wide)]">
             {intro}
           </p>
         ) : null}
@@ -82,28 +84,27 @@ export function PageCtaBand({
 }: PageCtaBandProps) {
   return (
     <section
-      className={`px-5 py-16 md:px-8 md:py-20 ${
-        dark ? "bg-[#181D27] text-white" : "bg-[#FAFAFA] text-[#181D27]"
-      }`}
+      className={cn(
+        "px-5 py-16 md:px-8 md:py-20",
+        dark
+          ? "bg-[var(--zeon-ink)] text-white"
+          : "bg-[var(--zeon-cream)] text-[var(--zeon-ink)]",
+      )}
     >
       <div className="mx-auto flex max-w-[1180px] flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div className="max-w-[40rem]">
-          <h2 className="font-[family-name:var(--font-aeonik)] text-[28px] leading-[1.15] tracking-[-0.03em] md:text-[36px]">
-            {title}
-          </h2>
+          <h2 className="zeon-type-section">{title}</h2>
           <p
-            className={`mt-3 text-[16px] leading-[1.55] ${
-              dark ? "text-white/55" : "text-[#535862]"
-            }`}
+            className={cn(
+              "mt-3 text-[length:var(--zeon-text-body)] leading-[var(--zeon-leading-body)]",
+              dark ? "text-white/55" : "text-[var(--zeon-muted)]",
+            )}
           >
             {body}
           </p>
         </div>
         <div className="flex flex-wrap gap-3">
-          <ZeonLinkButton
-            href={primaryHref}
-            tone={dark ? "light" : "ink"}
-          >
+          <ZeonLinkButton href={primaryHref} tone={dark ? "light" : "ink"}>
             {primaryLabel}
           </ZeonLinkButton>
           {secondaryHref && secondaryLabel ? (

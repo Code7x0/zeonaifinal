@@ -38,6 +38,7 @@ import {
 } from "./blueprint";
 import { ModuleGlyph, ProductGlyph } from "./drawing-glyphs";
 import { CapabilityDetailPage } from "./capabilities/capability-detail-page";
+import { FadeUp } from "./fade-up";
 import { PageShell } from "./page-shell";
 import {
   Chapter,
@@ -64,7 +65,7 @@ import {
 
 export function ProductsPage() {
   return (
-    <PageShell className="bg-[#FAFBFC]">
+    <PageShell className="bg-[var(--dp-gray-50)]">
       <FluidParticlesBackground
         tone="zeon"
         particleCount={1100}
@@ -143,7 +144,7 @@ export function ProductsPage() {
                 )}
               >
                 <DrawingIndex n={i + 1} />
-                <div className="mt-5 border border-[#E5E7EB] bg-[#FAFBFC] px-3 py-2">
+                <div className="mt-5 border border-[#E5E7EB] bg-[var(--dp-gray-50)] px-3 py-2">
                   <ProductGlyph id={s.id} />
                 </div>
                 <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--zeon-royal)]">
@@ -202,7 +203,7 @@ export function ProductsPage() {
                   className="group relative flex h-full min-h-[210px] flex-col p-5 no-underline transition-colors hover:bg-white md:p-6"
                 >
                   <DrawingIndex n={i + 1} />
-                  <div className="mt-4 border border-[#E5E7EB] bg-[#FAFBFC] px-2 py-2 transition-colors group-hover:border-[var(--zeon-border-blue)]">
+                  <div className="mt-4 border border-[#E5E7EB] bg-[var(--dp-gray-50)] px-2 py-2 transition-colors group-hover:border-[var(--zeon-border-blue)]">
                     <ModuleGlyph id={cap.id} />
                   </div>
                   <h2 className="mt-4 font-[family-name:var(--font-aeonik)] text-[20px] tracking-[-0.025em] text-[#181D27] transition-colors group-hover:text-[var(--zeon-royal)]">
@@ -310,29 +311,28 @@ export function AgentLibraryPage() {
                   </h2>
                 </div>
                 <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                  {cat.agents.map((agent) => (
-                    <li
+                  {cat.agents.map((agent, ai) => (
+                    <FadeUp
                       key={agent.name}
-                      className="zeon-surface-quiet flex h-full flex-col p-4"
+                      delay={Math.min(0.04 * ai, 0.24)}
+                      as="li"
                     >
-                      <p className="text-[15px] font-medium text-[#181D27]">
-                        {agent.name}
-                      </p>
-                      <p className="mt-2 text-[13px] leading-[1.45] text-[#535862]">
-                        <span className="font-mono text-[11px] uppercase tracking-wide text-[#8A9493]">
-                          Reads
-                        </span>
-                        <br />
-                        {agent.reads}
-                      </p>
-                      <p className="mt-2 text-[13px] leading-[1.45] text-[#535862]">
-                        <span className="font-mono text-[11px] uppercase tracking-wide text-[#8A9493]">
-                          Produces
-                        </span>
-                        <br />
-                        {agent.produces}
-                      </p>
-                    </li>
+                      <div className="zeon-surface-quiet flex h-full flex-col p-4">
+                        <p className="text-[15px] font-medium text-[var(--zeon-ink)]">
+                          {agent.name}
+                        </p>
+                        <p className="mt-2 text-[13px] leading-[1.45] text-[var(--zeon-muted)]">
+                          <span className="zeon-type-meta">Reads</span>
+                          <br />
+                          {agent.reads}
+                        </p>
+                        <p className="mt-2 text-[13px] leading-[1.45] text-[var(--zeon-muted)]">
+                          <span className="zeon-type-meta">Produces</span>
+                          <br />
+                          {agent.produces}
+                        </p>
+                      </div>
+                    </FadeUp>
                   ))}
                 </ul>
               </div>
@@ -477,37 +477,65 @@ export function HowWeWorkPage() {
         secondaryHref="/about"
         secondaryLabel="About ZeonAI"
       />
-      <Chapter tone="paper" min>
-        <div className="grid gap-0 md:grid-cols-3">
+      <Chapter tone="paper" min={false} className="!min-h-0">
+        <div className="grid gap-0 border border-[var(--zeon-border)] md:grid-cols-3">
           {processSteps.map((step, i) => (
-            <article
-              key={step.id}
-              className={`border-[#E9EAEB] p-6 md:p-8 ${
-                i < processSteps.length - 1 ? "md:border-r" : ""
-              } border-b md:border-b-0`}
-            >
-              <p className="font-mono text-[12px] text-[#1d5fbf]">{step.id}</p>
-              <h2 className="mt-4 font-[family-name:var(--font-aeonik)] text-[32px] tracking-[-0.03em]">
-                {step.title}
-              </h2>
-              <p className="mt-2 text-[13px] text-[#8A9493]">{step.timing}</p>
-              <p className="mt-6 text-[16px] leading-[1.55] text-[#535862]">
-                {step.body}
-              </p>
-            </article>
+            <FadeUp key={step.id} delay={0.06 * i} as="article">
+              <div
+                className={`h-full p-6 md:p-8 ${
+                  i < processSteps.length - 1 ? "md:border-r md:border-[var(--zeon-border)]" : ""
+                } border-b border-[var(--zeon-border)] md:border-b-0`}
+              >
+                <p className="zeon-type-meta text-[var(--zeon-royal)]">{step.id}</p>
+                <h2 className="zeon-type-sub mt-4">{step.title}</h2>
+                <p className="mt-2 text-[length:var(--zeon-text-caption)] text-[var(--zeon-muted-soft)]">
+                  {step.timing}
+                </p>
+                <p className="mt-6 text-[length:var(--zeon-text-body)] leading-[var(--zeon-leading-body)] text-[var(--zeon-muted)]">
+                  {step.body}
+                </p>
+              </div>
+            </FadeUp>
           ))}
         </div>
-        <p className="mt-10 text-[13px] text-[#535862]">
+        <p className="mt-10 text-[length:var(--zeon-text-caption)] text-[var(--zeon-muted)]">
           Typical timeline; confirmed during discovery.
         </p>
       </Chapter>
       <Chapter tone="sky" min={false} className="!min-h-0">
-        <ChapterLabel tone="sky">Delivery pattern</ChapterLabel>
-        <ChapterTitle>Discovery beside the product team.</ChapterTitle>
-        <ChapterLead tone="sky">
-          Manifest AI is a channel partner. ZeonAI Labs builds the platform both
-          teams ship on.
-        </ChapterLead>
+        <FadeUp>
+          <ChapterLabel tone="sky">Delivery pattern</ChapterLabel>
+          <ChapterTitle>Discovery beside the product team.</ChapterTitle>
+          <ChapterLead tone="sky">
+            Manifest AI is a channel partner. ZeonAI Labs builds the platform both
+            teams ship on.
+          </ChapterLead>
+          <ul className="mt-10 grid gap-3 sm:grid-cols-3">
+            {[
+              {
+                title: "Manifest AI",
+                body: "Runs discovery and delivery with your stakeholders.",
+              },
+              {
+                title: "ZeonAI Labs",
+                body: "Builds the governed platform both teams ship on.",
+              },
+              {
+                title: "One use case first",
+                body: "Map friction, design the agent and checkpoint, then go live.",
+              },
+            ].map((item) => (
+              <li key={item.title} className="zeon-surface p-5">
+                <h3 className="text-[15px] font-medium text-[var(--zeon-ink)]">
+                  {item.title}
+                </h3>
+                <p className="mt-2 text-[13px] leading-[1.5] text-[var(--zeon-muted)]">
+                  {item.body}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </FadeUp>
       </Chapter>
       <SecondaryCta
         tone="royal"
@@ -533,35 +561,39 @@ export function ContactPage() {
         secondaryHref="/demo"
         secondaryLabel="Book a demo"
       />
-      <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#E9EAEB]">
-        <div className="mx-auto grid max-w-[900px] gap-8 md:grid-cols-2">
-          <article className="border-t border-[#E9EAEB] pt-6">
-            <h2 className="font-[family-name:var(--font-aeonik)] text-[24px] tracking-[-0.02em]">
-              General enquiry
-            </h2>
-            <p className="mt-3 text-[15px] leading-[1.55] text-[#535862]">
-              Product questions, partnerships and press — email the team
-              directly.
-            </p>
-            <a
-              href="mailto:contact@zeonai.com"
-              className="zeon-link-arrow mt-5 inline-flex"
-            >
-              contact@zeonai.com
-            </a>
-          </article>
-          <article className="border-t border-[#E9EAEB] pt-6">
-            <h2 className="font-[family-name:var(--font-aeonik)] text-[24px] tracking-[-0.02em]">
-              Demo request
-            </h2>
-            <p className="mt-3 text-[15px] leading-[1.55] text-[#535862]">
-              Prefer a structured request with role and process context? Use
-              the demo page.
-            </p>
-            <Link href="/demo" className="zeon-link-arrow mt-5 inline-flex">
-              Book a demo
-            </Link>
-          </article>
+      <Chapter
+        tone="mist"
+        min={false}
+        className="!min-h-0 border-t border-[var(--zeon-border)]"
+      >
+        <div className="mx-auto grid max-w-[900px] gap-4 md:grid-cols-2">
+          <FadeUp as="article">
+            <div className="zeon-surface h-full p-6 md:p-8">
+              <h2 className="zeon-type-sub">General enquiry</h2>
+              <p className="mt-3 text-[length:var(--zeon-text-body-sm)] leading-[var(--zeon-leading-body)] text-[var(--zeon-muted)]">
+                Product questions, partnerships and press — email the team
+                directly.
+              </p>
+              <a
+                href="mailto:contact@zeonai.com"
+                className="zeon-link-arrow mt-5 inline-flex"
+              >
+                contact@zeonai.com
+              </a>
+            </div>
+          </FadeUp>
+          <FadeUp delay={0.08} as="article">
+            <div className="zeon-surface h-full p-6 md:p-8">
+              <h2 className="zeon-type-sub">Demo request</h2>
+              <p className="mt-3 text-[length:var(--zeon-text-body-sm)] leading-[var(--zeon-leading-body)] text-[var(--zeon-muted)]">
+                Prefer a structured request with role and process context? Use
+                the demo page.
+              </p>
+              <Link href="/demo" className="zeon-link-arrow mt-5 inline-flex">
+                Book a demo
+              </Link>
+            </div>
+          </FadeUp>
         </div>
       </Chapter>
     </PageShell>
@@ -586,23 +618,22 @@ export function SecurityPage() {
               className="rounded-full border border-[var(--zeon-border-blue)] bg-white px-4 py-2 text-[13px]"
             >
               <span className="font-medium text-[#181D27]">{label.name}</span>
-              <span className="text-[#8A9493]"> · {label.note}</span>
+              <span className="text-[var(--zeon-muted-soft)]"> · {label.note}</span>
             </li>
           ))}
         </ul>
         <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {trustItems.map((item) => (
-            <article
-              key={item.title}
-              className="zeon-surface p-5"
-            >
-              <h2 className="font-[family-name:var(--font-aeonik)] text-[18px] tracking-[-0.02em]">
-                {item.title}
-              </h2>
-              <p className="mt-2 text-[14px] leading-[1.55] text-[#535862]">
-                {item.body}
-              </p>
-            </article>
+          {trustItems.map((item, i) => (
+            <FadeUp key={item.title} delay={0.04 * i} as="article">
+              <div className="zeon-surface h-full p-5">
+                <h2 className="text-[18px] font-medium tracking-[-0.02em] text-[var(--zeon-ink)]">
+                  {item.title}
+                </h2>
+                <p className="mt-2 text-[14px] leading-[1.55] text-[var(--zeon-muted)]">
+                  {item.body}
+                </p>
+              </div>
+            </FadeUp>
           ))}
         </div>
       </Chapter>
@@ -646,19 +677,19 @@ export function ResponsibleAiPage() {
         visual={<GovernanceStack />}
       />
       <Chapter tone="paper" min={false} className="!min-h-0">
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-4 md:grid-cols-2">
           {principles.map((p, i) => (
-            <article key={p.title} className="border-t border-[#E9EAEB] pt-6">
-              <p className="font-mono text-[11px] text-[#1d5fbf]">
-                0{i + 1}
-              </p>
-              <h2 className="mt-2 font-[family-name:var(--font-aeonik)] text-[24px] tracking-[-0.02em]">
-                {p.title}
-              </h2>
-              <p className="mt-3 text-[15px] leading-[1.55] text-[#535862]">
-                {p.body}
-              </p>
-            </article>
+            <FadeUp key={p.title} delay={0.05 * i} as="article">
+              <div className="zeon-surface h-full p-6">
+                <p className="zeon-type-meta text-[var(--zeon-royal)]">
+                  0{i + 1}
+                </p>
+                <h2 className="zeon-type-sub mt-2">{p.title}</h2>
+                <p className="mt-3 text-[length:var(--zeon-text-body-sm)] leading-[var(--zeon-leading-body)] text-[var(--zeon-muted)]">
+                  {p.body}
+                </p>
+              </div>
+            </FadeUp>
           ))}
         </div>
       </Chapter>
@@ -683,19 +714,28 @@ export function DeploymentPage() {
         tone="cream"
       />
       <Chapter tone="ink" min={false} className="!min-h-0">
-        <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {deployments.map((d) => (
-            <li
-              key={d}
-              className="zeon-glass-float border-white/12 bg-[rgba(255,255,255,0.08)] px-5 py-8 text-center text-[18px] font-medium tracking-[-0.02em] text-white"
-            >
-              {d}
-            </li>
+        <FadeUp>
+          <ChapterLabel tone="ink">Environments</ChapterLabel>
+          <ChapterTitle className="text-white">
+            Scoped to your residency rules.
+          </ChapterTitle>
+        </FadeUp>
+        <ul className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {deployments.map((d, i) => (
+            <FadeUp key={d} delay={0.05 * i} as="li">
+              <div className="border border-white/12 bg-white/[0.06] px-5 py-8 text-center text-[length:var(--zeon-text-sub)] font-medium tracking-[-0.02em] text-white">
+                {d}
+              </div>
+            </FadeUp>
           ))}
         </ul>
-        <p className="mt-8 max-w-[52ch] text-[13px] leading-[1.5] text-white/45">
-          Deployment is scoped during discovery.
+        <p className="mt-8 max-w-[52ch] text-[length:var(--zeon-text-caption)] leading-[1.5] text-white/45">
+          Deployment is scoped during discovery. Controls and audit stay with
+          the Trust Centre wherever you host.
         </p>
+        <Link href="/trust" className="zeon-link-arrow mt-6 inline-flex text-white">
+          Trust Centre
+        </Link>
       </Chapter>
       <SecondaryCta
         tone="paper"

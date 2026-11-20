@@ -16,7 +16,7 @@ import { ZeonLinkButton } from "./zeon-ui";
 
 /**
  * Homepage hero — agents-first headline + Placement 1 product video
- * (`home-hero`: Ask AI with citations). Poster until the recording ships.
+ * (`home-hero`: Ask AI with citations). Muted autoplay product film.
  */
 export function Hero() {
   const reduceMotion = useReducedMotion();
@@ -143,11 +143,10 @@ export function Hero() {
                 }
           }
         >
-          <ProductVideo assetId="home-hero" tone="light" tilt />
+          <ProductVideo assetId="home-hero" tone="light" tilt preferAutoplay />
           <p className="mt-3 text-center text-[12px] leading-[1.45] text-[#717680]">
             Ask AI answering from governed documents — citations appear with the
-            claim. Sample interface; silent product loop when the recording is
-            published.
+            claim. Sample data.
           </p>
         </motion.div>
       </div>

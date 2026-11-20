@@ -85,7 +85,7 @@ export function AskAiMock({ className }: { className?: string }) {
             {["Lending Policy v3.4 · p.12", "Override matrix · §B"].map((c) => (
               <span
                 key={c}
-                className="rounded-[4px] border border-[#E9EAEB] bg-[#F2F4F7] px-2 py-1 font-mono text-[10px] text-[#1d5fbf]"
+                className="rounded-[4px] border border-[#E9EAEB] bg-[#F2F4F7] px-2 py-1 font-mono text-[10px] text-[var(--zeon-royal)]"
               >
                 {c}
               </span>
@@ -94,7 +94,7 @@ export function AskAiMock({ className }: { className?: string }) {
         </div>
         <div className="flex items-center justify-between text-[11px] text-[#535862]">
           <span>Access: Credit · Policy</span>
-          <span className="font-mono text-[#1d5fbf]">Cited · 2 sources</span>
+          <span className="font-mono text-[var(--zeon-royal)]">Cited · 2 sources</span>
         </div>
       </div>
     </ProductChrome>
@@ -117,7 +117,7 @@ export function WorkflowMock({ className }: { className?: string }) {
             className={cn(
               "flex items-center gap-3 rounded-[6px] border px-3 py-2.5",
               s.state === "active"
-                ? "border-[#1d5fbf]/35 bg-[#F2F4F7]"
+                ? "border-[var(--zeon-royal)]/35 bg-[#F2F4F7]"
                 : "border-[#E4E4E4] bg-white",
             )}
           >
@@ -125,7 +125,7 @@ export function WorkflowMock({ className }: { className?: string }) {
               className={cn(
                 "flex size-6 items-center justify-center rounded-full font-mono text-[10px]",
                 s.state === "done" && "bg-[#181D27] text-white",
-                s.state === "active" && "bg-[#1d5fbf] text-white",
+                s.state === "active" && "bg-[var(--zeon-royal)] text-white",
                 s.state === "queued" && "bg-[#E4E4E4] text-[#535862]",
               )}
             >
@@ -193,7 +193,7 @@ export function ContractMock({ className }: { className?: string }) {
           <p className="font-mono text-[10px] text-[#535862]">Document</p>
           <p className="mt-2 text-[13px] leading-[1.55] text-[#181D27]">
             …Supplier shall notify the Buyer of any{" "}
-            <mark className="bg-[#1d5fbf]/15 text-[#181D27]">
+            <mark className="bg-[var(--zeon-royal)]/15 text-[#181D27]">
               material change in pricing
             </mark>{" "}
             no less than thirty (30) days prior…
@@ -443,7 +443,7 @@ export function OutputIndex({
                 </button>
               );
             })}
-            <p className="mt-6 hidden text-[12px] leading-[1.45] text-[#8A9493] lg:block">
+            <p className="mt-6 hidden text-[12px] leading-[1.45] text-[var(--zeon-muted-soft)] lg:block">
               {pinEnabled
                 ? "Scroll to step through each output — or click a label."
                 : "Select an output to preview the product surface."}

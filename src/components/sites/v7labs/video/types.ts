@@ -15,7 +15,11 @@ export type VideoPlacement =
   | "tech-dashboard-calc"
   | `industry-${string}`
   | "about-founder"
-  | "demo-expectations";
+  | "demo-expectations"
+  | "product-invoiceai"
+  | "product-cashfloai"
+  | "product-docai"
+  | "product-ai-workspace";
 
 export type VideoAssetStatus = "ready" | "missing";
 

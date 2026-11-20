@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { aeonik, inter } from "@/components/sites/v7labs/fonts";
+import { VideoPreload } from "@/components/sites/v7labs/video/video-preload";
 import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://zeonai.com";
@@ -45,6 +46,7 @@ export default function RootLayout({
       className={`${aeonik.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col font-[family-name:var(--font-aeonik)]">
+        <VideoPreload />
         {children}
       </body>
     </html>

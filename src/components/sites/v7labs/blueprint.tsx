@@ -91,7 +91,7 @@ export function Band({
             ? "bg-[image:var(--zeon-gradient-royal)] text-white"
             : tone === "hero"
               ? "bg-[image:var(--zeon-gradient-hero)] text-[var(--zeon-ink)]"
-              : "bg-[#FAFBFC] text-[var(--zeon-ink)]";
+              : "bg-[var(--dp-gray-50)] text-[var(--zeon-ink)]";
   return (
     <section id={id} className={cn("relative overflow-hidden", bg, className)}>
       {tone === "sky" || tone === "hero" ? (

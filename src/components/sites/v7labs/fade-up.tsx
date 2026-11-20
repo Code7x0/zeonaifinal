@@ -20,7 +20,9 @@ type FadeUpTag =
   | "nav"
   | "article"
   | "header"
-  | "footer";
+  | "footer"
+  | "li"
+  | "ul";
 
 type FadeUpProps = {
   children: ReactNode;
@@ -47,6 +49,8 @@ const motionTags = {
   article: motion.article,
   header: motion.header,
   footer: motion.footer,
+  li: motion.li,
+  ul: motion.ul,
 } as const;
 
 export function FadeUp({

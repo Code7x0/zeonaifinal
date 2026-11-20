@@ -1,0 +1,82 @@
+ZeonAI Website — Video Placement Brief
+Nov 16, 2026 · @Biswa Gourav SIngh
+The site has one video today, a decorative loop beside the demo form; every product
+visual is a coded mock-up. Add real product footage in the eight places below, in this
+order.
+Placements
+# 	Where 	What the video shows 	Format
+1 	Home hero 	Ask AI answering a
+question with citations
+appearing, in a browser
+frame under the headline
+20–30s silent loop,
+autoplay
+2 	Home, six-tab product section
+(Ask AI, AI Drive, Workflows,
+Dashboards, Contracts, Agent
+Hub)
+One real screen
+recording per tab,
+replacing the coded
+mock-ups
+10–15s silent loop per
+tab
+3 	Capability pages
+( /platform/ask-ai ,
+/platform/dashboards ,
+/agents and the rest)
+A walkthrough of that
+capability at the top of
+the page
+60–90s, click to play,
+captions
+4 	Four case study pages 	The workflow before and
+after, or a customer on
+camera if cleared
+30–45s
+5 	Technology page 	Rule builder (sentence
+in, tested rule out), rerun
+from any step, and "view
+calculation" on a
+dashboard
+10–20s silent loops,
+replacing three
+mock-ups
+6 	Six industry pages 	One sector use case
+each
+30s
+7 	About 	Founder on why
+governed AI, and how we
+work with customers
+60–90s, click to play
+ZeonAI Website — Video Placement Brief
+Page 1 of 2
+
+-- 1 of 2 --
+
+Rules for every clip
+Loops: muted, under 30 seconds, a still image shown first, loaded only when scrolled
+into view.
+Longer videos: click to play, with captions. Never autoplay with sound.
+Content: sample data only. No customer names or figures visible in any recording.
+Consistency: the same browser frame, zoom level and cursor style across all clips, at
+16:9.
+Accessibility: loops pause when the visitor has reduced motion switched on.
+Where not to add video
+Trust, security and legal pages: readers there want text they can quote.
+Architecture diagrams: the animated diagrams already do the job.
+Backgrounds: no stock or abstract footage anywhere; it undercuts the real-product
+message.
+Open item
+# 	Where 	What the video shows 	Format
+8 	Demo page 	"What you will see in the
+demo", replacing the
+decorative animation
+45–60s
+Biswa to send the list of existing videos (topic and length) so each can be matched to
+a slot above.
+ZeonAI Website — Video Placement Brief
+Page 2 of 2
+
+-- 2 of 2 --
+

@@ -18,21 +18,20 @@ import { durationUi, easeOut } from "@/components/sites/v7labs/motion";
 import {
   HOME_TAB_VIDEO,
   ProductVideo,
-  getVideoAsset,
 } from "@/components/sites/v7labs/video";
 
-/** Per-scene dwell so Ask AI answer/citations can be read. */
+/** Per-scene dwell — snappy when real product films are looping. */
 const SCENE_MS: Record<string, number> = {
-  "ask-ai": 9000,
-  "ai-drive": 7000,
-  workflows: 7000,
-  dashboards: 7000,
-  contracts: 7000,
-  "agent-hub": 7000,
+  "ask-ai": 5200,
+  "ai-drive": 4800,
+  workflows: 4800,
+  dashboards: 4800,
+  contracts: 4800,
+  "agent-hub": 4800,
 };
-const DEFAULT_SCENE_MS = 7000;
-const MANUAL_PAUSE_MS = 12000;
-const CROSSFADE_MS = 320;
+const DEFAULT_SCENE_MS = 4800;
+const MANUAL_PAUSE_MS = 10000;
+const CROSSFADE_MS = 220;
 
 interface TabContent {
   badge: string;
@@ -137,9 +136,6 @@ const Feature108 = ({
 
   const activeTab = tabs.find((t) => t.value === active) ?? tabs[0];
   const screenId = activeTab?.content.screenId;
-  const videoId =
-    HOME_TAB_VIDEO[activeTab?.value ?? ""] ??
-    (screenId ? HOME_TAB_VIDEO[screenId] : undefined);
   const sceneMs =
     (screenId && SCENE_MS[screenId]) ||
     SCENE_MS[active] ||
@@ -308,12 +304,14 @@ const Feature108 = ({
                   : undefined);
               if (!id) return null;
               const isActive = tab.value === active;
-              void getVideoAsset(id);
               return (
                 <div
                   key={tab.value}
-                  className="w-full"
-                  hidden={!isActive}
+                  className={
+                    isActive
+                      ? "relative w-full"
+                      : "pointer-events-none absolute inset-0 w-full opacity-0"
+                  }
                   aria-hidden={!isActive}
                   {...(!isActive ? { inert: true } : {})}
                 >
@@ -325,11 +323,6 @@ const Feature108 = ({
                 </div>
               );
             })}
-            {!videoId ? (
-              <p className="rounded-[12px] border border-[#E9EAEB] bg-white p-8 text-center text-[14px] text-[#717680]">
-                Product recording for this module is pending.
-              </p>
-            ) : null}
             <p className="sr-only" aria-live="polite">
               Showing {activeTab?.label}
             </p>

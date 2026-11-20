@@ -76,12 +76,7 @@ export function BrowserVideoFrame({
           </span>
         ) : null}
       </figcaption>
-      <div
-        className={cn(
-          "relative z-[1] aspect-video w-full",
-          ink ? "bg-[#0c1018]" : "bg-[#FAFAFA]",
-        )}
-      >
+      <div className="relative z-[1] aspect-video w-full bg-[#0B0B0B]">
         {children}
       </div>
     </figure>

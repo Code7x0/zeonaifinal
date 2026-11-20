@@ -92,7 +92,7 @@ export function DemoPage() {
             eyebrow="Preview"
             headline="What you will see in the demo"
             body="A governed walkthrough aligned to the agenda — cited answers, agents and human checkpoints on a workflow that matters to your team."
-            after="Click to play when product footage is in place; until then the poster sets expectations for the session."
+            after="Preview of the session — cited answers, agents and human checkpoints."
             layout="stack"
           />
         </div>

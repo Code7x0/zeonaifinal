@@ -25,7 +25,7 @@ const toneClass: Record<ChapterTone, string> = {
   midnight: "bg-[var(--zeon-navy)] text-white",
   cream: "bg-[var(--zeon-cream)] text-[var(--zeon-ink)]",
   paper: "bg-white text-[var(--zeon-ink)]",
-  mist: "bg-[#E8ECF4] text-[var(--zeon-ink)]",
+  mist: "bg-[color-mix(in_srgb,var(--dp-blue-50)_70%,var(--dp-gray-100))] text-[var(--zeon-ink)]",
   sky: "bg-[var(--zeon-sky)] text-[var(--zeon-ink)]",
   blue: "bg-[var(--zeon-royal)] text-white",
   royal: "bg-[image:var(--zeon-gradient-royal)] text-white",
@@ -37,15 +37,15 @@ const mutedClass: Record<ChapterTone, string> = {
   cream: "text-[var(--zeon-muted)]",
   paper: "text-[var(--zeon-muted)]",
   mist: "text-[var(--zeon-muted)]",
-  sky: "text-[#475569]",
+  sky: "text-[var(--zeon-muted)]",
   blue: "text-white/80",
   royal: "text-white/80",
 };
 
 /** Labels — mono eyebrow on light; soft blue on dark for hierarchy */
 const labelClass: Record<ChapterTone, string> = {
-  ink: "text-[#8EB8FF]",
-  midnight: "text-[#8EB8FF]",
+  ink: "text-[var(--dp-blue-300)]",
+  midnight: "text-[var(--dp-blue-300)]",
   cream: "text-[var(--zeon-cta)]",
   paper: "text-[var(--zeon-cta)]",
   mist: "text-[var(--zeon-cta)]",
@@ -94,7 +94,7 @@ export function ChapterLabel({
   return (
     <p
       className={cn(
-        "font-mono text-[11px] font-medium uppercase tracking-[0.14em]",
+        "text-[length:var(--zeon-text-caption)] font-medium tracking-[0.01em]",
         labelClass[tone],
       )}
     >

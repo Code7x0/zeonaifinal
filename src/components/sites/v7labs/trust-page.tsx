@@ -164,7 +164,7 @@ function TrustBand({
         ? "bg-[var(--zeon-sky)] text-[var(--zeon-ink)]"
         : tone === "mist"
           ? "bg-[#F3F5F8] text-[var(--zeon-ink)]"
-          : "bg-[#FAFBFC] text-[var(--zeon-ink)]";
+          : "bg-[var(--dp-gray-50)] text-[var(--zeon-ink)]";
   return (
     <section id={id} className={cn(bg, className)}>
       <div className="mx-auto max-w-[1180px] px-5 py-16 md:px-8 md:py-20">
@@ -283,7 +283,7 @@ export function TrustPage() {
   const router = useRouter();
 
   return (
-    <PageShell className="bg-[#FAFBFC]">
+    <PageShell className="bg-[var(--dp-gray-50)]">
       <InkOrbitHero
         theme="dark"
         palette="zeon"

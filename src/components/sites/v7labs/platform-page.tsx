@@ -43,7 +43,7 @@ const AGENT_SAMPLES = [
 
 export function PlatformPage() {
   return (
-    <PageShell className="bg-[#FAFBFC]">
+    <PageShell className="bg-[var(--dp-gray-50)]">
       <ProductVortexHero
         label="Product · AI Workspace"
         title="Governed knowledge and workflows on one platform."
@@ -73,7 +73,7 @@ export function PlatformPage() {
       </Chapter>
 
       {/* Modules — white sheet + elevated dark cells (no radius) */}
-      <Band tone="paper" id="modules" className="!bg-[#FAFBFC]">
+      <Band tone="paper" id="modules" className="!bg-[var(--dp-gray-50)]">
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
             <Eyebrow>Modules</Eyebrow>
@@ -105,7 +105,7 @@ export function PlatformPage() {
                     "group relative flex h-full min-h-[220px] flex-col rounded-none border border-[#E5E7EB] bg-white p-5 no-underline md:p-6",
                     "shadow-[0_1px_0_rgba(255,255,255,1)_inset,0_14px_32px_-22px_rgba(24,29,39,0.35),0_0_0_1px_rgba(24,29,39,0.04)]",
                     "transition-[transform,box-shadow,border-color,background-color] duration-300",
-                    "hover:-translate-y-0.5 hover:border-[var(--zeon-royal)] hover:bg-[#FAFBFC]",
+                    "hover:-translate-y-0.5 hover:border-[var(--zeon-royal)] hover:bg-[var(--dp-gray-50)]",
                     "hover:shadow-[0_1px_0_rgba(255,255,255,1)_inset,0_22px_44px_-24px_rgba(24,29,39,0.4),0_0_0_1px_color-mix(in_srgb,var(--zeon-royal)_25%,transparent)]",
                   )}
                 >
@@ -119,7 +119,7 @@ export function PlatformPage() {
                     <i className="absolute bottom-0 right-0 h-2.5 w-2.5 border-b border-r border-[var(--zeon-royal)]" />
                   </span>
                   <DrawingIndex n={i + 1} />
-                  <div className="mt-5 border border-[#E5E7EB] bg-[#FAFBFC] px-2 py-2 transition-colors group-hover:border-[var(--zeon-border-blue)]">
+                  <div className="mt-5 border border-[#E5E7EB] bg-[var(--dp-gray-50)] px-2 py-2 transition-colors group-hover:border-[var(--zeon-border-blue)]">
                     <ModuleGlyph id={cap.id} />
                   </div>
                   <h3 className="mt-5 font-[family-name:var(--font-aeonik)] text-[21px] tracking-[-0.025em] text-[#181D27] transition-colors group-hover:text-[var(--zeon-royal)]">

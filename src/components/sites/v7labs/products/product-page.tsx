@@ -22,6 +22,7 @@ import { ProductGlyph } from "../drawing-glyphs";
 import { PageShell } from "../page-shell";
 import { ProductVortexHero } from "../product-vortex-hero";
 import { ZeonLinkButton } from "../zeon-ui";
+import { PRODUCT_VIDEO, ProductVideo, getVideoAsset } from "@/components/sites/v7labs/video";
 import type { ProductDef } from "./product-data";
 import {
   ArchitectureDepth,
@@ -33,6 +34,20 @@ import {
 } from "./product-ui";
 
 function HeroVisual({ slug }: { slug: ProductDef["slug"] }) {
+  const videoId = PRODUCT_VIDEO[slug];
+  if (videoId) {
+    const asset = getVideoAsset(videoId);
+    if (asset.status === "ready" && asset.src) {
+      return (
+        <ProductVideo
+          assetId={videoId}
+          tone="light"
+          preferAutoplay
+          frameClassName="!shadow-none"
+        />
+      );
+    }
+  }
   if (slug === "docai") return <DocExtractPreview />;
   if (slug === "invoiceai") return <InvoiceMatchPreview />;
   if (slug === "cashfloai") return <CashflowPreview />;
@@ -44,7 +59,7 @@ export function ProductPage({ product }: { product: ProductDef }) {
   const code = product.slug.replace(/[^a-z]/gi, "").slice(0, 6).toUpperCase();
 
   return (
-    <PageShell className="bg-[#FAFBFC]">
+    <PageShell className="bg-[var(--dp-gray-50)]">
       {isProbe ? (
         <ProductVortexHero
           label={product.label}

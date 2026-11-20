@@ -75,7 +75,12 @@ export function VideoSection({
 
   const video = (
     <div className="min-w-0">
-      <ProductVideo assetId={assetId} tone={tone} framed={framed} />
+      <ProductVideo
+        assetId={assetId}
+        tone={tone}
+        framed={framed}
+        preferAutoplay
+      />
       {after ? (
         <p className="mt-4 max-w-[52ch] text-[13px] leading-[1.5] text-[#717680]">
           {after}

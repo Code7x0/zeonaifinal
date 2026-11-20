@@ -91,10 +91,11 @@ export function CapabilityDetailPage({
     .filter((c): c is Capability => Boolean(c));
 
   const walkthroughId = capabilityVideoId(capability.id);
-  const hasWalkthrough = walkthroughId in VIDEO_ASSETS;
-  const walkthroughAsset = hasWalkthrough
-    ? getVideoAsset(walkthroughId)
-    : null;
+  const walkthroughAsset =
+    walkthroughId in VIDEO_ASSETS ? getVideoAsset(walkthroughId) : null;
+  const hasWalkthrough = Boolean(
+    walkthroughAsset?.status === "ready" && walkthroughAsset.src,
+  );
 
   return (
     <PageShell>

@@ -43,7 +43,7 @@ function DocumentVisual({ compact }: { compact?: boolean }) {
               />
             ))}
           </div>
-          <div className="mt-3 rounded-[2px] border border-dashed border-[#155EEF]/40 bg-[#EAF1FA] px-2 py-1.5">
+          <div className="mt-3 rounded-[2px] border border-dashed border-[var(--color-text-link)]/40 bg-[#EAF1FA] px-2 py-1.5">
             <p className="font-mono text-[8px] text-[#12345A]">
               DocAI · extracting fields
             </p>
@@ -66,7 +66,7 @@ function DocumentVisual({ compact }: { compact?: boolean }) {
               <span className="text-[10px] text-[#181D27]">{field}</span>
               <span
                 className={`font-mono text-[8px] uppercase tracking-[0.1em] ${
-                  status === "Verified" ? "text-[#155EEF]" : "text-[#535862]"
+                  status === "Verified" ? "text-[var(--color-text-link)]" : "text-[#535862]"
                 }`}
               >
                 {status}
@@ -112,7 +112,7 @@ function BillingVisual({ compact }: { compact?: boolean }) {
             <span className="text-[#535862]">{amt}</span>
             <span
               className={
-                status === "Posted" ? "text-[#155EEF]" : "text-[#535862]"
+                status === "Posted" ? "text-[var(--color-text-link)]" : "text-[#535862]"
               }
             >
               {status}
@@ -121,7 +121,7 @@ function BillingVisual({ compact }: { compact?: boolean }) {
         ))}
       </div>
       <div className="mt-3 flex items-center gap-2 text-[9px] text-[#535862]">
-        <span className="size-1.5 rounded-full bg-[#155EEF]" />
+        <span className="size-1.5 rounded-full bg-[var(--color-text-link)]" />
         Audit trail attached · 99%+ accuracy
       </div>
     </div>
@@ -149,9 +149,9 @@ function ReconciliationVisual({ compact }: { compact?: boolean }) {
             <span
               className={`rounded-[2px] border px-2 py-1 text-[10px] ${
                 state === "Done"
-                  ? "border-[#155EEF]/30 bg-[#EAF1FA] text-[#12345A]"
+                  ? "border-[var(--color-text-link)]/30 bg-[#EAF1FA] text-[#12345A]"
                   : state === "Running"
-                    ? "border-[#155EEF] bg-[#155EEF] text-white"
+                    ? "border-[var(--color-text-link)] bg-[var(--color-text-link)] text-white"
                     : "border-[#E9EAEB] bg-[#FAFAFA] text-[#535862]"
               }`}
             >
@@ -197,7 +197,7 @@ function MediaVisual({ compact }: { compact?: boolean }) {
         <p className="font-mono text-[8px] uppercase tracking-[0.14em] text-[#535862]">
           AI Workspace · Summary
         </p>
-        <span className="font-mono text-[8px] text-[#155EEF]">Semantic</span>
+        <span className="font-mono text-[8px] text-[var(--color-text-link)]">Semantic</span>
       </div>
       <div className="mt-3 space-y-2">
         <div className="rounded-[2px] border border-[#E9EAEB] bg-[#FAFAFA] px-2.5 py-2">
@@ -223,7 +223,7 @@ function MediaVisual({ compact }: { compact?: boolean }) {
         <path
           d="M4 36 L28 30 L52 32 L76 18 L100 22 L124 12 L148 16 L172 8 L196 14"
           fill="none"
-          stroke="#155EEF"
+          stroke="var(--color-text-link)"
           strokeWidth="1.5"
         />
         <path

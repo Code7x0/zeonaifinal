@@ -47,7 +47,7 @@ export function CaseStudyPage({ slug }: CaseStudyPageProps) {
           <h1 className="text-[32px] tracking-[-0.03em]">Case study not found</h1>
           <Link
             href="/customers"
-            className="mt-6 inline-flex text-[14px] text-[#155EEF]"
+            className="mt-6 inline-flex text-[14px] text-[var(--color-text-link)]"
           >
             Back to customer stories
           </Link>
@@ -62,8 +62,11 @@ export function CaseStudyPage({ slug }: CaseStudyPageProps) {
     .filter((c): c is CaseStudy => Boolean(c));
 
   const caseFilmId = caseVideoId(study.slug);
-  const hasCaseFilm = caseFilmId in VIDEO_ASSETS;
-  const caseFilmAsset = hasCaseFilm ? getVideoAsset(caseFilmId) : null;
+  const caseFilmAsset =
+    caseFilmId in VIDEO_ASSETS ? getVideoAsset(caseFilmId) : null;
+  const hasCaseFilm = Boolean(
+    caseFilmAsset?.status === "ready" && caseFilmAsset.src,
+  );
 
   return (
     <div className="v7-site min-h-screen bg-white text-[#181D27]">
@@ -270,7 +273,7 @@ export function CaseStudyPage({ slug }: CaseStudyPageProps) {
                     <p className="mt-2 text-[13px] leading-[1.5] text-[#535862]">
                       {r.metric}
                     </p>
-                    <span className="mt-auto inline-flex items-center gap-1.5 pt-5 text-[13px] font-medium text-[#155EEF] transition-[gap] duration-300 ease-out group-hover:gap-2.5">
+                    <span className="mt-auto inline-flex items-center gap-1.5 pt-5 text-[13px] font-medium text-[var(--color-text-link)] transition-[gap] duration-300 ease-out group-hover:gap-2.5">
                       Read case study
                       <ArrowUpRight className="size-3.5" />
                     </span>
