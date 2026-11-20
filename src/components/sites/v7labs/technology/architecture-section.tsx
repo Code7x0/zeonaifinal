@@ -21,7 +21,7 @@ const LAYERS = [
     n: "02",
     title: "Knowledge layer",
     href: "#retrieval",
-    tags: ["context-aware index", "hybrid retrieval", "personal + organization memory"],
+    tags: ["context-aware index", "hybrid retrieval", "personal + organisation memory"],
   },
   {
     n: "01",
@@ -46,11 +46,13 @@ export function ArchitectureSection() {
     <section className="arch" id="architecture">
       <div className="wrap">
         <div className="head rv">
-          <h2>
-            Five layers.
-            <br />
-            One governance rail.
-          </h2>
+          <div>
+            <h2>
+              Five layers.
+              <br />
+              One governance rail.
+            </h2>
+          </div>
           <p>
             Data moves up through the layers. Identity, access and audit run
             alongside every one of them, so no layer can be reached around the

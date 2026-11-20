@@ -91,6 +91,14 @@ export function Industries() {
           animate={revealed ? { opacity: 1, y: 0 } : undefined}
           transition={{ duration: 0.35, ease: EASE }}
         >
+          <p className="mb-3 inline-flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.14em] text-[#2962FF]">
+            01 · Industries
+            <span
+              aria-hidden
+              className="hidden h-px w-9 bg-[linear-gradient(90deg,#BCD3FF,transparent)] sm:block"
+            />
+            <span className="text-[#A4A7AE]">Sheet · Sectors</span>
+          </p>
           <h2 className="max-w-[720px] text-balance font-[family-name:var(--font-aeonik)] text-[36px] font-normal leading-[1.06] tracking-[-0.035em] md:text-[52px]">
             Built for regulated,{" "}
             <br className="hidden sm:block" />

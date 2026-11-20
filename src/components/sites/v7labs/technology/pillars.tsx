@@ -1,4 +1,3 @@
-import { ProductVideo } from "../video";
 import { IntegrationEcosystem } from "../integrations/integration-ecosystem";
 import { MockWindow } from "./mock-window";
 import { ModelRouterMock } from "./model-router-mock";
@@ -20,13 +19,49 @@ export function Pillars() {
               open, fix or explain to your auditor.
             </p>
           </div>
-          <div>
-            <ProductVideo assetId="tech-rerun" tone="light" />
-            <p className="mt-3 text-[13px] leading-[1.5] text-[var(--g-600)]">
-              A reviewer changes a value at step 03; the run resumes from that
-              step with the rest of the graph intact.
-            </p>
-          </div>
+          <MockWindow title="Run · invoice exception">
+            <div className="graph">
+              <div className="node">
+                <span className="num">01</span>
+                <span className="grow">Data sourcing</span>
+                <span className="pill ok">Done</span>
+              </div>
+              <div className="fork">
+                <div className="node">
+                  <span className="num">02a</span>
+                  <span className="grow">Read invoice</span>
+                  <span className="pill ok">Done</span>
+                </div>
+                <div className="node">
+                  <span className="num">02b</span>
+                  <span className="grow">Read PO</span>
+                  <span className="pill ok">Done</span>
+                </div>
+              </div>
+              <div className="node sel">
+                <span className="num">03</span>
+                <span className="grow">
+                  Business rules
+                  <small>freight_variance · rule v7 · frozen</small>
+                </span>
+                <span className="pill b">Overridden</span>
+              </div>
+              <div className="node">
+                <span className="num">04</span>
+                <span className="grow">Controller approval</span>
+                <span className="pill warn">Waiting</span>
+              </div>
+              <div className="node">
+                <span className="num">05</span>
+                <span className="grow">ERP post</span>
+                <span className="pill">Queued</span>
+              </div>
+            </div>
+            <div className="foot">
+              <span>Value changed at step 03 by a reviewer</span>
+              <span className="mini">Rerun from 03 ↻</span>
+            </div>
+          </MockWindow>
         </div>
         <div className="wrap">
           <Dia links="a>b,b>c,c>r1,c>r2,c>r3" label="Generate once · freeze · execute">
@@ -141,7 +176,7 @@ export function Pillars() {
               documents, systems and data, reached through connectors and the
               index. Personal memory is how you work. Our agent harness brings the
               two together on every request, so an answer is grounded in the
-              organization and shaped for the person asking.
+              organisation and shaped for the person asking.
             </p>
           </div>
           <MockWindow title="What I remember">
@@ -178,7 +213,7 @@ export function Pillars() {
               <span style={{ color: "var(--g-400)" }}>✕</span>
             </div>
             <div className="lbl" style={{ marginTop: 18 }}>
-              From your organization · reached live
+              From your organisation · reached live
             </div>
             <div className="row">
               <span className="grow">
@@ -206,7 +241,7 @@ export function Pillars() {
         <div className="wrap">
           <Dia
             links="s1>p,s2>o,s3>o,s4>o,p>h,o>h,h>a"
-            label="Personal and organization memory, through one harness"
+            label="Personal and organisation memory, through one harness"
           >
             <div className="fl">
               <div className="stk">
@@ -240,7 +275,7 @@ export function Pillars() {
                 n="a"
                 icon={I.bot}
                 title="Grounded and personal"
-                sub="The organization’s knowledge, answered the way you work"
+                sub="The organisation’s knowledge, answered the way you work"
                 variant="b"
               />
             </div>
@@ -280,13 +315,31 @@ export function Pillars() {
               Read the engineering note <span>→</span>
             </a>
           </div>
-          <div>
-            <ProductVideo assetId="tech-dashboard-calc" tone="light" />
-            <p className="mt-3 text-[13px] leading-[1.5] text-[var(--g-600)]">
-              Opening “View calculation” shows the formula and row set behind a
-              locked KPI — arithmetic outside the model.
-            </p>
-          </div>
+          <MockWindow title="Dashboard · Collections">
+            <div className="kpi">
+              <div className="lbl" style={{ margin: 0 }}>
+                Collection rate
+              </div>
+              <b>92.4%</b>
+              <div className="kpi-pills">
+                <span className="pill ok">Computed</span>
+                <span className="pill">Locked</span>
+                <span className="pill b">View calculation ▾</span>
+              </div>
+            </div>
+            <div className="calc">
+              <span>collection_rate</span> = Σ collected ÷ Σ invoiced
+              <br />
+              &nbsp;&nbsp;Σ collected &nbsp;= 154,308,000
+              <br />
+              &nbsp;&nbsp;Σ invoiced &nbsp;&nbsp;= 167,000,000
+              <br />
+              &nbsp;&nbsp;rows used &nbsp;&nbsp;&nbsp;= 1,284{" "}
+              <span>(14 subtotal rows excluded)</span>
+              <br />
+              <u>✓ recomputed from source · matches tile</u>
+            </div>
+          </MockWindow>
         </div>
         <div className="wrap">
           <Dia
@@ -346,7 +399,7 @@ export function Pillars() {
             <p className="lede">
               One workflow may plan with a reasoning model, extract with a fast one
               and classify with a small one. Our router decides step by step,
-              inside a policy your organization sets.
+              inside a policy your organisation sets.
             </p>
           </div>
           <ModelRouterMock />
@@ -382,7 +435,7 @@ export function Pillars() {
             <span className="mono eyebrow">06 · Token economics</span>
             <h2>Every token accounted for.</h2>
             <p className="lede">
-              Agents spend. Each model call is metered against the organization,
+              Agents spend. Each model call is metered against the organisation,
               the user and the agent that made it, so cost is a governed quantity
               and not a surprise at the end of the month.
             </p>
@@ -605,7 +658,7 @@ export function Pillars() {
               <span className="mono">Mode 02</span>
               <h3>Private cloud</h3>
               <p>
-                A dedicated environment for one organization, with the frontier
+                A dedicated environment for one organisation, with the frontier
                 model you choose.
               </p>
               <div className="bound" data-l="Dedicated environment">
@@ -621,7 +674,7 @@ export function Pillars() {
               <h3>Air-gapped, on-premises</h3>
               <p>
                 No route to the internet. Open-weight models on your own GPUs.
-                Delivered for a national defense customer.
+                Delivered for a national defence customer.
               </p>
               <div className="bound" data-l="Your network">
                 <span className="tag">platform</span>
@@ -812,13 +865,48 @@ export function Pillars() {
               analyst applies it.
             </p>
           </div>
-          <div>
-            <ProductVideo assetId="tech-rule-builder" tone="light" />
-            <p className="mt-3 text-[13px] leading-[1.5] text-[var(--g-600)]">
-              A sentence becomes a drafted rule, sample tests run, and nothing
-              ships until an analyst applies it.
+          <MockWindow title="Rule assistant · remittance match">
+            <div className="lbl">You asked</div>
+            <p className="rule-quote">
+              “Match the supplier on the remittance to the ERP vendor. Ignore case
+              and spaces. Amounts within 1%.”
             </p>
-          </div>
+            <div className="ans ans-draft">
+              <div className="lbl lbl-blue">Draft 2 · reads as</div>
+              <p>
+                If the names agree and the amounts are within 1%, mark{" "}
+                <b>Matching</b>. If a field is missing, send to <b>Review</b>.
+                Otherwise <b>Not matching</b>.
+              </p>
+            </div>
+            <div className="lbl" style={{ marginTop: 16 }}>
+              Tested on 4 samples
+            </div>
+            <div className="row">
+              <span className="grow">Exact match</span>
+              <span className="pill">Matching</span>
+              <span className="pill ok">As expected</span>
+            </div>
+            <div className="row">
+              <span className="grow">“Ltd” against “Limited”</span>
+              <span className="pill">Matching</span>
+              <span className="pill ok">As expected</span>
+            </div>
+            <div className="row">
+              <span className="grow">Amount 1.4% over</span>
+              <span className="pill">Not matching</span>
+              <span className="pill ok">As expected</span>
+            </div>
+            <div className="row">
+              <span className="grow">Supplier name missing</span>
+              <span className="pill">Review</span>
+              <span className="pill ok">As expected</span>
+            </div>
+            <div className="foot">
+              <span>Checks clean · 1 line changed from draft 1</span>
+              <span className="mini">Apply rule</span>
+            </div>
+          </MockWindow>
         </div>
         <div className="wrap">
           <Dia links="a>b,b>c,c>d,d>e" label="From a sentence to a rule in production">

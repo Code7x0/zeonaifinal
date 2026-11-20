@@ -33,7 +33,7 @@ export const CONNECTOR_GROUPS: readonly ConnectorGroup[] = [
       { name: "Xero", logoSrc: L("xero.svg") },
       { name: "Yardi", shortName: "Yardi" },
       { name: "Pronto", shortName: "Pronto" },
-      { name: "TechnologyOne", shortName: "TechOne" },
+      { name: "TechnologyOne", shortName: "TechOne", logoSrc: L("technologyone.svg") },
       { name: "MYOB", logoSrc: L("myob.svg") },
       { name: "Sage", logoSrc: L("sage.svg") },
       { name: "Infor", shortName: "Infor" },

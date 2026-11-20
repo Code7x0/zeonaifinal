@@ -1,7 +1,6 @@
 "use client";
 
 import type { ReactNode } from "react";
-import Link from "next/link";
 import { FadeUp } from "../fade-up";
 import { ZeonLinkButton } from "../zeon-ui";
 import { cn } from "@/lib/utils";
@@ -29,8 +28,7 @@ const toneClass: Record<ChapterTone, string> = {
   mist: "bg-[#E8ECF4] text-[var(--zeon-ink)]",
   sky: "bg-[var(--zeon-sky)] text-[var(--zeon-ink)]",
   blue: "bg-[var(--zeon-royal)] text-white",
-  royal:
-    "bg-[image:var(--zeon-gradient-royal)] text-white",
+  royal: "bg-[image:var(--zeon-gradient-royal)] text-white",
 };
 
 const mutedClass: Record<ChapterTone, string> = {
@@ -44,16 +42,16 @@ const mutedClass: Record<ChapterTone, string> = {
   royal: "text-white/80",
 };
 
-/** Labels on dark chapters — full white for premium contrast */
+/** Labels — mono eyebrow on light; soft blue on dark for hierarchy */
 const labelClass: Record<ChapterTone, string> = {
-  ink: "text-white",
-  midnight: "text-white",
-  cream: "text-[var(--zeon-muted)]",
-  paper: "text-[var(--zeon-muted)]",
-  mist: "text-[var(--zeon-muted)]",
-  sky: "text-[#475569]",
-  blue: "text-white",
-  royal: "text-white",
+  ink: "text-[#8EB8FF]",
+  midnight: "text-[#8EB8FF]",
+  cream: "text-[var(--zeon-cta)]",
+  paper: "text-[var(--zeon-cta)]",
+  mist: "text-[var(--zeon-cta)]",
+  sky: "text-[var(--zeon-cta)]",
+  blue: "text-white/85",
+  royal: "text-white/85",
 };
 
 /** Full-bleed colour chapter — secondary pages only. */
@@ -62,13 +60,13 @@ export function Chapter({
   id,
   className,
   children,
-  min = true,
+  min = false,
 }: {
   tone?: ChapterTone;
   id?: string;
   className?: string;
   children: ReactNode;
-  /** At least ~one viewport of presence */
+  /** Optional tall presence — off by default to avoid empty height */
   min?: boolean;
 }) {
   return (
@@ -76,8 +74,8 @@ export function Chapter({
       id={id}
       className={cn(
         toneClass[tone],
-        min && "min-h-[min(90svh,880px)]",
-        "px-5 py-16 md:px-8 md:py-24",
+        min && "min-h-[min(72svh,720px)]",
+        "px-5 py-[var(--zeon-space-section-y,4rem)] md:px-8",
         className,
       )}
     >
@@ -96,7 +94,7 @@ export function ChapterLabel({
   return (
     <p
       className={cn(
-        "text-[13px] font-medium tracking-[-0.01em]",
+        "font-mono text-[11px] font-medium uppercase tracking-[0.14em]",
         labelClass[tone],
       )}
     >
@@ -115,7 +113,7 @@ export function ChapterTitle({
   return (
     <h2
       className={cn(
-        "mt-3 max-w-[16ch] font-[family-name:var(--font-aeonik)] text-[40px] leading-[1.02] tracking-[-0.04em] md:text-[56px] lg:text-[64px]",
+        "mt-3 max-w-[var(--zeon-measure-title,18ch)] font-[family-name:var(--font-aeonik)] text-[length:var(--zeon-text-section)] leading-[var(--zeon-leading-title)] tracking-[var(--zeon-tracking-title)]",
         className,
       )}
     >
@@ -134,7 +132,7 @@ export function ChapterLead({
   return (
     <p
       className={cn(
-        "mt-5 max-w-[46ch] text-[17px] leading-[1.55] md:text-[18px]",
+        "mt-4 max-w-[var(--zeon-measure,42ch)] text-[length:var(--zeon-text-lead)] leading-[var(--zeon-leading-body)]",
         mutedClass[tone],
       )}
     >
@@ -178,37 +176,46 @@ export function SecondaryHero({
   const centered = align === "center";
 
   return (
-    <header className={cn(toneClass[tone], "relative overflow-hidden")}>
+    <header
+      className={cn(
+        toneClass[tone],
+        "relative overflow-hidden border-b border-[var(--zeon-border)]",
+      )}
+    >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_55%_50%_at_100%_0%,rgba(41,98,255,0.08)_0%,transparent_55%)]"
+      />
       <div
         className={cn(
-          "relative mx-auto max-w-[1180px] px-5 py-20 md:px-8 md:py-28",
+          "relative mx-auto max-w-[1180px] px-5 py-16 md:px-8 md:py-20 lg:py-24",
           centered
             ? "flex flex-col items-center text-center"
             : "grid gap-10",
           !centered &&
             split &&
             visual &&
-            "lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-center lg:gap-14 lg:py-24",
+            "lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-center lg:gap-14",
         )}
       >
         <FadeUp
           className={cn(
             "min-w-0",
-            centered && "mx-auto flex w-full max-w-[44rem] flex-col items-center",
+            centered && "mx-auto flex w-full max-w-[40rem] flex-col items-center",
           )}
         >
           <ChapterLabel tone={tone}>{label}</ChapterLabel>
           <h1
             className={cn(
-              "mt-4 font-[family-name:var(--font-aeonik)] text-[44px] leading-[1.02] tracking-[-0.045em] text-[#181D27] md:text-[60px] lg:text-[68px]",
-              centered ? "max-w-[16ch]" : "max-w-[14ch]",
+              "mt-4 font-[family-name:var(--font-aeonik)] text-[length:var(--zeon-text-page)] leading-[var(--zeon-leading-display)] tracking-[var(--zeon-tracking-display)] text-[var(--zeon-ink)]",
+              centered ? "max-w-[18ch]" : "max-w-[16ch]",
             )}
           >
             {title}
           </h1>
           <p
             className={cn(
-              "mt-5 text-[17px] leading-[1.55] md:text-[18px]",
+              "mt-5 text-[length:var(--zeon-text-lead)] leading-[var(--zeon-leading-body)]",
               centered ? "mx-auto max-w-[40ch]" : "max-w-[42ch]",
               mutedClass[tone],
             )}
@@ -217,7 +224,7 @@ export function SecondaryHero({
           </p>
           <div
             className={cn(
-              "mt-9 flex flex-wrap gap-3",
+              "mt-8 flex flex-wrap gap-3",
               centered && "justify-center",
             )}
           >
@@ -267,10 +274,15 @@ export function SecondaryCta({
     tone === "royal" ||
     tone === "midnight";
   return (
-    <Chapter tone={tone} min={false} className="!min-h-0 py-16 md:py-20">
+    <Chapter tone={tone} min={false} className="!min-h-0">
       <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
         <div className="max-w-[36rem]">
-          <h2 className="font-[family-name:var(--font-aeonik)] text-[32px] leading-[1.1] tracking-[-0.03em] md:text-[44px]">
+          <h2
+            className={cn(
+              "font-[family-name:var(--font-aeonik)] text-[length:var(--zeon-text-section)] leading-[var(--zeon-leading-title)] tracking-[var(--zeon-tracking-title)]",
+              dark ? "text-white" : "text-[var(--zeon-ink)]",
+            )}
+          >
             {title}
           </h2>
           <p className={cn("mt-3 text-[16px] leading-[1.55]", mutedClass[tone])}>
@@ -278,19 +290,19 @@ export function SecondaryCta({
           </p>
         </div>
         <div className="flex flex-wrap gap-3">
-          <ZeonLinkButton href={primaryHref} tone={dark ? "light" : "ink"}>
+          <ZeonLinkButton
+            href={primaryHref}
+            tone={dark ? "light" : "ink"}
+          >
             {primaryLabel}
           </ZeonLinkButton>
           {secondaryHref && secondaryLabel ? (
-            <Link
+            <ZeonLinkButton
               href={secondaryHref}
-              className={cn(
-                "zeon-btn",
-                dark ? "zeon-btn-ghost-dark" : "zeon-btn-ghost",
-              )}
+              tone={dark ? "ghost-dark" : "ghost"}
             >
               {secondaryLabel}
-            </Link>
+            </ZeonLinkButton>
           ) : null}
         </div>
       </div>

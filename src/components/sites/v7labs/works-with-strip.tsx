@@ -1,18 +1,30 @@
 import Link from "next/link";
-import { integrationGroups } from "@/components/sites/zeonai/content";
-/** ERP, data platforms, and documents — text chips only (no vendor logos yet). */
-const WORKS_WITH_NAMES = [
-  integrationGroups[0].items[0], // SAP
-  integrationGroups[0].items[1], // Oracle
-  integrationGroups[0].items[2], // Microsoft Dynamics 365
-  integrationGroups[0].items[4], // Xero
-  integrationGroups[0].items[7], // Workday
-  integrationGroups[1].items[1], // Snowflake
-  integrationGroups[1].items[2], // Databricks
-  integrationGroups[1].items[4], // SQL Server
-  integrationGroups[2].items[0], // Microsoft 365
-  integrationGroups[2].items[1], // SharePoint
-] as const;
+import {
+  CONNECTOR_GROUPS,
+  type ConnectorItem,
+} from "./integrations/connector-data";
+
+const byName = (name: string): ConnectorItem | undefined => {
+  for (const group of CONNECTOR_GROUPS) {
+    const hit = group.items.find((item) => item.name === name);
+    if (hit) return hit;
+  }
+  return undefined;
+};
+
+/** Homepage strip — matches visible inventory with cleared connector marks. */
+const WORKS_WITH: ConnectorItem[] = [
+  byName("SAP"),
+  byName("Oracle"),
+  byName("Dynamics 365"),
+  byName("Xero"),
+  byName("TechnologyOne"),
+  byName("Snowflake"),
+  byName("Databricks"),
+  byName("PostgreSQL"),
+  byName("SharePoint"),
+  byName("OneDrive"),
+].filter((item): item is ConnectorItem => Boolean(item));
 
 export function WorksWithStrip() {
   return (
@@ -42,12 +54,26 @@ export function WorksWithStrip() {
           </Link>
         </div>
         <ul className="mt-8 flex flex-wrap gap-3">
-          {WORKS_WITH_NAMES.map((name) => (
-            <li
-              key={name}
-              className="zeon-surface list-none px-4 py-3 text-center text-[14px] font-medium text-[#535862]"
-            >
-              {name}
+          {WORKS_WITH.map((item) => (
+            <li key={item.name} className="list-none" title={item.name}>
+              <div className="zeon-surface flex h-14 min-w-[7.5rem] items-center justify-center gap-2.5 rounded-[12px] px-4 py-3">
+                {item.logoSrc ? (
+                  // eslint-disable-next-line @next/next/no-img-element -- static brand SVGs from /public
+                  <img
+                    src={item.logoSrc}
+                    alt=""
+                    width={120}
+                    height={28}
+                    className="h-7 w-auto max-w-[7.5rem] object-contain"
+                    draggable={false}
+                  />
+                ) : (
+                  <span className="text-[14px] font-medium text-[#535862]">
+                    {item.shortName ?? item.name}
+                  </span>
+                )}
+                <span className="sr-only">{item.name}</span>
+              </div>
             </li>
           ))}
         </ul>

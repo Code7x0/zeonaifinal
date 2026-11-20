@@ -10,6 +10,7 @@ import {
   pressTransition,
   staggerEnter,
 } from "./motion";
+import { SectionMeta } from "./blueprint";
 import { ProductVideo } from "./video";
 import { ZeonLinkButton } from "./zeon-ui";
 
@@ -45,8 +46,8 @@ export function Hero() {
 
       <div className="relative z-10 mx-auto flex max-w-[1180px] flex-col px-5 pb-16 pt-14 md:px-8 md:pb-24 md:pt-20">
         <div className="mx-auto max-w-[52rem] text-center">
-          <motion.p
-            className="font-[family-name:var(--font-aeonik)] text-[13px] font-medium tracking-[0.04em] text-[#1B46F5] md:text-[14px]"
+          <motion.div
+            className="flex justify-center"
             initial={reduceMotion ? false : { opacity: 0, y: enterY }}
             animate={{ opacity: 1, y: 0 }}
             transition={
@@ -55,8 +56,13 @@ export function Hero() {
                 : { duration: durationEnter, delay: 0.02, ease: easeOut }
             }
           >
-            ZeonAI
-          </motion.p>
+            <SectionMeta
+              left="ZeonAI"
+              right="Sheet · Home"
+              align="center"
+              className="!mb-0"
+            />
+          </motion.div>
 
           <motion.h1
             className="mt-4 font-[family-name:var(--font-aeonik)] text-[40px] leading-[1.02] tracking-[-0.03em] text-[#181D27] md:text-[56px] md:leading-[1.02] md:tracking-[-1.6px]"

@@ -115,6 +115,14 @@ export function TrustSection() {
         {/* Header: title left, steps right — original layout */}
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between lg:gap-8 [@media(min-width:1200px)_and_(max-height:819px)]:gap-3">
           <div className="max-w-[640px] shrink-0">
+            <p className="mb-3 inline-flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.14em] text-[#8EB8FF]">
+              04 · Trust
+              <span
+                aria-hidden
+                className="hidden h-px w-9 bg-[linear-gradient(90deg,rgba(142,184,255,0.55),transparent)] sm:block"
+              />
+              <span className="text-white/35">Sheet · Governance</span>
+            </p>
             <h2
               id={`${baseId}-heading`}
               className="max-w-[640px] font-[family-name:var(--font-aeonik)] text-[36px] leading-[1.06] tracking-[-0.035em] text-[#F5F6F8] md:text-[52px]"

@@ -21,6 +21,22 @@ import {
   trustLabels,
   type AgentCategory,
 } from "@/components/sites/zeonai/content";
+import { FluidParticlesBackground } from "@/components/ui/fluid-particles-background";
+import { cn } from "@/lib/utils";
+import {
+  Band,
+  BlueprintClose,
+  Corners,
+  DrawingIndex,
+  Eyebrow,
+  Lead,
+  Panel,
+  SheetFooter,
+  SheetMeta,
+  StrokeWord,
+  Title,
+} from "./blueprint";
+import { ModuleGlyph, ProductGlyph } from "./drawing-glyphs";
 import { CapabilityDetailPage } from "./capabilities/capability-detail-page";
 import { PageShell } from "./page-shell";
 import {
@@ -31,6 +47,7 @@ import {
   SecondaryCta,
   SecondaryHero,
 } from "./secondary/chapter";
+import { ZeonLinkButton } from "./zeon-ui";
 import {
   ArchitectureRail,
   AskAiMock,
@@ -47,81 +64,204 @@ import {
 
 export function ProductsPage() {
   return (
-    <PageShell>
-      <SecondaryHero
-        label="Product · Capabilities"
-        title="Modules on one governed platform."
-        lead="Agent Hub products and AI Workspace capabilities — each page pairs the claim with a real product surface."
-        align="center"
-        secondaryHref="/platform"
-        secondaryLabel="Platform overview"
-      />
-      <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#E9EAEB]">
-        <ChapterLabel>Agent Hub</ChapterLabel>
-        <ChapterTitle>Four product surfaces.</ChapterTitle>
-        <ChapterLead>
-          Document understanding, invoices, cash-flow visibility and governed
-          enterprise search.
-        </ChapterLead>
-        <div className="mt-10 grid gap-4 md:grid-cols-2">
-          {solutions.map((s) => (
-            <Link
-              key={s.id}
-              href={s.href}
-              className="zeon-surface-interactive group flex h-full flex-col p-6 no-underline"
-            >
-              <p className="font-mono text-[11px] text-[#1B46F5]">{s.brand}</p>
-              <h2 className="mt-3 font-[family-name:var(--font-aeonik)] text-[24px] tracking-[-0.02em] text-[#181D27]">
-                {s.title}
-              </h2>
-              <p className="mt-2 flex-1 text-[14px] leading-[1.5] text-[#535862]">
-                {s.body}
-              </p>
-              <span className="zeon-link-arrow mt-6 text-[13px]">Open product</span>
-            </Link>
-          ))}
+    <PageShell className="bg-[#FAFBFC]">
+      <FluidParticlesBackground
+        tone="zeon"
+        particleCount={1100}
+        className="min-h-[min(680px,100svh)] border-b border-white/10"
+      >
+        <div className="mx-auto grid w-full max-w-[1180px] gap-12 px-5 py-16 md:px-8 md:py-20 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,0.75fr)] lg:items-end">
+          <div>
+            <p className="font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-[#8EB8FF]">
+              Product · Capabilities
+            </p>
+            <h1 className="mt-4 max-w-[13ch] font-[family-name:var(--font-aeonik)] text-[clamp(2.4rem,1.5rem+3.2vw,3.75rem)] leading-[1.02] tracking-[-0.045em] text-white">
+              Modules on one governed platform.
+            </h1>
+            <p className="mt-5 max-w-[42ch] text-[16px] leading-[1.6] text-white/65">
+              Agent Hub products and AI Workspace capabilities — each page pairs
+              the claim with a real product surface.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <ZeonLinkButton href="/demo" tone="light" size="lg">
+                Book a demo
+              </ZeonLinkButton>
+              <ZeonLinkButton href="/platform" tone="ghost-dark" size="lg">
+                Platform overview
+              </ZeonLinkButton>
+            </div>
+          </div>
+          <div className="relative border border-white/12 bg-[#0B0B0B]/55 backdrop-blur-sm">
+            <Corners tone="light" />
+            <dl className="px-5 py-5 font-mono text-[10px] uppercase tracking-[0.14em] text-white/45 md:px-6">
+              <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                <dt>DWG</dt>
+                <dd className="text-white/70">ZEON-PRD-INDEX</dd>
+              </div>
+              <div className="flex items-center justify-between border-b border-white/10 py-3">
+                <dt>Agent Hub</dt>
+                <dd className="text-white/70">{solutions.length} products</dd>
+              </div>
+              <div className="flex items-center justify-between pt-3">
+                <dt>Workspace</dt>
+                <dd className="text-white/70">{capabilities.length} modules</dd>
+              </div>
+            </dl>
+          </div>
         </div>
-      </Chapter>
-      <Chapter tone="sky" min={false} className="!min-h-0">
-        <ChapterLabel tone="sky">AI Workspace modules</ChapterLabel>
-        <ChapterTitle>Open a capability.</ChapterTitle>
-        <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {capabilities.map((cap, i) => (
-            <Link
-              key={cap.id}
-              href={`/platform/${cap.id}`}
-              className="zeon-surface-interactive group flex h-full flex-col p-6"
-            >
-              <p className="font-mono text-[11px] text-[#1B46F5]">
-                {String(i + 1).padStart(2, "0")}
-              </p>
-              <h2 className="mt-3 font-[family-name:var(--font-aeonik)] text-[24px] tracking-[-0.02em]">
-                {cap.title}
-              </h2>
-              <p className="mt-2 flex-1 text-[14px] leading-[1.5] text-[#535862]">
-                {cap.summary}
-              </p>
-              <span className="zeon-link-arrow mt-6 text-[13px]">
-                Open capability
-              </span>
-            </Link>
-          ))}
+      </FluidParticlesBackground>
+
+      <Band tone="sky" id="agent-hub">
+        <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div>
+            <Eyebrow>01 · Agent Hub</Eyebrow>
+            <Title>
+              Four product{" "}
+              <StrokeWord color="var(--zeon-royal)">surfaces.</StrokeWord>
+            </Title>
+            <Lead>
+              Document understanding, invoices, cash-flow visibility and governed
+              enterprise search.
+            </Lead>
+          </div>
+          <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#717680]">
+            Sheet 01 / 03 · Agent Hub
+          </p>
         </div>
-      </Chapter>
-      <Chapter tone="blue" min={false} className="!min-h-0">
-        <ChapterLabel tone="blue">One platform</ChapterLabel>
-        <ChapterTitle>Every module inherits the same controls.</ChapterTitle>
-        <ChapterLead tone="blue">
-          Role-based access, human checkpoints and an audit log are shared
-          across Ask AI, Drive, Workflows and Agent Hub.
-        </ChapterLead>
-      </Chapter>
-      <SecondaryCta
-        tone="ink"
+
+        <Panel className="mt-12">
+          <SheetMeta left="DWG NO. ZEON-PRD-HUB" right="AGENT HUB" />
+          <div className="grid md:grid-cols-2">
+            {solutions.map((s, i) => (
+              <Link
+                key={s.id}
+                href={s.href}
+                className={cn(
+                  "group flex flex-col border-b border-[#E5E7EB] p-6 no-underline transition-colors hover:bg-[color-mix(in_srgb,var(--zeon-sky)_65%,white)] md:p-8",
+                  "md:odd:border-r",
+                  i >= solutions.length - 2 && "md:border-b-0",
+                )}
+              >
+                <DrawingIndex n={i + 1} />
+                <div className="mt-5 border border-[#E5E7EB] bg-[#FAFBFC] px-3 py-2">
+                  <ProductGlyph id={s.id} />
+                </div>
+                <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--zeon-royal)]">
+                  {s.brand}
+                </p>
+                <h2 className="mt-2 font-[family-name:var(--font-aeonik)] text-[22px] tracking-[-0.025em] text-[#181D27] transition-colors group-hover:text-[var(--zeon-royal)] md:text-[24px]">
+                  {s.title}
+                </h2>
+                <p className="mt-2 flex-1 text-[14.5px] leading-[1.55] text-[#535862]">
+                  {s.body}
+                </p>
+                <span className="mt-6 font-mono text-[10px] uppercase tracking-[0.14em] text-[#A4A7AE] transition-colors group-hover:text-[var(--zeon-royal)]">
+                  Open product →
+                </span>
+              </Link>
+            ))}
+          </div>
+          <SheetFooter center="Scale 1:1" right="4 surfaces" />
+        </Panel>
+      </Band>
+
+      <Band tone="mist" id="workspace">
+        <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div>
+            <Eyebrow>02 · AI Workspace</Eyebrow>
+            <Title>
+              Capabilities on{" "}
+              <StrokeWord color="var(--zeon-royal)">AI Workspace.</StrokeWord>
+            </Title>
+            <Lead>
+              Modules share access control, human review and the audit log.
+            </Lead>
+          </div>
+          <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#717680]">
+            Sheet 02 / 03 · Modules
+          </p>
+        </div>
+
+        <Panel className="mt-10">
+          <SheetMeta
+            left="DWG NO. ZEON-PRD-MOD"
+            right={`${capabilities.length} MODULES`}
+          />
+          <ul className="grid sm:grid-cols-2 lg:grid-cols-3">
+            {capabilities.map((cap, i) => (
+              <li
+                key={cap.id}
+                className={cn(
+                  "list-none border-b border-[#E5E7EB]",
+                  "sm:border-r sm:[&:nth-child(2n)]:border-r-0",
+                  "lg:[&:nth-child(2n)]:border-r lg:[&:nth-child(3n)]:border-r-0",
+                )}
+              >
+                <Link
+                  href={`/platform/${cap.id}`}
+                  className="group relative flex h-full min-h-[210px] flex-col p-5 no-underline transition-colors hover:bg-white md:p-6"
+                >
+                  <DrawingIndex n={i + 1} />
+                  <div className="mt-4 border border-[#E5E7EB] bg-[#FAFBFC] px-2 py-2 transition-colors group-hover:border-[var(--zeon-border-blue)]">
+                    <ModuleGlyph id={cap.id} />
+                  </div>
+                  <h2 className="mt-4 font-[family-name:var(--font-aeonik)] text-[20px] tracking-[-0.025em] text-[#181D27] transition-colors group-hover:text-[var(--zeon-royal)]">
+                    {cap.title}
+                  </h2>
+                  <p className="mt-2 flex-1 text-[13.5px] leading-[1.5] text-[#535862]">
+                    {cap.summary}
+                  </p>
+                  <span className="mt-4 font-mono text-[10px] uppercase tracking-[0.14em] text-[#A4A7AE] transition-colors group-hover:text-[var(--zeon-royal)]">
+                    Open module →
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <SheetFooter center="Workspace" right="Tol. ±0.0%" />
+        </Panel>
+      </Band>
+
+      <Band tone="ink">
+        <div className="grid gap-10 lg:grid-cols-2 lg:items-end">
+          <div>
+            <Eyebrow tone="dark">03 · One platform</Eyebrow>
+            <Title tone="dark">
+              Every module inherits the same{" "}
+              <StrokeWord>controls.</StrokeWord>
+            </Title>
+            <Lead tone="dark">
+              Role-based access, human checkpoints and an audit log are shared
+              across Ask AI, Drive, Workflows and Agent Hub.
+            </Lead>
+          </div>
+          <Panel tone="dark">
+            <SheetMeta tone="dark" left="DWG NO. ZEON-PRD-CTL" right="CONTROL" />
+            <ul className="space-y-0 px-5 py-2 font-mono text-[12px] uppercase tracking-[0.12em] text-white/55 md:px-6">
+              <li className="flex justify-between border-b border-white/10 py-4">
+                <span>Access</span>
+                <span className="text-[#8EB8FF]">Roles first</span>
+              </li>
+              <li className="flex justify-between border-b border-white/10 py-4">
+                <span>Checkpoints</span>
+                <span className="text-[#8EB8FF]">Human review</span>
+              </li>
+              <li className="flex justify-between py-4">
+                <span>Audit</span>
+                <span className="text-[#8EB8FF]">Append only</span>
+              </li>
+            </ul>
+            <SheetFooter tone="dark" right="Sheet 03 / 03" />
+          </Panel>
+        </div>
+      </Band>
+
+      <BlueprintClose
         title="See these capabilities in a demo"
         body="Pick the modules that matter to your role."
         secondaryHref="/platform"
         secondaryLabel="Platform overview"
+        sheet="Products / Final"
       />
     </PageShell>
   );

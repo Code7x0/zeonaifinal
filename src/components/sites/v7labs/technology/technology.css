@@ -1,7 +1,11 @@
 /* Ported from docs/research/zeonai-technology-v2.html — scoped under .zeon-tech */
 
-/* Tokens copied from the live site (--dp-*). Swap here to re-theme. */
-.zeon-tech{font-family:var(--body);font-size:16px;line-height:1.6;color:var(--g-900);-webkit-font-smoothing:antialiased;
+.zeon-tech{
+  font-family:var(--body);
+  font-size:16px;
+  line-height:1.6;
+  color:var(--g-900);
+  -webkit-font-smoothing:antialiased;
   --blue-50:#eef4ff;--blue-100:#d9e6ff;--blue-200:#bcd3ff;--blue-300:#8eb8ff;--blue-400:#5991ff;--blue-500:#2962ff;--blue-600:#1b46f5;
   --g-50:#fafafa;--g-100:#f5f5f5;--g-200:#e9eaeb;--g-300:#d5d7da;--g-400:#a4a7ae;--g-500:#717680;--g-600:#535862;--g-700:#414651;--g-800:#252b37;--g-900:#181d27;
   --ink:#181d27;--ink-2:#10141c;--ink-line:rgba(255,255,255,.10);--ink-soft:rgba(255,255,255,.62);
@@ -12,7 +16,6 @@
   --max:1200px;--gut:32px;
 }
 .zeon-tech,.zeon-tech *{box-sizing:border-box}
-/* Clear sticky chips (+ optional floating main nav) when jumping to a section */
 .zeon-tech [id]{
   scroll-margin-top: calc(
     var(--zeon-header-offset, 0px) + var(--zeon-tech-chips-height, 56px) + 16px
@@ -37,33 +40,27 @@
 .zeon-tech .hero h1{margin:22px 0 26px;max-width:900px}
 .zeon-tech .hero .lede{font-size:19px;color:var(--ink-soft);max-width:620px;line-height:1.55}
 .zeon-tech .facts{display:grid;grid-template-columns:repeat(4,1fr);margin-top:72px;border-top:1px solid var(--ink-line)}
-.zeon-tech .facts div{padding:24px 24px 0 0;border-right:1px solid var(--ink-line);margin-right:24px}
-.zeon-tech .facts div:last-child{border:0;margin:0}
+.zeon-tech .facts > div{padding:24px 24px 0 0;border-right:1px solid var(--ink-line);margin-right:24px}
+.zeon-tech .facts > div:last-child{border:0;margin:0}
 .zeon-tech .facts b{display:block;font-family:var(--display);font-weight:400;font-size:22px;letter-spacing:-.02em;margin-bottom:6px}
 .zeon-tech .facts span{font-size:14px;color:var(--ink-soft);line-height:1.5;display:block}
 
-/* Chip nav */
-/*
- * Sticky chip rail tracks --zeon-header-offset from SiteHeader:
- * navbar visible (in-flow or floating) → sit below it; otherwise top: 0.
- * z-index below floating header (60), above page content.
- */
+/* Chip nav — sticky under site header */
 .zeon-tech .chips{
   position:sticky;
   top:var(--zeon-header-offset, 0px);
   z-index:45;
-  background:color-mix(in srgb,#fff 82%,#EEF4FF);
-  backdrop-filter:blur(22px) saturate(165%);
-  -webkit-backdrop-filter:blur(22px) saturate(165%);
-  border-bottom:1px solid color-mix(in srgb,var(--g-200) 70%,transparent);
-  box-shadow:0 1px 0 rgba(255,255,255,.55),0 8px 24px -16px rgba(24,29,39,.16);
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--g-200);
   transition:top .28s cubic-bezier(0.23, 1, 0.32, 1);
 }
 .zeon-tech .chips .wrap{display:flex;gap:8px;padding-top:12px;padding-bottom:12px;overflow-x:auto;scrollbar-width:none}
 .zeon-tech .chips .wrap::-webkit-scrollbar{display:none}
-.zeon-tech .chips a{font-family:var(--mono);font-size:11px;letter-spacing:.04em;white-space:nowrap;padding:7px 12px;border:1px solid var(--g-200);border-radius:10px;color:var(--g-600);background:rgba(255,255,255,.55);box-shadow:inset 0 1px 0 rgba(255,255,255,.65);transition:transform .22s cubic-bezier(.34,1.2,.64,1),box-shadow .22s ease,border-color .22s ease,background .22s ease}
-.zeon-tech .chips a:hover{border-color:var(--g-400);transform:translateY(-1px);box-shadow:0 6px 16px -10px rgba(27,70,245,.2)}
-.zeon-tech .chips a.on{border-color:var(--blue-600);color:var(--blue-600);background:#fff;box-shadow:0 1px 0 rgba(24,29,39,.04),0 8px 20px -12px rgba(27,70,245,.22)}
+.zeon-tech .chips a{font-family:var(--mono);font-size:11px;letter-spacing:.04em;white-space:nowrap;padding:7px 12px;border:1px solid var(--g-200);border-radius:6px;color:var(--g-600)}
+.zeon-tech .chips a:hover{border-color:var(--g-400)}
+.zeon-tech .chips a.on{border-color:var(--blue-600);color:var(--blue-600);background:var(--blue-50)}
 @media (prefers-reduced-motion: reduce){
   .zeon-tech .chips{transition:none}
 }
@@ -152,14 +149,17 @@
 .zeon-tech .kpi{border:1px solid var(--g-200);border-radius:8px;padding:16px}
 .zeon-tech .kpi b{display:block;font-family:var(--display);font-weight:400;font-size:40px;letter-spacing:-.03em;line-height:1.1;margin:4px 0}
 .zeon-tech .calc{margin-top:12px;background:var(--g-900);color:#e9eaeb;border-radius:8px;padding:16px;font-family:var(--mono);font-size:12px;line-height:1.8}
-.zeon-tech .calc span{color:var(--blue-300)}.calc u{text-decoration:none;color:#75e0a7}
+.zeon-tech .calc span{color:var(--blue-300)}
+.zeon-tech .calc u{text-decoration:none;color:#75e0a7}
 
 /* router */
 .zeon-tech .seg{display:inline-flex;border:1px solid var(--g-200);border-radius:8px;padding:3px;margin-bottom:16px;background:var(--g-50)}
 .zeon-tech .seg button{font:500 12px var(--body);border:0;background:transparent;padding:6px 12px;border-radius:6px;color:var(--g-600);cursor:pointer}
 .zeon-tech .seg button.on{background:#fff;color:var(--g-900);box-shadow:0 1px 2px rgba(24,29,39,.12)}
 .zeon-tech .tier{font-family:var(--mono);font-size:11px;padding:3px 8px;border-radius:4px;white-space:nowrap}
-.zeon-tech .tier.r{background:var(--g-900);color:#fff}.tier.f{background:var(--blue-100);color:#172ab6}.tier.s{background:var(--g-100);color:var(--g-700)}
+.zeon-tech .tier.r{background:var(--g-900);color:#fff}
+.zeon-tech .tier.f{background:var(--blue-100);color:#172ab6}
+.zeon-tech .tier.s{background:var(--g-100);color:var(--g-700)}
 
 /* meter */
 .zeon-tech .bar-row{display:grid;grid-template-columns:150px 1fr 64px;gap:12px;align-items:center;padding:9px 0;font-size:13px}
@@ -196,7 +196,7 @@
 .zeon-tech .notes .head{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:48px}
 .zeon-tech .notes .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .zeon-tech .note-card{display:flex;flex-direction:column;border:1px solid var(--g-200);border-radius:12px;padding:24px;background:#fff;min-height:210px;transition:transform .2s,box-shadow .2s,border-color .2s}
-a.note-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(24,29,39,.06);border-color:var(--blue-300)}
+.zeon-tech a.note-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(24,29,39,.06);border-color:var(--blue-300)}
 .zeon-tech .note-card .mono{color:var(--g-500);display:flex;justify-content:space-between}
 .zeon-tech .note-card h3{margin:18px 0 10px;font-size:20px;font-weight:400;letter-spacing:-.02em}
 .zeon-tech .note-card p{font-size:14px;color:var(--g-600)}
@@ -210,9 +210,10 @@ a.note-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(24,29,39
 .zeon-tech .dia>.lbl{display:inline-block;background:#fff;padding:2px 10px 2px 0;margin-bottom:22px;color:var(--blue-600)}
 .zeon-tech .wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;overflow:visible}
 .zeon-tech .w0{fill:none;stroke:var(--blue-200);stroke-width:1.5}
-.zeon-tech .w1{fill:none;stroke:var(--blue-500);stroke-width:1.5;stroke-linecap:round;stroke-dasharray:2 16;animation:flow 1.2s linear infinite}
-@keyframes flow{to{stroke-dashoffset:-18}}
-.zeon-tech .p0{fill:var(--blue-300)}.p1{fill:#fff;stroke:var(--blue-500);stroke-width:1.5}
+.zeon-tech .w1{fill:none;stroke:var(--blue-500);stroke-width:1.5;stroke-linecap:round;stroke-dasharray:2 16;animation:zeon-tech-flow 1.2s linear infinite}
+@keyframes zeon-tech-flow{to{stroke-dashoffset:-18}}
+.zeon-tech .p0{fill:var(--blue-300)}
+.zeon-tech .p1{fill:#fff;stroke:var(--blue-500);stroke-width:1.5}
 .zeon-tech .fl{display:flex;align-items:center;gap:64px}
 .zeon-tech .nd{flex:1;min-width:0;background:#fff;border:1px solid var(--g-200);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:2px;box-shadow:0 1px 2px rgba(24,29,39,.05),0 6px 16px rgba(24,29,39,.04)}
 .zeon-tech .ic{width:32px;height:32px;border-radius:8px;background:var(--blue-50);color:var(--blue-600);display:grid;place-items:center;margin-bottom:10px;flex:none}
@@ -273,7 +274,7 @@ a.note-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(24,29,39
 .zeon-tech{--gut:20px}
 .zeon-tech .hero .wrap{padding-top:64px;padding-bottom:48px}
 .zeon-tech .facts{grid-template-columns:1fr 1fr;margin-top:48px}
-.zeon-tech .facts div{border-right:0;margin:0;padding:20px 16px 4px 0}
+.zeon-tech .facts > div{border-right:0;margin:0;padding:20px 16px 4px 0}
 .zeon-tech .arch{padding-bottom:64px}
 .zeon-tech .arch .head{grid-template-columns:1fr;gap:16px}
 .zeon-tech .stack{grid-template-columns:1fr}
@@ -292,31 +293,30 @@ a.note-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(24,29,39
 .zeon-tech .bar-row{grid-template-columns:110px 1fr 56px}
 .zeon-tech .notes .head{flex-direction:column;align-items:start}
 .zeon-tech .wrap.grid{grid-template-columns:1fr;gap:36px}
+.zeon-tech .cta .wrap{align-items:flex-start}
 }
 
-.zeon-tech .notes-eyebrow{color:var(--blue-600)}
-.zeon-tech .more-flush{margin:0}
-.zeon-tech .cmp-note{margin-top:10px;font-size:12px}
-.zeon-tech .cmp-note.muted{color:var(--g-500)}
-.zeon-tech .cmp-note.blue{color:var(--blue-600)}
-.zeon-tech .lbl-blue{color:var(--blue-600)}
-.zeon-tech .lbl-mt{margin-top:18px}
-.zeon-tech .lbl-reset{margin:0}
-.zeon-tech .muted-icon{color:var(--g-400)}
+/* helpers used by React markup */
 .zeon-tech .kpi-pills{display:flex;gap:8px;flex-wrap:wrap}
-.zeon-tech .grid-end{align-items:end}
-.zeon-tech .dia-tight{margin-top:16px}
 .zeon-tech .conn-footnote{margin-top:20px;color:var(--g-400)}
 .zeon-tech .rule-quote{color:var(--g-700)}
 .zeon-tech .ans-draft{background:var(--blue-50);border-color:var(--blue-200)}
+.zeon-tech .lbl-blue{color:var(--blue-600)}
 .zeon-tech .notes h2{margin-top:18px}
-.zeon-tech .cta .btn{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500;padding:10px 20px;border-radius:999px;background:var(--blue-600);color:#fff;border:1px solid var(--blue-600);white-space:nowrap}
+
+/* CTA */
+.zeon-tech .cta{background:var(--ink);color:#fff;padding:112px 0}
+.zeon-tech .cta .wrap{display:flex;justify-content:space-between;align-items:end;gap:32px;flex-wrap:wrap}
+.zeon-tech .cta h2{max-width:640px}
+.zeon-tech .cta p{color:var(--ink-soft);margin-top:16px;max-width:520px}
+.zeon-tech .cta .acts{display:flex;gap:12px;flex-wrap:wrap}
+.zeon-tech .cta .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:14px;font-weight:500;padding:10px 20px;border-radius:999px;background:var(--blue-600);color:#fff;border:1px solid var(--blue-600);white-space:nowrap;transition:background .2s,border-color .2s,color .2s}
 .zeon-tech .cta .btn:hover{background:var(--blue-500)}
 .zeon-tech .cta .btn.ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.28)}
 .zeon-tech .cta .btn.ghost:hover{border-color:#fff;background:transparent}
 .zeon-tech .cta .btn.white{background:#fff;color:var(--g-900);border-color:#fff}
-.zeon-tech .ic svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.zeon-tech .cta .btn.white:hover{background:#f5f5f5}
+
 .zeon-tech .wrap.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:72px;align-items:center}
 .zeon-tech .pillar.dark .wrap.wide{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:end}
 .zeon-tech .wrap.grid-end{align-items:end}
-.zeon-tech .calc u{text-decoration:none;color:#75e0a7}

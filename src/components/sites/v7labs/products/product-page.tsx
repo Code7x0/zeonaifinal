@@ -1,16 +1,27 @@
 "use client";
 
 import Link from "next/link";
-import { PageShell } from "../page-shell";
-import {
-  Chapter,
-  ChapterLabel,
-  ChapterLead,
-  ChapterTitle,
-  SecondaryCta,
-  SecondaryHero,
-} from "../secondary/chapter";
 import { industries } from "@/components/sites/zeonai/content";
+import { cn } from "@/lib/utils";
+import { FluidParticlesBackground } from "@/components/ui/fluid-particles-background";
+import {
+  Band,
+  BlueprintClose,
+  Corners,
+  DrawingIndex,
+  Eyebrow,
+  Lead,
+  Panel,
+  SheetFooter,
+  SheetMeta,
+  StrokeWord,
+  TickRail,
+  Title,
+} from "../blueprint";
+import { ProductGlyph } from "../drawing-glyphs";
+import { PageShell } from "../page-shell";
+import { ProductVortexHero } from "../product-vortex-hero";
+import { ZeonLinkButton } from "../zeon-ui";
 import type { ProductDef } from "./product-data";
 import {
   ArchitectureDepth,
@@ -30,74 +41,168 @@ function HeroVisual({ slug }: { slug: ProductDef["slug"] }) {
 
 export function ProductPage({ product }: { product: ProductDef }) {
   const isProbe = product.slug === "ai-workspace";
+  const code = product.slug.replace(/[^a-z]/gi, "").slice(0, 6).toUpperCase();
 
   return (
-    <PageShell>
-      <SecondaryHero
-        label={product.label}
-        title={product.title}
-        lead={product.lead}
-        align="center"
-        secondaryHref="#workflow"
-        secondaryLabel="See how it works"
-      />
+    <PageShell className="bg-[#FAFBFC]">
+      {isProbe ? (
+        <ProductVortexHero
+          label={product.label}
+          title={product.title}
+          lead={product.lead}
+          secondaryHref="#workflow"
+          secondaryLabel="See how it works"
+        />
+      ) : (
+        <FluidParticlesBackground
+          tone="zeon"
+          particleCount={1000}
+          className="min-h-[min(640px,100svh)] border-b border-white/10"
+        >
+          <div className="mx-auto grid w-full max-w-[1180px] gap-12 px-5 py-16 md:px-8 md:py-20 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,0.75fr)] lg:items-end">
+            <div>
+              <p className="font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-[#8EB8FF]">
+                {product.label}
+              </p>
+              <h1 className="mt-4 max-w-[15ch] font-[family-name:var(--font-aeonik)] text-[clamp(2.2rem,1.4rem+2.8vw,3.4rem)] leading-[1.04] tracking-[-0.04em] text-white">
+                {product.title}
+              </h1>
+              <p className="mt-5 max-w-[42ch] text-[16px] leading-[1.6] text-white/65">
+                {product.lead}
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <ZeonLinkButton href="/demo" tone="light" size="lg">
+                  Book a demo
+                </ZeonLinkButton>
+                <ZeonLinkButton href="#workflow" tone="ghost-dark" size="lg">
+                  See how it works
+                </ZeonLinkButton>
+              </div>
+            </div>
+            <div className="relative border border-white/12 bg-[#0B0B0B]/55 backdrop-blur-sm">
+              <Corners tone="light" />
+              <dl className="px-5 py-5 font-mono text-[10px] uppercase tracking-[0.14em] text-white/45 md:px-6">
+                <div className="flex justify-between border-b border-white/10 pb-3">
+                  <dt>Brand</dt>
+                  <dd className="text-white/75">{product.brand}</dd>
+                </div>
+                <div className="flex justify-between border-b border-white/10 py-3">
+                  <dt>DWG</dt>
+                  <dd className="text-white/75">ZEON-PRD-{code}</dd>
+                </div>
+                <div className="flex justify-between pt-3">
+                  <dt>Sheet</dt>
+                  <dd className="text-white/75">Product / 01</dd>
+                </div>
+              </dl>
+              <div className="border-t border-white/10 px-3 py-3">
+                <ProductGlyph id={product.slug} tone="dark" />
+              </div>
+            </div>
+          </div>
+        </FluidParticlesBackground>
+      )}
 
-      <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#E9EAEB]">
+      {/* Promise + preview */}
+      <Band tone="hero">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start lg:gap-14">
           <div>
-            <ChapterLabel>{product.brand}</ChapterLabel>
-            <ChapterTitle className="!max-w-[18ch] !text-[36px] md:!text-[48px]">
+            <Eyebrow>{product.brand}</Eyebrow>
+            <Title className="!max-w-[18ch]">
               {product.promise}
-            </ChapterTitle>
-            <ChapterLead>Sample data.</ChapterLead>
+            </Title>
+            <Lead>Sample data.</Lead>
+            <TickRail className="mt-8 max-w-[280px]" />
           </div>
-          <HeroVisual slug={product.slug} />
+          <Panel className="p-3 md:p-4">
+            <SheetMeta left="LIVE PREVIEW" right="SAMPLE DATA" />
+            <div className="p-2 md:p-3">
+              <HeroVisual slug={product.slug} />
+            </div>
+            <SheetFooter right={`ZEON-PRD-${code}`} />
+          </Panel>
         </div>
-      </Chapter>
+      </Band>
 
-      <Chapter
-        tone="mist"
-        id="workflow"
-        min={false}
-        className="!min-h-0"
-      >
-        <ChapterLabel tone="mist">From input to output</ChapterLabel>
-        <ChapterTitle>How the work moves.</ChapterTitle>
-        <ChapterLead tone="mist">
-          Automated steps and human checkpoints stay visible. People approve
-          what matters.
-        </ChapterLead>
-        <div className="mt-10">
-          <WorkflowStrip steps={product.workflow} />
+      {/* Workflow */}
+      <Band tone="mist" id="workflow">
+        <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div>
+            <Eyebrow>From input to output</Eyebrow>
+            <Title>
+              How the work{" "}
+              <StrokeWord color="var(--zeon-royal)">moves.</StrokeWord>
+            </Title>
+            <Lead>
+              Automated steps and human checkpoints stay visible. People approve
+              what matters.
+            </Lead>
+          </div>
+          <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#717680]">
+            Sheet 02 · Workflow
+          </p>
         </div>
-      </Chapter>
 
-      <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#E9EAEB]">
-        <ChapterLabel>Where it applies</ChapterLabel>
-        <ChapterTitle>Use cases</ChapterTitle>
-        <div className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {product.useCases.map((u) => (
-            <article key={u.title} className="border-t border-[#E9EAEB] pt-5">
-              <h3 className="font-[family-name:var(--font-aeonik)] text-[22px] tracking-[-0.02em]">
-                {u.title}
-              </h3>
-              <p className="mt-3 text-[14px] leading-[1.55] text-[#535862]">
-                {u.body}
-              </p>
-            </article>
-          ))}
+        <Panel className="mt-12">
+          <SheetMeta
+            left={`DWG NO. ZEON-PRD-${code}-WF`}
+            right={`${product.workflow.length} STEPS`}
+          />
+          <div className="p-5 md:p-7">
+            <WorkflowStrip steps={product.workflow} />
+          </div>
+          <SheetFooter center="Governed path" right="Human on exceptions" />
+        </Panel>
+      </Band>
+
+      {/* Use cases */}
+      <Band tone="sky">
+        <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div>
+            <Eyebrow>Where it applies</Eyebrow>
+            <Title>
+              Use{" "}
+              <StrokeWord color="var(--zeon-royal)">cases.</StrokeWord>
+            </Title>
+          </div>
+          <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#717680]">
+            Sheet 03 · Cases
+          </p>
         </div>
-      </Chapter>
+        <Panel className="mt-10">
+          <SheetMeta left="USE CASES" right="GOVERNED" />
+          <div className="grid md:grid-cols-3 md:divide-x md:divide-[#E5E7EB]">
+            {product.useCases.map((u, i) => (
+              <article
+                key={u.title}
+                className="border-b border-[#E5E7EB] p-6 last:border-b-0 md:border-b-0 md:p-7"
+              >
+                <DrawingIndex n={i + 1} />
+                <h3 className="mt-5 font-[family-name:var(--font-aeonik)] text-[20px] tracking-[-0.02em] text-[#181D27]">
+                  {u.title}
+                </h3>
+                <p className="mt-3 text-[14px] leading-[1.55] text-[#535862]">
+                  {u.body}
+                </p>
+              </article>
+            ))}
+          </div>
+          <SheetFooter right={`${product.useCases.length} cases`} />
+        </Panel>
+      </Band>
 
       {isProbe ? (
         <>
-          <Chapter tone="cream" min={false} className="!min-h-0">
-            <ChapterLabel tone="cream">Reference architecture</ChapterLabel>
-            <ChapterTitle>Six layers, in depth.</ChapterTitle>
-            <ChapterLead tone="cream">
+          <Band tone="paper">
+            <Eyebrow>Reference architecture</Eyebrow>
+            <Title>
+              Six layers, in{" "}
+              <StrokeWord color="var(--zeon-royal)">depth.</StrokeWord>
+            </Title>
+            <Lead>
               Same stack as AI Workspace — selectable here with more detail than
               the homepage tour.
-            </ChapterLead>
+            </Lead>
             <div className="mt-10">
               <ArchitectureDepth />
             </div>
@@ -107,72 +212,111 @@ export function ProductPage({ product }: { product: ProductDef }) {
             >
               Full architecture page
             </Link>
-          </Chapter>
-          <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#E9EAEB]">
-            <ChapterLabel>Industries</ChapterLabel>
-            <ChapterTitle>Regulated, document-heavy work.</ChapterTitle>
-            <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {industries.map((ind) => (
-                <Link
-                  key={ind.id}
-                  href={`/industries/${ind.id}`}
-                  className="block border border-[#E9EAEB] p-5 no-underline transition-colors hover:bg-[#FAFAFA]"
-                >
-                  <h3 className="text-[16px] font-medium tracking-[-0.02em] text-[#181D27]">
-                    {ind.label}
-                  </h3>
-                  <p className="mt-2 text-[13px] leading-[1.5] text-[#535862]">
-                    {ind.intro}
-                  </p>
-                </Link>
-              ))}
-            </div>
-          </Chapter>
+          </Band>
+
+          <Band tone="royal">
+            <Eyebrow tone="on-royal">Industries</Eyebrow>
+            <Title tone="on-royal">Regulated, document-heavy work.</Title>
+            <Lead tone="on-royal">
+              Open a sector to see agents shaped for that workflow.
+            </Lead>
+            <Panel tone="glass" className="mt-10">
+              <SheetMeta
+                tone="dark"
+                left="DWG NO. ZEON-PRD-IND"
+                right="SECTORS"
+              />
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3">
+                {industries.map((ind, i) => (
+                  <Link
+                    key={ind.id}
+                    href={`/industries/${ind.id}`}
+                    className={cn(
+                      "block border-b border-white/15 p-5 no-underline transition hover:bg-white/10 sm:border-r",
+                      "sm:[&:nth-child(2n)]:border-r-0 lg:[&:nth-child(2n)]:border-r lg:[&:nth-child(3n)]:border-r-0",
+                    )}
+                  >
+                    <DrawingIndex n={i + 1} tone="dark" />
+                    <h3 className="mt-4 text-[15px] font-medium tracking-[-0.02em] text-white">
+                      {ind.label}
+                    </h3>
+                    <p className="mt-2 text-[13px] leading-[1.5] text-white/70">
+                      {ind.intro}
+                    </p>
+                  </Link>
+                ))}
+              </div>
+              <SheetFooter tone="dark" right="All sectors" />
+            </Panel>
+          </Band>
         </>
       ) : null}
 
       {product.faq.length ? (
-        <Chapter tone="sky" min={false} className="!min-h-0">
-          <ChapterLabel tone="sky">FAQ</ChapterLabel>
-          <ChapterTitle>Straight answers.</ChapterTitle>
-          <div className="mt-10 space-y-6">
-            {product.faq.map((item) => (
-              <div key={item.q} className="border-t border-[#E9EAEB] pt-5">
-                <h3 className="text-[18px] font-medium tracking-[-0.02em]">
-                  {item.q}
-                </h3>
-                <p className="mt-2 max-w-[52ch] text-[15px] leading-[1.55] text-[#535862]">
-                  {item.a}
-                </p>
-              </div>
-            ))}
-          </div>
-        </Chapter>
+        <Band tone="paper">
+          <Eyebrow>FAQ</Eyebrow>
+          <Title>Straight answers.</Title>
+          <Panel className="mt-10">
+            <SheetMeta left="FAQ" right="PRODUCT" />
+            <div>
+              {product.faq.map((item, i) => (
+                <div
+                  key={item.q}
+                  className={cn(
+                    "px-5 py-5 md:px-7 md:py-6",
+                    i < product.faq.length - 1 && "border-b border-[#E5E7EB]",
+                  )}
+                >
+                  <DrawingIndex n={i + 1} />
+                  <h3 className="mt-4 text-[17px] font-medium tracking-[-0.02em] text-[#181D27]">
+                    {item.q}
+                  </h3>
+                  <p className="mt-2 max-w-[52ch] text-[15px] leading-[1.55] text-[#535862]">
+                    {item.a}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <SheetFooter right="Product FAQ" />
+          </Panel>
+        </Band>
       ) : null}
 
-      <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#E9EAEB]">
-        <ChapterLabel>Related</ChapterLabel>
-        <ChapterTitle>Continue on the platform.</ChapterTitle>
-        <ul className="mt-8 flex flex-wrap gap-3">
-          {product.crossLinks.map((l) => (
-            <li key={l.href}>
-              <Link
-                href={l.href}
-                className="inline-flex border border-[#E9EAEB] px-4 py-2 text-[14px] text-[#181D27] no-underline transition-colors hover:border-[#181D27]"
+      <Band tone="mist">
+        <Eyebrow>Related</Eyebrow>
+        <Title>Continue on the platform.</Title>
+        <Panel className="mt-8">
+          <SheetMeta left="RELATED" right="LINKS" />
+          <ul className="flex flex-wrap gap-0">
+            {product.crossLinks.map((l, i) => (
+              <li
+                key={l.href}
+                className={cn(
+                  "list-none border-b border-[#E5E7EB] sm:border-r",
+                  "sm:[&:nth-child(2n)]:border-r-0 md:[&:nth-child(2n)]:border-r md:[&:nth-child(3n)]:border-r-0",
+                )}
               >
-                {l.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </Chapter>
+                <Link
+                  href={l.href}
+                  className="flex items-center gap-3 px-5 py-4 text-[14px] text-[#181D27] no-underline transition hover:bg-white hover:text-[var(--zeon-royal)]"
+                >
+                  <span className="font-mono text-[10px] text-[var(--zeon-royal)]">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Panel>
+      </Band>
 
-      <SecondaryCta
-        tone="midnight"
+      <BlueprintClose
         title="See this product on your workflow."
         body="We will show the relevant Agent Hub product with governance in view."
         secondaryHref="/products"
         secondaryLabel="All products"
+        sheet={`Product / ${product.brand}`}
       />
     </PageShell>
   );

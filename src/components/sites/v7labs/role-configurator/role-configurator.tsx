@@ -140,9 +140,17 @@ export function RoleConfigurator() {
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: durationEnter, ease: easeOut }}
         >
+          <p className="mb-1 inline-flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.14em] text-[#8EB8FF]">
+            Roles
+            <span
+              aria-hidden
+              className="hidden h-px w-9 bg-[linear-gradient(90deg,rgba(142,184,255,0.55),transparent)] sm:block"
+            />
+            <span className="text-white/35">Sheet · Access</span>
+          </p>
           <h2
             id={`${baseId}-heading`}
-            className="mt-4 font-[family-name:var(--font-aeonik)] text-[36px] leading-[1.06] tracking-[-0.035em] text-[#F5F6F8] md:text-[52px]"
+            className="mt-3 font-[family-name:var(--font-aeonik)] text-[36px] leading-[1.06] tracking-[-0.035em] text-[#F5F6F8] md:text-[52px]"
           >
             Who are you?
           </h2>
@@ -165,11 +173,11 @@ export function RoleConfigurator() {
             aria-label="Professional role"
             aria-orientation={isMobileTabs ? "horizontal" : "horizontal"}
             onKeyDown={onRoleKeyDown}
-            className="relative mt-3 flex gap-1 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-1 lg:flex-wrap lg:overflow-visible [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            className="relative mt-3 flex gap-1.5 overflow-x-auto scroll-smooth snap-x snap-mandatory rounded-[12px] border border-white/[0.06] bg-[#12161F] p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_8px_24px_rgba(0,0,0,0.28)] lg:flex-wrap lg:overflow-visible [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
             <motion.span
               aria-hidden
-              className="pointer-events-none absolute z-0 rounded-[8px] border border-[#2962FF] bg-[#111C32]"
+              className="pointer-events-none absolute z-0 rounded-[8px] border border-[#2962FF]/70 bg-[#16233F] shadow-[0_4px_14px_rgba(41,98,255,0.28),inset_0_1px_0_rgba(255,255,255,0.08)]"
               animate={{
                 top: pill.top,
                 left: pill.left,
@@ -198,7 +206,7 @@ export function RoleConfigurator() {
                   tabIndex={selected ? 0 : -1}
                   onClick={() => selectRole(i)}
                   className={`relative z-[1] snap-center shrink-0 rounded-[8px] px-4 py-3 text-left text-[13px] font-medium tracking-[-0.01em] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2962FF] min-h-[44px] ${
-                    selected ? "text-[#F5F6F8]" : "text-[#A0A7B4] hover:text-[#F5F6F8]"
+                    selected ? "text-[#F5F6F8]" : "text-[#8B93A1] hover:text-[#F5F6F8]"
                   }`}
                 >
                   {r.label}
@@ -208,13 +216,17 @@ export function RoleConfigurator() {
           </div>
         </div>
 
-        {/* Module board — the hero */}
+        {/* Module board — dark elevated panel (not light glass) */}
         <div
           id={`${baseId}-board`}
           role="tabpanel"
           aria-labelledby={`${baseId}-tab-${role.slug}`}
-          className="zeon-glass-float mt-8 border-white/10 bg-[rgba(18,22,31,0.78)] p-4 md:p-6"
+          className="relative mt-8 overflow-hidden rounded-[16px] border border-white/[0.08] bg-[linear-gradient(165deg,#1A2030_0%,#131820_48%,#0E1219_100%)] p-4 shadow-[0_1px_0_rgba(255,255,255,0.06)_inset,0_18px_48px_rgba(0,0,0,0.45),0_4px_12px_rgba(0,0,0,0.35)] md:p-6"
         >
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"
+          />
           <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#727B8B]">
@@ -225,7 +237,7 @@ export function RoleConfigurator() {
               </p>
             </div>
             <div
-              className="min-w-[11rem]"
+              className="min-w-[11rem] rounded-[10px] border border-white/[0.06] bg-[#0C1018]/80 px-3 py-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]"
               aria-live="polite"
               aria-atomic="true"
             >
@@ -258,23 +270,23 @@ export function RoleConfigurator() {
             </div>
           </div>
 
-          <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 lg:gap-2">
+          <ul className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 lg:gap-2.5">
             {MODULE_IDS.map((name, i) => {
               const included = isModuleIncluded(role, name as ModuleId);
               return (
                 <li key={name} className="min-w-0">
                   <div
-                    className={`flex h-full min-h-[88px] flex-col justify-between rounded-[4px] border px-3 py-3 transition-[border-color,background-color,box-shadow,opacity] duration-200 ${
+                    className={`flex h-full min-h-[92px] flex-col justify-between rounded-[8px] border px-3 py-3 transition-[border-color,background-color,box-shadow,opacity,transform] duration-200 ${
                       included
-                        ? "border-[#2962FF] bg-[#111C32] shadow-[0_1px_0_rgba(53,109,255,0.25)]"
-                        : "border-dashed border-[#252B37] bg-[#12161F] opacity-80"
+                        ? "border-[#2962FF]/55 bg-[linear-gradient(160deg,#182544_0%,#111C32_55%,#0E1628_100%)] shadow-[0_1px_0_rgba(255,255,255,0.08)_inset,0_8px_20px_rgba(0,0,0,0.35),0_0_0_1px_rgba(41,98,255,0.12)]"
+                        : "border-dashed border-[#2A3140] bg-[#0F131B] opacity-75 shadow-[inset_0_1px_0_rgba(255,255,255,0.02)]"
                     }`}
                     aria-label={`${name}, ${included ? "included" : "not included"}`}
                   >
                     <div className="flex items-start justify-between gap-2">
                       <p
                         className={`text-[12.5px] font-medium leading-snug tracking-[-0.01em] md:text-[13px] ${
-                          included ? "text-[#F5F6F8]" : "text-[#8B93A1]"
+                          included ? "text-[#F5F6F8]" : "text-[#6B7382]"
                         }`}
                       >
                         {name}
@@ -303,7 +315,7 @@ export function RoleConfigurator() {
                                 delay: reduceMotion ? 0 : i * STAGGER,
                                 ease: [0.23, 1.2, 0.32, 1],
                               }}
-                              className="flex size-4 items-center justify-center rounded-[2px] text-white"
+                              className="flex size-4 items-center justify-center rounded-[3px] text-white shadow-[0_2px_6px_rgba(41,98,255,0.45)]"
                               style={{ backgroundColor: ACCENT }}
                             >
                               <Check className="size-2.5 stroke-[3]" />
@@ -322,7 +334,7 @@ export function RoleConfigurator() {
                                 duration: reduceMotion ? 0 : TICK_OUT,
                                 delay: reduceMotion ? 0 : i * STAGGER,
                               }}
-                              className="size-3.5 rounded-full border border-[#6B7382]"
+                              className="size-3.5 rounded-full border border-[#3D4656] bg-[#161B26]"
                             />
                           )}
                         </AnimatePresence>
@@ -330,7 +342,7 @@ export function RoleConfigurator() {
                     </div>
                     <p
                       className={`mt-2 font-mono text-[9px] uppercase tracking-[0.14em] ${
-                        included ? "text-[#8EB8FF]" : "text-[#6B7382]"
+                        included ? "text-[#8EB8FF]" : "text-[#4F5868]"
                       }`}
                     >
                       {included ? "INCLUDED" : "NOT INCLUDED"}
@@ -341,8 +353,8 @@ export function RoleConfigurator() {
             })}
           </ul>
 
-          {/* Configured agents — fixed height row */}
-          <div className="mt-5 min-h-[52px] border-t border-[#202630] pt-4">
+          {/* Configured agents — recessed tray */}
+          <div className="mt-5 min-h-[52px] rounded-[10px] border border-white/[0.05] bg-[#0A0E14]/90 px-3 py-3 shadow-[inset_0_2px_8px_rgba(0,0,0,0.35)]">
             <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-[#727B8B]">
               Configured agents · {agentCount}
             </p>
@@ -356,7 +368,7 @@ export function RoleConfigurator() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={reduceMotion ? undefined : { opacity: 0 }}
                     transition={{ duration: reduceMotion ? 0 : 0.2, ease: easeOut }}
-                    className="rounded-[3px] border border-[#252B37] bg-[#12161F] px-2.5 py-1 text-[11px] tracking-[-0.01em] text-[#A0A7B4]"
+                    className="rounded-[6px] border border-white/[0.08] bg-[linear-gradient(180deg,#1A2230_0%,#121820_100%)] px-2.5 py-1 text-[11px] tracking-[-0.01em] text-[#C4CAD6] shadow-[0_1px_0_rgba(255,255,255,0.06)_inset,0_2px_6px_rgba(0,0,0,0.35)]"
                   >
                     {agent}
                   </motion.li>
@@ -369,7 +381,7 @@ export function RoleConfigurator() {
         <div className="mt-8 flex justify-start">
           <Link
             href={`/?role=${role.slug}#demo`}
-            className="zeon-btn zeon-btn-accent !rounded-[8px] !text-[13px]"
+            className="zeon-btn zeon-btn-accent !rounded-[10px] !text-[13px] !shadow-[0_1px_0_rgba(255,255,255,0.18)_inset,0_10px_28px_rgba(41,98,255,0.38),0_2px_8px_rgba(0,0,0,0.35)]"
           >
             Book a demo with these modules
             <span className="zeon-btn-arrow" aria-hidden>

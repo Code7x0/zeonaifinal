@@ -109,6 +109,14 @@ export function FinalCta() {
       */}
       <div className="mx-auto grid max-w-[1360px] items-start gap-10 px-5 py-20 md:gap-12 md:px-8 md:py-28 lg:grid-cols-[minmax(0,0.48fr)_minmax(0,0.52fr)] lg:gap-20">
         <FadeUp as="header" className="order-1 min-w-0">
+          <p className="mb-3 inline-flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.14em] text-[#2962FF]">
+            Next conversation
+            <span
+              aria-hidden
+              className="hidden h-px w-9 bg-[linear-gradient(90deg,#BCD3FF,transparent)] sm:block"
+            />
+            <span className="text-[#A4A7AE]">Sheet · Demo</span>
+          </p>
           <h2
             id="demo-heading"
             className="font-[family-name:var(--font-aeonik)] text-[40px] leading-[1.05] tracking-[-0.03em] text-[#181D27] md:text-[52px] xl:text-[56px]"

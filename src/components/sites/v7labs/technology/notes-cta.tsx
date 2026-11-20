@@ -60,7 +60,7 @@ export function NotesAndCta() {
     <>
       <section className="notes" id="notes">
         <div className="wrap">
-          <div className="t-nhead rv">
+          <div className="head rv">
             <div>
               <span className="mono" style={{ color: "var(--blue-600)" }}>
                 Engineering notes

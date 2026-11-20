@@ -58,6 +58,9 @@ interface Feature108Props {
   tabs?: Tab[];
   /** Auto-advance tabs like a looping product video. Default true. */
   autoplay?: boolean;
+  /** Optional blueprint-style sheet label above the heading. */
+  sheetLeft?: string;
+  sheetRight?: string;
 }
 
 const Feature108 = ({
@@ -106,6 +109,8 @@ const Feature108 = ({
     },
   ],
   autoplay = true,
+  sheetLeft,
+  sheetRight,
 }: Feature108Props) => {
   const [active, setActive] = useState(tabs[0]?.value ?? "");
   const [tourPaused, setTourPaused] = useState(false);
@@ -200,6 +205,20 @@ const Feature108 = ({
     >
       <div className="mx-auto max-w-[1180px]">
         <div className="mx-auto max-w-[42rem] text-center">
+          {sheetLeft ? (
+            <FadeUp className="mb-3 flex justify-center">
+              <p className="inline-flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.14em] text-[#2962FF]">
+                {sheetLeft}
+                <span
+                  aria-hidden
+                  className="hidden h-px w-9 bg-[linear-gradient(90deg,#BCD3FF,transparent)] sm:block"
+                />
+                {sheetRight ? (
+                  <span className="text-[#A4A7AE]">{sheetRight}</span>
+                ) : null}
+              </p>
+            </FadeUp>
+          ) : null}
           <FadeUp
             as="h2"
             className="font-[family-name:var(--font-aeonik)] text-[32px] font-medium leading-[1.06] tracking-[-0.03em] text-[#181D27] md:text-[44px]"
@@ -218,43 +237,36 @@ const Feature108 = ({
         <Tabs value={active} onValueChange={onManualSelect} className="mt-12">
           <div className="w-full">
             <TabsList
-              className="zeon-surface-glass mx-auto flex w-full max-w-[920px] flex-wrap items-center justify-center gap-1 rounded-[var(--zeon-radius-xl)] border border-[var(--zeon-glass-border)] p-1.5"
+              className="mx-auto flex w-full max-w-[980px] flex-wrap items-center justify-center gap-3 bg-transparent p-0"
               aria-label="Platform modules"
             >
               {tabs.map((tab) => (
                 <TabsTrigger
                   key={tab.value}
                   value={tab.value}
-                  className="relative flex items-center gap-2 rounded-[10px] px-3 py-2.5 text-[13px] font-medium text-black/40 outline-none transition-[color,background-color,transform,box-shadow] duration-[var(--zeon-duration-hover,280ms)] ease-[var(--zeon-ease-spring)] hover:bg-white/70 hover:text-[#181D27] focus-visible:ring-2 focus-visible:ring-[#2962FF]/35 active:scale-[0.98] data-[state=active]:bg-white data-[state=active]:text-[#181D27] data-[state=active]:shadow-[var(--zeon-elev-1)] [&_svg]:opacity-45 data-[state=active]:[&_svg]:opacity-75"
+                  className="relative isolate flex items-center gap-2 rounded-[11px] border border-[#E4E7EC] bg-white px-4 py-2.5 text-[13px] font-medium text-[#667085] shadow-[0_1px_0_rgba(255,255,255,1)_inset,0_1px_2px_rgba(16,24,40,0.05),0_6px_14px_rgba(16,24,40,0.05)] outline-none transition-[color,background-color,border-color,box-shadow,transform] duration-[var(--zeon-duration-hover,280ms)] ease-[var(--zeon-ease-spring)] hover:-translate-y-px hover:border-[#D0D5DD] hover:text-[#181D27] hover:shadow-[0_1px_0_rgba(255,255,255,1)_inset,0_8px_18px_rgba(16,24,40,0.09)] focus-visible:ring-2 focus-visible:ring-[#2962FF]/35 active:translate-y-0 active:scale-[0.98] data-[state=active]:border-[#2962FF]/45 data-[state=active]:bg-[#EFF4FF] data-[state=active]:text-[#181D27] data-[state=active]:shadow-[0_1px_0_rgba(255,255,255,1)_inset,0_0_0_1px_rgba(41,98,255,0.16),0_10px_22px_rgba(41,98,255,0.14)] [&_svg]:opacity-45 data-[state=active]:[&_svg]:text-[#2962FF] data-[state=active]:[&_svg]:opacity-100"
                 >
                   {tab.icon}
                   {tab.label}
                 </TabsTrigger>
               ))}
             </TabsList>
+            {/* Tour progress kept for a11y; visually quiet so it does not read as a nav rule */}
             {autoplay && !reduceMotion ? (
               <div
                 id={progressRegionId}
-                className="mt-0 h-0.5 w-full overflow-hidden bg-black/6"
+                className="sr-only"
                 role="progressbar"
                 aria-valuemin={0}
                 aria-valuemax={100}
                 aria-valuenow={Math.round(progress)}
                 aria-label="Product tour progress"
-              >
-                <div
-                  className="h-full bg-[#2962FF]"
-                  style={{
-                    width: `${progress}%`,
-                    transition: progress === 0 ? "none" : "width 100ms linear",
-                  }}
-                />
-              </div>
+              />
             ) : null}
           </div>
 
           {/* Compact scene caption — product screen is the hero */}
-          <div className="mt-5 flex flex-wrap items-end justify-center gap-3 text-center sm:justify-between sm:text-left">
+          <div className="mt-8 flex flex-wrap items-end justify-center gap-4 text-center sm:justify-between sm:text-left">
             <div className="relative mx-auto min-h-[3.25rem] w-full max-w-[48ch] sm:mx-0">
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
@@ -272,7 +284,7 @@ const Feature108 = ({
                     {activeTab?.content.title}
                   </p>
                   {activeTab?.content.description ? (
-                    <p className="mt-1 text-[13px] leading-[1.45] text-[#717680]">
+                    <p className="mt-1.5 text-[13px] leading-[1.5] text-[#717680]">
                       {activeTab.content.description}
                     </p>
                   ) : null}
@@ -281,7 +293,7 @@ const Feature108 = ({
             </div>
             <a
               href="/demo"
-              className="zeon-btn zeon-btn-soft zeon-btn-sm !rounded-[8px]"
+              className="zeon-btn zeon-btn-accent zeon-btn-sm !rounded-[10px] !shadow-[0_1px_0_rgba(255,255,255,0.2)_inset,0_8px_20px_rgba(41,98,255,0.28)]"
             >
               {activeTab?.content.buttonText}
             </a>

@@ -174,10 +174,19 @@ export function EngineeringSection() {
           transition={{ duration: 0.35, ease: EASE }}
         >
           <p
-            className="text-[13px] font-semibold uppercase tracking-[0.08em]"
-            style={{ color: H.blue500 }}
+            className="inline-flex items-center justify-center gap-3 text-[11px] font-medium uppercase tracking-[0.14em]"
+            style={{ color: H.blue500, fontFamily: H.mono }}
           >
-            Governed engineering layer
+            03 · Under the hood
+            <span
+              aria-hidden
+              className="hidden h-px w-9 sm:block"
+              style={{
+                background:
+                  "linear-gradient(90deg, rgba(188,211,255,0.9), transparent)",
+              }}
+            />
+            <span style={{ color: H.gray400 }}>Sheet · Journey</span>
           </p>
           <h2
             id={`${baseId}-heading`}

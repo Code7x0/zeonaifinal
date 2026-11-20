@@ -180,6 +180,14 @@ export function ArchitectureSection() {
       >
         <div className="relative mx-auto w-full max-w-[1280px] px-5 md:px-8">
           <div className="mx-auto max-w-[34rem] text-center">
+            <p className="mb-3 inline-flex items-center justify-center gap-3 font-mono text-[10px] uppercase tracking-[0.14em] text-[#8EB8FF]">
+              02 · Architecture
+              <span
+                aria-hidden
+                className="hidden h-px w-9 bg-[linear-gradient(90deg,rgba(142,184,255,0.55),transparent)] sm:block"
+              />
+              <span className="text-white/35">Sheet · Stack</span>
+            </p>
             <h2
               id={`${baseId}-heading`}
               className="font-[family-name:var(--font-aeonik)] text-[34px] leading-[1.08] tracking-[-0.035em] text-white md:text-[44px] lg:text-[48px]"

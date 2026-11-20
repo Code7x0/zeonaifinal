@@ -42,6 +42,14 @@ export function CustomerStoriesSection() {
           viewport={viewportOnce}
           transition={{ duration: durationEnter, ease: easeOut }}
         >
+          <p className="mb-3 inline-flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.14em] text-[#2962FF]">
+            Customers
+            <span
+              aria-hidden
+              className="hidden h-px w-9 bg-[linear-gradient(90deg,#BCD3FF,transparent)] sm:block"
+            />
+            <span className="text-[#A4A7AE]">Sheet · Cases</span>
+          </p>
           <h2
             id="customers-heading"
             className="font-[family-name:var(--font-aeonik)] text-[36px] leading-[1.06] tracking-[-0.035em] md:text-[52px]"

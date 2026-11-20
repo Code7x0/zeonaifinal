@@ -6,8 +6,18 @@
  * Never imported by homepage sections.
  */
 
-import { useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { useLenis } from "lenis/react";
 import { cn } from "@/lib/utils";
+import { durationUi, easeOut } from "../motion";
 import {
   LiveAuditTrail,
   LiveCitedAnswer,
@@ -234,49 +244,253 @@ const OUTPUTS = [
   },
 ] as const;
 
-/** Taste-skill “Output index, live sheet” pattern for secondary pages. */
-export function OutputIndex({ className }: { className?: string }) {
-  const [active, setActive] = useState<(typeof OUTPUTS)[number]["id"]>("answer");
-  const current = OUTPUTS.find((o) => o.id === active) ?? OUTPUTS[0];
+type OutputId = (typeof OUTPUTS)[number]["id"];
+
+const OUTPUT_COUNT = OUTPUTS.length;
+/** Pin distance per output — one deliberate scroll beat each. */
+const DESKTOP_VH_PER_OUTPUT = 70;
+
+function indexFromProgress(progress: number) {
+  return Math.min(
+    OUTPUT_COUNT - 1,
+    Math.max(0, Math.floor(progress * OUTPUT_COUNT + 1e-6)),
+  );
+}
+
+/**
+ * Live product outputs — desktop sticky scroll story (Lenis-synced).
+ * Mobile / reduced-motion: click to switch, no pin.
+ */
+export function OutputIndex({
+  className,
+  header,
+}: {
+  className?: string;
+  /** Section chrome rendered inside the sticky viewport */
+  header?: ReactNode;
+}) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isDesktop, setIsDesktop] = useState(false);
+  const reduceMotion = useReducedMotion() ?? false;
+  const lenis = useLenis();
+  const lastIndexRef = useRef(0);
+
+  const pinEnabled = isDesktop && !reduceMotion;
+  const current = OUTPUTS[activeIndex] ?? OUTPUTS[0]!;
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const apply = () => setIsDesktop(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
+
+  const syncFromScroll = useCallback(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    const viewH = window.innerHeight;
+    if (track.offsetHeight <= viewH * 1.5) return;
+
+    const rect = track.getBoundingClientRect();
+    const scrollable = Math.max(1, track.offsetHeight - viewH);
+    const progressed = Math.min(1, Math.max(0, -rect.top / scrollable));
+    const idx = indexFromProgress(progressed);
+
+    track.dataset.progress = progressed.toFixed(3);
+    track.dataset.outputIndex = String(idx);
+
+    if (idx !== lastIndexRef.current) {
+      lastIndexRef.current = idx;
+      setActiveIndex(idx);
+    }
+  }, []);
+
+  useLenis(() => {
+    if (!pinEnabled) return;
+    syncFromScroll();
+  }, [pinEnabled, syncFromScroll]);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track || !pinEnabled) return;
+
+    let raf = 0;
+    let observing = false;
+
+    const loop = () => {
+      syncFromScroll();
+      raf = requestAnimationFrame(loop);
+    };
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          if (!observing) {
+            observing = true;
+            raf = requestAnimationFrame(loop);
+          }
+        } else if (observing) {
+          observing = false;
+          cancelAnimationFrame(raf);
+        }
+      },
+      { threshold: 0 },
+    );
+
+    io.observe(track);
+    syncFromScroll();
+    raf = requestAnimationFrame(loop);
+    observing = true;
+    window.addEventListener("resize", syncFromScroll, { passive: true });
+
+    return () => {
+      observing = false;
+      cancelAnimationFrame(raf);
+      io.disconnect();
+      window.removeEventListener("resize", syncFromScroll);
+    };
+  }, [pinEnabled, syncFromScroll]);
+
+  const selectOutput = useCallback(
+    (id: OutputId) => {
+      const idx = OUTPUTS.findIndex((o) => o.id === id);
+      if (idx < 0) return;
+
+      if (!pinEnabled) {
+        lastIndexRef.current = idx;
+        setActiveIndex(idx);
+        return;
+      }
+
+      const track = trackRef.current;
+      if (!track) return;
+      const currentScroll = lenis?.scroll ?? window.scrollY;
+      const trackTop = track.getBoundingClientRect().top + currentScroll;
+      const scrollable = Math.max(1, track.offsetHeight - window.innerHeight);
+      const target = trackTop + ((idx + 0.22) / OUTPUT_COUNT) * scrollable;
+
+      if (lenis) {
+        lenis.scrollTo(target, { duration: 0.9 });
+      } else {
+        window.scrollTo({ top: target, behavior: "smooth" });
+      }
+    },
+    [pinEnabled, lenis],
+  );
+
+  const trackStyle: CSSProperties | undefined = pinEnabled
+    ? { height: `${OUTPUT_COUNT * DESKTOP_VH_PER_OUTPUT}vh` }
+    : undefined;
 
   return (
     <div
-      className={cn(
-        "grid items-start gap-8 lg:grid-cols-[minmax(0,0.38fr)_minmax(0,0.62fr)] lg:gap-12",
-        className,
-      )}
+      ref={trackRef}
+      className={cn("relative", className)}
+      style={trackStyle}
+      data-active-output={current.id}
     >
-      <div role="listbox" aria-label="Product outputs" className="space-y-1">
-        {OUTPUTS.map((o) => {
-          const selected = o.id === active;
-          return (
-            <button
-              key={o.id}
-              type="button"
-              role="option"
-              aria-selected={selected}
-              onClick={() => setActive(o.id)}
-              className={cn(
-                "block w-full rounded-[4px] px-2 py-2 text-left font-[family-name:var(--font-aeonik)] text-[28px] leading-[1.1] tracking-[-0.03em] transition-colors duration-200 md:text-[36px] lg:text-[44px]",
-                selected
-                  ? "text-[#181D27]"
-                  : "text-[#181D27]/25 hover:text-[#181D27]/55",
-              )}
-            >
-              {o.label}
-            </button>
-          );
-        })}
-      </div>
       <div
-        className="min-h-[420px] overflow-hidden rounded-[12px] p-4 md:min-h-[520px] md:p-6"
-        style={{
-          background: "#0c1018",
-          border: "1px solid rgba(255,255,255,0.08)",
-        }}
+        className={
+          pinEnabled
+            ? "sticky top-0 flex min-h-screen flex-col justify-center py-12 md:py-16"
+            : "relative"
+        }
       >
-        <div key={current.id} className="platform-view-enter">
-          {current.node}
+        {header ? <div className="mb-10 max-w-[40rem]">{header}</div> : null}
+        <div
+          className={cn(
+            "grid w-full items-center gap-8 lg:grid-cols-[minmax(0,0.38fr)_minmax(0,0.62fr)] lg:gap-12",
+          )}
+        >
+          <div
+            role="listbox"
+            aria-label="Product outputs"
+            aria-orientation="vertical"
+            className="space-y-1"
+          >
+            {OUTPUTS.map((o, i) => {
+              const selected = i === activeIndex;
+              return (
+                <button
+                  key={o.id}
+                  type="button"
+                  role="option"
+                  aria-selected={selected}
+                  onClick={() => selectOutput(o.id)}
+                  className={cn(
+                    "block w-full rounded-[4px] px-2 py-2 text-left font-[family-name:var(--font-aeonik)] text-[28px] leading-[1.1] tracking-[-0.03em] outline-none transition-[color,opacity,transform] duration-300 ease-out md:text-[36px] lg:text-[44px]",
+                    "focus-visible:ring-2 focus-visible:ring-[#2962FF]/35 focus-visible:ring-offset-2",
+                    selected
+                      ? "translate-x-0 text-[#181D27]"
+                      : "text-[#181D27]/22 hover:text-[#181D27]/5",
+                  )}
+                >
+                  <span className="inline-flex items-baseline gap-3">
+                    <span
+                      className={cn(
+                        "font-mono text-[11px] uppercase tracking-[0.14em] transition-opacity duration-300",
+                        selected ? "text-[#2962FF] opacity-100" : "opacity-0",
+                      )}
+                      aria-hidden
+                    >
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    {o.label}
+                  </span>
+                </button>
+              );
+            })}
+            <p className="mt-6 hidden text-[12px] leading-[1.45] text-[#8A9493] lg:block">
+              {pinEnabled
+                ? "Scroll to step through each output — or click a label."
+                : "Select an output to preview the product surface."}
+            </p>
+          </div>
+
+          <div
+            className="relative min-h-[420px] overflow-hidden rounded-[14px] p-4 shadow-[0_18px_48px_rgba(15,23,42,0.18)] md:min-h-[520px] md:p-6"
+            style={{
+              background: "#0c1018",
+              border: "1px solid rgba(255,255,255,0.08)",
+            }}
+          >
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={current.id}
+                className="w-full"
+                initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -12 }}
+                transition={{
+                  duration: reduceMotion ? 0 : durationUi,
+                  ease: easeOut,
+                }}
+              >
+                {current.node}
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Quiet progress ticks */}
+            {pinEnabled ? (
+              <div
+                className="pointer-events-none absolute bottom-4 right-5 flex gap-1.5"
+                aria-hidden
+              >
+                {OUTPUTS.map((o, i) => (
+                  <span
+                    key={o.id}
+                    className={cn(
+                      "h-1 w-4 rounded-full transition-colors duration-300",
+                      i === activeIndex ? "bg-[#2962FF]" : "bg-white/15",
+                    )}
+                  />
+                ))}
+              </div>
+            ) : null}
+          </div>
         </div>
       </div>
     </div>

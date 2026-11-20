@@ -268,8 +268,13 @@ export function SecurityComplianceSection() {
     >
       <div className="mx-auto max-w-[1180px] px-5 md:px-8">
         <header className="max-w-[40rem]">
-          <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#727B8B]">
-            Security and compliance
+          <p className="inline-flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.16em] text-[#8EB8FF]">
+            05 · Security
+            <span
+              aria-hidden
+              className="hidden h-px w-9 bg-[linear-gradient(90deg,rgba(142,184,255,0.55),transparent)] sm:block"
+            />
+            <span className="text-white/35">Sheet · Compliance</span>
           </p>
           <h2
             id={`${baseId}-heading`}
