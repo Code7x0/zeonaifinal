@@ -190,7 +190,7 @@ export function ArchitectureSection() {
             </p>
             <h2
               id={`${baseId}-heading`}
-              className="font-[family-name:var(--font-aeonik)] text-[34px] leading-[1.08] tracking-[-0.035em] text-white md:text-[44px] lg:text-[48px]"
+              className="zeon-type-section text-balance !text-white"
             >
               The platform in one picture
             </h2>
@@ -203,7 +203,7 @@ export function ArchitectureSection() {
           </div>
 
           <div className="mt-9 grid items-stretch gap-8 lg:mt-11 lg:grid-cols-[1.2fr_0.95fr_1.15fr] lg:gap-10 xl:gap-12">
-            <div className="flex min-h-[320px] min-w-0 flex-col justify-center lg:min-h-[380px]">
+            <div className="flex min-h-[240px] min-w-0 flex-col justify-center sm:min-h-[280px] lg:min-h-[380px]">
               <ArchitectureDiagram
                 assembledIndex={assembledIndex}
                 activeKey={active.key}
@@ -212,7 +212,7 @@ export function ArchitectureSection() {
               />
             </div>
 
-            <div className="relative min-h-[280px] min-w-0 overflow-hidden md:min-h-[320px]">
+            <div className="relative min-h-[220px] min-w-0 overflow-hidden sm:min-h-[260px] md:min-h-[320px]">
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={active.key}

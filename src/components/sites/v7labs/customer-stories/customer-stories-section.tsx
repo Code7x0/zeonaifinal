@@ -34,7 +34,7 @@ export function CustomerStoriesSection() {
       className="zeon-section-tint relative scroll-mt-24 overflow-hidden border-t border-[#E9EAEB] text-[#181D27]"
       aria-labelledby="customers-heading"
     >
-      <div className="relative mx-auto max-w-[1180px] px-5 py-20 md:px-8 md:py-28">
+      <div className="zeon-section-pad relative mx-auto max-w-[var(--zeon-container,1180px)] px-[var(--zeon-gutter,1.25rem)]">
         <motion.div
           className="max-w-[40rem]"
           initial={reduceMotion ? false : { opacity: 0, y: enterY }}
@@ -52,7 +52,7 @@ export function CustomerStoriesSection() {
           </p>
           <h2
             id="customers-heading"
-            className="font-[family-name:var(--font-aeonik)] text-[36px] leading-[1.06] tracking-[-0.035em] md:text-[52px]"
+            className="zeon-type-section text-balance"
           >
             Customers and case studies
           </h2>
@@ -91,7 +91,7 @@ export function CustomerStoriesSection() {
                   {featured.summary}
                 </p>
                 <div className="mt-6">
-                  <p className="font-[family-name:var(--font-aeonik)] text-[40px] leading-none tracking-[-0.04em] text-white md:text-[52px]">
+                  <p className="font-[family-name:var(--font-aeonik)] text-[clamp(2rem,1.4rem+2.5vw,3.25rem)] leading-none tracking-[-0.04em] text-white">
                     {featured.metricShort}
                   </p>
                   <p className="mt-2 text-[13px] text-white/45">

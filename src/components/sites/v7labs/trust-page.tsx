@@ -167,7 +167,7 @@ function TrustBand({
           : "bg-[var(--dp-gray-50)] text-[var(--zeon-ink)]";
   return (
     <section id={id} className={cn(bg, className)}>
-      <div className="mx-auto max-w-[1180px] px-5 py-16 md:px-8 md:py-20">
+      <div className="zeon-section-pad mx-auto max-w-[var(--zeon-container,1180px)] px-[var(--zeon-gutter,1.25rem)]">
         {children}
       </div>
     </section>
@@ -366,8 +366,36 @@ export function TrustPage() {
 
         <Panel className="mt-12">
           <SheetMeta left="DWG NO. ZEON-TRUST-02" right="SCALE 1:1" />
-          <div className="overflow-x-auto">
-            <div className="min-w-[520px]">
+          {/* Mobile: stacked cards — avoid forced min-width horizontal scroll */}
+          <ul className="divide-y divide-[#E5E7EB] md:hidden">
+            {VISIBILITY.map((row) => (
+              <li key={row.tier} className="list-none space-y-3 px-4 py-5">
+                <p className="flex items-center gap-2 text-[15px] font-medium text-[#181D27]">
+                  <span
+                    aria-hidden
+                    className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--zeon-royal)]"
+                  />
+                  {row.tier}
+                </p>
+                <dl className="grid gap-2 text-[14px]">
+                  <div>
+                    <dt className="font-mono text-[10px] uppercase tracking-[0.12em] text-[#717680]">
+                      Can see
+                    </dt>
+                    <dd className="mt-0.5 text-[#535862]">{row.see}</dd>
+                  </div>
+                  <div>
+                    <dt className="font-mono text-[10px] uppercase tracking-[0.12em] text-[#717680]">
+                      Can act
+                    </dt>
+                    <dd className="mt-0.5 text-[#535862]">{row.act}</dd>
+                  </div>
+                </dl>
+              </li>
+            ))}
+          </ul>
+          <div className="hidden overflow-x-auto md:block">
+            <div className="min-w-0">
               <div className="grid grid-cols-3 border-b border-[#E5E7EB] bg-[#F5F7FA] px-4 py-3 font-mono text-[10px] uppercase tracking-[0.12em] text-[#717680] md:px-6">
                 <span>Tier</span>
                 <span>Can see</span>

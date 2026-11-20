@@ -107,7 +107,7 @@ export function FinalCta() {
         Mobile order: intro → particle → form → steps
         Desktop: left intro+steps+form, right particle (sticky)
       */}
-      <div className="mx-auto grid max-w-[1360px] items-start gap-10 px-5 py-20 md:gap-12 md:px-8 md:py-28 lg:grid-cols-[minmax(0,0.48fr)_minmax(0,0.52fr)] lg:gap-20">
+      <div className="zeon-section-pad mx-auto grid max-w-[var(--zeon-container-wide,1280px)] items-start gap-8 px-[var(--zeon-gutter,1.25rem)] md:gap-12 lg:grid-cols-[minmax(0,0.48fr)_minmax(0,0.52fr)] lg:gap-20">
         <FadeUp as="header" className="order-1 min-w-0">
           <p className="mb-3 inline-flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.14em] text-[#2962FF]">
             Next conversation
@@ -119,7 +119,7 @@ export function FinalCta() {
           </p>
           <h2
             id="demo-heading"
-            className="font-[family-name:var(--font-aeonik)] text-[40px] leading-[1.05] tracking-[-0.03em] text-[#181D27] md:text-[52px] xl:text-[56px]"
+            className="zeon-type-hero text-balance text-[#181D27]"
           >
             Book a demo
           </h2>
@@ -375,7 +375,7 @@ function ParticleSculpture({
     >
       <video
         ref={videoRef}
-        className="absolute inset-0 h-full w-full scale-[1.22] object-cover object-center"
+        className="absolute inset-0 h-full w-full max-w-full scale-[1.22] object-cover object-center"
         src={VIDEO_SRC}
         poster={PARTICLE_POSTER}
         muted

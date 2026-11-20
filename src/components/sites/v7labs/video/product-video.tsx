@@ -145,7 +145,7 @@ export function ProductVideo({
         <video
           key={src}
           ref={videoRef}
-          className="relative z-[1] h-full w-full object-cover"
+          className="absolute inset-0 z-[1] h-full w-full max-w-full object-cover"
           muted
           playsInline
           autoPlay={mode === "loop" && active && !reduceMotion}

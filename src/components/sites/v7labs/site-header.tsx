@@ -110,12 +110,12 @@ function HeaderBar({
 
   return (
     <header className="zeon-glass-nav relative z-50" data-zeon-nav-bar>
-      <div className="mx-auto flex h-[60px] max-w-[1400px] items-center justify-between gap-4 px-5 md:px-8">
-        <div className="flex items-center gap-8">
+      <div className="mx-auto flex h-[56px] max-w-[var(--zeon-container-wide,1280px)] items-center justify-between gap-2 px-4 sm:h-[60px] sm:gap-4 sm:px-5 md:px-8">
+        <div className="flex min-w-0 items-center gap-6 lg:gap-8">
           <a
             href="/"
             aria-label="ZeonAI home"
-            className="zeon-press rounded-sm text-black"
+            className="zeon-press min-w-0 shrink rounded-sm text-black"
           >
             <V7Logo className="text-[15px]" />
           </a>
@@ -171,9 +171,10 @@ function HeaderBar({
           </ZeonLinkButton>
           <button
             type="button"
-            className="zeon-press zeon-focusable inline-flex size-9 items-center justify-center rounded-full border border-black/10 bg-white/50 lg:hidden"
+            className="zeon-press zeon-focusable inline-flex size-10 shrink-0 items-center justify-center rounded-full border border-black/10 bg-white/50 sm:size-9 lg:hidden"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
+            aria-controls={`${navId}-mobile-panel`}
             onClick={() => setMobileOpen((v) => !v)}
           >
             {mobileOpen ? <X className="size-4" /> : <Menu className="size-4" />}
@@ -236,7 +237,11 @@ function HeaderBar({
         {mobileOpen ? (
           <motion.div
             key="mobile-nav"
-            className="max-h-[min(80vh,640px)] overflow-y-auto border-t border-black/5 bg-white lg:hidden"
+            id={`${navId}-mobile-panel`}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Site menu"
+            className="max-h-[min(calc(100dvh-56px),720px)] overflow-y-auto overscroll-contain border-t border-black/5 bg-white lg:hidden"
             initial={reduceMotion ? false : { height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={reduceMotion ? { opacity: 0 } : { height: 0, opacity: 0 }}
@@ -246,13 +251,13 @@ function HeaderBar({
                 : { duration: 0.42, ease: easeOut }
             }
           >
-            <div className="px-5 py-4">
+            <div className="px-4 py-4 sm:px-5">
               {NAV_GROUPS.map((group, gi) => {
                 const expanded = mobileExpanded === group.label;
                 return (
                   <motion.div
                     key={group.id}
-                    className="border-b border-black/5 py-2 last:border-b-0"
+                    className="border-b border-black/5 py-1 last:border-b-0"
                     initial={reduceMotion ? false : { opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={
@@ -267,7 +272,7 @@ function HeaderBar({
                   >
                     <button
                       type="button"
-                      className="flex w-full items-center justify-between py-2 text-left text-[14px] font-medium text-[#181D27]"
+                      className="flex min-h-11 w-full items-center justify-between py-2.5 text-left text-[15px] font-medium text-[#181D27]"
                       aria-expanded={expanded}
                       onClick={() =>
                         setMobileExpanded(expanded ? null : group.label)
@@ -304,7 +309,7 @@ function HeaderBar({
                             <a
                               key={item.href}
                               href={item.href}
-                              className="block py-2 pl-1 text-[14px] text-black/75 no-underline"
+                              className="block min-h-11 py-2.5 pl-1 text-[15px] text-black/75 no-underline"
                               onClick={() => setMobileOpen(false)}
                             >
                               {item.label}
@@ -381,6 +386,22 @@ export function SiteHeader() {
     syncFloating();
   });
 
+  /* Native scroll fallback when Lenis is off (reduced-motion / coarse pointer). */
+  useEffect(() => {
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      scrollY.current = y;
+      if (y < lastY - 1) scrollingUp.current = true;
+      else if (y > lastY + 1) scrollingUp.current = false;
+      lastY = y;
+      syncFloating();
+    };
+    scrollY.current = window.scrollY;
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [syncFloating]);
+
   useEffect(() => {
     scrollY.current = window.scrollY;
     const onMove = (e: MouseEvent) => {
@@ -405,6 +426,16 @@ export function SiteHeader() {
   useEffect(() => {
     syncFloating();
   }, [mobileOpen, syncFloating]);
+
+  /* Lock page scroll while the mobile menu is open. */
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [mobileOpen]);
 
   /* Measure real navbar height; observe whether the in-flow bar still intersects. */
   useEffect(() => {

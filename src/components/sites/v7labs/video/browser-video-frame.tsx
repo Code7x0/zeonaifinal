@@ -31,7 +31,7 @@ export function BrowserVideoFrame({
     <figure
       ref={tiltApi.ref as never}
       className={cn(
-        "zeon-window overflow-hidden",
+        "zeon-window w-full min-w-0 max-w-full overflow-hidden",
         ink && "zeon-window-ink",
         tiltApi.className,
         className,
@@ -76,7 +76,7 @@ export function BrowserVideoFrame({
           </span>
         ) : null}
       </figcaption>
-      <div className="relative z-[1] aspect-video w-full bg-[#0B0B0B]">
+      <div className="relative z-[1] aspect-video w-full min-w-0 overflow-hidden bg-[#0B0B0B]">
         {children}
       </div>
     </figure>

@@ -58,7 +58,7 @@ export function ProductVortexHero({
           </p>
 
           <h1
-            className="mt-5 font-[family-name:var(--font-aeonik)] text-[40px] leading-[1.05] tracking-[-0.04em] text-white sm:text-[52px] md:text-[60px] lg:text-[64px]"
+            className="zeon-type-hero mt-5 text-balance !text-white"
             style={{
               textShadow:
                 "0 0 40px rgba(41,98,255,0.22), 0 1px 0 rgba(255,255,255,0.06)",

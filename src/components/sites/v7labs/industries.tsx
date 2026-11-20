@@ -82,7 +82,7 @@ export function Industries() {
     <section
       ref={sectionRef}
       id="industries"
-      className="bg-white px-5 py-20 md:px-8 md:py-24"
+      className="zeon-section-pad bg-white px-[var(--zeon-gutter,1.25rem)]"
       style={{ color: C.heading }}
     >
       <div className="mx-auto max-w-[1180px]">
@@ -99,13 +99,14 @@ export function Industries() {
             />
             <span className="text-[#A4A7AE]">Sheet · Sectors</span>
           </p>
-          <h2 className="max-w-[720px] text-balance font-[family-name:var(--font-aeonik)] text-[36px] font-normal leading-[1.06] tracking-[-0.035em] md:text-[52px]">
+          <h2 className="zeon-type-section max-w-[720px] text-balance font-normal">
             Built for regulated,{" "}
             <br className="hidden sm:block" />
-            <span className="whitespace-nowrap">document-heavy</span> sectors
+            <span className="sm:whitespace-nowrap">document-heavy</span>{" "}
+            sectors
           </h2>
           <p
-            className="mt-4 max-w-[560px] text-[16px] leading-[1.6] md:text-[17px]"
+            className="zeon-type-lead mt-4 max-w-[560px]"
             style={{ color: C.body }}
           >
             The same platform, with agents built for each sector. Examples from
@@ -347,15 +348,27 @@ function FeaturedVignette({
   );
 }
 
+const VIGNETTE_IDS = new Set<IndustryCardId>([
+  "super",
+  "media",
+  "gov",
+  "defence",
+  "metals",
+  "construction",
+  "telco",
+  "medtech",
+]);
+
 function SectorCard({ card }: { card: IndustryCard }) {
   const dark = Boolean(card.dark);
   const Icon = ICONS[card.id];
+  const hasVignette = VIGNETTE_IDS.has(card.id);
 
   return (
     <Link
       href={card.href}
       aria-label={card.a11yName}
-      className={`group flex h-full min-h-[240px] flex-col p-6 no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 sm:min-h-[255px] ${
+      className={`group flex h-full flex-col p-6 no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${
         dark
           ? "zeon-surface-ink zeon-lift"
           : "zeon-surface-interactive"
@@ -385,27 +398,31 @@ function SectorCard({ card }: { card: IndustryCard }) {
         {card.outcome}
       </p>
 
-      {/* 3. Quiet vignette — one level only, no border */}
-      <div
-        className="mt-3 px-3.5 py-3"
-        style={{
-          borderRadius: 2,
-          background: dark ? "rgba(255,255,255,0.04)" : C.surface,
-          backgroundImage: dark
-            ? "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)"
-            : undefined,
-          backgroundSize: dark ? "24px 24px" : undefined,
-        }}
-        aria-hidden
-      >
-        <SectorVignette id={card.id} dark={dark} />
-      </div>
+      {/* 3. Quiet vignette — only when the sector has one */}
+      {hasVignette ? (
+        <div
+          className="mt-3 px-3.5 py-3"
+          style={{
+            borderRadius: 2,
+            background: dark ? "rgba(255,255,255,0.04)" : C.surface,
+            backgroundImage: dark
+              ? "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)"
+              : undefined,
+            backgroundSize: dark ? "24px 24px" : undefined,
+          }}
+          aria-hidden
+        >
+          <SectorVignette id={card.id} dark={dark} />
+        </div>
+      ) : null}
 
       {/* 4. Footer — agent + arrow */}
       <div
-        className="mt-auto flex items-center justify-between gap-3 pt-4"
+        className={`flex items-center justify-between gap-3 border-t pt-4 ${
+          hasVignette ? "mt-auto" : "mt-5"
+        }`}
         style={{
-          borderTop: `1px solid ${dark ? C.darkBorder : C.border}`,
+          borderColor: dark ? C.darkBorder : C.border,
         }}
       >
         <span
@@ -530,6 +547,33 @@ function SectorVignette({
       <p className="text-[13px] leading-[1.45]" style={{ color: ink }}>
         Invoice <span style={{ color: arrow }}>→</span> Match{" "}
         <span style={{ color: arrow }}>→</span> Post
+      </p>
+    );
+  }
+
+  if (id === "construction") {
+    return (
+      <p className="text-[13px] leading-[1.45]" style={{ color: ink }}>
+        Plan <span style={{ color: arrow }}>→</span> Extract{" "}
+        <span style={{ color: arrow }}>→</span> Review
+      </p>
+    );
+  }
+
+  if (id === "telco") {
+    return (
+      <p className="text-[13px] leading-[1.45]" style={{ color: ink }}>
+        Contract <span style={{ color: arrow }}>→</span> Clause{" "}
+        <span style={{ color: arrow }}>→</span> Escalate
+      </p>
+    );
+  }
+
+  if (id === "medtech") {
+    return (
+      <p className="text-[13px] leading-[1.45]" style={{ color: ink }}>
+        Pack <span style={{ color: arrow }}>→</span> Check{" "}
+        <span style={{ color: arrow }}>→</span> Sign-off
       </p>
     );
   }

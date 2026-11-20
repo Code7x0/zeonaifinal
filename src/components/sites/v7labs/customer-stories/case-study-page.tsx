@@ -89,14 +89,14 @@ export function CaseStudyPage({ slug }: CaseStudyPageProps) {
               <p className="mt-2 text-[14px] text-[#535862]">
                 {study.customer}
               </p>
-              <h1 className="mt-4 max-w-[18ch] font-[family-name:var(--font-aeonik)] text-[36px] leading-[1.05] tracking-[-0.04em] md:text-[52px]">
+              <h1 className="zeon-type-page mt-4 max-w-[18ch] text-balance">
                 {study.title}
               </h1>
               <p className="mt-5 max-w-[48ch] text-[16px] leading-[1.6] text-[#535862] md:text-[17px]">
                 {study.summary}
               </p>
               <div className="mt-8 flex flex-wrap items-baseline gap-3">
-                <span className="font-[family-name:var(--font-aeonik)] text-[44px] leading-none tracking-[-0.04em] md:text-[56px]">
+                <span className="font-[family-name:var(--font-aeonik)] text-[clamp(2rem,1.35rem+2.8vw,3.5rem)] leading-none tracking-[-0.04em]">
                   {study.metricShort}
                 </span>
                 <span className="text-[14px] text-[#535862]">
@@ -373,7 +373,7 @@ export function CustomersIndexPage() {
                 Customers · {String(caseStudies.length).padStart(2, "0")} case
                 studies
               </p>
-              <h1 className="mt-4 max-w-[12ch] font-[family-name:var(--font-aeonik)] text-[44px] leading-[1.02] tracking-[-0.045em] md:text-[64px]">
+              <h1 className="zeon-type-page mt-4 max-w-[12ch] text-balance">
                 Evidence from the field.
               </h1>
               <p className="mt-5 max-w-[40ch] text-[17px] leading-[1.55] text-[#535862]">

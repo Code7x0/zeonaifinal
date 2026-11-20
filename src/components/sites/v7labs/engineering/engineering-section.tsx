@@ -190,7 +190,7 @@ export function EngineeringSection() {
           </p>
           <h2
             id={`${baseId}-heading`}
-            className="mt-2 font-[family-name:var(--font-aeonik)] text-[36px] font-normal leading-[1.06] tracking-[-0.035em] text-[#181D27] max-md:whitespace-normal md:whitespace-nowrap md:text-[52px]"
+            className="zeon-type-section mt-2 max-w-[20ch] text-balance font-normal text-[#181D27] lg:max-w-none lg:whitespace-nowrap"
           >
             How it works under the hood
           </h2>
@@ -211,9 +211,9 @@ export function EngineeringSection() {
           </p>
         </motion.div>
 
-        {/* Worked-example bar */}
+        {/* Worked-example bar — wraps on small screens instead of clipping */}
         <motion.div
-          className="mx-auto mt-6 flex h-10 max-w-fit items-center gap-2.5 overflow-hidden whitespace-nowrap px-3"
+          className="mx-auto mt-6 flex max-w-full flex-wrap items-center gap-x-2.5 gap-y-2 px-3 py-2.5 sm:max-w-fit sm:flex-nowrap sm:overflow-hidden sm:whitespace-nowrap sm:py-0 sm:h-10"
           style={{
             background: H.white,
             border: `1px solid ${H.gray200}`,
@@ -242,7 +242,7 @@ export function EngineeringSection() {
           <span className="text-[14px]" style={{ color: H.gray600 }}>
             $186,400
           </span>
-          <span className="text-[14px]" style={{ color: H.gray900 }}>
+          <span className="hidden text-[14px] sm:inline" style={{ color: H.gray900 }}>
             Contoso plant upgrade
           </span>
           <span

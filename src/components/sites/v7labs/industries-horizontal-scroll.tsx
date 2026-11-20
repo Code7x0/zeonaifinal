@@ -89,7 +89,7 @@ function IndustryPanel({
     <article
       className={cn(
         "relative flex h-full w-full shrink-0 items-center border-b",
-        stacked ? "min-h-0" : "h-full w-screen",
+        stacked ? "min-h-0" : "h-full w-full min-w-0",
         tone.surface,
         tone.edge,
       )}

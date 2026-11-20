@@ -278,7 +278,7 @@ export function SecurityComplianceSection() {
           </p>
           <h2
             id={`${baseId}-heading`}
-            className="mt-3 font-[family-name:var(--font-aeonik)] text-[32px] leading-[1.08] tracking-[-0.03em] text-[#F5F6F8] sm:text-[40px] md:text-[48px]"
+            className="zeon-type-section mt-3 text-balance !text-[#F5F6F8]"
           >
             Security and compliance posture
           </h2>

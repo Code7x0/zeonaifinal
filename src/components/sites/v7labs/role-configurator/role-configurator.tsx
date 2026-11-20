@@ -132,7 +132,7 @@ export function RoleConfigurator() {
       className="relative scroll-mt-24 overflow-hidden border-t border-[#252B37] bg-[#181D27] text-[#F5F6F8]"
       aria-labelledby={`${baseId}-heading`}
     >
-      <div className="relative mx-auto max-w-[1180px] px-5 py-20 md:px-8 md:py-28">
+      <div className="zeon-section-pad relative mx-auto max-w-[var(--zeon-container,1180px)] px-[var(--zeon-gutter,1.25rem)]">
         <motion.div
           className="max-w-[40rem]"
           initial={reduceMotion ? false : { opacity: 0, y: enterY }}
@@ -150,7 +150,7 @@ export function RoleConfigurator() {
           </p>
           <h2
             id={`${baseId}-heading`}
-            className="mt-3 font-[family-name:var(--font-aeonik)] text-[36px] leading-[1.06] tracking-[-0.035em] text-[#F5F6F8] md:text-[52px]"
+            className="zeon-type-section mt-3 text-balance !text-[#F5F6F8]"
           >
             Who are you?
           </h2>

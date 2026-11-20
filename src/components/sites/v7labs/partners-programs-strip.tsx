@@ -1,8 +1,38 @@
+import Image from "next/image";
+
 const PARTNER_PROGRAMS = [
-  "Manifest AI",
-  "Datec",
-  "Upekkha",
-  "Amii",
+  {
+    name: "Manifest AI",
+    src: "/sites/v7labs/partners/manifest-ai.png",
+    width: 128,
+    height: 128,
+    markClass: "h-6 w-6",
+    showName: true,
+  },
+  {
+    name: "Datec",
+    src: "/sites/v7labs/partners/datec.png",
+    width: 280,
+    height: 60,
+    markClass: "h-5 w-auto max-w-[108px]",
+    showName: false,
+  },
+  {
+    name: "Upekkha",
+    src: "/sites/v7labs/partners/upekkha.png",
+    width: 280,
+    height: 72,
+    markClass: "h-5 w-auto max-w-[120px]",
+    showName: false,
+  },
+  {
+    name: "Amii",
+    src: "/sites/v7labs/partners/amii.png",
+    width: 160,
+    height: 160,
+    markClass: "h-6 w-6",
+    showName: true,
+  },
 ] as const;
 
 type PartnersProgramsStripProps = {
@@ -31,12 +61,23 @@ export function PartnersProgramsStrip({
           Partners and programs
         </h2>
         <ul className="mt-6 flex flex-wrap gap-3">
-          {PARTNER_PROGRAMS.map((name) => (
+          {PARTNER_PROGRAMS.map((partner) => (
             <li
-              key={name}
-              className="zeon-surface list-none px-4 py-3 text-[14px] font-medium text-[#535862]"
+              key={partner.name}
+              className="zeon-surface flex list-none items-center gap-2.5 px-5 py-3.5"
             >
-              {name}
+              <Image
+                src={partner.src}
+                alt={partner.name}
+                width={partner.width}
+                height={partner.height}
+                className={`object-contain ${partner.markClass}`}
+              />
+              {partner.showName ? (
+                <span aria-hidden className="text-[14px] font-medium text-[#535862]">
+                  {partner.name}
+                </span>
+              ) : null}
             </li>
           ))}
         </ul>

@@ -42,7 +42,40 @@ const LEGAL = [
   { label: "Terms and Conditions", href: "/terms" },
 ] as const;
 
-const PARTNERS = ["Manifest AI", "Datec", "Upekkha", "Amii"] as const;
+const PARTNERS = [
+  {
+    name: "Manifest AI",
+    src: "/sites/v7labs/partners/manifest-ai.png",
+    width: 128,
+    height: 128,
+    markClass: "h-5 w-5 shrink-0",
+    showName: true,
+  },
+  {
+    name: "Datec",
+    src: "/sites/v7labs/partners/datec.png",
+    width: 280,
+    height: 60,
+    markClass: "h-4 w-auto max-w-[88px]",
+    showName: false,
+  },
+  {
+    name: "Upekkha",
+    src: "/sites/v7labs/partners/upekkha.png",
+    width: 280,
+    height: 72,
+    markClass: "h-4 w-auto max-w-[96px]",
+    showName: false,
+  },
+  {
+    name: "Amii",
+    src: "/sites/v7labs/partners/amii.png",
+    width: 160,
+    height: 160,
+    markClass: "h-5 w-5 shrink-0",
+    showName: true,
+  },
+] as const;
 
 const FLAG_SRC: Record<string, string> = {
   India: "/sites/zeonai/flags/in.svg",
@@ -193,11 +226,16 @@ export function SiteFooter() {
 
   return (
     <footer className="relative z-[1] border-t border-[#E5E7EB] bg-[var(--dp-gray-50)] text-[#181D27]">
-      <div className={`mx-auto max-w-[1280px] border-x ${cellBorder}`}>
+      <div
+        className={cn(
+          "mx-auto max-w-[var(--zeon-container-wide,1280px)]",
+          `md:border-x ${cellBorder}`,
+        )}
+      >
         {/* Top editorial nav grid */}
         <div
           className={cn(
-            "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,0.85fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.75fr)]",
+            "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,0.85fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.75fr)]",
             `divide-y ${cellBorder} lg:divide-x lg:divide-y-0`,
           )}
         >
@@ -352,13 +390,21 @@ export function SiteFooter() {
             <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#717680]">
               Partners and programmes
             </p>
-            <ul className="mt-5 space-y-2.5">
-              {PARTNERS.map((name) => (
-                <li
-                  key={name}
-                  className="text-[14px] font-medium text-[#3F4654]"
-                >
-                  {name}
+            <ul className="mt-5 space-y-3">
+              {PARTNERS.map((partner) => (
+                <li key={partner.name} className="flex items-center gap-2">
+                  <Image
+                    src={partner.src}
+                    alt={partner.name}
+                    width={partner.width}
+                    height={partner.height}
+                    className={`object-contain opacity-90 ${partner.markClass}`}
+                  />
+                  {partner.showName ? (
+                    <span aria-hidden className="text-[14px] font-medium text-[#3F4654]">
+                      {partner.name}
+                    </span>
+                  ) : null}
                 </li>
               ))}
             </ul>

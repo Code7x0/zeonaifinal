@@ -44,7 +44,7 @@ export function Hero() {
         )}
       </div>
 
-      <div className="relative z-10 mx-auto flex max-w-[1180px] flex-col px-5 pb-16 pt-14 md:px-8 md:pb-24 md:pt-20">
+      <div className="relative z-10 mx-auto flex max-w-[var(--zeon-container,1180px)] flex-col px-[var(--zeon-gutter,1.25rem)] pb-12 pt-12 sm:pb-16 sm:pt-14 md:pb-24 md:pt-20">
         <div className="mx-auto max-w-[52rem] text-center">
           <motion.div
             className="flex justify-center"
@@ -65,7 +65,7 @@ export function Hero() {
           </motion.div>
 
           <motion.h1
-            className="mt-4 font-[family-name:var(--font-aeonik)] text-[40px] leading-[1.02] tracking-[-0.03em] text-[#181D27] md:text-[56px] md:leading-[1.02] md:tracking-[-1.6px]"
+            className="zeon-type-hero mt-4 text-balance text-[#181D27]"
             initial={reduceMotion ? false : { opacity: 0, y: enterY }}
             animate={{ opacity: 1, y: 0 }}
             transition={
@@ -74,13 +74,12 @@ export function Hero() {
                 : { duration: durationEnter, delay: 0.06, ease: easeOut }
             }
           >
-            Build governed AI agents
-            <br />
-            for the enterprise.
+            Build governed AI agents{" "}
+            <span className="sm:inline">for the enterprise.</span>
           </motion.h1>
 
           <motion.p
-            className="mx-auto mt-6 max-w-[48ch] text-[16px] leading-[1.55] text-[#535862] md:text-[17px]"
+            className="zeon-type-lead mx-auto mt-5 max-w-[48ch] text-[#535862] sm:mt-6"
             initial={reduceMotion ? false : { opacity: 0, y: enterY }}
             animate={{ opacity: 1, y: 0 }}
             transition={

@@ -48,12 +48,14 @@ export function PageHero({
 }: PageHeroProps) {
   void _dark;
   return (
-    <header className="border-b border-[var(--zeon-border)] bg-[var(--zeon-paper)] px-5 py-16 text-[var(--zeon-ink)] md:px-8 md:py-24">
-      <div className="mx-auto max-w-[1180px]">
+    <header className="border-b border-[var(--zeon-border)] bg-[var(--zeon-paper)] px-[var(--zeon-gutter,1.25rem)] py-[clamp(2.75rem,2rem+3vw,6rem)] text-[var(--zeon-ink)]">
+      <div className="mx-auto max-w-[var(--zeon-container,1180px)]">
         <p className="zeon-type-eyebrow">{eyebrow}</p>
-        <h1 className="zeon-type-page mt-4 max-w-[18ch]">{title}</h1>
+        <h1 className="zeon-type-page mt-3 max-w-[18ch] text-balance sm:mt-4">
+          {title}
+        </h1>
         {intro ? (
-          <p className="zeon-type-lead mt-5 max-w-[var(--zeon-measure-wide)]">
+          <p className="zeon-type-lead mt-4 max-w-[var(--zeon-measure-wide)] sm:mt-5">
             {intro}
           </p>
         ) : null}
@@ -85,15 +87,15 @@ export function PageCtaBand({
   return (
     <section
       className={cn(
-        "px-5 py-16 md:px-8 md:py-20",
+        "zeon-section-pad px-[var(--zeon-gutter,1.25rem)]",
         dark
           ? "bg-[var(--zeon-ink)] text-white"
           : "bg-[var(--zeon-cream)] text-[var(--zeon-ink)]",
       )}
     >
-      <div className="mx-auto flex max-w-[1180px] flex-col gap-6 md:flex-row md:items-end md:justify-between">
+      <div className="mx-auto flex max-w-[var(--zeon-container,1180px)] flex-col gap-5 sm:gap-6 md:flex-row md:items-end md:justify-between">
         <div className="max-w-[40rem]">
-          <h2 className="zeon-type-section">{title}</h2>
+          <h2 className="zeon-type-section text-balance">{title}</h2>
           <p
             className={cn(
               "mt-3 text-[length:var(--zeon-text-body)] leading-[var(--zeon-leading-body)]",

@@ -309,11 +309,12 @@
   --zeon-font-body: var(--font-aeonik), ui-sans-serif, system-ui, sans-serif;
   --zeon-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
-  --zeon-text-hero: clamp(2.375rem, 1.55rem + 2.6vw, 3.75rem); /* ~38–60 */
-  --zeon-text-page: clamp(2.125rem, 1.45rem + 2.1vw, 3.25rem); /* ~34–52 */
-  --zeon-text-section: clamp(1.75rem, 1.35rem + 1.35vw, 2.75rem); /* ~28–44 */
-  --zeon-text-sub: clamp(1.25rem, 1.1rem + 0.55vw, 1.625rem); /* ~20–26 */
-  --zeon-text-lead: clamp(1.0625rem, 1rem + 0.25vw, 1.125rem); /* ~17–18 */
+  /* Display floors tuned for 320px; caps hold desktop editorial scale */
+  --zeon-text-hero: clamp(2rem, 1.35rem + 3.2vw, 3.5rem); /* ~32–56 */
+  --zeon-text-page: clamp(1.875rem, 1.3rem + 2.5vw, 3.25rem); /* ~30–52 */
+  --zeon-text-section: clamp(1.625rem, 1.25rem + 1.6vw, 2.75rem); /* ~26–44 */
+  --zeon-text-sub: clamp(1.1875rem, 1.05rem + 0.55vw, 1.625rem); /* ~19–26 */
+  --zeon-text-lead: clamp(1rem, 0.95rem + 0.3vw, 1.125rem); /* ~16–18 */
   --zeon-text-body: 1rem; /* 16 */
   --zeon-text-body-sm: 0.9375rem; /* 15 */
   --zeon-text-caption: 0.8125rem; /* 13 */
@@ -334,8 +335,33 @@
   --zeon-measure-wide: 52ch;
   --zeon-measure-title: 18ch;
 
-  --zeon-space-section-y: clamp(3.5rem, 2.5rem + 3vw, 6rem);
-  --zeon-space-block: clamp(1.25rem, 1rem + 0.8vw, 2rem);
+  --zeon-container: 1180px;
+  --zeon-container-wide: 1280px;
+  --zeon-gutter: clamp(1.25rem, 0.85rem + 1.8vw, 2rem);
+
+  --zeon-space-section-y: clamp(3rem, 2rem + 3.5vw, 6rem);
+  --zeon-space-section-y-sm: clamp(2.5rem, 1.75rem + 2.5vw, 4rem);
+  --zeon-space-block: clamp(1.125rem, 0.9rem + 0.8vw, 2rem);
+}
+
+/* Shared content shell — prefer over one-off max-w values */
+.v7-site .zeon-container {
+  width: 100%;
+  max-width: var(--zeon-container);
+  margin-inline: auto;
+  padding-inline: var(--zeon-gutter);
+}
+.v7-site .zeon-container-wide {
+  width: 100%;
+  max-width: var(--zeon-container-wide);
+  margin-inline: auto;
+  padding-inline: var(--zeon-gutter);
+}
+.v7-site .zeon-section-pad {
+  padding-block: var(--zeon-space-section-y);
+}
+.v7-site .zeon-section-pad-sm {
+  padding-block: var(--zeon-space-section-y-sm);
 }
 
 /* Type utilities — prefer these over one-off pixel sizes on new work */
@@ -1278,5 +1304,18 @@
   .v7-site .zeon-tilt {
     transform: none !important;
   }
+}
+
+/* Intrinsic media must never expand the page past the viewport */
+.v7-site video,
+.v7-site img,
+.v7-site canvas,
+.v7-site svg {
+  max-width: 100%;
+}
+.v7-site .zeon-window,
+.v7-site [data-zeon-media] {
+  min-width: 0;
+  max-width: 100%;
 }
 

@@ -45,7 +45,7 @@ export function EngineeringDetailPage() {
             <p className="mt-8 font-mono text-[11px] uppercase tracking-[0.2em] text-[#535862]">
               03 · Engineering
             </p>
-            <h1 className="mt-3 max-w-[18ch] font-[family-name:var(--font-aeonik)] text-[40px] leading-[1.05] tracking-[-0.04em] md:text-[64px]">
+            <h1 className="zeon-type-page mt-3 max-w-[18ch] text-balance">
               How it works under the hood
             </h1>
             <p className="mt-5 max-w-[48ch] text-[17px] leading-[1.55] text-[#535862] md:text-[19px]">

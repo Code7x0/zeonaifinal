@@ -272,28 +272,39 @@
 
 @media (max-width:960px){
 .zeon-tech{--gut:20px}
-.zeon-tech .hero .wrap{padding-top:64px;padding-bottom:48px}
-.zeon-tech .facts{grid-template-columns:1fr 1fr;margin-top:48px}
-.zeon-tech .facts > div{border-right:0;margin:0;padding:20px 16px 4px 0}
-.zeon-tech .arch{padding-bottom:64px}
+.zeon-tech .hero .wrap{padding-top:56px;padding-bottom:40px}
+.zeon-tech .facts{grid-template-columns:1fr 1fr;margin-top:40px}
+.zeon-tech .facts > div{border-right:0;margin:0;padding:16px 12px 4px 0}
+.zeon-tech .arch{padding-bottom:56px}
 .zeon-tech .arch .head{grid-template-columns:1fr;gap:16px}
 .zeon-tech .stack{grid-template-columns:1fr}
-.zeon-tech .layer{grid-template-columns:36px 1fr 20px;padding:16px}
+.zeon-tech .layer{grid-template-columns:36px 1fr 20px;padding:14px;gap:8px}
 .zeon-tech .layer .d{grid-column:2/4;grid-row:2}
-.zeon-tech .pillar,.zeon-tech .notes,.zeon-tech .cta{padding:64px 0}
-.zeon-tech .pillar .grid,.zeon-tech .pillar.dark .wide{grid-template-columns:1fr;gap:36px}
-.zeon-tech .pillar.dark .points{grid-template-columns:1fr;margin-top:36px}
+.zeon-tech .layer .tags{flex-wrap:wrap;gap:6px}
+.zeon-tech .pillar,.zeon-tech .notes,.zeon-tech .cta{padding:56px 0}
+.zeon-tech .pillar .grid,.zeon-tech .pillar.dark .wide{grid-template-columns:1fr;gap:28px}
+.zeon-tech .pillar.dark .points{grid-template-columns:1fr;margin-top:28px}
 .zeon-tech .mock{position:static}
 .zeon-tech .points div{grid-template-columns:1fr;gap:4px}
 .zeon-tech .modes,.zeon-tech .conn,.zeon-tech .notes .cards{grid-template-columns:1fr}
-.zeon-tech .modes,.zeon-tech .conn{margin-top:36px}
+.zeon-tech .modes,.zeon-tech .conn{margin-top:28px}
 .zeon-tech .flow{grid-template-columns:1fr}
 .zeon-tech .flow em{transform:rotate(90deg);justify-self:start}
 .zeon-tech .cmp{grid-template-columns:1fr}
-.zeon-tech .bar-row{grid-template-columns:110px 1fr 56px}
+.zeon-tech .bar-row{grid-template-columns:minmax(72px,110px) 1fr minmax(48px,56px)}
 .zeon-tech .notes .head{flex-direction:column;align-items:start}
-.zeon-tech .wrap.grid{grid-template-columns:1fr;gap:36px}
+.zeon-tech .wrap.grid{grid-template-columns:1fr;gap:28px}
 .zeon-tech .cta .wrap{align-items:flex-start}
+}
+@media (max-width:520px){
+.zeon-tech{--gut:16px}
+.zeon-tech .facts{grid-template-columns:1fr;margin-top:28px}
+.zeon-tech .facts > div{padding:14px 0 0;border-bottom:1px solid var(--g-200)}
+.zeon-tech .facts > div:last-child{border-bottom:0}
+.zeon-tech .hero h1{font-size:clamp(1.75rem,1.2rem + 3vw,2.25rem);line-height:1.12}
+.zeon-tech .layer{grid-template-columns:28px 1fr 16px;padding:12px}
+.zeon-tech .bar-row{grid-template-columns:1fr;gap:6px}
+.zeon-tech .pillar,.zeon-tech .notes,.zeon-tech .cta{padding:48px 0}
 }
 
 /* helpers used by React markup */

@@ -125,7 +125,7 @@ export function TrustSection() {
             </p>
             <h2
               id={`${baseId}-heading`}
-              className="max-w-[640px] font-[family-name:var(--font-aeonik)] text-[36px] leading-[1.06] tracking-[-0.035em] text-[#F5F6F8] md:text-[52px]"
+              className="zeon-type-section max-w-[640px] text-balance !text-[#F5F6F8]"
             >
               Governed by design, not added afterwards
             </h2>

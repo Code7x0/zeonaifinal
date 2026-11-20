@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import {
@@ -16,10 +17,38 @@ import { ZeonLinkButton } from "./zeon-ui";
 /* ------------------------------------------------------------------ data */
 
 const PARTNER_PROGRAMS = [
-  "Manifest AI",
-  "Datec",
-  "Upekkha",
-  "Amii",
+  {
+    name: "Manifest AI",
+    src: "/sites/v7labs/partners/manifest-ai.png",
+    width: 128,
+    height: 128,
+    markClass: "h-6 w-6",
+    showName: true,
+  },
+  {
+    name: "Datec",
+    src: "/sites/v7labs/partners/datec.png",
+    width: 280,
+    height: 60,
+    markClass: "h-5 w-auto max-w-[108px]",
+    showName: false,
+  },
+  {
+    name: "Upekkha",
+    src: "/sites/v7labs/partners/upekkha.png",
+    width: 280,
+    height: 72,
+    markClass: "h-5 w-auto max-w-[120px]",
+    showName: false,
+  },
+  {
+    name: "Amii",
+    src: "/sites/v7labs/partners/amii.png",
+    width: 160,
+    height: 160,
+    markClass: "h-6 w-6",
+    showName: true,
+  },
 ] as const;
 
 const PRINCIPLES = [
@@ -140,7 +169,7 @@ function Band({
           : "bg-[var(--dp-gray-50)] text-[var(--zeon-ink)]";
   return (
     <section id={id} className={cn(bg, className)}>
-      <div className="mx-auto max-w-[1180px] px-5 py-16 md:px-8 md:py-20">
+      <div className="zeon-section-pad mx-auto max-w-[var(--zeon-container,1180px)] px-[var(--zeon-gutter,1.25rem)]">
         {children}
       </div>
     </section>
@@ -354,12 +383,23 @@ export function AboutPage() {
         <Eyebrow>Ecosystem</Eyebrow>
         <Title>Partners and programs.</Title>
         <ul className="mt-8 flex flex-wrap gap-2">
-          {PARTNER_PROGRAMS.map((name) => (
+          {PARTNER_PROGRAMS.map((partner) => (
             <li
-              key={name}
-              className="list-none border border-[#E5E7EB] bg-white px-4 py-2.5 text-[14px] font-medium text-[#181D27]"
+              key={partner.name}
+              className="flex list-none items-center gap-2.5 border border-[#E5E7EB] bg-white px-5 py-3"
             >
-              {name}
+              <Image
+                src={partner.src}
+                alt={partner.name}
+                width={partner.width}
+                height={partner.height}
+                className={`object-contain ${partner.markClass}`}
+              />
+              {partner.showName ? (
+                <span aria-hidden className="text-[14px] font-medium text-[#181D27]">
+                  {partner.name}
+                </span>
+              ) : null}
             </li>
           ))}
         </ul>
