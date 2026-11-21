@@ -58,21 +58,17 @@ export function VideoTabPanel({
           </AnimatePresence>
         </div>
       )}
-      <div
-        className={cn(
-          "transition-opacity duration-300",
-          active ? "opacity-100" : "pointer-events-none absolute inset-0 opacity-0",
-        )}
-        aria-hidden={!active}
-        {...(!active ? { inert: true } : {})}
-      >
-        <ProductVideo
-          assetId={assetId}
-          active={active}
-          tone={tone}
-          preferAutoplay
-        />
-      </div>
+      {/* Mount only the active film — inactive tabs were downloading every MP4 */}
+      {active ? (
+        <div className="transition-opacity duration-300">
+          <ProductVideo
+            assetId={assetId}
+            active
+            tone={tone}
+            preferAutoplay
+          />
+        </div>
+      ) : null}
     </div>
   );
 }

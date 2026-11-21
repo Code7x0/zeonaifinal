@@ -1,7 +1,7 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { motion, useReducedMotion } from "motion/react";
-import { GLSLHills } from "@/components/ui/glsl-hills";
 import {
   durationEnter,
   easeOut,
@@ -13,6 +13,15 @@ import {
 import { SectionMeta } from "./blueprint";
 import { ProductVideo } from "./video";
 import { ZeonLinkButton } from "./zeon-ui";
+
+/* Three.js hills are heavy — load after paint, never on the critical path */
+const GLSLHills = dynamic(
+  () =>
+    import("@/components/ui/glsl-hills").then((m) => ({
+      default: m.GLSLHills,
+    })),
+  { ssr: false },
+);
 
 /**
  * Homepage hero — agents-first headline + Placement 1 product video
@@ -31,14 +40,15 @@ export function Hero() {
         }}
         aria-hidden
       />
-      <div className="pointer-events-none absolute inset-0 z-0 opacity-50">
+      <div className="pointer-events-none absolute inset-0 z-0 opacity-50 max-md:hidden">
+        {/* Skip WebGL hills on small / touch screens — major mobile cost */}
         {reduceMotion ? null : (
           <GLSLHills
             width="100%"
             height="100%"
             cameraZ={125}
-            planeSize={256}
-            speed={0.45}
+            planeSize={192}
+            speed={0.35}
             className="h-full w-full"
           />
         )}

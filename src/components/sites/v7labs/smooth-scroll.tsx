@@ -9,10 +9,13 @@ type SmoothScrollProps = {
 };
 
 /**
- * Site-wide Lenis smooth scrolling, driven by Motion's frame loop
- * so scroll-linked animations stay in sync.
- * Disabled for reduced-motion and coarse pointers (phones/tablets) —
- * native scroll is more reliable on touch.
+ * Site-wide Lenis smooth scrolling, driven by Motion's frame loop.
+ *
+ * Always wraps children in a stable ReactLenis tree so enabling/disabling
+ * smooth scroll never remounts page content (which previously orphaned
+ * IntersectionObservers and left Technology `.rv` blocks at opacity: 0).
+ *
+ * Disabled for reduced-motion and coarse pointers — native scroll only.
  */
 export function SmoothScroll({ children }: SmoothScrollProps) {
   const lenisRef = useRef<LenisRef>(null);
@@ -34,17 +37,24 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
   }, []);
 
   useEffect(() => {
-    if (!enabled) return;
+    const lenis = lenisRef.current?.lenis;
+    if (!lenis) return;
+
+    if (!enabled) {
+      lenis.stop();
+      return;
+    }
+
+    lenis.start();
     function update(data: { timestamp: number }) {
       lenisRef.current?.lenis?.raf(data.timestamp);
     }
     frame.update(update, true);
-    return () => cancelFrame(update);
+    return () => {
+      cancelFrame(update);
+      lenisRef.current?.lenis?.stop();
+    };
   }, [enabled]);
-
-  if (!enabled) {
-    return <>{children}</>;
-  }
 
   return (
     <ReactLenis
@@ -52,11 +62,11 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
       root
       options={{
         autoRaf: false,
-        lerp: 0.065,
-        duration: 1.2,
-        smoothWheel: true,
+        lerp: 0.08,
+        duration: 1.05,
+        smoothWheel: enabled,
         touchMultiplier: 1,
-        wheelMultiplier: 0.88,
+        wheelMultiplier: 0.9,
         syncTouch: false,
       }}
     >

@@ -54,7 +54,7 @@ export function ProductVideo({
   const reduceMotion = Boolean(useReducedMotion());
   const videoRef = useRef<HTMLVideoElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
-  const [nearView, setNearView] = useState(true);
+  const [nearView, setNearView] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [error, setError] = useState(false);
   const labelId = useId();
@@ -71,7 +71,8 @@ export function ProductVideo({
           Boolean(entry?.isIntersecting && (entry.intersectionRatio ?? 0) > 0.02),
         );
       },
-      { rootMargin: "600px 0px", threshold: [0, 0.02, 0.15] },
+      /* Smaller preload window — large videos were fetching far ahead of the viewport */
+      { rootMargin: "200px 0px", threshold: [0, 0.02, 0.15] },
     );
     io.observe(el);
     return () => io.disconnect();
@@ -148,9 +149,12 @@ export function ProductVideo({
           className="absolute inset-0 z-[1] h-full w-full max-w-full object-cover"
           muted
           playsInline
-          autoPlay={mode === "loop" && active && !reduceMotion}
+          autoPlay={
+            mode === "loop" && active && nearView && !reduceMotion
+          }
           loop={mode === "loop"}
-          preload="auto"
+          /* Avoid fetching multi‑MB films until near the viewport */
+          preload={nearView ? "metadata" : "none"}
           controls={false}
           disablePictureInPicture
           onPlay={() => setPlaying(true)}
@@ -171,8 +175,8 @@ export function ProductVideo({
           }}
           onError={() => setError(true)}
         >
-          <source src={src!} type="video/mp4" />
-          {captions ? (
+          {nearView ? <source src={src!} type="video/mp4" /> : null}
+          {nearView && captions ? (
             <track
               kind="captions"
               src={captions}

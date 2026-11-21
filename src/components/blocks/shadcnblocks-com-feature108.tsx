@@ -296,33 +296,26 @@ const Feature108 = ({
           </div>
 
           <div className="relative mt-5 w-full">
-            {tabs.map((tab) => {
+            {/* Mount only the active tab film to avoid six concurrent downloads */}
+            {(() => {
+              const activeTabDef = tabs.find((t) => t.value === active);
               const id =
-                HOME_TAB_VIDEO[tab.value] ??
-                (tab.content.screenId
-                  ? HOME_TAB_VIDEO[tab.content.screenId]
-                  : undefined);
+                (activeTabDef &&
+                  (HOME_TAB_VIDEO[activeTabDef.value] ??
+                    (activeTabDef.content.screenId
+                      ? HOME_TAB_VIDEO[activeTabDef.content.screenId]
+                      : undefined))) ||
+                undefined;
               if (!id) return null;
-              const isActive = tab.value === active;
               return (
-                <div
-                  key={tab.value}
-                  className={
-                    isActive
-                      ? "relative w-full"
-                      : "pointer-events-none absolute inset-0 w-full opacity-0"
-                  }
-                  aria-hidden={!isActive}
-                  {...(!isActive ? { inert: true } : {})}
-                >
-                  <ProductVideo
-                    assetId={id}
-                    active={isActive && inView && !tourPaused}
-                    tone="ink"
-                  />
-                </div>
+                <ProductVideo
+                  key={id}
+                  assetId={id}
+                  active={inView && !tourPaused}
+                  tone="ink"
+                />
               );
-            })}
+            })()}
             <p className="sr-only" aria-live="polite">
               Showing {activeTab?.label}
             </p>

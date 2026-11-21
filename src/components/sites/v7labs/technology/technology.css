@@ -262,11 +262,23 @@
 }
 @media (max-width:520px){.zeon-tech .keys,.zeon-tech .keys.k3{grid-template-columns:1fr}}
 
-/* reveal */
-.zeon-tech .rv{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
-.zeon-tech .rv.in{opacity:1;transform:none}
+/* reveal — start hidden, but never stay invisible if JS misses a bind */
+.zeon-tech .rv{
+  opacity:0;
+  transform:translateY(12px);
+  transition:opacity .45s ease,transform .45s ease;
+  animation:zeon-rv-fallback .01s linear 2s forwards;
+}
+.zeon-tech .rv.in{
+  opacity:1;
+  transform:none;
+  animation:none;
+}
+@keyframes zeon-rv-fallback{
+  to{opacity:1;transform:none}
+}
 @media (prefers-reduced-motion:reduce){
-.zeon-tech .rv{opacity:1;transform:none;transition:none}
+.zeon-tech .rv{opacity:1;transform:none;transition:none;animation:none}
 .zeon-tech .layer:hover{transform:none}
 }
 
