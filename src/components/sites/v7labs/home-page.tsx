@@ -1,6 +1,8 @@
+"use client";
+
+import dynamic from "next/dynamic";
 import { ArchitectureSection } from "./architecture-section";
 import { CustomerStoriesSection } from "./customer-stories";
-import { EngineeringSection } from "./engineering/engineering-section";
 import { FeatureBentos } from "./feature-bentos";
 import { PartnersProgramsStrip } from "./partners-programs-strip";
 import { WorksWithStrip } from "./works-with-strip";
@@ -9,12 +11,34 @@ import { Hero } from "./hero";
 import { Industries } from "./industries";
 import { LogoTicker } from "./logo-ticker";
 import { QuoteMarquee } from "./quote-marquee";
-import { RoleConfigurator } from "./role-configurator";
 import { SiteFooter } from "./site-footer";
 import { SiteHeader } from "./site-header";
 import { SmoothScroll } from "./smooth-scroll";
-import { SecurityComplianceSection } from "./security-compliance-section";
 import { TrustSection } from "./trust-section";
+import { ScrollReveal } from "./motion/scroll-reveal";
+
+/* Heavy below-fold sections — split from the first paint bundle */
+const EngineeringSection = dynamic(
+  () =>
+    import("./engineering/engineering-section").then((m) => ({
+      default: m.EngineeringSection,
+    })),
+  { ssr: true },
+);
+const RoleConfigurator = dynamic(
+  () =>
+    import("./role-configurator").then((m) => ({
+      default: m.RoleConfigurator,
+    })),
+  { ssr: true },
+);
+const SecurityComplianceSection = dynamic(
+  () =>
+    import("./security-compliance-section").then((m) => ({
+      default: m.SecurityComplianceSection,
+    })),
+  { ssr: true },
+);
 
 export function V7HomePage() {
   return (
@@ -23,12 +47,18 @@ export function V7HomePage() {
         <SiteHeader />
         <main>
           <Hero />
-          <LogoTicker />
-          <PartnersProgramsStrip />
+          <ScrollReveal y={14}>
+            <LogoTicker />
+          </ScrollReveal>
+          <ScrollReveal y={14} delay={0.04}>
+            <PartnersProgramsStrip />
+          </ScrollReveal>
           <Industries />
           <QuoteMarquee />
           <FeatureBentos />
-          <WorksWithStrip />
+          <ScrollReveal y={16}>
+            <WorksWithStrip />
+          </ScrollReveal>
           <ArchitectureSection />
           <EngineeringSection />
           <RoleConfigurator />

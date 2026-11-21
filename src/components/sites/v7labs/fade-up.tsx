@@ -1,13 +1,15 @@
 "use client";
 
-import { motion, useReducedMotion, type HTMLMotionProps } from "motion/react";
-import type { CSSProperties, ReactNode } from "react";
 import {
-  durationEnter,
-  easeOut,
-  enterY as defaultY,
-  viewportOnce,
-} from "./motion";
+  useRef,
+  type CSSProperties,
+  type ElementType,
+  type ReactNode,
+} from "react";
+import { useReducedMotion } from "motion/react";
+import { cn } from "@/lib/utils";
+import { durationEnter, enterY as defaultY } from "./motion";
+import { gsap, registerGsap, useGSAP } from "./motion/gsap-register";
 
 type FadeUpTag =
   | "div"
@@ -37,22 +39,11 @@ type FadeUpProps = {
   "aria-hidden"?: boolean | "true" | "false";
 };
 
-const motionTags = {
-  div: motion.div,
-  section: motion.section,
-  span: motion.span,
-  h1: motion.h1,
-  h2: motion.h2,
-  h3: motion.h3,
-  p: motion.p,
-  nav: motion.nav,
-  article: motion.article,
-  header: motion.header,
-  footer: motion.footer,
-  li: motion.li,
-  ul: motion.ul,
-} as const;
-
+/**
+ * Section/text entrance via GSAP ScrollTrigger (opacity + y).
+ * Falls back to immediate visibility when reduced-motion is on.
+ * Content remains in the document for screen readers at all times.
+ */
 export function FadeUp({
   children,
   delay = 0,
@@ -60,27 +51,60 @@ export function FadeUp({
   y = defaultY,
   className,
   style,
-  as = "div",
+  as: Tag = "div",
   once = true,
-  amount = viewportOnce.amount,
+  amount = 0.2,
   "aria-hidden": ariaHidden,
 }: FadeUpProps) {
-  const reduceMotion = useReducedMotion();
-  const Tag = motionTags[as] as typeof motion.div;
+  const reduceMotion = Boolean(useReducedMotion());
+  const ref = useRef<HTMLElement | null>(null);
 
-  const props: HTMLMotionProps<"div"> = {
-    className,
-    style,
-    // Reduced motion: short opacity cross-fade only (Apple accessibility guidance).
-    // Full motion: small rise — kept short to avoid floating content.
-    initial: reduceMotion ? { opacity: 0 } : { opacity: 0, y },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once, amount },
-    transition: reduceMotion
-      ? { duration: 0.2, delay: 0, ease: easeOut }
-      : { duration, delay, ease: easeOut },
-    ...(ariaHidden !== undefined ? { "aria-hidden": ariaHidden } : {}),
-  };
+  useGSAP(
+    () => {
+      registerGsap();
+      const el = ref.current;
+      if (!el) return;
+      if (reduceMotion) {
+        gsap.set(el, { clearProps: "opacity,transform,visibility" });
+        return;
+      }
 
-  return <Tag {...props}>{children}</Tag>;
+      const startPct = Math.round((1 - Math.min(Math.max(amount, 0.05), 0.9)) * 100);
+
+      gsap.fromTo(
+        el,
+        { autoAlpha: 0, y },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration,
+          delay,
+          ease: "power3.out",
+          overwrite: "auto",
+          scrollTrigger: {
+            trigger: el,
+            start: `top ${startPct}%`,
+            once,
+            toggleActions: "play none none none",
+          },
+        },
+      );
+    },
+    {
+      dependencies: [reduceMotion, delay, duration, y, once, amount],
+    },
+  );
+
+  const Component = Tag as ElementType;
+
+  return (
+    <Component
+      ref={ref}
+      className={cn("zeon-fade-up", className)}
+      style={style}
+      {...(ariaHidden !== undefined ? { "aria-hidden": ariaHidden } : {})}
+    >
+      {children}
+    </Component>
+  );
 }

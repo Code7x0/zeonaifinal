@@ -3,7 +3,7 @@
    waive 47a: product films keep intentional SAMPLE browser chrome (signature, not decoration)
    waive 54/67: mono sheet labels stay for technical IA (engineering/architecture) — sentence-case elsewhere
    answered F15: one container max-w-[1180px], one primary CTA style (.zeon-btn-accent), section rhythm via .zeon-section-* */
-@import url("https://db.onlinewebfonts.com/c/e66905e07608167a84e6ad52f638c3c6?family=Helvetica+Now+Var");
+/* External Helvetica Now removed — blocked paint and competed with Aeonik */
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -166,6 +166,14 @@
   html.lenis,
   html.lenis body {
     scroll-behavior: auto !important;
+  }
+
+  /* GSAP reveals must never leave content invisible */
+  .zeon-fade-up,
+  .zeon-reveal {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
   }
 }
 
