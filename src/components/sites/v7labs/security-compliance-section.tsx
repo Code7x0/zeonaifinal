@@ -1,20 +1,8 @@
 "use client";
 
-import {
-  useCallback,
-  useId,
-  useLayoutEffect,
-  useRef,
-  useState,
-  type ComponentType,
-  type KeyboardEvent,
-} from "react";
+import { useId, type ComponentType } from "react";
 import Link from "next/link";
-import {
-  AnimatePresence,
-  motion,
-  useReducedMotion,
-} from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import {
   Archive,
   Fingerprint,
@@ -25,7 +13,6 @@ import {
 } from "lucide-react";
 import {
   COMPLIANCE,
-  DEPLOYMENT,
   GOVERNED_AI_NOTE,
   PROTECTION,
   type ComplianceStatus,
@@ -122,129 +109,9 @@ function ProtectionTile({ item }: { item: ProtectionItem }) {
   );
 }
 
-function DeploymentBoundary() {
-  return (
-    <svg
-      viewBox="0 0 280 160"
-      className="h-auto w-full max-w-[280px]"
-      role="img"
-      aria-label="Deployment boundary: platform, models and data inside your environment"
-    >
-      <rect
-        x="8"
-        y="8"
-        width="264"
-        height="144"
-        fill="none"
-        stroke="rgba(255,255,255,0.18)"
-        strokeWidth="1"
-        strokeDasharray="4 3"
-      />
-      <text
-        x="20"
-        y="28"
-        fill="#8B93A1"
-        fontSize="9"
-        fontFamily="ui-monospace, monospace"
-        letterSpacing="0.12em"
-      >
-        YOUR ENVIRONMENT
-      </text>
-      <rect
-        x="40"
-        y="48"
-        width="200"
-        height="88"
-        fill="#111C32"
-        stroke={ACCENT}
-        strokeWidth="1"
-      />
-      <text
-        x="140"
-        y="78"
-        textAnchor="middle"
-        fill="#F5F6F8"
-        fontSize="11"
-        fontWeight="600"
-      >
-        ZeonAI platform
-      </text>
-      <text
-        x="140"
-        y="98"
-        textAnchor="middle"
-        fill="#A0A7B4"
-        fontSize="10"
-      >
-        Models · Data · Workloads
-      </text>
-      <text
-        x="140"
-        y="118"
-        textAnchor="middle"
-        fill="#727B8B"
-        fontSize="8"
-        fontFamily="ui-monospace, monospace"
-        letterSpacing="0.08em"
-      >
-        BOUNDARY DIAGRAM · SAMPLE
-      </text>
-    </svg>
-  );
-}
-
 export function SecurityComplianceSection() {
   const baseId = useId();
   const reduceMotion = useReducedMotion() ?? false;
-  const [deployIndex, setDeployIndex] = useState(0);
-  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
-  const tablistRef = useRef<HTMLDivElement>(null);
-  const [pill, setPill] = useState({ left: 0, width: 0, top: 0, height: 0 });
-
-  const selected = DEPLOYMENT[deployIndex]!;
-
-  const measurePill = useCallback(() => {
-    const el = tabRefs.current[deployIndex];
-    const list = tablistRef.current;
-    if (!el || !list) return;
-    const listBox = list.getBoundingClientRect();
-    const box = el.getBoundingClientRect();
-    setPill({
-      left: box.left - listBox.left + list.scrollLeft,
-      top: box.top - listBox.top + list.scrollTop,
-      width: box.width,
-      height: box.height,
-    });
-  }, [deployIndex]);
-
-  useLayoutEffect(() => {
-    measurePill();
-  }, [measurePill]);
-
-  useLayoutEffect(() => {
-    window.addEventListener("resize", measurePill);
-    return () => window.removeEventListener("resize", measurePill);
-  }, [measurePill]);
-
-  const onDeployKeyDown = useCallback(
-    (e: KeyboardEvent<HTMLDivElement>) => {
-      const last = DEPLOYMENT.length - 1;
-      if (e.key === "ArrowRight" || e.key === "ArrowDown") {
-        e.preventDefault();
-        setDeployIndex((i) => (i >= last ? 0 : i + 1));
-      } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
-        e.preventDefault();
-        setDeployIndex((i) => (i <= 0 ? last : i - 1));
-      } else if (e.key === "Home") {
-        e.preventDefault();
-        setDeployIndex(0);
-      } else if (e.key === "End") {
-        e.preventDefault();
-        setDeployIndex(last);
-      }
-    },
-    [],
-  );
 
   const groupMotion = (i: number) =>
     reduceMotion
@@ -268,17 +135,9 @@ export function SecurityComplianceSection() {
     >
       <div className="mx-auto max-w-[1180px] px-5 md:px-8">
         <header className="max-w-[40rem]">
-          <p className="inline-flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.16em] text-[#8EB8FF]">
-            05 · Security
-            <span
-              aria-hidden
-              className="hidden h-px w-9 bg-[linear-gradient(90deg,rgba(142,184,255,0.55),transparent)] sm:block"
-            />
-            <span className="text-white/35">Sheet · Compliance</span>
-          </p>
           <h2
             id={`${baseId}-heading`}
-            className="zeon-type-section mt-3 text-balance !text-[#F5F6F8]"
+            className="zeon-type-section text-balance !text-[#F5F6F8]"
           >
             Security and compliance posture
           </h2>
@@ -334,103 +193,6 @@ export function SecurityComplianceSection() {
                 <ProtectionTile key={item.id} item={item} />
               ))}
             </ul>
-          </motion.div>
-
-          {/* Group 3 — Deployment */}
-          <motion.div id="deployment" className="scroll-mt-24" {...groupMotion(2)}>
-            <h3 className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#727B8B]">
-              Deployment
-            </h3>
-            <div className="mt-3 border border-white/10 bg-[#12161F] p-4 md:p-6">
-              <div
-                ref={tablistRef}
-                role="tablist"
-                aria-label="Deployment options"
-                onKeyDown={onDeployKeyDown}
-                className="relative flex gap-1 overflow-x-auto scroll-smooth pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-              >
-                <motion.span
-                  aria-hidden
-                  className="pointer-events-none absolute z-0 rounded-[6px] border border-[#2962FF] bg-[#111C32]"
-                  animate={{
-                    left: pill.left,
-                    top: pill.top,
-                    width: pill.width,
-                    height: pill.height,
-                  }}
-                  transition={
-                    reduceMotion
-                      ? { duration: 0 }
-                      : { duration: 0.25, ease: easeOut }
-                  }
-                />
-                {DEPLOYMENT.map((opt, i) => {
-                  const on = deployIndex === i;
-                  return (
-                    <button
-                      key={opt.id}
-                      ref={(el) => {
-                        tabRefs.current[i] = el;
-                      }}
-                      type="button"
-                      role="tab"
-                      id={`${baseId}-deploy-${opt.id}`}
-                      aria-selected={on}
-                      aria-controls={`${baseId}-deploy-panel`}
-                      tabIndex={on ? 0 : -1}
-                      onClick={() => {
-                        setDeployIndex(i);
-                        tabRefs.current[i]?.scrollIntoView({
-                          behavior: reduceMotion ? "auto" : "smooth",
-                          inline: "center",
-                          block: "nearest",
-                        });
-                      }}
-                      className={`relative z-[1] min-h-[44px] shrink-0 rounded-[6px] px-3.5 py-2.5 text-[13px] font-medium tracking-[-0.01em] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2962FF] ${
-                        on ? "text-[#F5F6F8]" : "text-[#A0A7B4] hover:text-[#F5F6F8]"
-                      }`}
-                    >
-                      {opt.label}
-                    </button>
-                  );
-                })}
-              </div>
-
-              <div className="mt-5 grid gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-center">
-                <div
-                  id={`${baseId}-deploy-panel`}
-                  role="tabpanel"
-                  aria-labelledby={`${baseId}-deploy-${selected.id}`}
-                  aria-live="polite"
-                  className="min-h-[96px]"
-                >
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={selected.id}
-                      initial={
-                        reduceMotion ? false : { opacity: 0, y: enterYSoft }
-                      }
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={reduceMotion ? undefined : { opacity: 0 }}
-                      transition={{
-                        duration: reduceMotion ? 0 : 0.18,
-                        ease: easeOut,
-                      }}
-                    >
-                      <p className="text-[15px] font-medium tracking-[-0.015em] text-[#F5F6F8]">
-                        {selected.label}
-                      </p>
-                      <p className="mt-2 max-w-[48ch] text-[14px] leading-[1.55] text-[#A0A7B4]">
-                        {selected.detail}
-                      </p>
-                    </motion.div>
-                  </AnimatePresence>
-                </div>
-                <div className="flex justify-center lg:justify-end">
-                  <DeploymentBoundary />
-                </div>
-              </div>
-            </div>
           </motion.div>
         </div>
 

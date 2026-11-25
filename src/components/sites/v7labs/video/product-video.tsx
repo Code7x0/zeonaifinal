@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { BrowserVideoFrame } from "./browser-video-frame";
 import { getVideoAsset } from "./registry";
 import type { VideoPlacement } from "./types";
+import { VideoProgressBar } from "./video-progress-bar";
 import {
   registerVideoVisibility,
   updateVideoVisibility,
@@ -267,11 +268,19 @@ export function ProductVideo({
       {needsManual && showVideo && !playing ? (
         <button
           type="button"
-          className="absolute bottom-3 right-3 z-[4] rounded-md bg-white/90 px-2.5 py-1.5 text-[11px] font-medium text-[#181D27] shadow-sm backdrop-blur-sm"
+          className="absolute bottom-3 right-3 z-[6] rounded-md bg-white/90 px-2.5 py-1.5 text-[11px] font-medium text-[#181D27] shadow-sm backdrop-blur-sm"
           onClick={() => void playVideo()}
         >
           Play demo
         </button>
+      ) : null}
+
+      {showVideo ? (
+        <VideoProgressBar
+          videoRef={videoRef}
+          label={asset.title}
+          visible={!showPoster || playing || needsManual}
+        />
       ) : null}
 
       <span className="sr-only" aria-live="polite">

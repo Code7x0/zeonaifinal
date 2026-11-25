@@ -1,8 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
-import { useReducedMotion } from "motion/react";
 import { offices } from "@/components/sites/zeonai/content";
 import { cn } from "@/lib/utils";
 
@@ -137,92 +135,8 @@ function NavColumn({
   );
 }
 
-/** Oversized outlined ZEONAI — architectural stroke wordmark */
-function OutlineWordmark({ reveal }: { reveal: boolean }) {
-  return (
-    <div
-      className={cn(
-        "relative overflow-hidden px-4 py-8 md:px-6 md:py-10 lg:px-8 lg:py-12",
-        "transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]",
-        reveal ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0",
-      )}
-      aria-hidden
-    >
-      {/* Construction ticks */}
-      <div className="pointer-events-none absolute inset-x-4 top-3 flex justify-between md:inset-x-6 lg:inset-x-8">
-        {Array.from({ length: 9 }).map((_, i) => (
-          <span
-            key={i}
-            className={cn(
-              "h-2 w-px bg-[#D0D5DD]",
-              i === 0 || i === 8 ? "h-3 bg-[#98A2B3]" : "",
-            )}
-          />
-        ))}
-      </div>
-      <div className="pointer-events-none absolute inset-x-4 bottom-3 flex justify-between md:inset-x-6 lg:inset-x-8">
-        {Array.from({ length: 9 }).map((_, i) => (
-          <span
-            key={i}
-            className={cn(
-              "h-2 w-px bg-[#D0D5DD]",
-              i === 0 || i === 8 ? "h-3 bg-[#98A2B3]" : "",
-            )}
-          />
-        ))}
-      </div>
-      <div className="pointer-events-none absolute inset-y-4 left-3 flex flex-col justify-between md:inset-y-6 lg:inset-y-8">
-        {Array.from({ length: 5 }).map((_, i) => (
-          <span key={i} className="h-px w-2 bg-[#D0D5DD]" />
-        ))}
-      </div>
-      <div className="pointer-events-none absolute inset-y-4 right-3 flex flex-col justify-between md:inset-y-6 lg:inset-y-8">
-        {Array.from({ length: 5 }).map((_, i) => (
-          <span key={i} className="h-px w-2 bg-[#D0D5DD]" />
-        ))}
-      </div>
-
-      <p
-        className="select-none text-center font-[family-name:var(--font-aeonik)] font-medium uppercase leading-none tracking-[-0.04em] text-transparent"
-        style={{
-          fontSize: "clamp(3.25rem, 14.5vw, 11.5rem)",
-          WebkitTextStroke: "1.35px #181D27",
-        }}
-      >
-        ZEONAI
-      </p>
-      <p className="mt-3 text-center font-mono text-[10px] uppercase tracking-[0.18em] text-[#98A2B3]">
-        ZeonAI Labs · Governed enterprise AI
-      </p>
-    </div>
-  );
-}
-
 export function SiteFooter() {
   const year = new Date().getFullYear();
-  const reduceMotion = useReducedMotion() ?? false;
-  const wordmarkRef = useRef<HTMLDivElement>(null);
-  const [reveal, setReveal] = useState(reduceMotion);
-
-  useEffect(() => {
-    if (reduceMotion) {
-      setReveal(true);
-      return;
-    }
-    const el = wordmarkRef.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry?.isIntersecting) {
-          setReveal(true);
-          io.disconnect();
-        }
-      },
-      { threshold: 0.25 },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, [reduceMotion]);
 
   return (
     <footer className="relative z-[1] border-t border-[#E5E7EB] bg-[var(--dp-gray-50)] text-[#181D27]">
@@ -409,11 +323,6 @@ export function SiteFooter() {
               ))}
             </ul>
           </div>
-        </div>
-
-        {/* Oversized outlined wordmark */}
-        <div ref={wordmarkRef} className={`border-t ${cellBorder}`}>
-          <OutlineWordmark reveal={reveal} />
         </div>
 
         {/* Legal strip */}

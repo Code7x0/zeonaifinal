@@ -268,10 +268,17 @@ export function ProductsPage() {
   );
 }
 
+import { EngineeringSection } from "./engineering/engineering-section";
+
 export function AgentsPage() {
   const agentHub = getCapability("agent-hub");
   if (agentHub) {
-    return <CapabilityDetailPage capability={agentHub} />;
+    return (
+      <CapabilityDetailPage
+        capability={agentHub}
+        afterWorkflow={<EngineeringSection />}
+      />
+    );
   }
   return null;
 }
@@ -429,13 +436,17 @@ export function ArchitecturePage() {
 export function IntegrationsPage() {
   return (
     <PageShell>
-      <SecondaryHero
-        label="Product · Integrations"
-        title="Systems you already run."
-        lead="Results land in a dashboard, a report, an export, or your ERP. Connectors are scoped per engagement — not assumed universal."
-        tone="royal"
-        visual={<WorkflowMock />}
-      />
+      <Chapter tone="paper" min={false} className="!min-h-0 pt-10 md:pt-14">
+        <ChapterLabel>Product · Integrations</ChapterLabel>
+        <ChapterTitle>Systems you already run.</ChapterTitle>
+        <ChapterLead>
+          Results land in a dashboard, a report, an export, or your ERP.
+          Connectors are scoped per engagement — not assumed universal.
+        </ChapterLead>
+        <div className="mt-10">
+          <ConnectorLogoCatalogue />
+        </div>
+      </Chapter>
       <Chapter tone="sky" min={false} className="!min-h-0">
         <ChapterLabel tone="sky">09 · Connectors</ChapterLabel>
         <ChapterTitle>Your systems. One intelligent workspace.</ChapterTitle>
@@ -446,13 +457,6 @@ export function IntegrationsPage() {
         </ChapterLead>
         <div className="mt-10">
           <IntegrationEcosystem />
-        </div>
-      </Chapter>
-      <Chapter tone="paper" min={false} className="!min-h-0">
-        <ChapterLabel>Catalogue</ChapterLabel>
-        <ChapterLead>Connectors are scoped per engagement.</ChapterLead>
-        <div className="mt-10">
-          <ConnectorLogoCatalogue />
         </div>
       </Chapter>
       <SecondaryCta
@@ -548,6 +552,8 @@ export function HowWeWorkPage() {
   );
 }
 
+import { ContactForm } from "./contact-form";
+
 export function ContactPage() {
   return (
     <PageShell>
@@ -556,44 +562,59 @@ export function ContactPage() {
         title="Talk to our team."
         lead="Tell us about the workflow or knowledge problem that costs you most."
         align="center"
-        primaryHref="mailto:contact@zeonai.com"
-        primaryLabel="Email contact@zeonai.com"
+        primaryHref="#contact-form"
+        primaryLabel="Send an enquiry"
         secondaryHref="/demo"
         secondaryLabel="Book a demo"
       />
       <Chapter
+        id="contact-form"
         tone="mist"
         min={false}
         className="!min-h-0 border-t border-[var(--zeon-border)]"
       >
-        <div className="mx-auto grid max-w-[900px] gap-4 md:grid-cols-2">
-          <FadeUp as="article">
-            <div className="zeon-surface h-full p-6 md:p-8">
-              <h2 className="zeon-type-sub">General enquiry</h2>
-              <p className="mt-3 text-[length:var(--zeon-text-body-sm)] leading-[var(--zeon-leading-body)] text-[var(--zeon-muted)]">
-                Product questions, partnerships and press — email the team
-                directly.
-              </p>
-              <a
-                href="mailto:contact@zeonai.com"
-                className="zeon-link-arrow mt-5 inline-flex"
-              >
-                contact@zeonai.com
-              </a>
-            </div>
-          </FadeUp>
-          <FadeUp delay={0.08} as="article">
-            <div className="zeon-surface h-full p-6 md:p-8">
-              <h2 className="zeon-type-sub">Demo request</h2>
-              <p className="mt-3 text-[length:var(--zeon-text-body-sm)] leading-[var(--zeon-leading-body)] text-[var(--zeon-muted)]">
-                Prefer a structured request with role and process context? Use
-                the demo page.
-              </p>
-              <Link href="/demo" className="zeon-link-arrow mt-5 inline-flex">
-                Book a demo
-              </Link>
-            </div>
-          </FadeUp>
+        <div className="mx-auto grid max-w-[1040px] items-start gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-12">
+          <div className="space-y-4">
+            <FadeUp as="article">
+              <div className="zeon-surface p-6">
+                <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#2962FF]">
+                  Direct email
+                </p>
+                <h2 className="mt-2 font-[family-name:var(--font-aeonik)] text-[20px] font-normal tracking-[-0.02em] text-[#181D27]">
+                  General enquiry
+                </h2>
+                <p className="mt-2 text-[length:var(--zeon-text-body-sm)] leading-[var(--zeon-leading-body)] text-[var(--zeon-muted)]">
+                  Product questions, partnerships and press — email the team
+                  directly.
+                </p>
+                <a
+                  href="mailto:contact@zeonai.com"
+                  className="zeon-link-arrow mt-4 inline-flex"
+                >
+                  contact@zeonai.com
+                </a>
+              </div>
+            </FadeUp>
+            <FadeUp delay={0.08} as="article">
+              <div className="zeon-surface p-6">
+                <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#2962FF]">
+                  Guided walkthrough
+                </p>
+                <h2 className="mt-2 font-[family-name:var(--font-aeonik)] text-[20px] font-normal tracking-[-0.02em] text-[#181D27]">
+                  Demo request
+                </h2>
+                <p className="mt-2 text-[length:var(--zeon-text-body-sm)] leading-[var(--zeon-leading-body)] text-[var(--zeon-muted)]">
+                  Prefer a structured request with role and process context? Use
+                  the demo page.
+                </p>
+                <Link href="/demo" className="zeon-link-arrow mt-4 inline-flex">
+                  Book a demo
+                </Link>
+              </div>
+            </FadeUp>
+          </div>
+
+          <ContactForm />
         </div>
       </Chapter>
     </PageShell>

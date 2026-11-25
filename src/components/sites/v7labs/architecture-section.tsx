@@ -180,14 +180,6 @@ export function ArchitectureSection() {
       >
         <div className="relative mx-auto w-full max-w-[1280px] px-5 md:px-8">
           <div className="mx-auto max-w-[34rem] text-center">
-            <p className="mb-3 inline-flex items-center justify-center gap-3 font-mono text-[10px] uppercase tracking-[0.14em] text-[#8EB8FF]">
-              02 · Architecture
-              <span
-                aria-hidden
-                className="hidden h-px w-9 bg-[linear-gradient(90deg,rgba(142,184,255,0.55),transparent)] sm:block"
-              />
-              <span className="text-white/35">Sheet · Stack</span>
-            </p>
             <h2
               id={`${baseId}-heading`}
               className="zeon-type-section text-balance !text-white"

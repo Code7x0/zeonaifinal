@@ -1,6 +1,7 @@
 export { BrowserVideoFrame } from "./browser-video-frame";
 export { ProductVideo } from "./product-video";
 export { VideoControls } from "./video-controls";
+export { VideoProgressBar } from "./video-progress-bar";
 export { VideoSection } from "./video-section";
 export { VideoTabPanel } from "./video-tab-panel";
 export { VideoPreload } from "./video-preload";

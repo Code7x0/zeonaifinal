@@ -64,6 +64,9 @@ export function EngineeringSection() {
   const playRef = useRef<number | null>(null);
   const stageIndexRef = useRef(0);
   const pausedRef = useRef(false);
+  /* Smooth within-stage progress (0–100) for the seek-bar pill */
+  const [stageProgress, setStageProgress] = useState(0);
+  const stageStartRef = useRef<number | null>(null);
 
   useEffect(() => {
     const apply = () => {
@@ -85,6 +88,8 @@ export function EngineeringSection() {
       playRef.current = null;
     }
     setPlaying(false);
+    setStageProgress(0);
+    stageStartRef.current = null;
   }, []);
 
   const startPlayback = useCallback(() => {
@@ -94,6 +99,7 @@ export function EngineeringSection() {
     stageIndexRef.current = 0;
     setActive(0);
     setPlaying(true);
+    stageStartRef.current = performance.now();
     playRef.current = window.setInterval(() => {
       if (pausedRef.current) return;
       stageIndexRef.current += 1;
@@ -101,11 +107,31 @@ export function EngineeringSection() {
         stopPlayback();
         setActive(HOOD_STAGES.length - 1);
         setWalkDone(true);
+        setStageProgress(100);
         return;
       }
       setActive(stageIndexRef.current);
+      stageStartRef.current = performance.now();
     }, H.stageMs);
   }, [reduceMotion, stopPlayback]);
+
+  /* Smooth rAF tick for within-stage progress */
+  useEffect(() => {
+    if (!playing || reduceMotion) {
+      setStageProgress(0);
+      return;
+    }
+    let raf = 0;
+    const tick = () => {
+      if (!pausedRef.current && stageStartRef.current != null) {
+        const elapsed = performance.now() - stageStartRef.current;
+        setStageProgress(Math.min(100, (elapsed / H.stageMs) * 100));
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [playing, active, reduceMotion]);
 
   useEffect(() => () => stopPlayback(), [stopPlayback]);
 
@@ -114,6 +140,7 @@ export function EngineeringSection() {
       stopPlayback();
       setWalkDone(false);
       setActive(i);
+      setStageProgress(0);
     },
     [stopPlayback],
   );
@@ -144,6 +171,19 @@ export function EngineeringSection() {
   };
 
   const progressPct = (active / (HOOD_STAGES.length - 1)) * 100;
+
+  /*
+   * Smooth overall progress for the seek-bar pill:
+   * completed stages fill fully, active stage animates within-stage,
+   * upcoming stages are empty.
+   * Each stage occupies 1/N of the total bar.
+   */
+  const segmentWidth = 100 / HOOD_STAGES.length;
+  const smoothProgressPct = playing
+    ? active * segmentWidth + (stageProgress / 100) * segmentWidth
+    : walkDone
+      ? 100
+      : active * segmentWidth;
 
   return (
     <section
@@ -281,6 +321,9 @@ export function EngineeringSection() {
                 active={active}
                 walkDone={walkDone}
                 progressPct={progressPct}
+                smoothProgressPct={smoothProgressPct}
+                playing={playing}
+                stageProgress={stageProgress}
                 reduceMotion={reduceMotion}
               />
 
@@ -395,11 +438,17 @@ function Rail({
   active,
   walkDone,
   progressPct,
+  smoothProgressPct,
+  playing,
+  stageProgress,
   reduceMotion,
 }: {
   active: number;
   walkDone: boolean;
   progressPct: number;
+  smoothProgressPct: number;
+  playing: boolean;
+  stageProgress: number;
   reduceMotion: boolean;
 }) {
   return (
@@ -421,24 +470,55 @@ function Rail({
         </span>
       </div>
 
-      <div className="relative h-10">
-        <div
-          className="absolute left-0 right-0 top-1/2 h-0.5 -translate-y-1/2"
-          style={{ background: H.gray200 }}
-          aria-hidden
-        />
-        <motion.div
-          className="absolute left-0 top-1/2 h-0.5 -translate-y-1/2"
-          style={{ backgroundImage: H.logoGradient }}
-          animate={{ width: `${progressPct}%` }}
-          transition={
-            reduceMotion
-              ? { duration: 0 }
-              : { duration: H.moveMs / 1000, ease: EASE }
-          }
-          aria-hidden
-        />
+      {/* Manifest-style segmented pill seek bar */}
+      <div
+        className="relative flex items-center gap-1 rounded-full px-1.5 py-1.5"
+        style={{ background: "rgba(41,98,255,0.06)" }}
+        aria-hidden
+      >
+        {HOOD_STAGES.map((s, i) => {
+          const isPast = i < active || walkDone;
+          const isActive = i === active && !walkDone;
+          const fill = reduceMotion
+            ? isPast || walkDone
+              ? 100
+              : isActive
+                ? 50
+                : 0
+            : isPast
+              ? 100
+              : isActive
+                ? (playing ? stageProgress : 0)
+                : 0;
 
+          return (
+            <span
+              key={s.id}
+              className="relative h-[3px] flex-1 overflow-hidden rounded-full"
+              style={{ background: "rgba(41,98,255,0.18)" }}
+            >
+              <span
+                className={
+                  !reduceMotion && isActive && playing
+                    ? "absolute inset-y-0 left-0 rounded-full transition-[width] duration-75 ease-linear"
+                    : "absolute inset-y-0 left-0 rounded-full"
+                }
+                style={{
+                  width: `${fill}%`,
+                  backgroundImage: H.logoGradient,
+                  transition:
+                    !reduceMotion && !isActive
+                      ? `width ${H.moveMs}ms ease`
+                      : undefined,
+                }}
+              />
+            </span>
+          );
+        })}
+      </div>
+
+      {/* Node dots + CAPEX chip — keep below the pill */}
+      <div className="relative mt-2 h-8">
         <div className="absolute inset-0 flex items-center justify-between">
           {HOOD_STAGES.map((s, i) => {
             const done = i < active || (walkDone && i <= active);

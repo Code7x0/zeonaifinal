@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { useRef } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import {
   durationEnter,
@@ -10,7 +11,7 @@ import {
   pressTransition,
   staggerEnter,
 } from "./motion";
-import { SectionMeta } from "./blueprint";
+import { gsap, registerGsap, ScrollTrigger, useGSAP } from "./motion/gsap-register";
 import { ProductVideo } from "./video";
 import { ZeonLinkButton } from "./zeon-ui";
 
@@ -26,12 +27,114 @@ const GLSLHills = dynamic(
 /**
  * Homepage hero — agents-first headline + Placement 1 product video
  * (`home-hero`: Ask AI with citations). Muted autoplay product film.
+ * On scroll, the film expands toward full viewport width (GSAP scrub).
  */
 export function Hero() {
-  const reduceMotion = useReducedMotion();
+  registerGsap();
+  const reduceMotion = Boolean(useReducedMotion());
+  const rootRef = useRef<HTMLElement | null>(null);
+  const copyRef = useRef<HTMLDivElement | null>(null);
+  const stageRef = useRef<HTMLDivElement | null>(null);
+  const frameRef = useRef<HTMLDivElement | null>(null);
+  const captionRef = useRef<HTMLParagraphElement | null>(null);
+
+  useGSAP(
+    () => {
+      registerGsap();
+      if (reduceMotion) return;
+
+      const root = rootRef.current;
+      const copy = copyRef.current;
+      const stage = stageRef.current;
+      const frame = frameRef.current;
+      const caption = captionRef.current;
+      if (!root || !copy || !stage || !frame) return;
+
+      const windowEl = frame.querySelector<HTMLElement>(".zeon-window");
+      const clear = () => {
+        gsap.set(
+          [stage, frame, windowEl, copy, caption].filter(Boolean),
+          { clearProps: "padding,maxWidth,opacity,transform,borderRadius" },
+        );
+      };
+
+      /*
+       * One scrubbed timeline, no pin (Antigravity-style motion, not a copy).
+       * Expands to a near-full inset, then the hero keeps scrolling with the
+       * page — no spacer / second stage. scrub:true avoids Lenis+scrub lag
+       * that felt like a halfway pause.
+       */
+      const gutter = () => (window.innerWidth >= 768 ? 32 : 16);
+      /* Capture compact width once — never read live offsetWidth in end
+         values (that can lock the film to edge-to-edge after a refresh). */
+      const compactWidth =
+        window.innerWidth >= 768
+          ? 920
+          : Math.round(frame.getBoundingClientRect().width);
+      const expandedMax = () =>
+        Math.max(compactWidth, document.documentElement.clientWidth - gutter() * 2);
+
+      const tl = gsap.timeline({
+        defaults: { ease: "none" },
+        scrollTrigger: {
+          trigger: root,
+          start: "top top",
+          end: () =>
+            `+=${Math.round(window.innerHeight * (window.innerWidth >= 768 ? 0.32 : 0.36))}`,
+          scrub: true,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      tl.to(stage, { paddingLeft: 0, paddingRight: 0 }, 0);
+
+      tl.fromTo(
+        frame,
+        { maxWidth: compactWidth },
+        { maxWidth: expandedMax, immediateRender: false },
+        0,
+      );
+
+      if (windowEl) {
+        tl.fromTo(
+          windowEl,
+          {
+            scale: () => (window.innerWidth >= 768 ? 0.972 : 0.985),
+            borderRadius: 18,
+          },
+          {
+            scale: 1,
+            borderRadius: () => (window.innerWidth >= 768 ? 14 : 12),
+            transformOrigin: "50% 50%",
+            immediateRender: false,
+          },
+          0,
+        );
+      }
+
+      if (window.innerWidth >= 768) {
+        tl.to(copy, { opacity: 0.38, y: -14 }, 0);
+        if (caption) tl.to(caption, { opacity: 0, y: 4 }, 0);
+      }
+
+      const onResize = () => ScrollTrigger.refresh();
+      window.addEventListener("resize", onResize);
+
+      return () => {
+        window.removeEventListener("resize", onResize);
+        tl.scrollTrigger?.kill();
+        tl.kill();
+        clear();
+      };
+    },
+    { dependencies: [reduceMotion], revertOnUpdate: true },
+  );
 
   return (
-    <section className="relative isolate overflow-hidden bg-[var(--dp-gradient-hero,#EEF4FF)]">
+    <section
+      ref={rootRef}
+      className="relative isolate overflow-x-clip bg-[var(--dp-gradient-hero,#F0F4FC)]"
+    >
       <div
         className="pointer-events-none absolute inset-0 z-0"
         style={{
@@ -41,7 +144,6 @@ export function Hero() {
         aria-hidden
       />
       <div className="pointer-events-none absolute inset-0 z-0 opacity-50 max-md:hidden">
-        {/* Skip WebGL hills on small / touch screens — major mobile cost */}
         {reduceMotion ? null : (
           <GLSLHills
             width="100%"
@@ -54,28 +156,13 @@ export function Hero() {
         )}
       </div>
 
-      <div className="relative z-10 mx-auto flex max-w-[var(--zeon-container,1180px)] flex-col px-[var(--zeon-gutter,1.25rem)] pb-12 pt-12 sm:pb-16 sm:pt-14 md:pb-24 md:pt-20">
+      <div
+        ref={copyRef}
+        className="relative z-10 mx-auto max-w-[var(--zeon-container,1180px)] px-[var(--zeon-gutter,1.25rem)] pt-12 sm:pt-14 md:pt-20"
+      >
         <div className="mx-auto max-w-[52rem] text-center">
-          <motion.div
-            className="flex justify-center"
-            initial={reduceMotion ? false : { opacity: 0, y: enterY }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={
-              reduceMotion
-                ? { duration: 0 }
-                : { duration: durationEnter, delay: 0.02, ease: easeOut }
-            }
-          >
-            <SectionMeta
-              left="ZeonAI"
-              right="Sheet · Home"
-              align="center"
-              className="!mb-0"
-            />
-          </motion.div>
-
           <motion.h1
-            className="zeon-type-hero mt-4 text-balance text-[#181D27]"
+            className="zeon-type-hero text-balance text-[#181D27]"
             initial={reduceMotion ? false : { opacity: 0, y: enterY }}
             animate={{ opacity: 1, y: 0 }}
             transition={
@@ -137,9 +224,14 @@ export function Hero() {
             </a>
           </motion.div>
         </div>
+      </div>
 
+      <div
+        ref={stageRef}
+        className="relative z-10 w-full px-[var(--zeon-gutter,1.25rem)] pb-12 pt-12 sm:pb-16 md:pb-24 md:pt-14"
+      >
         <motion.div
-          className="mx-auto mt-12 w-full max-w-[920px] md:mt-14"
+          className="w-full"
           initial={reduceMotion ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={
@@ -152,11 +244,24 @@ export function Hero() {
                 }
           }
         >
-          <ProductVideo assetId="home-hero" tone="light" tilt preferAutoplay />
-          <p className="mt-3 text-center text-[12px] leading-[1.45] text-[#717680]">
-            Ask AI answering from governed documents — citations appear with the
-            claim. Sample data.
-          </p>
+          {/* Plain div is the GSAP width target — keep Motion off this node */}
+          <div
+            ref={frameRef}
+            className="mx-auto w-full max-w-[920px] overflow-hidden"
+          >
+            <ProductVideo
+              assetId="home-hero"
+              tone="light"
+              preferAutoplay
+            />
+            <p
+              ref={captionRef}
+              className="mt-3 text-center text-[12px] leading-[1.45] text-[#717680]"
+            >
+              Ask AI answering from governed documents — citations appear with
+              the claim. Sample data.
+            </p>
+          </div>
         </motion.div>
       </div>
     </section>

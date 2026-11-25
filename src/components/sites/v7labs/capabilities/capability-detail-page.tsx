@@ -83,8 +83,10 @@ export function CapabilitiesIndexPage() {
 
 export function CapabilityDetailPage({
   capability,
+  afterWorkflow,
 }: {
   capability: Capability;
+  afterWorkflow?: React.ReactNode;
 }) {
   const related = capability.related
     .map((id) => getCapability(id))
@@ -166,6 +168,8 @@ export function CapabilityDetailPage({
           ))}
         </ol>
       </Chapter>
+
+      {afterWorkflow}
 
       <Chapter tone="midnight" min={false} className="!min-h-0">
         <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">

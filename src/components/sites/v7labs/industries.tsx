@@ -23,7 +23,6 @@ import {
 } from "lucide-react";
 import {
   INDUSTRY_CARDS,
-  LENDING_VALIDATION,
   type IndustryCard,
   type IndustryCardId,
 } from "./industries/industries-home-config";
@@ -75,9 +74,6 @@ export function Industries() {
   const sectionRef = useRef<HTMLElement>(null);
   const revealed = useInView(sectionRef, { once: true, amount: 0.12 });
 
-  const featured = INDUSTRY_CARDS.find((c) => c.featured)!;
-  const rest = INDUSTRY_CARDS.filter((c) => !c.featured);
-
   return (
     <section
       ref={sectionRef}
@@ -91,14 +87,6 @@ export function Industries() {
           animate={revealed ? { opacity: 1, y: 0 } : undefined}
           transition={{ duration: 0.35, ease: EASE }}
         >
-          <p className="mb-3 inline-flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.14em] text-[#2962FF]">
-            01 · Industries
-            <span
-              aria-hidden
-              className="hidden h-px w-9 bg-[linear-gradient(90deg,#BCD3FF,transparent)] sm:block"
-            />
-            <span className="text-[#A4A7AE]">Sheet · Sectors</span>
-          </p>
           <h2 className="zeon-type-section max-w-[720px] text-balance font-normal">
             Built for regulated,{" "}
             <br className="hidden sm:block" />
@@ -114,22 +102,13 @@ export function Industries() {
           </p>
         </motion.div>
 
-        <div className="mt-12 grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 xl:grid-cols-3">
-          <CardMotion index={0} revealed={revealed} reduceMotion={reduceMotion} className="md:col-span-2 xl:col-span-2 xl:row-span-2">
-            <FeaturedCard card={featured} revealed={revealed} reduceMotion={reduceMotion} />
-          </CardMotion>
-
-          {rest.map((card, index) => (
+        <div className="mt-12 grid grid-cols-1 items-stretch gap-4 md:auto-rows-fr md:grid-cols-2 xl:grid-cols-3">
+          {INDUSTRY_CARDS.map((card, index) => (
             <CardMotion
               key={card.id}
-              index={index + 1}
+              index={index}
               revealed={revealed}
               reduceMotion={reduceMotion}
-              className={
-                index === rest.length - 1
-                  ? "md:col-span-2 xl:col-span-1"
-                  : undefined
-              }
             >
               <SectorCard card={card} />
             </CardMotion>
@@ -175,180 +154,8 @@ function CardMotion({
   );
 }
 
-function FeaturedCard({
-  card,
-  revealed,
-  reduceMotion,
-}: {
-  card: IndustryCard;
-  revealed: boolean;
-  reduceMotion: boolean;
-}) {
-  return (
-    <Link
-      href={card.href}
-      aria-label={card.a11yName}
-      className="zeon-surface-brand zeon-lift group relative flex h-full flex-col overflow-hidden p-8 text-white no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2962FF] xl:min-h-[526px] xl:flex-row xl:gap-8"
-    >
-      {/* 32px grid overlay, fades toward bottom-left */}
-      <span
-        className="pointer-events-none absolute inset-0"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)",
-          backgroundSize: "32px 32px",
-          maskImage:
-            "radial-gradient(ellipse 90% 80% at 100% 0%, #000 20%, transparent 70%)",
-          WebkitMaskImage:
-            "radial-gradient(ellipse 90% 80% at 100% 0%, #000 20%, transparent 70%)",
-        }}
-        aria-hidden
-      />
-
-      <div className="relative z-[1] flex min-w-0 flex-col xl:max-w-[46%] xl:flex-1 xl:justify-between">
-        <div>
-          <p
-            className="inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.12em]"
-            style={{ color: C.blue300 }}
-          >
-            <span
-              className="size-1.5 shrink-0"
-              style={{ background: C.blue300, borderRadius: 1 }}
-              aria-hidden
-            />
-            Featured
-          </p>
-          <h3 className="mt-5 font-[family-name:var(--font-aeonik)] text-[28px] font-normal leading-[1.15] tracking-[-0.02em] md:text-[36px]">
-            {card.label}
-          </h3>
-          <p
-            className="mt-3 max-w-[36ch] text-[18px] leading-[1.5]"
-            style={{ color: "#D9E6FF" }}
-          >
-            {card.outcome}
-          </p>
-        </div>
-
-        <div className="mt-8 xl:mt-0">
-          <p className="text-[14px]" style={{ color: "#D9E6FF" }}>
-            {card.agents.join(" · ")}
-          </p>
-          <span className="zeon-btn zeon-btn-light mt-5 inline-flex h-11 min-h-[44px] w-full !rounded-[10px] sm:w-auto xl:h-10 xl:min-h-[40px]">
-            {card.exploreLabel}
-            <ArrowRight
-              className="size-3.5 transition-transform duration-150 group-hover:translate-x-1"
-              aria-hidden
-            />
-          </span>
-        </div>
-      </div>
-
-      <div className="relative z-[1] mt-8 flex min-h-[280px] w-full min-w-0 flex-1 self-stretch xl:mt-0 xl:max-w-[54%]">
-        <FeaturedVignette revealed={revealed} reduceMotion={reduceMotion} />
-      </div>
-    </Link>
-  );
-}
-
-function FeaturedVignette({
-  revealed,
-  reduceMotion,
-}: {
-  revealed: boolean;
-  reduceMotion: boolean;
-}) {
-  return (
-    <div
-      className="flex h-full w-full flex-col"
-      style={{
-        borderRadius: 2,
-        background: "rgba(255,255,255,0.06)",
-        border: "1px solid rgba(255,255,255,0.16)",
-      }}
-      aria-hidden
-    >
-      <div
-        className="flex h-12 shrink-0 items-center justify-between gap-3 px-4"
-        style={{ borderBottom: "1px solid rgba(255,255,255,0.16)" }}
-      >
-        <span className="inline-flex items-center gap-2 text-[14px] font-medium text-white">
-          <FileText className="size-3.5" />
-          Loan_application.pdf
-        </span>
-        <span
-          className="font-mono text-[12px]"
-          style={{ color: C.blue200 }}
-        >
-          DocAI extracting fields
-        </span>
-      </div>
-
-      <div className="flex flex-1 flex-col justify-evenly">
-        {LENDING_VALIDATION.map((row, i) => {
-          const review = row.status === "Review";
-          return (
-            <motion.div
-              key={row.field}
-              className="flex min-h-[60px] items-center justify-between px-4"
-              style={{
-                borderBottom:
-                  i < LENDING_VALIDATION.length - 1
-                    ? "1px solid rgba(255,255,255,0.12)"
-                    : undefined,
-                background: review ? "rgba(255,255,255,0.08)" : undefined,
-                boxShadow: review
-                  ? `inset 2px 0 0 ${C.warningSoft}`
-                  : undefined,
-              }}
-              initial={reduceMotion ? false : { opacity: 0 }}
-              animate={revealed ? { opacity: 1 } : undefined}
-              transition={{
-                duration: 0.2,
-                delay: reduceMotion ? 0 : 0.15 + i * 0.12,
-                ease: EASE,
-              }}
-            >
-              <span className="text-[15px] text-white">{row.field}</span>
-              <span className="inline-flex items-center gap-1.5 text-[14px]">
-                {review ? (
-                  <>
-                    <span
-                      className="size-1.5 shrink-0 rounded-full"
-                      style={{ background: C.warningSoft }}
-                    />
-                    <span style={{ color: C.warningSoft }}>Review</span>
-                  </>
-                ) : (
-                  <>
-                    <Check
-                      className="size-3.5 text-white"
-                      strokeWidth={2.5}
-                    />
-                    <span className="text-white">Verified</span>
-                  </>
-                )}
-              </span>
-            </motion.div>
-          );
-        })}
-      </div>
-
-      <div
-        className="flex min-h-[88px] shrink-0 items-baseline gap-3 px-4 py-5"
-        style={{ borderTop: "1px solid rgba(255,255,255,0.16)" }}
-      >
-        <span className="font-[family-name:var(--font-aeonik)] text-[40px] leading-none tracking-[-0.03em] text-white">
-          70%+
-        </span>
-        <span className="text-[14px]" style={{ color: "#D9E6FF" }}>
-          less manual effort
-        </span>
-      </div>
-    </div>
-  );
-}
-
 const VIGNETTE_IDS = new Set<IndustryCardId>([
+  "financial",
   "super",
   "media",
   "gov",
@@ -452,6 +259,23 @@ function SectorVignette({
   const muted = dark ? C.gray400 : C.muted;
   const arrow = C.gray400;
 
+  if (id === "financial") {
+    return (
+      <div className="text-[13px] leading-[1.45]">
+        <p style={{ color: ink }}>
+          Loan_application.pdf <span style={{ color: arrow }}>→</span> Extract{" "}
+          <span style={{ color: arrow }}>→</span> Verify
+        </p>
+        <p className="mt-1.5" style={{ color: muted }}>
+          <span className="font-medium" style={{ color: ink }}>
+            70%+
+          </span>{" "}
+          less manual effort
+        </p>
+      </div>
+    );
+  }
+
   if (id === "super") {
     return (
       <div className="text-[13px] leading-[1.45]">
@@ -528,15 +352,16 @@ function SectorVignette({
   }
 
   if (id === "defence") {
+    const lineColor = dark ? C.darkBorder : C.border;
     return (
       <div className="text-[13px] leading-[1.45]">
-        <p className="inline-flex items-center gap-1.5 text-white">
+        <p className="inline-flex items-center gap-1.5" style={{ color: ink }}>
           <Lock className="size-3.5" />
           Deployed on your own infrastructure
         </p>
         <div className="mt-2.5 space-y-1.5">
-          <div className="h-px w-[88%]" style={{ background: C.darkBorder }} />
-          <div className="h-px w-[64%]" style={{ background: C.darkBorder }} />
+          <div className="h-px w-[88%]" style={{ background: lineColor }} />
+          <div className="h-px w-[64%]" style={{ background: lineColor }} />
         </div>
       </div>
     );

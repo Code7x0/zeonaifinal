@@ -19,6 +19,7 @@ import {
   HOME_TAB_VIDEO,
   ProductVideo,
 } from "@/components/sites/v7labs/video";
+import { cn } from "@/lib/utils";
 
 /** Per-scene dwell — snappy when real product films are looping. */
 const SCENE_MS: Record<string, number> = {
@@ -247,18 +248,6 @@ const Feature108 = ({
                 </TabsTrigger>
               ))}
             </TabsList>
-            {/* Tour progress kept for a11y; visually quiet so it does not read as a nav rule */}
-            {autoplay && !reduceMotion ? (
-              <div
-                id={progressRegionId}
-                className="sr-only"
-                role="progressbar"
-                aria-valuemin={0}
-                aria-valuemax={100}
-                aria-valuenow={Math.round(progress)}
-                aria-label="Product tour progress"
-              />
-            ) : null}
           </div>
 
           {/* Compact scene caption — product screen is the hero */}
@@ -316,9 +305,71 @@ const Feature108 = ({
                 />
               );
             })()}
-            <p className="sr-only" aria-live="polite">
-              Showing {activeTab?.label}
-            </p>
+
+            {/* Segmented tour progress — one tick per module clip */}
+            {autoplay && tabs.length >= 2 ? (
+              <div
+                id={progressRegionId}
+                className="mt-3 flex gap-1.5"
+                role="group"
+                aria-label="Product module tour"
+              >
+                {tabs.map((tab, index) => {
+                  const activeIndex = tabs.findIndex((t) => t.value === active);
+                  const isActive = tab.value === active;
+                  const isPast = index < activeIndex;
+                  const fill = reduceMotion
+                    ? isActive
+                      ? 100
+                      : isPast
+                        ? 100
+                        : 0
+                    : isPast
+                      ? 100
+                      : isActive
+                        ? progress
+                        : 0;
+
+                  return (
+                    <button
+                      key={tab.value}
+                      type="button"
+                      onClick={() => onManualSelect(tab.value)}
+                      className={cn(
+                        "relative h-1 min-w-0 flex-1 overflow-hidden rounded-full outline-none transition-[height] duration-150",
+                        "bg-[#E9EAEB] hover:h-1.5 focus-visible:ring-2 focus-visible:ring-[#2962FF]/40 focus-visible:ring-offset-2",
+                        isActive && "bg-[#D0D5DD]",
+                      )}
+                      aria-current={isActive ? "true" : undefined}
+                      aria-label={
+                        isActive
+                          ? `${tab.label}, ${Math.round(fill)}% through this module`
+                          : `Show ${tab.label}`
+                      }
+                    >
+                      <span
+                        aria-hidden
+                        className={cn(
+                          "absolute inset-y-0 left-0 rounded-full bg-[#2962FF]",
+                          !reduceMotion && isActive
+                            ? "transition-[width] duration-75 ease-linear"
+                            : null,
+                        )}
+                        style={{ width: `${fill}%` }}
+                      />
+                    </button>
+                  );
+                })}
+                <span className="sr-only" aria-live="polite">
+                  Showing {activeTab?.label}
+                  {canAutoplay ? `, ${Math.round(progress)}% through` : ""}
+                </span>
+              </div>
+            ) : (
+              <p className="sr-only" aria-live="polite">
+                Showing {activeTab?.label}
+              </p>
+            )}
           </div>
         </Tabs>
       </div>

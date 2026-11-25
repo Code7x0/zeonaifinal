@@ -156,10 +156,10 @@ export const NAV_GROUPS: readonly NavGroup[] = [
   },
   {
     id: "industries",
-    label: "Industries",
+    label: "Industry Solutions",
     items: [
       {
-        label: "All industries",
+        label: "All industry solutions",
         href: "/industries",
         description:
           "Regulated, document-heavy sectors on the same platform.",

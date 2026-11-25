@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { ArchitectureSection } from "./architecture-section";
 import { CustomerStoriesSection } from "./customer-stories";
+import { DeploymentOptionsSection } from "./deployment-options-section";
 import { FeatureBentos } from "./feature-bentos";
 import { PartnersProgramsStrip } from "./partners-programs-strip";
 import { WorksWithStrip } from "./works-with-strip";
@@ -18,13 +19,6 @@ import { TrustSection } from "./trust-section";
 import { ScrollReveal } from "./motion/scroll-reveal";
 
 /* Heavy below-fold sections — split from the first paint bundle */
-const EngineeringSection = dynamic(
-  () =>
-    import("./engineering/engineering-section").then((m) => ({
-      default: m.EngineeringSection,
-    })),
-  { ssr: true },
-);
 const RoleConfigurator = dynamic(
   () =>
     import("./role-configurator").then((m) => ({
@@ -56,15 +50,15 @@ export function V7HomePage() {
           <Industries />
           <QuoteMarquee />
           <FeatureBentos />
+          <ArchitectureSection />
+          <RoleConfigurator />
           <ScrollReveal y={16}>
             <WorksWithStrip />
           </ScrollReveal>
-          <ArchitectureSection />
-          <EngineeringSection />
-          <RoleConfigurator />
           <CustomerStoriesSection />
           <TrustSection />
           <SecurityComplianceSection />
+          <DeploymentOptionsSection />
           <FinalCta />
         </main>
         <SiteFooter />

@@ -35,12 +35,9 @@ export function WorksWithStrip() {
       <div className="mx-auto max-w-[1120px]">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#717680]">
-              Integrations
-            </p>
             <h2
               id="works-with-heading"
-              className="mt-2 font-[family-name:var(--font-aeonik)] text-[22px] tracking-[-0.02em] text-[#181D27] md:text-[26px]"
+              className="font-[family-name:var(--font-aeonik)] text-[22px] tracking-[-0.02em] text-[#181D27] md:text-[26px]"
             >
               Works with
             </h2>

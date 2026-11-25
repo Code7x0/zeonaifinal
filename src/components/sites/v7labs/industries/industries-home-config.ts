@@ -77,7 +77,6 @@ export const INDUSTRY_CARDS: readonly IndustryCard[] = [
     outcome:
       "Knowledge discovery for classified environments, deployed on your own infrastructure.",
     agents: ["Secure knowledge discovery"],
-    dark: true,
   },
   {
     id: "metals",

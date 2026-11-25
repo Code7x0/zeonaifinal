@@ -1,219 +1,263 @@
 "use client";
 
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type KeyboardEvent,
+} from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useInView, useReducedMotion } from "motion/react";
 import { caseStudies } from "@/components/sites/zeonai/content";
+import { cn } from "@/lib/utils";
 import { durationEnter, easeOut, enterY, viewportOnce } from "../motion";
 import { CaseVisual } from "./case-visuals";
 
-const [featured, secondary, wide, compact] = caseStudies;
-
-/** Homepage bento: navy + brand blue checkerboard (ZeonAI palette). */
-type CardTone = "navy" | "brand";
-
-const cardTone: Record<"featured" | "secondary" | "compact" | "wide", CardTone> =
-  {
-    featured: "navy",
-    secondary: "brand",
-    compact: "navy",
-    wide: "brand",
-  };
-
-const toneSurface: Record<CardTone, string> = {
-  navy: "zeon-surface-ink zeon-lift text-white",
-  brand: "zeon-surface-brand zeon-lift text-white",
-};
+const AUTOPLAY_MS = 4500;
+const INTERACTION_PAUSE_MS = 8000;
 
 export function CustomerStoriesSection() {
   const reduceMotion = useReducedMotion() ?? false;
+  const sectionRef = useRef<HTMLElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLElement | null)[]>([]);
+  const inView = useInView(sectionRef, { amount: 0.2 });
+
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const pauseUntilRef = useRef(0);
+  const scrollRafRef = useRef<number | null>(null);
+
+  const count = caseStudies.length;
+
+  const scrollToIndex = useCallback(
+    (index: number, manual = false) => {
+      const track = trackRef.current;
+      const card = cardRefs.current[index];
+      if (!track || !card) return;
+      if (manual) {
+        pauseUntilRef.current = Date.now() + INTERACTION_PAUSE_MS;
+      }
+      const left = card.offsetLeft - track.offsetLeft;
+      track.scrollTo({
+        left,
+        behavior: reduceMotion ? "auto" : "smooth",
+      });
+      setActiveIndex(index);
+    },
+    [reduceMotion],
+  );
+
+  const syncActiveFromScroll = useCallback(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    const center = track.scrollLeft + track.clientWidth / 2;
+    let bestIdx = 0;
+    let bestDist = Number.POSITIVE_INFINITY;
+    cardRefs.current.forEach((el, idx) => {
+      if (!el) return;
+      const elCenter = el.offsetLeft - track.offsetLeft + el.offsetWidth / 2;
+      const dist = Math.abs(center - elCenter);
+      if (dist < bestDist) {
+        bestDist = dist;
+        bestIdx = idx;
+      }
+    });
+    setActiveIndex(bestIdx);
+  }, []);
+
+  const handleScroll = useCallback(() => {
+    if (scrollRafRef.current != null) return;
+    scrollRafRef.current = window.requestAnimationFrame(() => {
+      scrollRafRef.current = null;
+      syncActiveFromScroll();
+    });
+  }, [syncActiveFromScroll]);
+
+  useEffect(() => {
+    return () => {
+      if (scrollRafRef.current != null) {
+        window.cancelAnimationFrame(scrollRafRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (reduceMotion || !inView || hovered || focused || count <= 1) return;
+    const id = window.setInterval(() => {
+      if (Date.now() < pauseUntilRef.current) return;
+      setActiveIndex((prev) => {
+        const next = (prev + 1) % count;
+        const track = trackRef.current;
+        const card = cardRefs.current[next];
+        if (track && card) {
+          track.scrollTo({
+            left: card.offsetLeft - track.offsetLeft,
+            behavior: "smooth",
+          });
+        }
+        return next;
+      });
+    }, AUTOPLAY_MS);
+    return () => window.clearInterval(id);
+  }, [reduceMotion, inView, hovered, focused, count]);
+
+  const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      scrollToIndex((activeIndex + 1) % count, true);
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      scrollToIndex((activeIndex - 1 + count) % count, true);
+    }
+  };
 
   return (
     <section
+      ref={sectionRef}
       id="customers"
       className="zeon-section-tint relative scroll-mt-24 overflow-hidden border-t border-[#E9EAEB] text-[#181D27]"
       aria-labelledby="customers-heading"
     >
       <div className="zeon-section-pad relative mx-auto max-w-[var(--zeon-container,1180px)] px-[var(--zeon-gutter,1.25rem)]">
         <motion.div
-          className="max-w-[40rem]"
+          className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between"
           initial={reduceMotion ? false : { opacity: 0, y: enterY }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={viewportOnce}
           transition={{ duration: durationEnter, ease: easeOut }}
         >
-          <p className="mb-3 inline-flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.14em] text-[#2962FF]">
-            Customers
-            <span
-              aria-hidden
-              className="hidden h-px w-9 bg-[linear-gradient(90deg,#BCD3FF,transparent)] sm:block"
-            />
-            <span className="text-[#A4A7AE]">Sheet · Cases</span>
-          </p>
-          <h2
-            id="customers-heading"
-            className="zeon-type-section text-balance"
-          >
-            Customers and case studies
-          </h2>
-          <p className="mt-4 max-w-[48ch] text-[16px] leading-[1.6] text-[#697386] md:text-[17px]">
-            Real deployments across lending, finance and media, with the results
-            each one delivered.
-          </p>
-          <Link href="/customers" className="zeon-link-arrow mt-5">
+          <div className="max-w-[40rem]">
+            <h2
+              id="customers-heading"
+              className="zeon-type-section text-balance"
+            >
+              Customers and case studies
+            </h2>
+            <p className="mt-4 max-w-[48ch] text-[16px] leading-[1.6] text-[#697386] md:text-[17px]">
+              Real deployments across lending, finance and media, with the
+              results each one delivered.
+            </p>
+          </div>
+          <Link href="/customers" className="zeon-link-arrow shrink-0">
             See all case studies
             <ArrowUpRight className="size-3.5" />
           </Link>
         </motion.div>
 
-        <div className="mt-12 grid gap-4 md:grid-cols-12 md:gap-5">
-          {featured ? (
-            <article
-              className={`group relative flex flex-col overflow-hidden md:col-span-7 md:row-span-2 ${toneSurface[cardTone.featured]}`}
-            >
-              <Link
-                href={`/customers/${featured.slug}`}
-                className="flex h-full flex-col p-5 md:p-7 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-              >
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/45">
-                    {featured.industry}
-                  </span>
-                  <span className="font-mono text-[10px] text-white/30">·</span>
-                  <span className="text-[12px] text-white/55">
-                    {featured.customer}
-                  </span>
-                </div>
-                <h3 className="mt-4 max-w-[18ch] font-[family-name:var(--font-aeonik)] text-[26px] leading-[1.12] tracking-[-0.03em] md:text-[32px]">
-                  {featured.title}
-                </h3>
-                <p className="mt-3 max-w-[42ch] text-[14px] leading-[1.55] text-white/55">
-                  {featured.summary}
-                </p>
-                <div className="mt-6">
-                  <p className="font-[family-name:var(--font-aeonik)] text-[clamp(2rem,1.4rem+2.5vw,3.25rem)] leading-none tracking-[-0.04em] text-white">
-                    {featured.metricShort}
-                  </p>
-                  <p className="mt-2 text-[13px] text-white/45">
-                    {featured.metricLabel}
-                  </p>
-                </div>
-                <div className="mt-6 rounded-[3px] bg-white/95 p-1">
-                  <CaseVisual study={featured} />
-                </div>
-                <span className="mt-auto inline-flex items-center gap-1.5 pt-6 text-[13px] font-medium text-white transition-[gap] duration-300 ease-out group-hover:gap-2.5">
-                  Read case study
-                  <ArrowUpRight className="size-3.5" />
-                </span>
-              </Link>
-            </article>
-          ) : null}
+        <div
+          className="mt-12"
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+          onFocusCapture={() => setFocused(true)}
+          onBlurCapture={(e) => {
+            if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+              setFocused(false);
+            }
+          }}
+          onKeyDown={onKeyDown}
+        >
+          <div
+            ref={trackRef}
+            role="region"
+            aria-roledescription="carousel"
+            aria-label="Client case studies"
+            tabIndex={0}
+            onScroll={handleScroll}
+            className="flex snap-x snap-mandatory items-stretch gap-5 overflow-x-auto pb-2 scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2962FF] [&::-webkit-scrollbar]:hidden"
+          >
+            {caseStudies.map((study, idx) => {
+              const isBrand = idx % 2 === 1;
+              return (
+                <article
+                  key={study.slug}
+                  ref={(el) => {
+                    cardRefs.current[idx] = el;
+                  }}
+                  className={cn(
+                    "group relative flex w-[min(360px,84vw)] shrink-0 snap-start flex-col overflow-hidden text-white sm:w-[400px] lg:w-[420px]",
+                    isBrand
+                      ? "zeon-surface-brand zeon-lift"
+                      : "zeon-surface-ink zeon-lift",
+                  )}
+                >
+                  <Link
+                    href={`/customers/${study.slug}`}
+                    className="flex h-full flex-col p-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                  >
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/55">
+                        {study.industry}
+                      </span>
+                      <span className="font-mono text-[10px] text-white/30">
+                        ·
+                      </span>
+                      <span className="text-[12px] text-white/65">
+                        {study.customer}
+                      </span>
+                    </div>
 
-          {secondary ? (
-            <article
-              className={`group relative flex flex-col overflow-hidden md:col-span-5 ${toneSurface[cardTone.secondary]}`}
-            >
-              <Link
-                href={`/customers/${secondary.slug}`}
-                className="flex h-full flex-col p-5 md:p-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-              >
-                <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/45">
-                  {secondary.industry}
-                </p>
-                <h3 className="mt-3 font-[family-name:var(--font-aeonik)] text-[20px] leading-[1.15] tracking-[-0.025em] md:text-[22px]">
-                  {secondary.title}
-                </h3>
-                <p className="mt-2 text-[13px] leading-[1.5] text-white/55">
-                  {secondary.summary}
-                </p>
-                <div className="mt-4 flex items-baseline gap-2">
-                  <span className="font-[family-name:var(--font-aeonik)] text-[28px] tracking-[-0.03em] text-white">
-                    {secondary.metricShort}
-                  </span>
-                  <span className="text-[12px] text-white/45">
-                    {secondary.metricLabel}
-                  </span>
-                </div>
-                <div className="mt-4 overflow-hidden rounded-[3px] bg-white/95">
-                  <CaseVisual study={secondary} compact />
-                </div>
-                <span className="mt-auto inline-flex items-center gap-1.5 pt-5 text-[13px] font-medium text-white transition-[gap] duration-300 ease-out group-hover:gap-2.5">
-                  Read case study
-                  <ArrowUpRight className="size-3.5" />
-                </span>
-              </Link>
-            </article>
-          ) : null}
+                    <h3 className="mt-4 line-clamp-2 font-[family-name:var(--font-aeonik)] text-[22px] leading-[1.18] tracking-[-0.025em]">
+                      {study.title}
+                    </h3>
 
-          {compact ? (
-            <article
-              className={`group relative flex flex-col overflow-hidden md:col-span-5 ${toneSurface[cardTone.compact]}`}
-            >
-              <Link
-                href={`/customers/${compact.slug}`}
-                className="flex h-full flex-col p-5 md:p-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-              >
-                <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/45">
-                  {compact.industry}
-                </p>
-                <h3 className="mt-3 font-[family-name:var(--font-aeonik)] text-[20px] leading-[1.15] tracking-[-0.025em]">
-                  {compact.title}
-                </h3>
-                <div className="mt-4 flex items-baseline gap-2">
-                  <span className="font-[family-name:var(--font-aeonik)] text-[28px] tracking-[-0.03em] text-white">
-                    {compact.metricShort}
-                  </span>
-                  <span className="text-[12px] text-white/45">
-                    {compact.metricLabel}
-                  </span>
-                </div>
-                <p className="mt-3 text-[13px] leading-[1.5] text-white/55">
-                  {compact.customer}
-                </p>
-                <span className="mt-auto inline-flex items-center gap-1.5 pt-5 text-[13px] font-medium text-white transition-[gap] duration-300 ease-out group-hover:gap-2.5">
-                  Read case study
-                  <ArrowUpRight className="size-3.5" />
-                </span>
-              </Link>
-            </article>
-          ) : null}
+                    <p className="mt-3 line-clamp-3 text-[13.5px] leading-[1.55] text-white/65">
+                      {study.summary}
+                    </p>
 
-          {wide ? (
-            <article
-              className={`group relative overflow-hidden md:col-span-12 ${toneSurface[cardTone.wide]}`}
-            >
-              <Link
-                href={`/customers/${wide.slug}`}
-                className="grid gap-6 p-5 md:grid-cols-[minmax(0,0.95fr)_minmax(0,1.15fr)] md:items-center md:gap-10 md:p-7 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-              >
-                <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/45">
-                    {wide.industry}
-                  </p>
-                  <h3 className="mt-3 font-[family-name:var(--font-aeonik)] text-[22px] leading-[1.15] tracking-[-0.025em] md:text-[28px]">
-                    {wide.title}
-                  </h3>
-                  <p className="mt-3 max-w-[48ch] text-[14px] leading-[1.55] text-white/55">
-                    {wide.summary}
-                  </p>
-                  <div className="mt-5 flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                    <span className="font-[family-name:var(--font-aeonik)] text-[32px] tracking-[-0.03em] text-white">
-                      {wide.metricShort}
+                    <div className="mt-5 flex items-baseline gap-2.5">
+                      <span className="font-[family-name:var(--font-aeonik)] text-[30px] leading-none tracking-[-0.03em] text-white">
+                        {study.metricShort}
+                      </span>
+                      <span className="text-[12px] text-white/55">
+                        {study.metricLabel}
+                      </span>
+                    </div>
+
+                    <div className="mt-5 overflow-hidden rounded-[3px] bg-white/95 p-1">
+                      <CaseVisual study={study} compact />
+                    </div>
+
+                    <span className="mt-auto inline-flex items-center gap-1.5 pt-5 text-[13px] font-medium text-white transition-[gap] duration-300 ease-out group-hover:gap-2.5">
+                      Read case study
+                      <ArrowUpRight className="size-3.5" />
                     </span>
-                    <span className="text-[13px] text-white/45">
-                      {wide.metricLabel}
-                    </span>
-                  </div>
-                  <span className="mt-6 inline-flex items-center gap-1.5 text-[13px] font-medium text-white transition-[gap] duration-300 ease-out group-hover:gap-2.5">
-                    Read case study
-                    <ArrowUpRight className="size-3.5" />
-                  </span>
-                </div>
-                <div className="overflow-hidden rounded-[3px] bg-white/95">
-                  <CaseVisual study={wide} />
-                </div>
-              </Link>
-            </article>
+                  </Link>
+                </article>
+              );
+            })}
+          </div>
+
+          {/* Connected scroll / position indicator */}
+          {count > 1 ? (
+            <div
+              className="mt-6 flex items-center justify-center gap-2"
+              role="tablist"
+              aria-label="Case study slides"
+            >
+              {caseStudies.map((study, idx) => {
+                const active = activeIndex === idx;
+                return (
+                  <button
+                    key={study.slug}
+                    type="button"
+                    role="tab"
+                    aria-selected={active}
+                    aria-label={`Show case study ${idx + 1}: ${study.title}`}
+                    onClick={() => scrollToIndex(idx, true)}
+                    className={cn(
+                      "h-2 rounded-full transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B46F5]",
+                      active
+                        ? "w-7 bg-[#1B46F5]"
+                        : "w-2 bg-[#CBD5E1] hover:bg-[#94A3B8]",
+                    )}
+                  />
+                );
+              })}
+            </div>
           ) : null}
         </div>
       </div>
