@@ -170,7 +170,7 @@ export function CustomerStoriesSection() {
             className="flex snap-x snap-mandatory items-stretch gap-5 overflow-x-auto pb-2 scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2962FF] [&::-webkit-scrollbar]:hidden"
           >
             {caseStudies.map((study, idx) => {
-              const isBrand = idx % 2 === 1;
+              const altDark = idx % 2 === 1;
               return (
                 <article
                   key={study.slug}
@@ -178,10 +178,10 @@ export function CustomerStoriesSection() {
                     cardRefs.current[idx] = el;
                   }}
                   className={cn(
-                    "group relative flex w-[min(360px,84vw)] shrink-0 snap-start flex-col overflow-hidden text-white sm:w-[400px] lg:w-[420px]",
-                    isBrand
-                      ? "zeon-surface-brand zeon-lift"
-                      : "zeon-surface-ink zeon-lift",
+                    "group relative flex w-[min(360px,84vw)] shrink-0 snap-start flex-col overflow-hidden rounded-[var(--zeon-radius-card)] border border-white/[0.08] text-white sm:w-[400px] lg:w-[420px]",
+                    altDark
+                      ? "bg-[linear-gradient(160deg,#252B37_0%,#1A1F2A_55%,#141820_100%)]"
+                      : "bg-[linear-gradient(160deg,#1A2030_0%,#12161F_55%,#0E1219_100%)]",
                   )}
                 >
                   <Link
@@ -249,10 +249,10 @@ export function CustomerStoriesSection() {
                     aria-label={`Show case study ${idx + 1}: ${study.title}`}
                     onClick={() => scrollToIndex(idx, true)}
                     className={cn(
-                      "h-2 rounded-full transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B46F5]",
+                      "h-2 rounded-full transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#181D27]",
                       active
-                        ? "w-7 bg-[#1B46F5]"
-                        : "w-2 bg-[#CBD5E1] hover:bg-[#94A3B8]",
+                        ? "w-7 bg-[#181D27]"
+                        : "w-2 bg-[#D5D7DA] hover:bg-[#A4A7AE]",
                     )}
                   />
                 );

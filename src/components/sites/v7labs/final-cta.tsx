@@ -45,11 +45,12 @@ const ROLE_OPTIONS = [
 
 const INTEREST_OPTIONS = ["AI Workspace", "Agent Hub", "Both"] as const;
 
-const fieldClass = "zeon-field";
+const fieldClass =
+  "zeon-field !mt-1.5 !h-11 !rounded-[10px] !border-white/[0.1] !bg-[#12161F]";
 
 export function FinalCta() {
   const [status, setStatus] = useState<"idle" | "error">("idle");
-  const [interest, setInterest] = useState<string>("");
+  const [interest, setInterest] = useState<string>("AI Workspace");
   const videoRef = useRef<HTMLVideoElement>(null);
   const sculptureRef = useRef<HTMLDivElement>(null);
 
@@ -157,190 +158,197 @@ export function FinalCta() {
           </ol>
         </FadeUp>
 
-        <FadeUp
-          delay={0.12}
-          className="order-3 min-w-0 lg:order-4"
-        >
-        <form
-          onSubmit={onSubmit}
-          autoComplete="on"
-          className="zeon-glass-float relative min-w-0 overflow-hidden border-white/12 bg-[rgba(10,10,12,0.88)] p-5 sm:p-7"
-          style={{
-            backgroundImage:
-              "linear-gradient(165deg, rgba(18,18,20,0.96) 0%, rgba(10,10,12,0.94) 48%, rgba(8,8,10,0.96) 100%)",
-          }}
-          noValidate
-          aria-labelledby="demo-form-title"
-        >
-          <h3
-            id="demo-form-title"
-            className="font-[family-name:var(--font-aeonik)] text-[20px] tracking-[-0.02em] text-[#F5F5F5]"
+        <FadeUp delay={0.12} className="order-3 min-w-0 lg:order-4">
+          <form
+            onSubmit={onSubmit}
+            autoComplete="on"
+            className="relative min-w-0 overflow-hidden rounded-[16px] border border-white/[0.08] bg-[#12161F] p-5 sm:p-7"
+            noValidate
+            aria-labelledby="demo-form-title"
           >
-            Your details
-          </h3>
-          <p className="mt-1.5 text-[13px] text-[#A4A7AE]">
-            All fields are required unless marked optional.
-          </p>
-
-          <input type="hidden" name="form" value="demo" />
-
-          <div className="mt-6 grid gap-5 sm:grid-cols-2">
-            <Field label="Name" name="name" autoComplete="name" required />
-            <Field
-              label="Work email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              required
-            />
-            <Field
-              label="Company"
-              name="company"
-              autoComplete="organization"
-              required
-            />
-            <label className="block">
-              <span className="text-[13px] font-medium text-[#E8E8E8]">
-                Role{" "}
-                <span className="font-normal text-[#7A7A7A]">(optional)</span>
-              </span>
-              <select
-                name="role"
-                autoComplete="organization-title"
-                defaultValue=""
-                className={fieldClass}
+            <div className="border-b border-white/[0.08] pb-5">
+              <h3
+                id="demo-form-title"
+                className="font-[family-name:var(--font-aeonik)] text-[22px] tracking-[-0.025em] text-[#F5F6F8]"
               >
-                <option value="">Choose your role</option>
-                {ROLE_OPTIONS.map((opt) => (
-                  <option key={opt} value={opt}>
-                    {opt}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
-
-          <label className="mt-5 block">
-            <span className="text-[13px] font-medium text-[#E8E8E8]">
-              Your role or team{" "}
-              <span className="font-normal text-[#7A7A7A]">(optional)</span>
-            </span>
-            <input name="team" type="text" className={fieldClass} />
-          </label>
-
-          <fieldset className="mt-5">
-            <legend className="text-[13px] font-medium text-[#E8E8E8]">
-              Interested in
-            </legend>
-            <div
-              role="radiogroup"
-              aria-label="Interested in"
-              className="mt-2.5 flex flex-wrap gap-2"
-            >
-              {INTEREST_OPTIONS.map((opt) => {
-                const selected = interest === opt;
-                return (
-                  <button
-                    key={opt}
-                    type="button"
-                    role="radio"
-                    aria-checked={selected}
-                    onClick={() => setInterest(opt)}
-                    className="zeon-chip"
-                    data-selected={selected}
-                  >
-                    {opt}
-                  </button>
-                );
-              })}
+                Your details
+              </h3>
+              <p className="mt-1.5 text-[13px] leading-snug text-[#8B93A1]">
+                Required unless marked optional.
+              </p>
             </div>
-            <input
-              type="text"
-              name="interest"
-              value={interest}
-              required
-              tabIndex={-1}
-              aria-hidden
-              className="pointer-events-none absolute h-px w-px opacity-0"
-              onChange={() => {}}
-            />
-          </fieldset>
 
-          <label className="mt-5 block">
-            <span className="text-[13px] font-medium text-[#E8E8E8]">
-              Message{" "}
-              <span className="font-normal text-[#7A7A7A]">(optional)</span>
-            </span>
-            <textarea
-              name="message"
-              rows={4}
-              className="zeon-field mt-2 h-auto min-h-[6.5rem] resize-y py-3"
-            />
-          </label>
+            <input type="hidden" name="form" value="demo" />
 
-          <label className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden opacity-0" aria-hidden>
-            Leave this field empty
-            <input
-              type="text"
-              name="website"
-              tabIndex={-1}
-              autoComplete="off"
-            />
-          </label>
-
-          <label className="mt-5 flex items-start gap-2.5 text-[12px] leading-[1.5] text-[#9A9A9A]">
-            <input
-              type="checkbox"
-              name="consent"
-              required
-              className="mt-0.5 size-4 shrink-0 rounded-[2px] border-white/20 bg-[#0C0C0E] accent-[#2962FF]"
-            />
-            <span>
-              I agree that ZeonAI Labs may contact me about this request. See
-              the{" "}
-              <a
-                href="/privacy-policy"
-                className="text-[#8EB8FF] underline underline-offset-2"
-              >
-                privacy policy
-              </a>
-              .
-            </span>
-          </label>
-
-          {status === "error" ? (
-            <div
-              role="alert"
-              className="mt-5 rounded-[8px] border border-white/14 bg-white/[0.04] px-4 py-3 text-[13px] text-[#F0F0F0] backdrop-blur-sm"
-            >
-              <p className="font-medium">We could not send your request.</p>
-              <p className="mt-1 text-[#9A9A9A]">
-                Email us at{" "}
-                <a
-                  href="mailto:contact@zeonai.com"
-                  className="text-[#8EB8FF] underline underline-offset-2"
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 sm:gap-x-4 sm:gap-y-5">
+              <Field label="Name" name="name" autoComplete="name" required />
+              <Field
+                label="Work email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+              />
+              <Field
+                label="Company"
+                name="company"
+                autoComplete="organization"
+                required
+              />
+              <label className="block">
+                <span className="text-[13px] font-medium text-[#E8EAEB]">
+                  Role{" "}
+                  <span className="font-normal text-[#727B8B]">(optional)</span>
+                </span>
+                <select
+                  name="role"
+                  autoComplete="organization-title"
+                  defaultValue=""
+                  className={fieldClass}
                 >
-                  contact@zeonai.com
-                </a>{" "}
-                and we will reply directly.
-              </p>
-              <p className="mt-2 text-[11px] text-[#6B6B6B]">
-                Staging build: no form endpoint is configured, so nothing was
-                sent or stored.
-              </p>
+                  <option value="">Choose your role</option>
+                  {ROLE_OPTIONS.map((opt) => (
+                    <option key={opt} value={opt}>
+                      {opt}
+                    </option>
+                  ))}
+                </select>
+              </label>
             </div>
-          ) : null}
 
-          <ZeonButton type="submit" tone="accent" block className="mt-6 !rounded-[8px]">
-            Book a demo
-          </ZeonButton>
-          <noscript>
-            <p className="mt-3 text-[12px] text-[#9A9A9A]">
-              This form needs JavaScript. Email us at contact@zeonai.com
-              instead.
-            </p>
-          </noscript>
-        </form>
+            <label className="mt-5 block">
+              <span className="text-[13px] font-medium text-[#E8EAEB]">
+                Your role or team{" "}
+                <span className="font-normal text-[#727B8B]">(optional)</span>
+              </span>
+              <input name="team" type="text" className={fieldClass} />
+            </label>
+
+            <fieldset className="mt-5">
+              <legend className="text-[13px] font-medium text-[#E8EAEB]">
+                Interested in
+              </legend>
+              <div
+                role="radiogroup"
+                aria-label="Interested in"
+                className="mt-2.5 flex rounded-[12px] border border-white/[0.08] bg-[#0C1018] p-1"
+              >
+                {INTEREST_OPTIONS.map((opt) => {
+                  const selected = interest === opt;
+                  return (
+                    <button
+                      key={opt}
+                      type="button"
+                      role="radio"
+                      aria-checked={selected}
+                      onClick={() => setInterest(opt)}
+                      className={`min-h-[40px] flex-1 rounded-[8px] px-3 text-[13px] font-medium tracking-[-0.01em] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2962FF] ${
+                        selected
+                          ? "bg-[#1B46F5] text-white"
+                          : "text-[#8B93A1] hover:text-[#F5F6F8]"
+                      }`}
+                    >
+                      {opt}
+                    </button>
+                  );
+                })}
+              </div>
+              <input
+                type="text"
+                name="interest"
+                value={interest}
+                required
+                tabIndex={-1}
+                aria-hidden
+                className="pointer-events-none absolute h-px w-px opacity-0"
+                onChange={() => {}}
+              />
+            </fieldset>
+
+            <label className="mt-5 block">
+              <span className="text-[13px] font-medium text-[#E8EAEB]">
+                Message{" "}
+                <span className="font-normal text-[#727B8B]">(optional)</span>
+              </span>
+              <textarea
+                name="message"
+                rows={4}
+                placeholder="What workflow should we walk through?"
+                className={`${fieldClass} !mt-1.5 !h-auto min-h-[6.5rem] resize-y !py-3 placeholder:text-[#5A6270]`}
+              />
+            </label>
+
+            <label
+              className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden opacity-0"
+              aria-hidden
+            >
+              Leave this field empty
+              <input
+                type="text"
+                name="website"
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </label>
+
+            <label className="mt-6 flex items-start gap-2.5 text-[12px] leading-[1.5] text-[#8B93A1]">
+              <input
+                type="checkbox"
+                name="consent"
+                required
+                className="mt-0.5 size-4 shrink-0 rounded-[3px] border-white/20 bg-[#0C1018] accent-[#2962FF]"
+              />
+              <span>
+                I agree that ZeonAI Labs may contact me about this request. See
+                the{" "}
+                <a
+                  href="/privacy-policy"
+                  className="font-medium text-[#8EB8FF] underline underline-offset-2"
+                >
+                  privacy policy
+                </a>
+                .
+              </span>
+            </label>
+
+            {status === "error" ? (
+              <div
+                role="alert"
+                className="mt-5 rounded-[10px] border border-white/12 bg-white/[0.04] px-4 py-3 text-[13px] text-[#F5F6F8]"
+              >
+                <p className="font-medium">We could not send your request.</p>
+                <p className="mt-1 text-[#8B93A1]">
+                  Email us at{" "}
+                  <a
+                    href="mailto:contact@zeonai.com"
+                    className="font-medium text-[#8EB8FF] underline underline-offset-2"
+                  >
+                    contact@zeonai.com
+                  </a>{" "}
+                  and we will reply directly.
+                </p>
+                <p className="mt-2 text-[11px] text-[#5A6270]">
+                  Staging build: no form endpoint is configured, so nothing was
+                  sent or stored.
+                </p>
+              </div>
+            ) : null}
+
+            <ZeonButton
+              type="submit"
+              tone="accent"
+              block
+              className="mt-6 !h-12 !rounded-[10px] !text-[15px]"
+            >
+              Book a demo
+            </ZeonButton>
+            <noscript>
+              <p className="mt-3 text-[12px] text-[#8B93A1]">
+                This form needs JavaScript. Email us at contact@zeonai.com
+                instead.
+              </p>
+            </noscript>
+          </form>
         </FadeUp>
       </div>
     </section>
@@ -403,7 +411,7 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="text-[13px] font-medium text-[#E8E8E8]">{label}</span>
+      <span className="text-[13px] font-medium text-[#E8EAEB]">{label}</span>
       <input
         name={name}
         type={type}

@@ -129,7 +129,7 @@ export function RoleConfigurator() {
   return (
     <section
       id="who-are-you"
-      className="relative scroll-mt-24 overflow-hidden border-t border-[#252B37] bg-[#181D27] text-[#F5F6F8]"
+      className="relative scroll-mt-24 overflow-hidden border-t border-[#E9EAEB] bg-[#FAFAF9] text-[#181D27]"
       aria-labelledby={`${baseId}-heading`}
     >
       <div className="zeon-section-pad relative mx-auto max-w-[var(--zeon-container,1180px)] px-[var(--zeon-gutter,1.25rem)]">
@@ -142,21 +142,21 @@ export function RoleConfigurator() {
         >
           <h2
             id={`${baseId}-heading`}
-            className="zeon-type-section mt-3 text-balance !text-[#F5F6F8]"
+            className="zeon-type-section mt-3 text-balance"
           >
             Who are you?
           </h2>
-          <p className="mt-3 font-[family-name:var(--font-aeonik)] text-[22px] leading-snug tracking-[-0.025em] text-[#F5F6F8] md:text-[28px]">
+          <p className="mt-3 font-[family-name:var(--font-aeonik)] text-[22px] leading-snug tracking-[-0.025em] text-[#181D27] md:text-[28px]">
             Intelligence built around your role.
           </p>
-          <p className="mt-5 max-w-[52ch] text-[16px] leading-[1.6] text-[#A0A7B4] md:text-[17px]">
+          <p className="mt-5 max-w-[52ch] text-[16px] leading-[1.6] text-[#535862] md:text-[17px]">
             Choose your function. Module availability updates for each role.
           </p>
         </motion.div>
 
         {/* Role selector */}
         <div className="mt-10">
-          <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#727B8B]">
+          <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#717680]">
             Select your role
           </p>
           <div
@@ -165,11 +165,11 @@ export function RoleConfigurator() {
             aria-label="Professional role"
             aria-orientation={isMobileTabs ? "horizontal" : "horizontal"}
             onKeyDown={onRoleKeyDown}
-            className="relative mt-3 flex gap-1.5 overflow-x-auto scroll-smooth snap-x snap-mandatory rounded-[12px] border border-white/[0.06] bg-[#12161F] p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_8px_24px_rgba(0,0,0,0.28)] lg:flex-wrap lg:overflow-visible [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            className="relative mt-3 flex gap-1.5 overflow-x-auto scroll-smooth snap-x snap-mandatory rounded-[12px] border border-[#E9EAEB] bg-white p-1.5 shadow-[0_1px_2px_rgba(24,29,39,0.04)] lg:flex-wrap lg:overflow-visible [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
             <motion.span
               aria-hidden
-              className="pointer-events-none absolute z-0 rounded-[8px] border border-[#2962FF]/70 bg-[#16233F] shadow-[0_4px_14px_rgba(41,98,255,0.28),inset_0_1px_0_rgba(255,255,255,0.08)]"
+              className="pointer-events-none absolute z-0 rounded-[8px] border border-[#2962FF]/40 bg-white shadow-[0_2px_10px_rgba(41,98,255,0.16)]"
               animate={{
                 top: pill.top,
                 left: pill.left,
@@ -198,7 +198,9 @@ export function RoleConfigurator() {
                   tabIndex={selected ? 0 : -1}
                   onClick={() => selectRole(i)}
                   className={`relative z-[1] snap-center shrink-0 rounded-[8px] px-4 py-3 text-left text-[13px] font-medium tracking-[-0.01em] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2962FF] min-h-[44px] ${
-                    selected ? "text-[#F5F6F8]" : "text-[#8B93A1] hover:text-[#F5F6F8]"
+                    selected
+                      ? "text-[#181D27]"
+                      : "text-[#717680] hover:text-[#181D27]"
                   }`}
                 >
                   {r.label}
@@ -208,36 +210,32 @@ export function RoleConfigurator() {
           </div>
         </div>
 
-        {/* Module board — dark elevated panel (not light glass) */}
+        {/* Module board */}
         <div
           id={`${baseId}-board`}
           role="tabpanel"
           aria-labelledby={`${baseId}-tab-${role.slug}`}
-          className="relative mt-8 overflow-hidden rounded-[16px] border border-white/[0.08] bg-[linear-gradient(165deg,#1A2030_0%,#131820_48%,#0E1219_100%)] p-4 shadow-[0_1px_0_rgba(255,255,255,0.06)_inset,0_18px_48px_rgba(0,0,0,0.45),0_4px_12px_rgba(0,0,0,0.35)] md:p-6"
+          className="relative mt-8 overflow-hidden rounded-[16px] border border-[#E9EAEB] bg-white p-4 shadow-[0_1px_2px_rgba(24,29,39,0.04),0_8px_24px_rgba(24,29,39,0.06)] md:p-6"
         >
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"
-          />
           <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#727B8B]">
+              <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#717680]">
                 Modules
               </p>
-              <p className="mt-1 text-[15px] text-[#A0A7B4]">
+              <p className="mt-1 text-[15px] text-[#535862]">
                 Included for {role.label}
               </p>
             </div>
             <div
-              className="min-w-[11rem] rounded-[10px] border border-white/[0.06] bg-[#0C1018]/80 px-3 py-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]"
+              className="min-w-[11rem] rounded-[10px] border border-[#E9EAEB] bg-white px-3 py-2.5"
               aria-live="polite"
               aria-atomic="true"
             >
-              <p className="font-mono text-[11px] uppercase tracking-[0.14em] tabular-nums text-[#F5F6F8]">
+              <p className="font-mono text-[11px] uppercase tracking-[0.14em] tabular-nums text-[#181D27]">
                 <span style={{ color: ACCENT }}>{includedCount}</span>
-                <span className="text-[#727B8B]"> / 12 active</span>
+                <span className="text-[#717680]"> / 12 active</span>
               </p>
-              <p className="mt-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[#727B8B]">
+              <p className="mt-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[#717680]">
                 {includedCount} modules · {agentCount} agents
               </p>
               <div
@@ -251,7 +249,7 @@ export function RoleConfigurator() {
                     className="h-1 flex-1 rounded-[1px]"
                     style={{
                       backgroundColor:
-                        i < includedCount ? ACCENT : "#292F3A",
+                        i < includedCount ? ACCENT : "#E9EAEB",
                     }}
                   />
                 ))}
@@ -270,15 +268,15 @@ export function RoleConfigurator() {
                   <div
                     className={`flex h-full min-h-[92px] flex-col justify-between rounded-[8px] border px-3 py-3 transition-[border-color,background-color,box-shadow,opacity,transform] duration-200 ${
                       included
-                        ? "border-[#2962FF]/55 bg-[linear-gradient(160deg,#182544_0%,#111C32_55%,#0E1628_100%)] shadow-[0_1px_0_rgba(255,255,255,0.08)_inset,0_8px_20px_rgba(0,0,0,0.35),0_0_0_1px_rgba(41,98,255,0.12)]"
-                        : "border-dashed border-[#2A3140] bg-[#0F131B] opacity-75 shadow-[inset_0_1px_0_rgba(255,255,255,0.02)]"
+                        ? "border-[#BCD3FF] bg-[#EEF4FF] shadow-[0_1px_0_rgba(255,255,255,0.8)_inset,0_4px_12px_rgba(41,98,255,0.08)]"
+                        : "border-dashed border-[#D5D7DA] bg-white opacity-80"
                     }`}
                     aria-label={`${name}, ${included ? "included" : "not included"}`}
                   >
                     <div className="flex items-start justify-between gap-2">
                       <p
                         className={`text-[12.5px] font-medium leading-snug tracking-[-0.01em] md:text-[13px] ${
-                          included ? "text-[#F5F6F8]" : "text-[#6B7382]"
+                          included ? "text-[#181D27]" : "text-[#A4A7AE]"
                         }`}
                       >
                         {name}
@@ -307,7 +305,7 @@ export function RoleConfigurator() {
                                 delay: reduceMotion ? 0 : i * STAGGER,
                                 ease: [0.23, 1.2, 0.32, 1],
                               }}
-                              className="flex size-4 items-center justify-center rounded-[3px] text-white shadow-[0_2px_6px_rgba(41,98,255,0.45)]"
+                              className="flex size-4 items-center justify-center rounded-[3px] text-white shadow-[0_2px_6px_rgba(41,98,255,0.35)]"
                               style={{ backgroundColor: ACCENT }}
                             >
                               <Check className="size-2.5 stroke-[3]" />
@@ -326,7 +324,7 @@ export function RoleConfigurator() {
                                 duration: reduceMotion ? 0 : TICK_OUT,
                                 delay: reduceMotion ? 0 : i * STAGGER,
                               }}
-                              className="size-3.5 rounded-full border border-[#3D4656] bg-[#161B26]"
+                              className="size-3.5 rounded-full border border-[#D5D7DA] bg-[#F5F6F8]"
                             />
                           )}
                         </AnimatePresence>
@@ -334,7 +332,7 @@ export function RoleConfigurator() {
                     </div>
                     <p
                       className={`mt-2 font-mono text-[9px] uppercase tracking-[0.14em] ${
-                        included ? "text-[#8EB8FF]" : "text-[#4F5868]"
+                        included ? "text-[#2962FF]" : "text-[#A4A7AE]"
                       }`}
                     >
                       {included ? "INCLUDED" : "NOT INCLUDED"}
@@ -345,9 +343,9 @@ export function RoleConfigurator() {
             })}
           </ul>
 
-          {/* Configured agents — recessed tray */}
-          <div className="mt-5 min-h-[52px] rounded-[10px] border border-white/[0.05] bg-[#0A0E14]/90 px-3 py-3 shadow-[inset_0_2px_8px_rgba(0,0,0,0.35)]">
-            <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-[#727B8B]">
+          {/* Configured agents */}
+          <div className="mt-5 min-h-[52px] rounded-[10px] border border-[#E9EAEB] bg-white px-3 py-3">
+            <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-[#717680]">
               Configured agents · {agentCount}
             </p>
             <ul className="mt-2 flex min-h-[28px] flex-wrap gap-1.5">
@@ -360,7 +358,7 @@ export function RoleConfigurator() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={reduceMotion ? undefined : { opacity: 0 }}
                     transition={{ duration: reduceMotion ? 0 : 0.2, ease: easeOut }}
-                    className="rounded-[6px] border border-white/[0.08] bg-[linear-gradient(180deg,#1A2230_0%,#121820_100%)] px-2.5 py-1 text-[11px] tracking-[-0.01em] text-[#C4CAD6] shadow-[0_1px_0_rgba(255,255,255,0.06)_inset,0_2px_6px_rgba(0,0,0,0.35)]"
+                    className="rounded-[6px] border border-[#E9EAEB] bg-[#EEF0F3] px-2.5 py-1 text-[11px] tracking-[-0.01em] text-[#181D27]"
                   >
                     {agent}
                   </motion.li>
@@ -373,7 +371,7 @@ export function RoleConfigurator() {
         <div className="mt-8 flex justify-start">
           <Link
             href={`/?role=${role.slug}#demo`}
-            className="zeon-btn zeon-btn-accent !rounded-[10px] !text-[13px] !shadow-[0_1px_0_rgba(255,255,255,0.18)_inset,0_10px_28px_rgba(41,98,255,0.38),0_2px_8px_rgba(0,0,0,0.35)]"
+            className="zeon-btn zeon-btn-accent !rounded-[10px] !text-[13px]"
           >
             Book a demo with these modules
             <span className="zeon-btn-arrow" aria-hidden>

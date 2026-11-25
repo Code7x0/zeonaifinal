@@ -79,7 +79,7 @@ export function Industries() {
     <section
       ref={sectionRef}
       id="industries"
-      className="bg-[#ECEEF2] text-[#181D27] md:bg-white"
+      className="bg-[#ECEEF2] pt-[var(--zeon-space-section-y)] pb-[var(--zeon-space-section-y-sm)] text-[#181D27] md:bg-white md:py-0"
       style={{ color: C.heading }}
     >
       {/* Mobile (<768px): scroll-driven sticky stacked cards (falls back to vertical list on reduced motion) */}
@@ -141,13 +141,21 @@ export function Industries() {
 function IndustriesHeader({ compact = false }: { compact?: boolean }) {
   return (
     <>
-      <h2 className="zeon-type-section max-w-[720px] text-balance font-normal">
+      <h2
+        className={`zeon-type-section max-w-[720px] text-balance font-normal ${
+          compact
+            ? "text-[1.5rem] leading-[1.2] tracking-[-0.02em]"
+            : ""
+        }`}
+      >
         Built for regulated,{" "}
         <br className="hidden sm:block" />
         <span className="sm:whitespace-nowrap">document-heavy</span> sectors
       </h2>
       <p
-        className={`zeon-type-lead max-w-[560px] ${compact ? "mt-3" : "mt-4"}`}
+        className={`zeon-type-lead max-w-[560px] ${
+          compact ? "mt-2 text-[14px] leading-[1.4]" : "mt-4"
+        }`}
         style={{ color: C.body }}
       >
         The same platform, with agents built for each sector. Examples from our
@@ -157,7 +165,19 @@ function IndustriesHeader({ compact = false }: { compact?: boolean }) {
   );
 }
 
-const MOBILE_STACK_VH_PER_STEP = 44;
+/** Scroll distance per card — longer travel = smoother handoff. */
+const MOBILE_STACK_VH_PER_STEP = 64;
+
+/**
+ * Fixed slot height — sized to the content (icon, line, vignette, footer),
+ * not the viewport, so cards don’t look empty on tall phones.
+ */
+const MOBILE_CARD_H = "h-[clamp(320px,40svh,400px)]";
+
+function smoothstep(t: number) {
+  const x = Math.min(1, Math.max(0, t));
+  return x * x * (3 - 2 * x);
+}
 
 function MobileIndustriesStack() {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -165,7 +185,8 @@ function MobileIndustriesStack() {
   const [activeIndex, setActiveIndex] = useState(0);
   const lastActiveRef = useRef(0);
   const count = INDUSTRY_CARDS.length;
-  const trackHeightVh = (count - 1) * MOBILE_STACK_VH_PER_STEP + 100;
+  /* Lean lead-in/out so tall phones don’t feel empty before/after the stack. */
+  const trackHeightVh = (count - 1) * MOBILE_STACK_VH_PER_STEP + 40;
 
   const syncFromScroll = useCallback(() => {
     const track = trackRef.current;
@@ -186,28 +207,32 @@ function MobileIndustriesStack() {
       const el = cardRefs.current[i];
       if (!el) continue;
 
-      const enter =
+      const rawEnter =
         i === 0 ? 1 : Math.min(1, Math.max(0, floatIndex - (i - 1)));
-      const depth = Math.min(2, Math.max(0, floatIndex - i));
+      const enter = smoothstep(rawEnter);
+      const covered = floatIndex - i > 0.98;
 
       /*
-       * Individual floating sheets — no scale-down, no clip “window”.
-       * Next card slides up over the previous; past cards stay full-size
-       * underneath (slight lift only) so they never read as a nested frame.
+       * Strict slot lock:
+       * - Incoming cards only translate from +100% → 0 (never negative Y)
+       * - Fully covered past cards are hidden so they can’t peek or drift
+       * - Seekbar lives outside this slot, so it can never be covered
        */
-      if (i > 0 && enter <= 0.001) {
-        el.style.transform = "translate3d(0, 112%, 0)";
+      if (i > 0 && rawEnter <= 0.001) {
+        el.style.transform = "translate3d(0, 100%, 0)";
+        el.style.opacity = "0";
+        el.style.visibility = "hidden";
+        el.style.pointerEvents = "none";
+      } else if (covered) {
+        el.style.transform = "translate3d(0, 0, 0)";
         el.style.opacity = "0";
         el.style.visibility = "hidden";
         el.style.pointerEvents = "none";
       } else {
-        const yPct = i === 0 ? 0 : (1 - enter) * 112;
-        const depthY = depth * -10;
-        el.style.transform = `translate3d(0, calc(${yPct.toFixed(2)}% + ${depthY.toFixed(1)}px), 0)`;
+        const yPct = i === 0 ? 0 : (1 - enter) * 100;
+        el.style.transform = `translate3d(0, ${yPct.toFixed(2)}%, 0)`;
         el.style.opacity = String(
-          i === 0
-            ? 1
-            : Math.min(1, enter * 2.5),
+          i === 0 ? 1 : Math.min(1, 0.15 + enter * 0.85),
         );
         el.style.visibility = "visible";
         el.style.pointerEvents = rounded === i ? "auto" : "none";
@@ -265,58 +290,57 @@ function MobileIndustriesStack() {
       style={{ height: `${trackHeightVh}svh` }}
     >
       {/*
-        Cards float directly on the section wash — no clip box, no panel,
-        no scale-frame. Header / ticks / link sit in open air above/below.
+        Content-sized sticky (no 100svh min-height) — kills the huge empty
+        bands on iPhone 16 Pro Max above/below the stack.
       */}
       <div
-        className="sticky flex flex-col justify-center px-4 py-6 sm:px-5"
-        style={{
-          top: "var(--zeon-header-offset, 0px)",
-          minHeight: "calc(100svh - var(--zeon-header-offset, 0px))",
-        }}
+        className="sticky px-4 pb-4 pt-1 sm:px-5"
+        style={{ top: "max(0.5rem, var(--zeon-header-offset, 0px))" }}
       >
-        <div className="mx-auto w-full">
-          <IndustriesHeader compact />
+        <div className="mx-auto w-full max-w-[430px]">
+          {/* Chrome stays above the card slot — solid wash so cards can’t show through. */}
+          <div className="relative z-30 bg-[#ECEEF2]">
+            <IndustriesHeader compact />
 
-          <div className="mt-4 flex items-center justify-between">
-            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#717680]">
-              {String(activeIndex + 1).padStart(2, "0")} /{" "}
-              {String(count).padStart(2, "0")}
-            </span>
-            <div className="flex items-center gap-1" aria-hidden>
-              {INDUSTRY_CARDS.map((c, idx) => (
-                <span
-                  key={c.id}
-                  className={`h-1 rounded-full transition-all duration-200 ${
-                    idx === activeIndex
-                      ? "w-4 bg-[#1B46F5]"
-                      : idx < activeIndex
-                        ? "w-1.5 bg-[#BCD3FF]"
-                        : "w-1.5 bg-[#D5D7DA]"
-                  }`}
-                />
-              ))}
+            <div className="mt-2 flex items-center justify-between pb-2">
+              <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#717680]">
+                {String(activeIndex + 1).padStart(2, "0")} /{" "}
+                {String(count).padStart(2, "0")}
+              </span>
+              <div className="flex items-center gap-1" aria-hidden>
+                {INDUSTRY_CARDS.map((c, idx) => (
+                  <span
+                    key={c.id}
+                    className={`h-1 rounded-full transition-[width,background-color] duration-300 ease-out ${
+                      idx === activeIndex
+                        ? "w-4 bg-[#1B46F5]"
+                        : idx < activeIndex
+                          ? "w-1.5 bg-[#BCD3FF]"
+                          : "w-1.5 bg-[#D5D7DA]"
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
           </div>
 
-          {/*
-            Grid cell = tallest card. No overflow / no background / no border
-            on this wrapper — only the white SectorCard sheets paint.
-          */}
-          <div className="relative mt-4 grid w-full">
+          {/* Fixed-height stage: absolute cards, clipped, never leave this box. */}
+          <div
+            className={`relative z-10 w-full overflow-hidden ${MOBILE_CARD_H}`}
+          >
             {INDUSTRY_CARDS.map((card, i) => (
               <div
                 key={card.id}
                 ref={(el) => {
                   cardRefs.current[i] = el;
                 }}
-                className="col-start-1 row-start-1 will-change-transform"
+                className={`absolute inset-0 ${MOBILE_CARD_H} will-change-transform`}
                 style={{
                   zIndex: i + 1,
                   transform:
                     i === 0
                       ? "translate3d(0, 0, 0)"
-                      : "translate3d(0, 112%, 0)",
+                      : "translate3d(0, 100%, 0)",
                   opacity: i === 0 ? 1 : 0,
                   visibility: i === 0 ? "visible" : "hidden",
                 }}
@@ -326,7 +350,7 @@ function MobileIndustriesStack() {
             ))}
           </div>
 
-          <div className="mt-5">
+          <div className="relative z-30 mt-2.5 bg-[#ECEEF2] pt-0.5">
             <Link href="/industries" className="zeon-link-arrow">
               See all industries
             </Link>
@@ -408,14 +432,13 @@ function SectorCard({
       href={card.href}
       aria-label={card.a11yName}
       className={`group flex flex-col no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${
-        mobile ? "px-5 py-6 sm:px-6 sm:py-7" : "h-full p-6"
+        mobile ? "h-full px-6 py-7" : "h-full p-6"
       } ${mobileSurface}`}
       style={{
         color: dark ? C.white : C.heading,
         outlineColor: dark ? C.blue400 : C.brand,
         ...(mobile && !dark
           ? {
-              /* Float the sheet on the section wash — no parent panel. */
               background: C.white,
               boxShadow:
                 "0 1px 2px rgba(24, 29, 39, 0.06), 0 14px 36px rgba(24, 29, 39, 0.12)",
@@ -443,39 +466,38 @@ function SectorCard({
 
       {/* 2. Sentence */}
       <p
-        className={`text-[15px] leading-[1.55] ${mobile ? "mt-3" : "mt-2"}`}
+        className={`text-[15px] leading-[1.55] ${mobile ? "mt-3.5" : "mt-2"}`}
         style={{ color: dark ? C.gray400 : C.body }}
       >
         {card.outcome}
       </p>
 
-      {/* 3. Quiet vignette — only when the sector has one.
-          Mobile: no inset panel (avoids a “card inside a card” reading). */}
+      {/* 3. Quiet vignette — soft fill on mobile so taller cards don’t feel empty. */}
       {hasVignette ? (
         <div
-          className={mobile ? "mt-4" : "mt-3 px-3.5 py-3"}
-          style={
-            mobile
-              ? undefined
-              : {
-                  borderRadius: 2,
-                  background: dark ? "rgba(255,255,255,0.04)" : C.surface,
-                  backgroundImage: dark
-                    ? "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)"
-                    : undefined,
-                  backgroundSize: dark ? "24px 24px" : undefined,
-                }
-          }
+          className={mobile ? "mt-5 px-4 py-4" : "mt-3 px-3.5 py-3"}
+          style={{
+            borderRadius: mobile ? 10 : 2,
+            background: dark
+              ? "rgba(255,255,255,0.04)"
+              : mobile
+                ? "#F4F5F7"
+                : C.surface,
+            backgroundImage: dark
+              ? "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)"
+              : undefined,
+            backgroundSize: dark ? "24px 24px" : undefined,
+          }}
           aria-hidden
         >
           <SectorVignette id={card.id} dark={dark} />
         </div>
       ) : null}
 
-      {/* 4. Footer — agent + arrow */}
+      {/* 4. Footer — agent + arrow; mt-auto pins it to the equal card height. */}
       <div
-        className={`flex items-center justify-between gap-3 border-t ${
-          mobile ? "mt-5 pt-5" : "mt-auto pt-4"
+        className={`mt-auto flex items-center justify-between gap-3 border-t ${
+          mobile ? "pt-5" : "pt-4"
         }`}
         style={{
           borderColor: dark ? C.darkBorder : C.border,
