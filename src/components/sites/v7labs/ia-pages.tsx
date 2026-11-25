@@ -436,8 +436,20 @@ export function ArchitecturePage() {
 export function IntegrationsPage() {
   return (
     <PageShell>
-      <Chapter tone="paper" min={false} className="!min-h-0 pt-10 md:pt-14">
-        <ChapterLabel>Product · Integrations</ChapterLabel>
+      {/* Hero: connectors graphic first, copy beneath — no chapter labels */}
+      <Chapter tone="sky" min={false} className="!min-h-0 pt-10 md:pt-14">
+        <IntegrationEcosystem />
+        <ChapterTitle className="mt-10 max-w-[22ch]">
+          Your systems. One intelligent workspace.
+        </ChapterTitle>
+        <ChapterLead tone="sky">
+          Bring your enterprise systems together through governed AI agents.
+          Connect the ERP, data warehouse and document platforms your teams
+          already rely on.
+        </ChapterLead>
+      </Chapter>
+      {/* Former hero — catalogue sits just below the connectors hero */}
+      <Chapter tone="paper" min={false} className="!min-h-0">
         <ChapterTitle>Systems you already run.</ChapterTitle>
         <ChapterLead>
           Results land in a dashboard, a report, an export, or your ERP.
@@ -445,18 +457,6 @@ export function IntegrationsPage() {
         </ChapterLead>
         <div className="mt-10">
           <ConnectorLogoCatalogue />
-        </div>
-      </Chapter>
-      <Chapter tone="sky" min={false} className="!min-h-0">
-        <ChapterLabel tone="sky">09 · Connectors</ChapterLabel>
-        <ChapterTitle>Your systems. One intelligent workspace.</ChapterTitle>
-        <ChapterLead tone="sky">
-          Bring your enterprise systems together through governed AI agents.
-          Connect the ERP, data warehouse and document platforms your teams
-          already rely on.
-        </ChapterLead>
-        <div className="mt-10">
-          <IntegrationEcosystem />
         </div>
       </Chapter>
       <SecondaryCta
