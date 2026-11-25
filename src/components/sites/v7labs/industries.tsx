@@ -6,7 +6,8 @@ import {
   useInView,
   useReducedMotion,
 } from "motion/react";
-import { useRef, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { useLenis } from "lenis/react";
 import {
   ArrowRight,
   Building2,
@@ -78,50 +79,261 @@ export function Industries() {
     <section
       ref={sectionRef}
       id="industries"
-      className="zeon-section-pad bg-white px-[var(--zeon-gutter,1.25rem)]"
+      className="bg-[#ECEEF2] text-[#181D27] md:bg-white"
       style={{ color: C.heading }}
     >
-      <div className="mx-auto max-w-[1180px]">
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 8 }}
-          animate={revealed ? { opacity: 1, y: 0 } : undefined}
-          transition={{ duration: 0.35, ease: EASE }}
-        >
-          <h2 className="zeon-type-section max-w-[720px] text-balance font-normal">
-            Built for regulated,{" "}
-            <br className="hidden sm:block" />
-            <span className="sm:whitespace-nowrap">document-heavy</span>{" "}
-            sectors
-          </h2>
-          <p
-            className="zeon-type-lead mt-4 max-w-[560px]"
-            style={{ color: C.body }}
-          >
-            The same platform, with agents built for each sector. Examples from
-            our agent portfolio.
-          </p>
-        </motion.div>
-
-        <div className="mt-12 grid grid-cols-1 items-stretch gap-4 md:auto-rows-fr md:grid-cols-2 xl:grid-cols-3">
-          {INDUSTRY_CARDS.map((card, index) => (
-            <CardMotion
-              key={card.id}
-              index={index}
-              revealed={revealed}
-              reduceMotion={reduceMotion}
-            >
-              <SectorCard card={card} />
-            </CardMotion>
-          ))}
+      {/* Mobile (<768px): scroll-driven sticky stacked cards (falls back to vertical list on reduced motion) */}
+      {!reduceMotion ? (
+        <MobileIndustriesStack />
+      ) : (
+        <div className="zeon-section-pad px-4 md:hidden sm:px-5">
+          <div className="mx-auto w-full max-w-[1180px]">
+            <IndustriesHeader />
+            <div className="mt-8 grid grid-cols-1 gap-4">
+              {INDUSTRY_CARDS.map((card) => (
+                <SectorCard key={card.id} card={card} density="mobile" />
+              ))}
+            </div>
+            <div className="mt-8">
+              <Link href="/industries" className="zeon-link-arrow">
+                See all industries
+              </Link>
+            </div>
+          </div>
         </div>
+      )}
 
-        <div className="mt-10">
-          <Link href="/industries" className="zeon-link-arrow">
-            See all industries
-          </Link>
+      {/* Tablet & Desktop (>=768px): unchanged responsive equal-size grid */}
+      <div className="zeon-section-pad hidden px-[var(--zeon-gutter,1.25rem)] md:block">
+        <div className="mx-auto max-w-[1180px]">
+          <motion.div
+            initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+            animate={revealed ? { opacity: 1, y: 0 } : undefined}
+            transition={{ duration: 0.35, ease: EASE }}
+          >
+            <IndustriesHeader />
+          </motion.div>
+
+          <div className="mt-12 grid items-stretch gap-4 md:auto-rows-fr md:grid-cols-2 xl:grid-cols-3">
+            {INDUSTRY_CARDS.map((card, index) => (
+              <CardMotion
+                key={card.id}
+                index={index}
+                revealed={revealed}
+                reduceMotion={reduceMotion}
+              >
+                <SectorCard card={card} />
+              </CardMotion>
+            ))}
+          </div>
+
+          <div className="mt-10">
+            <Link href="/industries" className="zeon-link-arrow">
+              See all industries
+            </Link>
+          </div>
         </div>
       </div>
     </section>
+  );
+}
+
+function IndustriesHeader({ compact = false }: { compact?: boolean }) {
+  return (
+    <>
+      <h2 className="zeon-type-section max-w-[720px] text-balance font-normal">
+        Built for regulated,{" "}
+        <br className="hidden sm:block" />
+        <span className="sm:whitespace-nowrap">document-heavy</span> sectors
+      </h2>
+      <p
+        className={`zeon-type-lead max-w-[560px] ${compact ? "mt-3" : "mt-4"}`}
+        style={{ color: C.body }}
+      >
+        The same platform, with agents built for each sector. Examples from our
+        agent portfolio.
+      </p>
+    </>
+  );
+}
+
+const MOBILE_STACK_VH_PER_STEP = 44;
+
+function MobileIndustriesStack() {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const lastActiveRef = useRef(0);
+  const count = INDUSTRY_CARDS.length;
+  const trackHeightVh = (count - 1) * MOBILE_STACK_VH_PER_STEP + 100;
+
+  const syncFromScroll = useCallback(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    const viewH = window.innerHeight;
+    const scrollable = Math.max(1, track.offsetHeight - viewH);
+    const rect = track.getBoundingClientRect();
+    const progress = Math.min(1, Math.max(0, -rect.top / scrollable));
+    const floatIndex = progress * (count - 1);
+    const rounded = Math.min(count - 1, Math.max(0, Math.round(floatIndex)));
+
+    if (rounded !== lastActiveRef.current) {
+      lastActiveRef.current = rounded;
+      setActiveIndex(rounded);
+    }
+
+    for (let i = 0; i < count; i++) {
+      const el = cardRefs.current[i];
+      if (!el) continue;
+
+      const enter =
+        i === 0 ? 1 : Math.min(1, Math.max(0, floatIndex - (i - 1)));
+      const depth = Math.min(2, Math.max(0, floatIndex - i));
+
+      /*
+       * Individual floating sheets — no scale-down, no clip “window”.
+       * Next card slides up over the previous; past cards stay full-size
+       * underneath (slight lift only) so they never read as a nested frame.
+       */
+      if (i > 0 && enter <= 0.001) {
+        el.style.transform = "translate3d(0, 112%, 0)";
+        el.style.opacity = "0";
+        el.style.visibility = "hidden";
+        el.style.pointerEvents = "none";
+      } else {
+        const yPct = i === 0 ? 0 : (1 - enter) * 112;
+        const depthY = depth * -10;
+        el.style.transform = `translate3d(0, calc(${yPct.toFixed(2)}% + ${depthY.toFixed(1)}px), 0)`;
+        el.style.opacity = String(
+          i === 0
+            ? 1
+            : Math.min(1, enter * 2.5),
+        );
+        el.style.visibility = "visible";
+        el.style.pointerEvents = rounded === i ? "auto" : "none";
+      }
+    }
+  }, [count]);
+
+  useLenis(() => {
+    syncFromScroll();
+  }, [syncFromScroll]);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    let raf = 0;
+    let active = false;
+
+    const loop = () => {
+      syncFromScroll();
+      raf = requestAnimationFrame(loop);
+    };
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          if (!active) {
+            active = true;
+            raf = requestAnimationFrame(loop);
+          }
+        } else if (active) {
+          active = false;
+          cancelAnimationFrame(raf);
+        }
+      },
+      { threshold: 0 },
+    );
+
+    io.observe(track);
+    syncFromScroll();
+    window.addEventListener("resize", syncFromScroll, { passive: true });
+
+    return () => {
+      active = false;
+      cancelAnimationFrame(raf);
+      io.disconnect();
+      window.removeEventListener("resize", syncFromScroll);
+    };
+  }, [syncFromScroll]);
+
+  return (
+    <div
+      ref={trackRef}
+      className="relative md:hidden"
+      style={{ height: `${trackHeightVh}svh` }}
+    >
+      {/*
+        Cards float directly on the section wash — no clip box, no panel,
+        no scale-frame. Header / ticks / link sit in open air above/below.
+      */}
+      <div
+        className="sticky flex flex-col justify-center px-4 py-6 sm:px-5"
+        style={{
+          top: "var(--zeon-header-offset, 0px)",
+          minHeight: "calc(100svh - var(--zeon-header-offset, 0px))",
+        }}
+      >
+        <div className="mx-auto w-full">
+          <IndustriesHeader compact />
+
+          <div className="mt-4 flex items-center justify-between">
+            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#717680]">
+              {String(activeIndex + 1).padStart(2, "0")} /{" "}
+              {String(count).padStart(2, "0")}
+            </span>
+            <div className="flex items-center gap-1" aria-hidden>
+              {INDUSTRY_CARDS.map((c, idx) => (
+                <span
+                  key={c.id}
+                  className={`h-1 rounded-full transition-all duration-200 ${
+                    idx === activeIndex
+                      ? "w-4 bg-[#1B46F5]"
+                      : idx < activeIndex
+                        ? "w-1.5 bg-[#BCD3FF]"
+                        : "w-1.5 bg-[#D5D7DA]"
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/*
+            Grid cell = tallest card. No overflow / no background / no border
+            on this wrapper — only the white SectorCard sheets paint.
+          */}
+          <div className="relative mt-4 grid w-full">
+            {INDUSTRY_CARDS.map((card, i) => (
+              <div
+                key={card.id}
+                ref={(el) => {
+                  cardRefs.current[i] = el;
+                }}
+                className="col-start-1 row-start-1 will-change-transform"
+                style={{
+                  zIndex: i + 1,
+                  transform:
+                    i === 0
+                      ? "translate3d(0, 0, 0)"
+                      : "translate3d(0, 112%, 0)",
+                  opacity: i === 0 ? 1 : 0,
+                  visibility: i === 0 ? "visible" : "hidden",
+                }}
+              >
+                <SectorCard card={card} density="mobile" />
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-5">
+            <Link href="/industries" className="zeon-link-arrow">
+              See all industries
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -166,57 +378,94 @@ const VIGNETTE_IDS = new Set<IndustryCardId>([
   "medtech",
 ]);
 
-function SectorCard({ card }: { card: IndustryCard }) {
+function SectorCard({
+  card,
+  density = "default",
+}: {
+  card: IndustryCard;
+  /** Mobile stack/list: larger padding and clearer surface against the section wash. */
+  density?: "default" | "mobile";
+}) {
   const dark = Boolean(card.dark);
   const Icon = ICONS[card.id];
   const hasVignette = VIGNETTE_IDS.has(card.id);
+  const mobile = density === "mobile";
+
+  /*
+   * Mobile stack uses a plain surface (not zeon-surface-interactive) so the
+   * inset highlight ::after cannot read as a second “frame” around the card.
+   */
+  const mobileSurface = mobile
+    ? dark
+      ? "zeon-surface-ink"
+      : "rounded-[14px] border border-[#E9EAEB] bg-white"
+    : dark
+      ? "zeon-surface-ink zeon-lift"
+      : "zeon-surface-interactive";
 
   return (
     <Link
       href={card.href}
       aria-label={card.a11yName}
-      className={`group flex h-full flex-col p-6 no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${
-        dark
-          ? "zeon-surface-ink zeon-lift"
-          : "zeon-surface-interactive"
-      }`}
+      className={`group flex flex-col no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${
+        mobile ? "px-5 py-6 sm:px-6 sm:py-7" : "h-full p-6"
+      } ${mobileSurface}`}
       style={{
         color: dark ? C.white : C.heading,
         outlineColor: dark ? C.blue400 : C.brand,
+        ...(mobile && !dark
+          ? {
+              /* Float the sheet on the section wash — no parent panel. */
+              background: C.white,
+              boxShadow:
+                "0 1px 2px rgba(24, 29, 39, 0.06), 0 14px 36px rgba(24, 29, 39, 0.12)",
+            }
+          : null),
       }}
     >
       {/* 1. Icon + title */}
-      <div className="flex items-start gap-2.5">
+      <div className={`flex items-start ${mobile ? "gap-3" : "gap-2.5"}`}>
         <Icon
-          className="mt-0.5 size-5 shrink-0 stroke-[1.75]"
+          className={`mt-0.5 shrink-0 stroke-[1.75] ${mobile ? "size-[22px]" : "size-5"}`}
           style={{ color: dark ? C.blue400 : C.brand }}
           aria-hidden
         />
-        <h3 className="font-[family-name:var(--font-aeonik)] text-[20px] font-normal leading-[1.25] tracking-[-0.02em]">
+        <h3
+          className={`font-[family-name:var(--font-aeonik)] font-normal tracking-[-0.02em] ${
+            mobile
+              ? "text-[22px] leading-[1.25]"
+              : "text-[20px] leading-[1.25]"
+          }`}
+        >
           {card.label}
         </h3>
       </div>
 
       {/* 2. Sentence */}
       <p
-        className="mt-2 text-[15px] leading-[1.5]"
+        className={`text-[15px] leading-[1.55] ${mobile ? "mt-3" : "mt-2"}`}
         style={{ color: dark ? C.gray400 : C.body }}
       >
         {card.outcome}
       </p>
 
-      {/* 3. Quiet vignette — only when the sector has one */}
+      {/* 3. Quiet vignette — only when the sector has one.
+          Mobile: no inset panel (avoids a “card inside a card” reading). */}
       {hasVignette ? (
         <div
-          className="mt-3 px-3.5 py-3"
-          style={{
-            borderRadius: 2,
-            background: dark ? "rgba(255,255,255,0.04)" : C.surface,
-            backgroundImage: dark
-              ? "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)"
-              : undefined,
-            backgroundSize: dark ? "24px 24px" : undefined,
-          }}
+          className={mobile ? "mt-4" : "mt-3 px-3.5 py-3"}
+          style={
+            mobile
+              ? undefined
+              : {
+                  borderRadius: 2,
+                  background: dark ? "rgba(255,255,255,0.04)" : C.surface,
+                  backgroundImage: dark
+                    ? "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)"
+                    : undefined,
+                  backgroundSize: dark ? "24px 24px" : undefined,
+                }
+          }
           aria-hidden
         >
           <SectorVignette id={card.id} dark={dark} />
@@ -225,15 +474,15 @@ function SectorCard({ card }: { card: IndustryCard }) {
 
       {/* 4. Footer — agent + arrow */}
       <div
-        className={`flex items-center justify-between gap-3 border-t pt-4 ${
-          hasVignette ? "mt-auto" : "mt-5"
+        className={`flex items-center justify-between gap-3 border-t ${
+          mobile ? "mt-5 pt-5" : "mt-auto pt-4"
         }`}
         style={{
           borderColor: dark ? C.darkBorder : C.border,
         }}
       >
         <span
-          className="min-w-0 text-[14px] font-medium"
+          className={`min-w-0 font-medium ${mobile ? "text-[15px]" : "text-[14px]"}`}
           style={{ color: dark ? C.white : C.heading }}
         >
           {card.agents[0]}
