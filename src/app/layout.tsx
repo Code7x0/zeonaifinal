@@ -9,6 +9,15 @@ export const metadata: Metadata = {
   title: "ZeonAI | Governed enterprise AI",
   description:
     "Build governed AI agents for the enterprise. AI Workspace answers from your documents, with citations, agents and audit.",
+  icons: {
+    icon: [
+      { url: "/sites/zeonai/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/sites/zeonai/official-favicon.png", type: "image/png" },
+      { url: "/sites/zeonai/mark.png", type: "image/png" },
+    ],
+    shortcut: "/sites/zeonai/favicon-32.png",
+    apple: "/sites/zeonai/apple-touch-icon.png",
+  },
   openGraph: {
     title: "ZeonAI | Governed enterprise AI",
     description:
