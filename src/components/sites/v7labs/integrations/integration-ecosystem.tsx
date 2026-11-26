@@ -123,6 +123,10 @@ function LogoNode({
   active,
   onEnter,
   onLeave,
+  vx,
+  vy,
+  vw,
+  vh,
 }: {
   node: PlacedNode;
   reveal: boolean;
@@ -130,14 +134,18 @@ function LogoNode({
   active: boolean;
   onEnter: () => void;
   onLeave: () => void;
+  vx: number;
+  vy: number;
+  vw: number;
+  vh: number;
 }) {
   const label = node.item.shortName ?? node.item.name;
   return (
     <li
       className="absolute list-none"
       style={{
-        left: `${(node.x / VB_W) * 100}%`,
-        top: `${(node.y / VB_H) * 100}%`,
+        left: `${((node.x - vx) / vw) * 100}%`,
+        top: `${((node.y - vy) / vh) * 100}%`,
         transform: "translate(-50%, -50%)",
         zIndex: active ? 5 : 2,
       }}
@@ -150,7 +158,7 @@ function LogoNode({
       <button
         type="button"
         className={cn(
-          "flex size-[52px] items-center justify-center rounded-full bg-white",
+          "flex size-[24px] items-center justify-center rounded-full bg-white sm:size-[36px] md:size-[52px]",
           "border border-[#E8EAEF] shadow-[var(--zeon-elev-1)]",
           "transition-[transform,box-shadow,border-color,opacity] duration-300 ease-[var(--zeon-ease-spring)]",
           "hover:-translate-y-0.5 hover:border-[color-mix(in_srgb,var(--zeon-accent)_35%,#E8EAEF)] hover:shadow-[var(--zeon-elev-2)]",
@@ -169,78 +177,16 @@ function LogoNode({
             alt=""
             width={32}
             height={32}
-            className="max-h-[28px] w-auto max-w-[32px] object-contain"
+            className="max-h-[14px] w-auto max-w-[16px] object-contain sm:max-h-[20px] sm:max-w-[22px] md:max-h-[28px] md:max-w-[32px]"
             draggable={false}
           />
         ) : (
-          <span className="max-w-[44px] px-0.5 text-center text-[9px] font-semibold leading-tight tracking-[-0.02em] text-[#3F4654]">
+          <span className="max-w-[22px] px-0.5 text-center text-[5.5px] font-semibold leading-tight tracking-[-0.02em] text-[#3F4654] sm:max-w-[32px] sm:text-[7.5px] md:max-w-[44px] md:text-[9px]">
             {label}
           </span>
         )}
       </button>
     </li>
-  );
-}
-
-function MobileStack({ className }: { className?: string }) {
-  return (
-    <div className={cn("flex flex-col gap-6", className)}>
-      <div className="zeon-surface-brand relative mx-auto flex size-[148px] flex-col items-center justify-center rounded-full px-4 text-center shadow-[var(--zeon-elev-2)]">
-        <div
-          className="pointer-events-none absolute -inset-3 rounded-full opacity-50"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(41,98,255,0.35), transparent 70%)",
-          }}
-          aria-hidden
-        />
-        <p className="relative z-[1] font-mono text-[9px] uppercase tracking-[0.14em] text-white/70">
-          Central layer
-        </p>
-        <p className="relative z-[1] mt-1 font-[family-name:var(--font-aeonik)] text-[16px] tracking-[-0.03em] text-white">
-          AI Workspace
-        </p>
-      </div>
-
-      {CONNECTOR_GROUPS.map((group) => (
-        <section key={group.id} aria-label={group.title}>
-          <div className="mb-3 flex items-baseline justify-between gap-2">
-            <h3 className="font-[family-name:var(--font-aeonik)] text-[15px] tracking-[-0.02em] text-[#181D27]">
-              {group.title}
-            </h3>
-            <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-[#717680]">
-              {group.items.length}
-            </span>
-          </div>
-          <ul className="grid grid-cols-4 gap-2.5 sm:grid-cols-5">
-            {group.items.map((item) => (
-              <li key={item.name} className="list-none" title={item.name}>
-                <div className="zeon-surface flex aspect-square items-center justify-center rounded-full p-2">
-                  {item.logoSrc ? (
-                    <>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={item.logoSrc}
-                        alt=""
-                        width={28}
-                        height={28}
-                        className="max-h-7 w-auto max-w-7 object-contain"
-                        draggable={false}
-                      />
-                      <span className="sr-only">{item.name}</span>
-                    </>
-                  ) : (
-                    <span className="text-center text-[9px] font-semibold leading-tight text-[#3F4654]">
-                      {item.shortName ?? item.name}
-                    </span>
-                  )}
-                </div>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ))}
-    </div>
   );
 }
 
@@ -303,32 +249,28 @@ export function IntegrationEcosystem({ className, compact = false }: Props) {
     ? nodes.find((n) => n.key === activeKey)?.groupId
     : null;
 
+  const vx = isNarrow ? 160 : 0;
+  const vy = isNarrow ? -20 : 0;
+  const vw = isNarrow ? 800 : VB_W;
+  const vh = isNarrow ? 760 : VB_H;
+
   return (
     <div
       ref={rootRef}
       className={cn(
         "relative overflow-hidden rounded-[var(--zeon-radius-panel)] border border-[color-mix(in_srgb,var(--zeon-border)_80%,var(--dp-blue-200))] bg-[linear-gradient(180deg,#FAFBFE_0%,#FFFFFF_45%,#F5F8FC_100%)] shadow-[var(--zeon-elev-1)]",
-        compact ? "p-4 md:p-5" : "p-4 sm:p-6 md:p-8",
+        compact ? "p-3 sm:p-4 md:p-5" : "p-3 sm:p-6 md:p-8",
         className,
       )}
     >
-      {/* Mobile stacked */}
+      {/* Unified radial hub-and-spoke diagram across mobile, tablet, and desktop */}
       <div
-        className="md:hidden"
-        aria-hidden={!isNarrow || undefined}
-      >
-        <MobileStack />
-      </div>
-
-      {/* Desktop / tablet radial */}
-      <div
-        className="relative mx-auto hidden w-full md:block"
+        className="relative mx-auto w-full"
         style={{ maxWidth: compact ? 1020 : 1120 }}
-        aria-hidden={isNarrow || undefined}
       >
         <div
           className="relative w-full"
-          style={{ aspectRatio: `${VB_W} / ${VB_H}` }}
+          style={{ aspectRatio: `${vw} / ${vh}` }}
         >
           {/* Ambient glow behind hub */}
           <div
@@ -342,7 +284,7 @@ export function IntegrationEcosystem({ className, compact = false }: Props) {
 
           <svg
             className="pointer-events-none absolute inset-0 h-full w-full"
-            viewBox={`0 0 ${VB_W} ${VB_H}`}
+            viewBox={`${vx} ${vy} ${vw} ${vh}`}
             aria-hidden
           >
             <defs>
@@ -423,14 +365,14 @@ export function IntegrationEcosystem({ className, compact = false }: Props) {
           {/* Category markers */}
           <div
             className={cn(
-              "pointer-events-none absolute left-[7%] top-[18%] transition-opacity duration-500",
+              "pointer-events-none absolute left-[2%] top-[2%] transition-opacity duration-500 md:left-[7%] md:top-[18%]",
               reveal ? "opacity-100" : "opacity-0",
             )}
             style={{ transitionDelay: reveal ? "400ms" : "0ms" }}
           >
             <span
               className={cn(
-                "inline-flex items-center gap-1.5 rounded-full border border-[#E8EAEF] bg-white/90 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-[#535862] shadow-[var(--zeon-elev-1)] backdrop-blur-sm",
+                "inline-flex items-center gap-1 rounded-full border border-[#E8EAEF] bg-white/90 px-2 py-0.5 font-mono text-[8px] uppercase tracking-[0.12em] text-[#535862] shadow-[var(--zeon-elev-1)] backdrop-blur-sm md:gap-1.5 md:px-2.5 md:py-1 md:text-[10px]",
                 activeGroup === "erp" &&
                   "border-[color-mix(in_srgb,var(--zeon-accent)_40%,#E8EAEF)] text-[#1B46F5]",
               )}
@@ -440,14 +382,14 @@ export function IntegrationEcosystem({ className, compact = false }: Props) {
           </div>
           <div
             className={cn(
-              "pointer-events-none absolute right-[6%] top-[22%] transition-opacity duration-500",
+              "pointer-events-none absolute right-[2%] top-[2%] transition-opacity duration-500 md:right-[6%] md:top-[22%]",
               reveal ? "opacity-100" : "opacity-0",
             )}
             style={{ transitionDelay: reveal ? "480ms" : "0ms" }}
           >
             <span
               className={cn(
-                "inline-flex items-center gap-1.5 rounded-full border border-[#E8EAEF] bg-white/90 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-[#535862] shadow-[var(--zeon-elev-1)] backdrop-blur-sm",
+                "inline-flex items-center gap-1 rounded-full border border-[#E8EAEF] bg-white/90 px-2 py-0.5 font-mono text-[8px] uppercase tracking-[0.12em] text-[#535862] shadow-[var(--zeon-elev-1)] backdrop-blur-sm md:gap-1.5 md:px-2.5 md:py-1 md:text-[10px]",
                 activeGroup === "data" &&
                   "border-[color-mix(in_srgb,var(--zeon-accent)_40%,#E8EAEF)] text-[#1B46F5]",
               )}
@@ -457,14 +399,14 @@ export function IntegrationEcosystem({ className, compact = false }: Props) {
           </div>
           <div
             className={cn(
-              "pointer-events-none absolute bottom-[7%] left-1/2 -translate-x-1/2 transition-opacity duration-500",
+              "pointer-events-none absolute bottom-[2%] left-[2%] transition-opacity duration-500 md:bottom-[7%] md:left-1/2 md:-translate-x-1/2",
               reveal ? "opacity-100" : "opacity-0",
             )}
             style={{ transitionDelay: reveal ? "560ms" : "0ms" }}
           >
             <span
               className={cn(
-                "inline-flex items-center gap-1.5 rounded-full border border-[#E8EAEF] bg-white/90 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-[#535862] shadow-[var(--zeon-elev-1)] backdrop-blur-sm",
+                "inline-flex items-center gap-1 rounded-full border border-[#E8EAEF] bg-white/90 px-2 py-0.5 font-mono text-[8px] uppercase tracking-[0.12em] text-[#535862] shadow-[var(--zeon-elev-1)] backdrop-blur-sm md:gap-1.5 md:px-2.5 md:py-1 md:text-[10px]",
                 activeGroup === "documents" &&
                   "border-[color-mix(in_srgb,var(--zeon-accent)_40%,#E8EAEF)] text-[#1B46F5]",
               )}
@@ -480,7 +422,7 @@ export function IntegrationEcosystem({ className, compact = false }: Props) {
               reveal ? "scale-100 opacity-100" : "scale-90 opacity-0",
             )}
             style={{
-              width: `${(HUB_R * 2 / VB_W) * 100}%`,
+              width: `${((HUB_R * 2) / vw) * 100}%`,
               aspectRatio: "1",
               background:
                 "linear-gradient(145deg, #2962FF 0%, #1B46F5 48%, #172AB6 100%)",
@@ -494,13 +436,13 @@ export function IntegrationEcosystem({ className, compact = false }: Props) {
               alt=""
               width={28}
               height={28}
-              className="mb-1.5 size-7 object-contain opacity-95"
+              className="mb-0.5 size-4 object-contain opacity-95 sm:size-5 md:mb-1.5 md:size-7"
               draggable={false}
             />
-            <p className="font-mono text-[8px] uppercase tracking-[0.14em] text-white/70 sm:text-[9px]">
+            <p className="hidden font-mono text-[7px] uppercase tracking-[0.14em] text-white/70 sm:block md:text-[9px]">
               Central layer
             </p>
-            <p className="mt-0.5 px-2 font-[family-name:var(--font-aeonik)] text-[13px] leading-tight tracking-[-0.03em] text-white sm:text-[15px] md:text-[17px]">
+            <p className="mt-0.5 px-1.5 font-[family-name:var(--font-aeonik)] text-[9.5px] leading-tight tracking-[-0.03em] text-white sm:px-2 sm:text-[13px] md:text-[17px]">
               AI Workspace
             </p>
           </div>
@@ -516,6 +458,10 @@ export function IntegrationEcosystem({ className, compact = false }: Props) {
                 active={activeKey === n.key}
                 onEnter={() => setActiveKey(n.key)}
                 onLeave={() => setActiveKey(null)}
+                vx={vx}
+                vy={vy}
+                vw={vw}
+                vh={vh}
               />
             ))}
           </ul>
