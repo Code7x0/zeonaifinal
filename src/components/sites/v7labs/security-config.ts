@@ -45,7 +45,7 @@ export const COMPLIANCE: readonly ComplianceItem[] = [
   },
   {
     id: "iso27001",
-    name: "ISO 27001",
+    name: "ISO/IEC 27001",
     description: "Information security management",
     status: "Certified",
   },

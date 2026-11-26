@@ -444,9 +444,9 @@ export function IntegrationsPage() {
       {/* Hero: connectors graphic first, copy beneath — no chapter labels */}
       <Chapter tone="sky" min={false} className="!min-h-0 pt-10 md:pt-14">
         <IntegrationEcosystem />
-        <ChapterTitle className="mt-10 max-w-[22ch]">
+        <h1 className="mt-10 max-w-[22ch] font-[family-name:var(--font-aeonik)] text-[length:var(--zeon-text-section)] leading-[var(--zeon-leading-title)] tracking-[var(--zeon-tracking-title)]">
           Your systems. One intelligent workspace.
-        </ChapterTitle>
+        </h1>
         <ChapterLead tone="sky">
           Bring your enterprise systems together through governed AI agents.
           Connect the ERP, data warehouse and document platforms your teams

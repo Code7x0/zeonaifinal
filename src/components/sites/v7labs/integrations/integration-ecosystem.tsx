@@ -123,6 +123,7 @@ function LogoNode({
   active,
   onEnter,
   onLeave,
+  onToggle,
   vx,
   vy,
   vw,
@@ -134,6 +135,7 @@ function LogoNode({
   active: boolean;
   onEnter: () => void;
   onLeave: () => void;
+  onToggle: () => void;
   vx: number;
   vy: number;
   vw: number;
@@ -157,6 +159,8 @@ function LogoNode({
     >
       <button
         type="button"
+        onClick={onToggle}
+        aria-pressed={active}
         className={cn(
           "flex size-[24px] items-center justify-center rounded-full bg-white sm:size-[36px] md:size-[52px]",
           "border border-[#E8EAEF] shadow-[var(--zeon-elev-1)]",
@@ -245,9 +249,10 @@ export function IntegrationEcosystem({ className, compact = false }: Props) {
     return () => io.disconnect();
   }, [reduceMotion]);
 
-  const activeGroup = activeKey
-    ? nodes.find((n) => n.key === activeKey)?.groupId
+  const activeNode = activeKey
+    ? nodes.find((n) => n.key === activeKey) ?? null
     : null;
+  const activeGroup = activeNode?.groupId ?? null;
 
   const vx = isNarrow ? 160 : 0;
   const vy = isNarrow ? -20 : 0;
@@ -458,6 +463,9 @@ export function IntegrationEcosystem({ className, compact = false }: Props) {
                 active={activeKey === n.key}
                 onEnter={() => setActiveKey(n.key)}
                 onLeave={() => setActiveKey(null)}
+                onToggle={() =>
+                  setActiveKey((prev) => (prev === n.key ? null : n.key))
+                }
                 vx={vx}
                 vy={vy}
                 vw={vw}
@@ -468,8 +476,13 @@ export function IntegrationEcosystem({ className, compact = false }: Props) {
         </div>
       </div>
 
-      <p className="mt-4 text-center font-mono text-[11px] uppercase tracking-[0.12em] text-[#717680]">
-        Connectors are scoped per engagement · {CONNECTOR_COUNT} systems
+      <p
+        className="mt-4 text-center font-mono text-[11px] uppercase tracking-[0.12em] text-[#717680]"
+        aria-live="polite"
+      >
+        {activeNode
+          ? `${activeNode.item.name} · ${activeNode.groupTitle}`
+          : `Connectors are scoped per engagement · ${CONNECTOR_COUNT} systems`}
       </p>
     </div>
   );
@@ -489,7 +502,7 @@ export function ConnectorLogoCatalogue({ className }: { className?: string }) {
               {group.items.length}
             </span>
           </div>
-          <ul className="mt-4 grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6">
+          <ul className="mt-4 grid grid-cols-2 gap-3 min-[380px]:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6">
             {group.items.map((item) => (
               <li key={item.name} className="list-none" title={item.name}>
                 <div className="zeon-surface flex h-[72px] flex-col items-center justify-center gap-1.5 rounded-[14px] px-2">

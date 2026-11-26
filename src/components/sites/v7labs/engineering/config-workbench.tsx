@@ -45,7 +45,7 @@ export function ConfigWorkbench() {
                 role="tab"
                 aria-selected={mode === id}
                 onClick={() => setMode(id)}
-                className="rounded-full px-3 py-1.5 text-[11px] font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#2962FF]/45"
+                className="inline-flex min-h-[36px] items-center rounded-full px-3.5 py-1.5 text-[12px] font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#2962FF]/45"
                 style={{
                   backgroundColor: mode === id ? Z.paper : "transparent",
                   color: mode === id ? Z.ink : Z.ink70,
@@ -57,12 +57,12 @@ export function ConfigWorkbench() {
             ))}
           </div>
 
-          <div className="relative mt-3 min-h-0 flex-1 overflow-hidden">
+          <div className="relative mt-3 min-h-0 flex-1 sm:overflow-hidden">
             <AnimatePresence mode="wait" initial={false}>
               {mode === "spreadsheet" ? (
                 <motion.div
                   key="sheet"
-                  className="absolute inset-0 grid gap-3 sm:grid-cols-[1.15fr_0.85fr]"
+                  className="grid gap-3 sm:absolute sm:inset-0 sm:grid-cols-[1.15fr_0.85fr]"
                   initial={reduce ? false : { opacity: 0, x: 16 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={reduce ? { opacity: 0 } : { opacity: 0, x: -16 }}
@@ -153,7 +153,7 @@ export function ConfigWorkbench() {
               ) : (
                 <motion.div
                   key="pdf"
-                  className="absolute inset-0 grid gap-3 sm:grid-cols-[1.1fr_0.9fr]"
+                  className="grid gap-3 sm:absolute sm:inset-0 sm:grid-cols-[1.1fr_0.9fr]"
                   initial={reduce ? false : { opacity: 0, x: 16 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={reduce ? { opacity: 0 } : { opacity: 0, x: -16 }}

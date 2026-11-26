@@ -335,11 +335,7 @@ const Feature108 = ({
                       key={tab.value}
                       type="button"
                       onClick={() => onManualSelect(tab.value)}
-                      className={cn(
-                        "relative h-1 min-w-0 flex-1 overflow-hidden rounded-full outline-none transition-[height] duration-150",
-                        "bg-[#E9EAEB] hover:h-1.5 focus-visible:ring-2 focus-visible:ring-[#2962FF]/40 focus-visible:ring-offset-2",
-                        isActive && "bg-[#D0D5DD]",
-                      )}
+                      className="group/seg relative flex min-h-[36px] min-w-0 flex-1 items-center py-3 outline-none focus-visible:ring-2 focus-visible:ring-[#2962FF]/40 focus-visible:ring-offset-2"
                       aria-current={isActive ? "true" : undefined}
                       aria-label={
                         isActive
@@ -350,13 +346,22 @@ const Feature108 = ({
                       <span
                         aria-hidden
                         className={cn(
-                          "absolute inset-y-0 left-0 rounded-full bg-[#2962FF]",
-                          !reduceMotion && isActive
-                            ? "transition-[width] duration-75 ease-linear"
-                            : null,
+                          "relative block h-1 w-full overflow-hidden rounded-full transition-[height] duration-150",
+                          "bg-[#E9EAEB] group-hover/seg:h-1.5",
+                          isActive && "bg-[#D0D5DD]",
                         )}
-                        style={{ width: `${fill}%` }}
-                      />
+                      >
+                        <span
+                          aria-hidden
+                          className={cn(
+                            "absolute inset-y-0 left-0 rounded-full bg-[#2962FF]",
+                            !reduceMotion && isActive
+                              ? "transition-[width] duration-75 ease-linear"
+                              : null,
+                          )}
+                          style={{ width: `${fill}%` }}
+                        />
+                      </span>
                     </button>
                   );
                 })}

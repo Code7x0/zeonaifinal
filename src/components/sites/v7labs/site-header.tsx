@@ -171,7 +171,7 @@ function HeaderBar({
           </ZeonLinkButton>
           <button
             type="button"
-            className="zeon-press zeon-focusable inline-flex size-10 shrink-0 items-center justify-center rounded-full border border-black/10 bg-white/50 sm:size-9 lg:hidden"
+            className="zeon-press zeon-focusable inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-black/10 bg-white/50 lg:hidden"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
             aria-controls={`${navId}-mobile-panel`}

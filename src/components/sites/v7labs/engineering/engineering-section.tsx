@@ -837,7 +837,7 @@ function Inspector({
                 >
                   IN
                 </p>
-                <p className="mt-0.5 whitespace-nowrap text-[16px] font-medium text-white">
+                <p className="mt-0.5 text-[16px] font-medium text-white">
                   {stage.receive}
                 </p>
               </div>
@@ -851,7 +851,7 @@ function Inspector({
                 >
                   OUT
                 </p>
-                <p className="mt-0.5 flex items-center gap-2 whitespace-nowrap text-[16px] font-medium text-white">
+                <p className="mt-0.5 flex items-center gap-2 text-[16px] font-medium text-white">
                   <span
                     className="size-1.5 shrink-0 rounded-full"
                     style={{ background: H.teal500 }}

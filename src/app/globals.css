@@ -497,6 +497,35 @@
   animation-duration: 75s;
 }
 
+/* Mobile integration orbital rings — GPU transform-only rotation + upright counter-spin */
+@keyframes zeon-orbit-cw {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes zeon-orbit-ccw {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.zeon-orbit-cw {
+  animation: zeon-orbit-cw var(--orbit-dur, 48s) linear infinite;
+  will-change: transform;
+}
+
+.zeon-orbit-ccw {
+  animation: zeon-orbit-ccw var(--orbit-dur, 48s) linear infinite;
+  will-change: transform;
+}
+
 /* Dark product screens — elevated ink windows */
 .zeon-dark-screen {
   background: var(--dp-gray-900);
@@ -1247,7 +1276,9 @@
     --zeon-hover-lift-sm: 0px;
   }
 
-  .v7-marquee {
+  .v7-marquee,
+  .zeon-orbit-cw,
+  .zeon-orbit-ccw {
     animation: none;
   }
 

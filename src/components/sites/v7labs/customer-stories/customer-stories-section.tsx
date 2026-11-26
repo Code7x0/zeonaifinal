@@ -234,7 +234,7 @@ export function CustomerStoriesSection() {
           {/* Connected scroll / position indicator */}
           {count > 1 ? (
             <div
-              className="mt-6 flex items-center justify-center gap-2"
+              className="mt-4 flex items-center justify-center gap-0.5"
               role="tablist"
               aria-label="Case study slides"
             >
@@ -248,13 +248,18 @@ export function CustomerStoriesSection() {
                     aria-selected={active}
                     aria-label={`Show case study ${idx + 1}: ${study.title}`}
                     onClick={() => scrollToIndex(idx, true)}
-                    className={cn(
-                      "h-2 rounded-full transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#181D27]",
-                      active
-                        ? "w-7 bg-[#181D27]"
-                        : "w-2 bg-[#D5D7DA] hover:bg-[#A4A7AE]",
-                    )}
-                  />
+                    className="group/dot inline-flex min-h-[44px] min-w-[28px] items-center justify-center rounded-full px-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#181D27]"
+                  >
+                    <span
+                      aria-hidden
+                      className={cn(
+                        "block h-2 rounded-full transition-all duration-300",
+                        active
+                          ? "w-7 bg-[#181D27]"
+                          : "w-2 bg-[#D5D7DA] group-hover/dot:bg-[#A4A7AE]",
+                      )}
+                    />
+                  </button>
                 );
               })}
             </div>

@@ -58,7 +58,7 @@
 }
 .zeon-tech .chips .wrap{display:flex;gap:8px;padding-top:12px;padding-bottom:12px;overflow-x:auto;scrollbar-width:none}
 .zeon-tech .chips .wrap::-webkit-scrollbar{display:none}
-.zeon-tech .chips a{font-family:var(--mono);font-size:11px;letter-spacing:.04em;white-space:nowrap;padding:7px 12px;border:1px solid var(--g-200);border-radius:6px;color:var(--g-600)}
+.zeon-tech .chips a{display:inline-flex;align-items:center;min-height:36px;font-family:var(--mono);font-size:11px;letter-spacing:.04em;white-space:nowrap;padding:7px 12px;border:1px solid var(--g-200);border-radius:6px;color:var(--g-600)}
 .zeon-tech .chips a:hover{border-color:var(--g-400)}
 .zeon-tech .chips a.on{border-color:var(--blue-600);color:var(--blue-600);background:var(--blue-50)}
 @media (prefers-reduced-motion: reduce){
@@ -325,7 +325,7 @@
 .zeon-tech .wrap.grid{gap:24px}
 .zeon-tech .fork{grid-template-columns:1fr;gap:8px}
 .zeon-tech .seg{display:flex;flex-wrap:wrap;gap:4px;width:100%}
-.zeon-tech .seg button{flex:1 1 auto;padding:6px 8px;font-size:11px}
+.zeon-tech .seg button{flex:1 1 auto;min-height:38px;padding:8px 10px;font-size:12px}
 .zeon-tech .bar-row{display:grid;grid-template-columns:1fr auto;gap:6px 12px}
 .zeon-tech .bar-row .track{grid-column:1 / -1}
 .zeon-tech .mock .body{padding:16px 14px}

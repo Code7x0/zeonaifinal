@@ -33,57 +33,63 @@ const PROTECTION_ICONS: Record<
   "archive-recovery": Archive,
 };
 
-const STANDARD_CODES: Record<string, { code: string; sub: string }> = {
-  iso42001: { code: "ISO", sub: "42001" },
-  iso27001: { code: "ISO", sub: "27001" },
-  "soc2-type1": { code: "SOC 2", sub: "TYPE I" },
-  "soc2-type2": { code: "SOC 2", sub: "TYPE II" },
+/**
+ * Restrained typographic standard marks — used instead of unverified
+ * certification-body or trademarked ISO / AICPA SOC badges.
+ */
+const STANDARD_MARKS: Record<string, { prefix: string; code: string }> = {
+  iso42001: { prefix: "ISO/IEC", code: "42001" },
+  iso27001: { prefix: "ISO/IEC", code: "27001" },
+  "soc2-type1": { prefix: "SOC 2", code: "TYPE I" },
+  "soc2-type2": { prefix: "SOC 2", code: "TYPE II" },
 };
 
 function statusChipClass(status: ComplianceStatus) {
   switch (status) {
     case "Certified":
-      return "border-[#2962FF]/45 bg-[#111C32] text-[#8EB8FF]";
+      return "border-[#5991FF]/40 bg-[#2962FF]/[0.12] text-[#8EB8FF]";
     case "In progress":
     case "Aligned":
-      return "border-white/15 bg-white/[0.04] text-[#A0A7B4]";
+      return "border-white/15 bg-white/[0.04] text-white/70";
     default:
-      return "border-white/12 bg-transparent text-[#8B93A1]";
+      return "border-white/12 bg-transparent text-white/55";
   }
 }
 
 function AssuranceCard({ item }: { item: ComplianceItem }) {
-  const badge = STANDARD_CODES[item.id] ?? { code: "STD", sub: "" };
+  const mark = STANDARD_MARKS[item.id] ?? { prefix: "STD", code: "" };
 
   return (
-    <li className="flex h-full flex-col justify-between rounded-[6px] border border-white/10 bg-[#171D2B] p-5 transition-[border-color,transform] duration-200 hover:-translate-y-px hover:border-[#2962FF]/45">
-      <div>
-        <div className="flex items-start justify-between gap-3">
-          {/* Clean typographic standard seal — no fabricated/misleading logos */}
-          <div className="inline-flex items-center gap-2 rounded-[4px] border border-white/12 bg-[#111622] px-2.5 py-1.5">
-            <ShieldCheck
-              className="size-4 shrink-0 text-[#8EB8FF]"
-              aria-hidden
-            />
-            <span className="font-mono text-[11px] font-medium tracking-[0.06em] text-[#F5F6F8]">
-              {badge.code}
-              {badge.sub ? (
-                <span className="ml-1 text-[#8EB8FF]">{badge.sub}</span>
-              ) : null}
-            </span>
-          </div>
-
-          <span
-            className={`shrink-0 rounded-[3px] border px-2 py-0.5 font-mono text-[9.5px] uppercase tracking-[0.1em] ${statusChipClass(item.status)}`}
-          >
-            {item.status}
+    <li className="group flex h-full flex-col justify-between rounded-[10px] border border-white/10 bg-white/[0.025] p-5 transition-[border-color,background-color] duration-200 hover:border-[#5991FF]/45 hover:bg-[#2962FF]/[0.06] md:p-6">
+      <div className="flex items-center justify-between gap-3">
+        <div
+          aria-hidden="true"
+          className="inline-flex items-center gap-2 rounded-[6px] border border-white/12 bg-[#0B0E14] px-2.5 py-1.5"
+        >
+          <ShieldCheck
+            className="size-3.5 shrink-0 stroke-[1.75] text-[#8EB8FF]"
+            aria-hidden
+          />
+          <span className="font-mono text-[11px] font-medium tracking-[0.06em] text-white/90">
+            {mark.prefix}
+            {mark.code ? (
+              <span className="ml-1.5 text-[#8EB8FF]">{mark.code}</span>
+            ) : null}
           </span>
         </div>
 
-        <p className="mt-4 text-[16px] font-medium tracking-[-0.015em] text-[#F5F6F8]">
+        <span
+          className={`shrink-0 rounded-[4px] border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em] ${statusChipClass(item.status)}`}
+        >
+          {item.status}
+        </span>
+      </div>
+
+      <div className="mt-6">
+        <h4 className="font-[family-name:var(--font-aeonik)] text-[18px] font-medium leading-[1.25] tracking-[-0.02em] text-white">
           {item.name}
-        </p>
-        <p className="mt-1.5 text-[13px] leading-[1.45] text-[#A4A7AE]">
+        </h4>
+        <p className="mt-1.5 text-[13.5px] leading-[1.5] text-white/[0.62]">
           {item.description}
         </p>
       </div>
@@ -95,40 +101,40 @@ function ProtectionTile({ item }: { item: ProtectionItem }) {
   const Icon = PROTECTION_ICONS[item.id] ?? Layers;
 
   return (
-    <li className="group flex h-full flex-col rounded-[6px] border border-white/10 bg-[#171D2B] p-5 transition-[border-color,transform] duration-200 hover:-translate-y-px hover:border-white/20 md:p-6">
+    <li className="group flex h-full flex-col rounded-[10px] border border-white/10 bg-white/[0.025] p-5 transition-[border-color,background-color] duration-200 hover:border-[#5991FF]/35 hover:bg-white/[0.04] md:p-6">
       <div className="flex items-start justify-between gap-3">
-        <span className="flex size-9 items-center justify-center rounded-[4px] border border-white/12 bg-[#111622] text-[#8EB8FF]">
-          <Icon className="size-4" aria-hidden />
+        <span className="flex size-9 shrink-0 items-center justify-center rounded-[6px] border border-[#5991FF]/25 bg-[#2962FF]/[0.08] text-[#8EB8FF]">
+          <Icon className="size-4 stroke-[1.75]" aria-hidden />
         </span>
+
         {item.linkHref && item.linkLabel ? (
           <Link
             href={item.linkHref}
-            className="font-mono text-[10.5px] uppercase tracking-[0.12em] text-[#8EB8FF] no-underline transition-colors hover:text-white"
+            className="inline-flex min-h-[36px] items-center rounded-[4px] px-1 font-mono text-[11px] uppercase tracking-[0.12em] text-[#8EB8FF] no-underline transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2962FF]"
           >
             {item.linkLabel}
           </Link>
         ) : null}
       </div>
 
-      <h4 className="mt-4 text-[16px] font-medium tracking-[-0.015em] text-[#F5F6F8] md:text-[17px]">
+      <h4 className="mt-5 font-[family-name:var(--font-aeonik)] text-[18px] font-medium leading-[1.25] tracking-[-0.02em] text-white">
         {item.title}
       </h4>
-      <p className="mt-2 text-[13.5px] leading-[1.55] text-[#A4A7AE] md:text-[14px]">
+      <p className="mt-2 text-[14px] leading-[1.55] text-white/[0.62]">
         {item.summary}
       </p>
 
       {item.secondaryTitle && item.secondarySummary ? (
-        <div className="mt-4 border-t border-white/10 pt-4">
-          <div className="flex items-start gap-2.5">
-            <RefreshCw
-              className="mt-0.5 size-3.5 shrink-0 text-[#8EB8FF]"
-              aria-hidden
-            />
+        <div className="mt-5 border-t border-white/10 pt-5">
+          <div className="flex items-start gap-3">
+            <span className="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-[5px] border border-[#5991FF]/20 bg-[#2962FF]/[0.07] text-[#8EB8FF]">
+              <RefreshCw className="size-3.5 stroke-[1.75]" aria-hidden />
+            </span>
             <div>
-              <p className="text-[14px] font-medium text-[#F5F6F8]">
+              <h5 className="font-[family-name:var(--font-aeonik)] text-[15px] font-medium leading-[1.3] tracking-[-0.015em] text-white">
                 {item.secondaryTitle}
-              </p>
-              <p className="mt-1 text-[13px] leading-[1.5] text-[#A4A7AE]">
+              </h5>
+              <p className="mt-1 text-[13.5px] leading-[1.5] text-white/[0.62]">
                 {item.secondarySummary}
               </p>
             </div>
@@ -160,55 +166,73 @@ export function SecurityComplianceSection() {
   return (
     <section
       id="security"
-      className="relative z-[1] scroll-mt-24 border-t border-white/15 bg-[#121722] bg-[radial-gradient(ellipse_60%_35%_at_50%_0%,rgba(41,98,255,0.08),transparent_70%)] py-16 text-[#F5F6F8] md:py-24"
+      className="relative z-[1] scroll-mt-24 border-t border-white/[0.12] bg-[#10141C] py-20 text-white md:py-28"
       aria-labelledby={`${baseId}-heading`}
     >
-      <div className="px-4 sm:px-6 md:px-[var(--zeon-gutter,1.25rem)]">
-        <div className="mx-auto max-w-[1180px]">
-          <header className="max-w-[40rem]">
-            <h2
-              id={`${baseId}-heading`}
-              className="zeon-type-section text-balance !text-[#F5F6F8]"
-            >
-              Security and compliance posture
-            </h2>
-            <p className="mt-3.5 max-w-[48ch] text-[15px] leading-[1.6] text-[#A4A7AE] md:text-[16px]">
-              Data security and privacy standards sit at the core of how the
-              platform is designed and operated.
-            </p>
-          </header>
+      {/* Crisp top boundary hairline separating from the dark Trust section above */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#2962FF]/45 to-transparent"
+      />
 
-          <div className="mt-10 space-y-10 md:mt-12 md:space-y-12">
-            {/* Group 1 — Assurance (4-col desktop / 2x2 tablet / 1-col mobile) */}
-            <motion.div {...groupMotion(0)}>
-              <h3 className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#8B93A1]">
+      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 md:px-8">
+        <header className="max-w-[540px] text-left">
+          <h2
+            id={`${baseId}-heading`}
+            className="zeon-type-section !text-white"
+          >
+            Security and compliance posture
+          </h2>
+          <p className="mt-5 text-[16px] leading-[1.55] text-white/[0.62] md:text-[18px]">
+            Data security and privacy standards sit at the core of how the
+            platform is designed and operated.
+          </p>
+        </header>
+
+        <div className="mt-12 space-y-12 md:mt-14 md:space-y-14">
+          {/* Group 1 — Assurance (4-col desktop / 2x2 tablet / 1-col mobile) */}
+          <motion.div {...groupMotion(0)}>
+            <div className="flex items-center gap-3">
+              <h3 className="font-mono text-[11px] font-normal uppercase tracking-[0.14em] text-[#8EB8FF]">
                 Assurance
               </h3>
-              <ul
-                className="mt-3.5 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 md:gap-4"
-                aria-label="Compliance positioning"
-              >
-                {COMPLIANCE.map((item) => (
-                  <AssuranceCard key={item.id} item={item} />
-                ))}
-              </ul>
-            </motion.div>
+              <span
+                aria-hidden="true"
+                className="h-px flex-1 bg-white/10"
+              />
+            </div>
 
-            {/* Group 2 — Protection (balanced 2x2 grid) */}
-            <motion.div {...groupMotion(1)}>
-              <h3 className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#8B93A1]">
+            <ul
+              className="mt-4 grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-4 md:gap-4"
+              aria-label="Compliance positioning"
+            >
+              {COMPLIANCE.map((item) => (
+                <AssuranceCard key={item.id} item={item} />
+              ))}
+            </ul>
+          </motion.div>
+
+          {/* Group 2 — Protection (balanced 2x2 grid aligned to Assurance width) */}
+          <motion.div {...groupMotion(1)}>
+            <div className="flex items-center gap-3">
+              <h3 className="font-mono text-[11px] font-normal uppercase tracking-[0.14em] text-[#8EB8FF]">
                 Protection
               </h3>
-              <ul
-                className="mt-3.5 grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4"
-                aria-label="Data protection"
-              >
-                {PROTECTION.map((item) => (
-                  <ProtectionTile key={item.id} item={item} />
-                ))}
-              </ul>
-            </motion.div>
-          </div>
+              <span
+                aria-hidden="true"
+                className="h-px flex-1 bg-white/10"
+              />
+            </div>
+
+            <ul
+              className="mt-4 grid grid-cols-1 gap-3.5 md:grid-cols-2 md:gap-4"
+              aria-label="Data protection"
+            >
+              {PROTECTION.map((item) => (
+                <ProtectionTile key={item.id} item={item} />
+              ))}
+            </ul>
+          </motion.div>
         </div>
       </div>
     </section>

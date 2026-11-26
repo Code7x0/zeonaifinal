@@ -32,7 +32,7 @@ export function RulesTransform() {
                 role="tab"
                 aria-selected={type === t}
                 onClick={() => setType(t)}
-                className="rounded-full border px-2.5 py-1 text-[10px] outline-none focus-visible:ring-2 focus-visible:ring-[#2962FF]/45"
+                className="inline-flex min-h-[36px] items-center rounded-full border px-3 py-1.5 text-[11px] outline-none focus-visible:ring-2 focus-visible:ring-[#2962FF]/45"
                 style={{
                   borderColor: type === t ? Z.blue : Z.line,
                   backgroundColor: type === t ? `${Z.blue}12` : Z.paper,

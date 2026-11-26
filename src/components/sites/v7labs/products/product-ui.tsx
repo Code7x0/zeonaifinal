@@ -211,35 +211,37 @@ export function InvoiceMatchPreview() {
           </div>
         </div>
       </div>
-      <div className="mt-3 overflow-hidden border border-[#E9EAEB]">
-        <div className="grid grid-cols-4 gap-2 border-b border-[#E9EAEB] bg-[#FAFAFA] px-3 py-2 font-mono text-[9px] tracking-[0.1em] text-[#535862] uppercase">
-          <span>Field</span>
-          <span>Extracted</span>
-          <span>Expected</span>
-          <span>State</span>
-        </div>
-        {[
-          ["Invoice total", "$19,640.00", "$18,400.00", "Mismatch"],
-          ["PO reference", "PO-8821", "PO-8821", "Match"],
-          ["Supplier ABN", "51 824 753 556", "51 824 753 556", "Match"],
-        ].map((row) => (
-          <div
-            key={row[0]}
-            className="grid grid-cols-4 gap-2 border-b border-[#EDEDED] px-3 py-2.5 text-[12px] last:border-b-0"
-          >
-            <span className="text-[#535862]">{row[0]}</span>
-            <span className="font-medium">{row[1]}</span>
-            <span>{row[2]}</span>
-            <span
-              className={cn(
-                "font-mono text-[10px] uppercase",
-                row[3] === "Mismatch" ? "text-[#1B46F5]" : "text-[#535862]",
-              )}
-            >
-              {row[3]}
-            </span>
+      <div className="mt-3 overflow-x-auto border border-[#E9EAEB]">
+        <div className="min-w-[420px]">
+          <div className="grid grid-cols-4 gap-2 border-b border-[#E9EAEB] bg-[#FAFAFA] px-3 py-2 font-mono text-[9px] tracking-[0.1em] text-[#535862] uppercase">
+            <span>Field</span>
+            <span>Extracted</span>
+            <span>Expected</span>
+            <span>State</span>
           </div>
-        ))}
+          {[
+            ["Invoice total", "$19,640.00", "$18,400.00", "Mismatch"],
+            ["PO reference", "PO-8821", "PO-8821", "Match"],
+            ["Supplier ABN", "51 824 753 556", "51 824 753 556", "Match"],
+          ].map((row) => (
+            <div
+              key={row[0]}
+              className="grid grid-cols-4 gap-2 border-b border-[#EDEDED] px-3 py-2.5 text-[12px] last:border-b-0"
+            >
+              <span className="text-[#535862]">{row[0]}</span>
+              <span className="font-medium">{row[1]}</span>
+              <span>{row[2]}</span>
+              <span
+                className={cn(
+                  "font-mono text-[10px] uppercase",
+                  row[3] === "Mismatch" ? "text-[#1B46F5]" : "text-[#535862]",
+                )}
+              >
+                {row[3]}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
     </ProductChrome>
   );

@@ -218,8 +218,8 @@ export function VideoProgressBar({
           id={labelId}
           className={cn(
             "pointer-events-auto relative w-full touch-none select-none outline-none",
-            /* Generous hit target — 20px tall; visible track is 1.5px via the inner span */
-            "h-5",
+            /* Generous touch hit target (32px on mobile, 20px on sm+); visible track stays 1.5px */
+            "h-8 sm:h-5",
             ready ? "cursor-pointer" : "cursor-default",
           )}
           onPointerDown={onPointerDown}
