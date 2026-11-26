@@ -54,25 +54,16 @@ export function Hero() {
       const clear = () => {
         gsap.set(
           [stage, frame, windowEl, copy, caption].filter(Boolean),
-          { clearProps: "padding,maxWidth,opacity,transform,borderRadius" },
+          { clearProps: "opacity,transform,borderRadius" },
         );
       };
 
       /*
-       * One scrubbed timeline, no pin (Antigravity-style motion, not a copy).
-       * Expands to a near-full inset, then the hero keeps scrolling with the
-       * page — no spacer / second stage. scrub:true avoids Lenis+scrub lag
-       * that felt like a halfway pause.
+       * Pure GPU transform-only scrubbed expansion (no padding/maxWidth layout
+       * thrashing on scroll). Expands smoothly from compact scale to 1.0 as
+       * the user scrolls out of the hero.
        */
-      const gutter = () => (window.innerWidth >= 768 ? 32 : 16);
-      /* Capture compact width once — never read live offsetWidth in end
-         values (that can lock the film to edge-to-edge after a refresh). */
-      const compactWidth =
-        window.innerWidth >= 768
-          ? 920
-          : Math.round(frame.getBoundingClientRect().width);
-      const expandedMax = () =>
-        Math.max(compactWidth, document.documentElement.clientWidth - gutter() * 2);
+      const startScale = window.innerWidth >= 768 ? 0.92 : 0.97;
 
       const tl = gsap.timeline({
         defaults: { ease: "none" },
@@ -86,26 +77,19 @@ export function Hero() {
         },
       });
 
-      tl.to(stage, { paddingLeft: 0, paddingRight: 0 }, 0);
-
       tl.fromTo(
         frame,
-        { maxWidth: compactWidth },
-        { maxWidth: expandedMax, immediateRender: false },
+        { scale: startScale, transformOrigin: "50% 0%" },
+        { scale: 1, immediateRender: false },
         0,
       );
 
       if (windowEl) {
         tl.fromTo(
           windowEl,
+          { borderRadius: 18 },
           {
-            scale: () => (window.innerWidth >= 768 ? 0.972 : 0.985),
-            borderRadius: 18,
-          },
-          {
-            scale: 1,
             borderRadius: () => (window.innerWidth >= 768 ? 14 : 12),
-            transformOrigin: "50% 50%",
             immediateRender: false,
           },
           0,

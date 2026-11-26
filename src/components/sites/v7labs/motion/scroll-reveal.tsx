@@ -72,6 +72,17 @@ function observeProgressiveBatch(
   const revealed = new WeakSet<HTMLElement>();
   const indexMap = new Map<HTMLElement, number>(items.map((el, i) => [el, i]));
   const timers: number[] = [];
+  let revealedCount = 0;
+  let scrollRaf = 0;
+
+  const detachScroll = () => {
+    window.removeEventListener("scroll", scheduleCheck);
+    window.removeEventListener("resize", scheduleCheck);
+    if (scrollRaf) {
+      cancelAnimationFrame(scrollRaf);
+      scrollRaf = 0;
+    }
+  };
 
   items.forEach((el) => {
     el.style.opacity = "0";
@@ -88,8 +99,13 @@ function observeProgressiveBatch(
 
     pending.forEach((el) => {
       revealed.add(el);
+      revealedCount += 1;
       io.unobserve(el);
     });
+
+    if (revealedCount >= items.length) {
+      detachScroll();
+    }
 
     // Force a style flush so the initial hidden state commits before transitioning
     void pending[0]?.offsetHeight;
@@ -123,6 +139,8 @@ function observeProgressiveBatch(
   items.forEach((el) => io.observe(el));
 
   const checkVisibleOrBottom = () => {
+    scrollRaf = 0;
+    if (revealedCount >= items.length) return;
     const vh = window.innerHeight || document.documentElement.clientHeight;
     const atBottom =
       window.scrollY + vh >= document.documentElement.scrollHeight - 24;
@@ -136,16 +154,20 @@ function observeProgressiveBatch(
     if (ready.length) animateBatch(ready);
   };
 
+  const scheduleCheck = () => {
+    if (scrollRaf || revealedCount >= items.length) return;
+    scrollRaf = requestAnimationFrame(checkVisibleOrBottom);
+  };
+
   const initTimer = window.setTimeout(checkVisibleOrBottom, 30);
   timers.push(initTimer);
-  window.addEventListener("scroll", checkVisibleOrBottom, { passive: true });
-  window.addEventListener("resize", checkVisibleOrBottom, { passive: true });
+  window.addEventListener("scroll", scheduleCheck, { passive: true });
+  window.addEventListener("resize", scheduleCheck, { passive: true });
 
   return () => {
     timers.forEach((t) => window.clearTimeout(t));
     io.disconnect();
-    window.removeEventListener("scroll", checkVisibleOrBottom);
-    window.removeEventListener("resize", checkVisibleOrBottom);
+    detachScroll();
     items.forEach(clearRevealStyles);
   };
 }

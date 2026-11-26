@@ -41,6 +41,7 @@ export function ArchitectureSection() {
   const lenis = useLenis();
   const lastIndexRef = useRef(0);
   const activeIndexRef = useRef(0);
+  const inViewRef = useRef(false);
 
   const active = architectureLayers[activeIndex] ?? architectureLayers[0];
   const pinEnabled = isDesktop && !reduceMotion;
@@ -58,11 +59,11 @@ export function ArchitectureSection() {
   }, []);
 
   const syncFromScroll = useCallback(() => {
+    if (!inViewRef.current) return;
     const track = trackRef.current;
     if (!track) return;
 
     const viewH = window.innerHeight;
-    // Prefer measured track height so sync works even if React state lags
     const isPinnedTrack = track.offsetHeight > viewH * 1.5;
     if (!isPinnedTrack) return;
 
@@ -71,60 +72,39 @@ export function ArchitectureSection() {
     const progressed = Math.min(1, Math.max(0, -rect.top / scrollable));
     const idx = indexFromProgress(progressed);
 
-    track.dataset.progress = progressed.toFixed(3);
-    track.dataset.layerIndex = String(idx);
-
     if (idx !== lastIndexRef.current) {
       lastIndexRef.current = idx;
+      track.dataset.layerIndex = String(idx);
       setActiveIndex(idx);
     }
   }, []);
 
-  // Lenis scroll ticks
+  // Driven by the single Lenis scroll event (only when intersecting)
   useLenis(() => {
     syncFromScroll();
   }, [syncFromScroll]);
 
-  // rAF while the pinned track intersects the viewport — reliable with Lenis
+  // IntersectionObserver gates scroll reads to only while ArchitectureSection is in view
   useEffect(() => {
     const track = trackRef.current;
     if (!track || !pinEnabled) return;
 
-    let raf = 0;
-    let observing = false;
-
-    const loop = () => {
-      syncFromScroll();
-      raf = requestAnimationFrame(loop);
-    };
-
     const io = new IntersectionObserver(
       ([entry]) => {
-        if (entry?.isIntersecting) {
-          if (!observing) {
-            observing = true;
-            raf = requestAnimationFrame(loop);
-          }
-        } else if (observing) {
-          observing = false;
-          cancelAnimationFrame(raf);
-        }
+        inViewRef.current = Boolean(entry?.isIntersecting);
+        if (inViewRef.current) syncFromScroll();
       },
       { threshold: 0 },
     );
 
     io.observe(track);
-    // Kick once in case already intersecting
-    syncFromScroll();
-    raf = requestAnimationFrame(loop);
-    observing = true;
-
+    window.addEventListener("scroll", syncFromScroll, { passive: true });
     window.addEventListener("resize", syncFromScroll, { passive: true });
 
     return () => {
-      observing = false;
-      cancelAnimationFrame(raf);
+      inViewRef.current = false;
       io.disconnect();
+      window.removeEventListener("scroll", syncFromScroll);
       window.removeEventListener("resize", syncFromScroll);
     };
   }, [pinEnabled, syncFromScroll]);

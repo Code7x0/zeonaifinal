@@ -2,21 +2,21 @@
 
 import { ReactLenis, type LenisRef } from "lenis/react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { registerGsap, ScrollTrigger } from "./motion/gsap-register";
+import { gsap, registerGsap, ScrollTrigger } from "./motion/gsap-register";
 
 type SmoothScrollProps = {
   children: ReactNode;
 };
 
 /**
- * Site-wide Lenis smooth scrolling, synced with GSAP ScrollTrigger.
+ * Site-wide Lenis smooth scrolling, frame-locked to a single GSAP ticker loop.
  *
- * Uses Lenis `autoRaf: true` so wheel input always advances scroll. The earlier
- * GSAP-ticker + `autoRaf: false` path raced ReactLenis mount and left Lenis
- * preventing wheel events with no RAF — page could not scroll.
- *
- * Children stay mounted when enabling/disabling smooth wheel (no remount).
- * Disabled for reduced-motion and coarse pointers — native scroll feel.
+ * - Uses `lerp: 0.16` (omitting conflicting `duration`) and `wheelMultiplier: 1.12`
+ *   so wheel and trackpad gestures feel prompt, controlled, and effortless without
+ *   heavy resistance or floaty overshoot.
+ * - Single coordinated RAF loop: `gsap.ticker` drives `lenis.raf()` and updates
+ *   `ScrollTrigger` on the same frame, eliminating dual-RAF jitter.
+ * - Disabled for reduced-motion and coarse pointers (native mobile touch momentum).
  */
 export function SmoothScroll({ children }: SmoothScrollProps) {
   const lenisRef = useRef<LenisRef>(null);
@@ -38,40 +38,46 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
     };
   }, []);
 
-  /* Bridge ScrollTrigger once Lenis exists (instance is set async by ReactLenis) */
+  /* Single coordinated RAF loop: GSAP ticker drives Lenis + ScrollTrigger in lockstep */
   useEffect(() => {
     registerGsap();
-    let cancelled = false;
-    let removeScroll: (() => void) | undefined;
-    let raf = 0;
+    gsap.ticker.lagSmoothing(0);
 
-    const bind = () => {
-      const lenis = lenisRef.current?.lenis;
-      if (!lenis) {
-        raf = requestAnimationFrame(bind);
-        return;
-      }
-      if (cancelled) return;
+    let boundLenis: ReturnType<
+      NonNullable<LenisRef["lenis"]>["on"]
+    > extends never
+      ? never
+      : NonNullable<LenisRef["lenis"]> | null = null;
 
-      /* Never call lenis.stop() — it blocks wheel/touch while still owning root */
-      lenis.start();
-
-      const onScroll = () => {
-        ScrollTrigger.update();
-      };
-      lenis.on("scroll", onScroll);
-      removeScroll = () => {
-        lenis.off("scroll", onScroll);
-      };
-      ScrollTrigger.refresh();
+    const onLenisScroll = () => {
+      ScrollTrigger.update();
     };
 
-    bind();
+    const tick = (time: number) => {
+      const lenis = lenisRef.current?.lenis;
+      if (!lenis) return;
+
+      if (boundLenis !== lenis) {
+        if (boundLenis) {
+          boundLenis.off("scroll", onLenisScroll);
+        }
+        boundLenis = lenis;
+        lenis.start();
+        lenis.on("scroll", onLenisScroll);
+        ScrollTrigger.refresh();
+      }
+
+      lenis.raf(time * 1000);
+    };
+
+    gsap.ticker.add(tick);
 
     return () => {
-      cancelled = true;
-      cancelAnimationFrame(raf);
-      removeScroll?.();
+      gsap.ticker.remove(tick);
+      if (boundLenis) {
+        boundLenis.off("scroll", onLenisScroll);
+        boundLenis = null;
+      }
     };
   }, [enabled]);
 
@@ -80,12 +86,11 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
       ref={lenisRef}
       root
       options={{
-        autoRaf: true,
-        lerp: 0.12,
-        duration: 1.0,
+        autoRaf: false,
+        lerp: 0.16,
         smoothWheel: enabled,
+        wheelMultiplier: 1.12,
         touchMultiplier: 1,
-        wheelMultiplier: 0.95,
         syncTouch: false,
       }}
     >

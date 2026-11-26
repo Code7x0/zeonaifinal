@@ -186,6 +186,7 @@ export function GLSLHills({
     const plane = new Plane();
     let frameId = 0;
     let disposed = false;
+    let inView = true;
 
     const resize = () => {
       const container = containerRef.current;
@@ -194,16 +195,48 @@ export function GLSLHills({
       const h = container.clientHeight || window.innerHeight;
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
       renderer.setSize(w, h, false);
     };
 
     const renderLoop = () => {
-      if (disposed) return;
+      if (disposed || !inView || document.hidden) {
+        frameId = 0;
+        return;
+      }
       plane.render(clock.getDelta());
       renderer.render(scene, camera);
       frameId = requestAnimationFrame(renderLoop);
     };
+
+    const startLoop = () => {
+      if (disposed || frameId || !inView || document.hidden) return;
+      clock.getDelta(); // reset delta after pause to prevent jump
+      frameId = requestAnimationFrame(renderLoop);
+    };
+
+    const stopLoop = () => {
+      if (frameId) {
+        cancelAnimationFrame(frameId);
+        frameId = 0;
+      }
+    };
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        inView = Boolean(entry?.isIntersecting);
+        if (inView) startLoop();
+        else stopLoop();
+      },
+      { threshold: 0 },
+    );
+    if (containerRef.current) io.observe(containerRef.current);
+
+    const onVisChange = () => {
+      if (document.hidden) stopLoop();
+      else if (inView) startLoop();
+    };
+    document.addEventListener("visibilitychange", onVisChange);
 
     renderer.setClearColor(0x000000, 0);
     camera.position.set(0, 16, cameraZ);
@@ -211,11 +244,13 @@ export function GLSLHills({
     scene.add(plane.mesh);
     window.addEventListener("resize", resize);
     resize();
-    renderLoop();
+    startLoop();
 
     return () => {
       disposed = true;
-      cancelAnimationFrame(frameId);
+      stopLoop();
+      io.disconnect();
+      document.removeEventListener("visibilitychange", onVisChange);
       window.removeEventListener("resize", resize);
       plane.mesh.geometry.dispose();
       const material = plane.mesh.material;
