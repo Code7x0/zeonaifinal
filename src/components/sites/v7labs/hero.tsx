@@ -50,20 +50,34 @@ export function Hero() {
       const caption = captionRef.current;
       if (!root || !copy || !stage || !frame) return;
 
-      const windowEl = frame.querySelector<HTMLElement>(".zeon-window");
       const clear = () => {
         gsap.set(
-          [stage, frame, windowEl, copy, caption].filter(Boolean),
-          { clearProps: "opacity,transform,borderRadius" },
+          [frame, copy, caption].filter(Boolean),
+          { clearProps: "opacity,transform" },
         );
       };
 
       /*
-       * Pure GPU transform-only scrubbed expansion (no padding/maxWidth layout
-       * thrashing on scroll). Expands smoothly from compact scale to 1.0 as
-       * the user scrolls out of the hero.
+       * Pure GPU-composited full-width expansion (zero maxWidth/padding/
+       * borderRadius layout or paint thrashing on scroll).
+       * The frame is laid out at its full expanded width and scaled down to
+       * ~920px visually at scroll=0, then smoothly scrubbed to scale(1) on
+       * the compositor thread.
        */
-      const startScale = window.innerWidth >= 768 ? 0.92 : 0.97;
+      const getStartScale = () => {
+        const fullW = frame.offsetWidth;
+        if (!fullW) return 1;
+        if (window.innerWidth >= 768) {
+          return Math.min(1, 920 / fullW);
+        }
+        return 0.96;
+      };
+
+      gsap.set(frame, {
+        scale: getStartScale(),
+        transformOrigin: "50% 0%",
+        force3D: true,
+      });
 
       const tl = gsap.timeline({
         defaults: { ease: "none" },
@@ -71,7 +85,7 @@ export function Hero() {
           trigger: root,
           start: "top top",
           end: () =>
-            `+=${Math.round(window.innerHeight * (window.innerWidth >= 768 ? 0.32 : 0.36))}`,
+            `+=${Math.round(window.innerHeight * (window.innerWidth >= 768 ? 0.34 : 0.36))}`,
           scrub: true,
           invalidateOnRefresh: true,
         },
@@ -79,26 +93,14 @@ export function Hero() {
 
       tl.fromTo(
         frame,
-        { scale: startScale, transformOrigin: "50% 0%" },
-        { scale: 1, immediateRender: false },
+        { scale: getStartScale, transformOrigin: "50% 0%", force3D: true },
+        { scale: 1, transformOrigin: "50% 0%", force3D: true },
         0,
       );
 
-      if (windowEl) {
-        tl.fromTo(
-          windowEl,
-          { borderRadius: 18 },
-          {
-            borderRadius: () => (window.innerWidth >= 768 ? 14 : 12),
-            immediateRender: false,
-          },
-          0,
-        );
-      }
-
       if (window.innerWidth >= 768) {
-        tl.to(copy, { opacity: 0.38, y: -14 }, 0);
-        if (caption) tl.to(caption, { opacity: 0, y: 4 }, 0);
+        tl.to(copy, { opacity: 0.38, y: -14, force3D: true }, 0);
+        if (caption) tl.to(caption, { opacity: 0, y: 4, force3D: true }, 0);
       }
 
       const onResize = () => ScrollTrigger.refresh();
@@ -212,7 +214,7 @@ export function Hero() {
 
       <div
         ref={stageRef}
-        className="relative z-10 w-full px-[var(--zeon-gutter,1.25rem)] pb-12 pt-12 sm:pb-16 md:pb-24 md:pt-14"
+        className="relative z-10 w-full px-4 pb-10 pt-12 sm:pb-14 md:px-8 md:pb-16 md:pt-14"
       >
         <motion.div
           className="w-full"
@@ -228,10 +230,10 @@ export function Hero() {
                 }
           }
         >
-          {/* Plain div is the GSAP width target — keep Motion off this node */}
+          {/* Plain div is the GSAP GPU-scale target — keep Motion off this node */}
           <div
             ref={frameRef}
-            className="mx-auto w-full max-w-[920px] overflow-hidden"
+            className="mx-auto w-full max-w-[1680px] overflow-hidden will-change-transform"
           >
             <ProductVideo
               assetId="home-hero"
