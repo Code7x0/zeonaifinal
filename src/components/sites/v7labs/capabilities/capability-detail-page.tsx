@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import Link from "next/link";
 import {
   capabilities,
@@ -86,7 +87,7 @@ export function CapabilityDetailPage({
   afterWorkflow,
 }: {
   capability: Capability;
-  afterWorkflow?: React.ReactNode;
+  afterWorkflow?: ReactNode;
 }) {
   const related = capability.related
     .map((id) => getCapability(id))
@@ -106,6 +107,7 @@ export function CapabilityDetailPage({
         title={capability.title}
         lead={capability.summary}
         tone="ink"
+        align={hasWalkthrough ? "center" : "start"}
         secondaryHref="/platform"
         secondaryLabel="Platform overview"
         visual={hasWalkthrough ? undefined : mockFor(capability.id)}
@@ -116,9 +118,8 @@ export function CapabilityDetailPage({
           <VideoSection
             assetId={walkthroughId}
             eyebrow="Product walkthrough"
-            headline={capability.does}
-            body={walkthroughAsset.topic}
-            after={walkthroughAsset.description}
+            headline={walkthroughAsset.topic}
+            body={walkthroughAsset.description}
             layout="split"
             cta={
               <Link href="/demo" className="zeon-btn zeon-btn-ink">
@@ -129,80 +130,95 @@ export function CapabilityDetailPage({
         </Chapter>
       ) : null}
 
-      <Chapter tone="paper" min={false} className="!min-h-0">
-        <p className="max-w-[52ch] text-[14px] leading-[1.55] text-[#535862]">
-          {capability.sampleNote}
-        </p>
-        <div className="mt-12 grid gap-12 lg:grid-cols-2">
-          <div>
-            <ChapterLabel>The problem</ChapterLabel>
-            <p className="mt-4 text-[20px] leading-[1.45] tracking-[-0.02em] text-[#181D27] md:text-[24px]">
+      <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#E9EAEB]">
+        <div className="grid gap-6 lg:grid-cols-2">
+          <div className="rounded-[12px] border border-[#E9EAEB] bg-[#FAFAFA] p-6 md:p-7">
+            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#2962FF]">
+              01 · The problem
+            </p>
+            <p className="mt-3 text-[18px] leading-[1.5] tracking-[-0.015em] text-[#181D27] md:text-[20px]">
               {capability.problem}
             </p>
           </div>
-          <div>
-            <ChapterLabel>What it does</ChapterLabel>
-            <p className="mt-4 text-[20px] leading-[1.45] tracking-[-0.02em] text-[#181D27] md:text-[24px]">
+          <div className="rounded-[12px] border border-[#E9EAEB] bg-white p-6 shadow-[0_8px_24px_rgba(24,29,39,0.04)] md:p-7">
+            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#2962FF]">
+              02 · What it does
+            </p>
+            <p className="mt-3 text-[18px] leading-[1.5] tracking-[-0.015em] text-[#181D27] md:text-[20px]">
               {capability.does}
             </p>
           </div>
         </div>
-      </Chapter>
 
-      <Chapter tone="sky" min={false} className="!min-h-0">
-        <ChapterLabel tone="sky">How the workflow works</ChapterLabel>
-        <ChapterTitle>Steps on the platform.</ChapterTitle>
-        <ol className="mt-10 space-y-0 rounded-[12px] border border-[var(--zeon-border-blue)] bg-white px-5 md:px-8">
-          {capability.workflow.map((step, i) => (
-            <li
-              key={step}
-              className="grid grid-cols-[4rem_minmax(0,1fr)] gap-4 border-t border-[var(--zeon-border-blue)] py-6 first:border-t-0"
-            >
-              <span className="font-mono text-[13px] text-[var(--zeon-royal)]">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <span className="text-[17px] leading-[1.5] text-[#181D27]">
-                {step}
-              </span>
-            </li>
-          ))}
-        </ol>
+        <div className="mt-12 border-t border-[#E9EAEB] pt-10">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <ChapterLabel>How the workflow works</ChapterLabel>
+              <ChapterTitle>Steps on the platform.</ChapterTitle>
+            </div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#717680]">
+              {capability.sampleNote}
+            </p>
+          </div>
+          <ol className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {capability.workflow.map((step, i) => (
+              <li
+                key={step}
+                className="flex flex-col justify-between rounded-[10px] border border-[#E9EAEB] bg-white p-5 shadow-[0_1px_2px_rgba(24,29,39,0.04)]"
+              >
+                <span className="inline-flex size-7 items-center justify-center rounded-[6px] bg-[#EEF4FF] font-mono text-[11px] font-medium text-[#1B46F5]">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="mt-4 text-[15px] font-medium leading-[1.45] text-[#181D27]">
+                  {step}
+                </span>
+              </li>
+            ))}
+          </ol>
+        </div>
       </Chapter>
 
       {afterWorkflow}
 
-      <Chapter tone="midnight" min={false} className="!min-h-0">
-        <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+      <Chapter tone="ink" min={false} className="!min-h-0 border-t border-white/10">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:items-center">
           <div>
-            <ChapterLabel tone="midnight">Governance</ChapterLabel>
-            <p className="mt-4 max-w-[40ch] text-[22px] leading-[1.4] tracking-[-0.02em] text-white md:text-[28px]">
+            <ChapterLabel tone="ink">Governance</ChapterLabel>
+            <h2 className="mt-3 max-w-[26ch] font-[family-name:var(--font-aeonik)] text-[26px] leading-[1.2] tracking-[-0.025em] text-white md:text-[32px]">
               {capability.governance}
-            </p>
-            <p className="mt-6 max-w-[44ch] text-[15px] leading-[1.55] text-white/55">
-              <span className="text-white/80">Persona · </span>
+            </h2>
+            <p className="mt-5 max-w-[44ch] text-[15px] leading-[1.55] text-white/65">
+              <span className="font-medium text-white/90">Persona · </span>
               {capability.persona}
             </p>
           </div>
-          <AuditMock />
+          <div className="min-w-0 overflow-x-auto">
+            <AuditMock />
+          </div>
         </div>
       </Chapter>
 
       {related.length > 0 ? (
-        <Chapter tone="cream" min={false} className="!min-h-0">
-          <ChapterLabel tone="cream">Related</ChapterLabel>
-          <div className="mt-6 grid gap-3 sm:grid-cols-3">
+        <Chapter tone="paper" min={false} className="!min-h-0 border-t border-[#E9EAEB]">
+          <ChapterLabel>Related capabilities</ChapterLabel>
+          <div className="mt-6 grid gap-4 sm:grid-cols-3">
             {related.map((cap) => (
               <Link
                 key={cap.id}
                 href={`/platform/${cap.id}`}
-                className="zeon-surface-interactive block p-5"
+                className="zeon-surface-interactive flex flex-col justify-between p-6"
               >
-                <h3 className="font-[family-name:var(--font-aeonik)] text-[18px] tracking-[-0.02em]">
-                  {cap.title}
-                </h3>
-                <p className="mt-2 text-[13px] leading-[1.5] text-[#535862]">
-                  {cap.summary}
-                </p>
+                <div>
+                  <h3 className="font-[family-name:var(--font-aeonik)] text-[19px] tracking-[-0.02em] text-[#181D27]">
+                    {cap.title}
+                  </h3>
+                  <p className="mt-2 text-[13.5px] leading-[1.5] text-[#535862]">
+                    {cap.summary}
+                  </p>
+                </div>
+                <span className="zeon-link-arrow mt-5 text-[13px]">
+                  Explore
+                </span>
               </Link>
             ))}
           </div>
@@ -210,7 +226,7 @@ export function CapabilityDetailPage({
       ) : null}
 
       <SecondaryCta
-        tone="royal"
+        tone="ink"
         title={`Book a demo of ${capability.title}`}
         body="We will show this capability on a workflow from your role and sector."
         secondaryHref="/products"

@@ -14,14 +14,17 @@ export function DemoForm() {
   return (
     <section
       id="demo"
-      className="border-t border-[var(--zeon-line)] bg-[var(--zeon-paper)] px-5 py-20 md:px-8 md:py-28"
+      className="border-t border-[var(--zeon-line)] bg-[var(--zeon-ink)] px-5 py-20 text-white md:px-8 md:py-28"
     >
       <div className="mx-auto grid max-w-[1200px] gap-12 lg:grid-cols-[1fr_1fr]">
         <div>
-          <h2 className="text-[36px] leading-[1.08] tracking-[-0.035em] text-[var(--zeon-ink)] md:text-[52px]">
+          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/40">
+            Get started
+          </p>
+          <h2 className="mt-3 text-[36px] leading-[1.08] tracking-[-0.035em] text-white md:text-[52px]">
             Book a demo
           </h2>
-          <p className="mt-4 max-w-[42ch] text-[15px] leading-[1.55] text-[var(--zeon-ink70)]">
+          <p className="mt-4 max-w-[42ch] text-[15px] leading-[1.55] text-white/65">
             See AI Workspace on a workflow that matters to you. Tell us a little
             about your team and we will arrange a time.
           </p>
@@ -41,14 +44,14 @@ export function DemoForm() {
               ],
             ].map(([title, body], i) => (
               <li key={title} className="flex gap-4">
-                <span className="font-mono text-[12px] text-[var(--zeon-fog)]">
+                <span className="font-mono text-[12px] text-white/40">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <div>
-                  <p className="text-[15px] font-medium text-[var(--zeon-ink)]">
+                  <p className="text-[15px] font-medium text-white">
                     {title}
                   </p>
-                  <p className="mt-1 text-[13px] leading-[1.5] text-[var(--zeon-ink70)]">
+                  <p className="mt-1 text-[13px] leading-[1.5] text-white/60">
                     {body}
                   </p>
                 </div>
@@ -59,7 +62,7 @@ export function DemoForm() {
 
         <form
           onSubmit={onSubmit}
-          className="relative rounded-2xl border border-[var(--zeon-line)] bg-[var(--zeon-mist)]/40 p-6 md:p-8"
+          className="relative rounded-2xl border border-[var(--zeon-line)] bg-white p-6 shadow-[var(--zeon-elev-1)] md:p-8"
           noValidate
         >
           <p className="text-[12px] text-[var(--zeon-fog)]">

@@ -155,7 +155,7 @@ export default function InkOrbitHero({
           <div className="ih-hero-copy">
             <div className="ih-band">
               <h1 className="ih-h1">
-                <span className="ih-h1-top">{titleTop}</span>
+                <span className="ih-h1-top">{titleTop} </span>
                 <span className="ih-h1-acc" aria-live="polite">
                   <span key={wordIx} className={"ih-word" + (wordOut ? " ih-word-out" : "")}>
                     {accents[wordIx % accents.length]}

@@ -10,11 +10,11 @@ export function Industries() {
   return (
     <section
       id="industries"
-      className="border-t border-[var(--zeon-line)] bg-[var(--zeon-paper)] px-5 py-20 md:px-8 md:py-28"
+      className="border-t border-[var(--zeon-line)] bg-[var(--zeon-mist)]/30 px-5 py-20 md:px-8 md:py-28"
     >
       <div className="mx-auto max-w-[1200px]">
-        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--zeon-fog)]">
-          04 · Industries
+        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--zeon-royal)]">
+          04 · Industry Solutions
         </p>
         <h2 className="mt-3 max-w-[18ch] text-[36px] leading-[1.08] tracking-[-0.035em] text-[var(--zeon-ink)] md:text-[52px]">
           Built for regulated, document-heavy sectors
@@ -30,10 +30,10 @@ export function Industries() {
               <button
                 key={ind.id}
                 type="button"
-                className={`shrink-0 rounded-xl border px-4 py-3 text-left text-[13px] ${
+                className={`shrink-0 rounded-xl border px-4 py-3 text-left text-[13px] transition-all duration-200 ${
                   active === i
-                    ? "border-[var(--zeon-ink)] bg-[var(--zeon-ink)] text-white"
-                    : "border-[var(--zeon-line)] bg-white text-[var(--zeon-ink70)]"
+                    ? "border-[var(--zeon-royal)] bg-[var(--zeon-royal)] text-white shadow-[var(--zeon-elev-ink)]"
+                    : "border-[var(--zeon-line)] bg-white text-[var(--zeon-ink70)] hover:border-[var(--zeon-royal)]/40"
                 }`}
                 onClick={() => setActive(i)}
                 aria-pressed={active === i}
@@ -43,7 +43,7 @@ export function Industries() {
             ))}
           </div>
 
-          <article className="rounded-2xl border border-[var(--zeon-line)] bg-[var(--zeon-mist)]/40 p-6 md:p-8">
+          <article className="rounded-2xl border border-[var(--zeon-border-blue)] bg-[var(--zeon-sky)]/50 p-6 md:p-8">
             <p className="text-[15px] leading-[1.55] text-[var(--zeon-ink70)]">
               {item.intro}
             </p>

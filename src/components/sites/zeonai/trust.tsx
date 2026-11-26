@@ -25,7 +25,7 @@ export function Trust() {
         </p>
 
         <div className="mt-12 grid gap-6 lg:grid-cols-2">
-          <article className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+          <article className="rounded-2xl border border-white/15 bg-[#12161F] p-6">
             <div className="flex items-center justify-between gap-3">
               <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/40">
                 audit-trail
@@ -43,7 +43,7 @@ export function Trust() {
             </ul>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+          <article className="rounded-2xl border border-white/15 bg-[#12161F] p-6">
             <p className="text-[14px] font-medium">Access you control</p>
             <ol className="mt-4 space-y-3 text-[13px] text-white/70">
               <li>1. Admin defines roles — set up once.</li>
@@ -97,7 +97,7 @@ export function Trust() {
             {trustItems.map((item) => (
               <div
                 key={item.title}
-                className="rounded-xl border border-white/10 p-4"
+                className="rounded-xl border border-white/15 bg-[#12161F] p-4"
               >
                 <h3 className="text-[14px] font-medium">{item.title}</h3>
                 <p className="mt-2 text-[13px] leading-[1.45] text-white/60">
@@ -106,7 +106,7 @@ export function Trust() {
               </div>
             ))}
           </div>
-          <blockquote className="mt-10 max-w-[60ch] border-l-2 border-[var(--zeon-teal)] pl-5 text-[16px] leading-[1.55] text-white/80">
+          <blockquote className="mt-10 max-w-[60ch] border-l-2 border-[#2962FF] pl-5 text-[16px] leading-[1.55] text-white/80">
             Answers are drawn only from the documents and repositories the
             person can already open, and each one cites its sources. Check an
             output against the source before you act on it.

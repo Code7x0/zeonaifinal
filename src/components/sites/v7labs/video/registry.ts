@@ -112,7 +112,7 @@ export const VIDEO_ASSETS: Record<VideoPlacement, VideoAsset> = {
   }),
   "home-tab-agent-hub": ready({
     id: "home-tab-agent-hub",
-    topic: "Agent Bricks — build and release agents",
+    topic: "Agent Hub — build and release agents",
     placementLabel: "Placement 2 · Homepage tabs · Agent Hub",
     targetDurationSec: { min: 10, max: 15 },
     src: FILMS.bricks,
@@ -178,7 +178,7 @@ export const VIDEO_ASSETS: Record<VideoPlacement, VideoAsset> = {
   }),
   "capability-agent-hub": ready({
     id: "capability-agent-hub",
-    topic: "Agent Bricks walkthrough",
+    topic: "Agent Hub walkthrough",
     placementLabel: "Placement 3 · /agents and /platform/agent-hub",
     targetDurationSec: { min: 60, max: 90 },
     src: FILMS.bricks,

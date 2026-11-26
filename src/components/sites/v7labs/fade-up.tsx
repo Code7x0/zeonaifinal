@@ -1,15 +1,9 @@
 "use client";
 
-import {
-  useRef,
-  type CSSProperties,
-  type ElementType,
-  type ReactNode,
-} from "react";
-import { useReducedMotion } from "motion/react";
+import type { CSSProperties, ReactNode } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
-import { durationEnter, enterY as defaultY } from "./motion";
-import { gsap, registerGsap, useGSAP } from "./motion/gsap-register";
+import { durationUi, easeOut, enterY as defaultY } from "./motion";
 
 type FadeUpTag =
   | "div"
@@ -39,69 +33,53 @@ type FadeUpProps = {
   "aria-hidden"?: boolean | "true" | "false";
 };
 
+const MOTION_TAGS = {
+  div: motion.div,
+  section: motion.section,
+  span: motion.span,
+  h1: motion.h1,
+  h2: motion.h2,
+  h3: motion.h3,
+  p: motion.p,
+  nav: motion.nav,
+  article: motion.article,
+  header: motion.header,
+  footer: motion.footer,
+  li: motion.li,
+  ul: motion.ul,
+} as const;
+
 /**
- * Section/text entrance via GSAP ScrollTrigger (opacity + y).
- * Falls back to immediate visibility when reduced-motion is on.
- * Content remains in the document for screen readers at all times.
+ * Reliable scroll entrance using Motion whileInView.
+ * Uses a low intersection threshold so tall sections never get stuck invisible.
  */
 export function FadeUp({
   children,
   delay = 0,
-  duration = durationEnter,
+  duration = durationUi,
   y = defaultY,
   className,
   style,
   as: Tag = "div",
   once = true,
-  amount = 0.2,
+  amount = 0.05,
   "aria-hidden": ariaHidden,
 }: FadeUpProps) {
   const reduceMotion = Boolean(useReducedMotion());
-  const ref = useRef<HTMLElement | null>(null);
-
-  useGSAP(
-    () => {
-      registerGsap();
-      const el = ref.current;
-      if (!el) return;
-      if (reduceMotion) {
-        gsap.set(el, { clearProps: "opacity,transform,visibility" });
-        return;
-      }
-
-      const startPct = Math.round((1 - Math.min(Math.max(amount, 0.05), 0.9)) * 100);
-
-      gsap.fromTo(
-        el,
-        { autoAlpha: 0, y },
-        {
-          autoAlpha: 1,
-          y: 0,
-          duration,
-          delay,
-          ease: "power3.out",
-          overwrite: "auto",
-          scrollTrigger: {
-            trigger: el,
-            start: `top ${startPct}%`,
-            once,
-            toggleActions: "play none none none",
-          },
-        },
-      );
-    },
-    {
-      dependencies: [reduceMotion, delay, duration, y, once, amount],
-    },
-  );
-
-  const Component = Tag as ElementType;
+  const Component = MOTION_TAGS[Tag];
 
   return (
     <Component
-      ref={ref}
       className={cn("zeon-fade-up", className)}
       style={style}
+      initial={reduceMotion ? false : { opacity: 0, y }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once, amount: Math.min(amount, 0.1) }}
+      transition={
+        reduceMotion
+          ? { duration: 0 }
+          : { duration: Math.min(duration, 0.42), delay, ease: easeOut }
+      }
       {...(ariaHidden !== undefined ? { "aria-hidden": ariaHidden } : {})}
     >
       {children}

@@ -7,11 +7,11 @@ export function Solutions() {
       className="border-t border-[var(--zeon-line)] bg-[var(--zeon-paper)] px-5 py-20 md:px-8 md:py-28"
     >
       <div className="mx-auto max-w-[1200px]">
-        <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[var(--zeon-fog)]">
+        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--zeon-royal)]">
           Solutions
         </p>
         <h2 className="mt-3 max-w-[18ch] text-[36px] leading-[1.08] tracking-[-0.035em] text-[var(--zeon-ink)] md:text-[52px]">
-          Our business solutions
+          Purpose-built for the enterprise
         </h2>
         <p className="mt-5 max-w-[52ch] text-[17px] leading-[1.55] text-[var(--zeon-ink70)] md:text-[18px]">
           Agent Hub products for invoices, cash-flow underwriting, document
@@ -24,7 +24,7 @@ export function Solutions() {
             <a
               key={item.id}
               href={item.href}
-              className="group rounded-2xl border border-[var(--zeon-line)] bg-[var(--zeon-mist)]/30 p-6 no-underline transition-colors hover:border-[var(--zeon-ink)] md:p-8"
+              className="group rounded-2xl border border-[var(--zeon-line)] bg-white p-6 no-underline shadow-[var(--zeon-elev-1)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--zeon-royal)] hover:shadow-[var(--zeon-elev-2)] md:p-8"
             >
               <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--zeon-blue)]">
                 {item.brand}
@@ -35,8 +35,8 @@ export function Solutions() {
               <p className="mt-3 text-[15px] leading-[1.55] text-[var(--zeon-ink70)] md:text-[16px]">
                 {item.body}
               </p>
-              <p className="mt-5 text-[14px] text-[var(--zeon-ink)] group-hover:underline">
-                Read more →
+              <p className="mt-5 text-[14px] font-medium text-[var(--zeon-royal)] transition-colors group-hover:text-[var(--zeon-royal-deep)]">
+                Learn more →
               </p>
             </a>
           ))}

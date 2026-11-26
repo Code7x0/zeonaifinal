@@ -384,11 +384,11 @@ export const capabilities = [
     id: "agent-hub",
     title: "Agent Hub",
     summary:
-      "Agents grouped by function, each running a workflow of sub-agents.",
+      "Agents grouped by function, each running a workflow of sub-agents with human checkpoints.",
     problem:
-      "Document-heavy processes need repeatable agents with human checkpoints, not one-off scripts.",
+      "Document-heavy processes need repeatable agents with clear ownership, not brittle one-off scripts.",
     does:
-      "Groups agents by function. Each agent runs a workflow of sub-agents, with people on the exceptions.",
+      "Organizes domain agents into governed workflows — from document intake and extraction to validation, routing, and human sign-off on exceptions.",
     workflow: [
       "Choose or build an agent",
       "Configure sub-agents (ingest → output)",

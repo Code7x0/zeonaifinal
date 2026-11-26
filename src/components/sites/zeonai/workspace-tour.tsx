@@ -252,7 +252,7 @@ export function WorkspaceTour() {
   const [paused, setPaused] = useState(true);
 
   return (
-    <section id="platform" className="bg-[var(--zeon-paper)] px-5 py-20 md:px-8 md:py-28">
+    <section id="platform" className="border-t border-[var(--zeon-line)] bg-[var(--zeon-mist)]/30 px-5 py-20 md:px-8 md:py-28">
       <div className="mx-auto max-w-[1200px]">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div className="max-w-[640px]">
@@ -295,10 +295,10 @@ export function WorkspaceTour() {
                 type="button"
                 role="tab"
                 aria-selected={active === i}
-                className={`shrink-0 rounded-full px-4 py-2.5 text-left text-[13px] transition-colors ${
+                className={`shrink-0 rounded-full px-4 py-2.5 text-left text-[13px] transition-all duration-200 ${
                   active === i
-                    ? "bg-[var(--zeon-ink)] text-white"
-                    : "bg-[var(--zeon-mist)] text-[var(--zeon-ink70)] hover:text-[var(--zeon-ink)]"
+                    ? "bg-[var(--zeon-royal)] text-white shadow-[var(--zeon-elev-ink)]"
+                    : "bg-[var(--zeon-mist)] text-[var(--zeon-ink70)] hover:bg-[var(--zeon-royal)]/10 hover:text-[var(--zeon-ink)]"
                 }`}
                 onClick={() => setActive(i)}
               >
@@ -308,7 +308,7 @@ export function WorkspaceTour() {
           </div>
           <div
             role="tabpanel"
-            className="min-h-[420px] rounded-2xl border border-[var(--zeon-line)] bg-[var(--zeon-mist)]/30 p-5 md:p-6"
+            className="min-h-[420px] rounded-2xl border border-[var(--zeon-line)] bg-white p-5 shadow-[var(--zeon-elev-1)] md:p-6"
           >
             {TABS[active].panel}
           </div>

@@ -89,7 +89,7 @@ export function EngineeringDetailPage() {
                     className={reverse ? "lg:[direction:ltr]" : ""}
                     initial={reduceMotion ? false : { opacity: 0, y: enterY }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.25 }}
+                    viewport={{ once: true, amount: 0.05 }}
                     transition={{ duration: durationEnter, ease: easeOut }}
                   >
                     <p
@@ -112,10 +112,10 @@ export function EngineeringDetailPage() {
                     }`}
                     initial={reduceMotion ? false : { opacity: 0, y: enterY }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
+                    viewport={{ once: true, amount: 0.05 }}
                     transition={{
                       duration: durationEnter,
-                      delay: reduceMotion ? 0 : 0.08,
+                      delay: reduceMotion ? 0 : 0.06,
                       ease: easeOut,
                     }}
                   >

@@ -29,8 +29,8 @@ function DocumentVisual({ compact }: { compact?: boolean }) {
       className={`zeon-surface overflow-hidden ${compact ? "p-3" : "p-4"}`}
       aria-hidden
     >
-      <div className="flex gap-3">
-        <div className="min-w-0 flex-[1.1] rounded-[2px] border border-[#E9EAEB] bg-[#FAFAFA] p-2.5">
+      <div className="flex flex-col gap-3 sm:flex-row">
+        <div className="min-w-0 flex-1 rounded-[2px] border border-[#E9EAEB] bg-[#FAFAFA] p-2.5 sm:flex-[1.1]">
           <p className="font-mono text-[8px] uppercase tracking-[0.14em] text-[#535862]">
             Loan_application.pdf
           </p>
@@ -61,11 +61,11 @@ function DocumentVisual({ compact }: { compact?: boolean }) {
           ].map(([field, status]) => (
             <div
               key={field}
-              className="flex items-center justify-between rounded-[2px] border border-[#E9EAEB] bg-[#FBFAF7] px-2 py-1.5"
+              className="flex items-center justify-between gap-2 rounded-[2px] border border-[#E9EAEB] bg-[#FBFAF7] px-2 py-1.5"
             >
               <span className="text-[10px] text-[#181D27]">{field}</span>
               <span
-                className={`font-mono text-[8px] uppercase tracking-[0.1em] ${
+                className={`shrink-0 font-mono text-[8px] uppercase tracking-[0.1em] ${
                   status === "Verified" ? "text-[var(--color-text-link)]" : "text-[#535862]"
                 }`}
               >

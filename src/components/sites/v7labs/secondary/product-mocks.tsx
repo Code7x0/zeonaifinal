@@ -646,14 +646,14 @@ export function GovernanceStack({ className }: { className?: string }) {
       {layers.map((l, i) => (
         <div
           key={l.title}
-          className="rounded-[12px] border border-white/10 bg-white/[0.06] p-5 backdrop-blur-md"
+          className="rounded-[12px] border border-white/15 bg-[#12161F] p-5 shadow-[0_14px_34px_rgba(12,16,24,0.22)]"
           style={{ marginLeft: `${i * 12}px` }}
         >
           <p className="font-mono text-[11px] text-[#8EB8FF]">0{i + 1}</p>
           <h3 className="mt-2 text-[18px] font-medium tracking-[-0.02em] text-white">
             {l.title}
           </h3>
-          <p className="mt-2 max-w-[40ch] text-[14px] leading-[1.5] text-white/60">
+          <p className="mt-2 max-w-[40ch] text-[14px] leading-[1.5] text-[#CBD5E1]">
             {l.body}
           </p>
         </div>

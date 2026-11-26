@@ -217,7 +217,7 @@ export function EngineeringSection() {
             className="inline-flex items-center justify-center gap-3 text-[11px] font-medium uppercase tracking-[0.14em]"
             style={{ color: H.blue500, fontFamily: H.mono }}
           >
-            03 · Under the hood
+            Execution pipeline
             <span
               aria-hidden
               className="hidden h-px w-9 sm:block"
@@ -226,7 +226,7 @@ export function EngineeringSection() {
                   "linear-gradient(90deg, rgba(188,211,255,0.9), transparent)",
               }}
             />
-            <span style={{ color: H.gray400 }}>Sheet · Journey</span>
+            <span style={{ color: H.gray400 }}>Six governed stages</span>
           </p>
           <h2
             id={`${baseId}-heading`}
@@ -637,7 +637,7 @@ function StageCard({
         tabIndex={selected ? 0 : -1}
         onClick={onSelect}
         onKeyDown={onKeyDown}
-        className="relative flex h-36 w-full flex-col p-4 text-left transition-[transform,border-color,box-shadow] duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+        className="relative flex min-h-[152px] h-full w-full flex-col p-4 text-left transition-[transform,border-color,box-shadow] duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
         style={{
           borderRadius: H.radius.card,
           background: H.white,

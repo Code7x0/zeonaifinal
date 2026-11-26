@@ -6,7 +6,7 @@ import {
   type ArchitectureLayerKey,
 } from "./content";
 
-const ZEON_BLUE = "#0977B3";
+const ZEON_BLUE = "#2962FF";
 const DEFAULT_KEY: ArchitectureLayerKey = architectureLayers[0].key;
 
 function slabPaths(indexFromTop: number) {
@@ -68,7 +68,7 @@ export function Architecture() {
   return (
     <section
       id="architecture"
-      className="border-t border-[var(--zeon-line)] bg-[var(--zeon-paper)] px-5 py-20 md:px-8 md:py-28"
+      className="border-t border-[var(--zeon-line)] bg-[var(--zeon-mist)]/30 px-5 py-20 md:px-8 md:py-28"
       aria-labelledby={`${baseId}-heading`}
     >
       <div className="mx-auto max-w-[1200px]">
@@ -204,7 +204,7 @@ export function Architecture() {
                     </span>
                     <span
                       className={`flex-1 text-[18px] tracking-[-0.02em] md:text-[22px] ${
-                        open ? "text-[var(--zeon-blue,#0977B3)]" : "text-[var(--zeon-ink)]"
+                        open ? "text-[#2962FF]" : "text-[var(--zeon-ink)]"
                       }`}
                     >
                       {layer.title}

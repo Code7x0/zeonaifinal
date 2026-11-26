@@ -287,13 +287,13 @@ export function ReferenceArchitectureVisual({
               initial={
                 reduceMotion
                   ? false
-                  : { opacity: 0, y: 26, scale: 0.97 }
+                  : { opacity: 0, y: 18, scale: 0.98 }
               }
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, amount: 0.35 }}
+              viewport={{ once: true, amount: 0.05 }}
               transition={{
-                duration: reduceMotion ? 0 : 0.5,
-                delay: reduceMotion ? 0 : 0.1 + i * 0.1,
+                duration: reduceMotion ? 0 : 0.4,
+                delay: reduceMotion ? 0 : 0.04 + i * 0.05,
                 ease: easeOut,
               }}
               onMouseEnter={() => setHovered(layer.key)}

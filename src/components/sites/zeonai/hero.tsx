@@ -9,18 +9,18 @@ export function Hero() {
         aria-hidden
       />
       <div
-        className="pointer-events-none absolute -right-24 top-24 size-[420px] rounded-full opacity-30 blur-3xl"
+        className="pointer-events-none absolute -right-24 top-24 size-[480px] rounded-full opacity-20 blur-3xl"
         style={{
           background:
-            "radial-gradient(circle, rgba(9,119,179,0.55), transparent 70%)",
+            "radial-gradient(circle, rgba(41,98,255,0.5), transparent 70%)",
         }}
         aria-hidden
       />
       <div
-        className="pointer-events-none absolute -left-16 bottom-10 size-[320px] rounded-full opacity-25 blur-3xl"
+        className="pointer-events-none absolute -left-16 bottom-10 size-[280px] rounded-full opacity-10 blur-3xl"
         style={{
           background:
-            "radial-gradient(circle, rgba(225,102,28,0.45), transparent 70%)",
+            "radial-gradient(circle, rgba(27,70,245,0.45), transparent 70%)",
         }}
         aria-hidden
       />

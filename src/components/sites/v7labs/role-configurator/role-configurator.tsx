@@ -233,7 +233,7 @@ export function RoleConfigurator() {
             >
               <p className="font-mono text-[11px] uppercase tracking-[0.14em] tabular-nums text-[#181D27]">
                 <span style={{ color: ACCENT }}>{includedCount}</span>
-                <span className="text-[#717680]"> / 12 active</span>
+                <span className="text-[#717680]"> / {MODULE_IDS.length} active</span>
               </p>
               <p className="mt-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[#717680]">
                 {includedCount} modules · {agentCount} agents
@@ -241,7 +241,7 @@ export function RoleConfigurator() {
               <div
                 className="mt-2 flex gap-1"
                 role="img"
-                aria-label={`${includedCount} of 12 modules active`}
+                aria-label={`${includedCount} of ${MODULE_IDS.length} modules active`}
               >
                 {MODULE_IDS.map((id, i) => (
                   <span
@@ -255,7 +255,7 @@ export function RoleConfigurator() {
                 ))}
               </div>
               <span className="sr-only">
-                {role.label}: {includedCount} of 12 modules active
+                {role.label}: {includedCount} of ${MODULE_IDS.length} modules active
               </span>
             </div>
           </div>
@@ -264,7 +264,7 @@ export function RoleConfigurator() {
             {MODULE_IDS.map((name, i) => {
               const included = isModuleIncluded(role, name as ModuleId);
               return (
-                <li key={name} className="min-w-0">
+                <li key={name} className="min-w-0 last:col-span-2 sm:last:col-span-1">
                   <div
                     className={`flex h-full min-h-[92px] flex-col justify-between rounded-[8px] border px-3 py-3 transition-[border-color,background-color,box-shadow,opacity,transform] duration-200 ${
                       included

@@ -284,8 +284,8 @@ export function TrustSection() {
                       phase <= 1
                         ? "0%"
                         : phase === 2
-                          ? "42%"
-                          : "72%",
+                          ? "min(38%, calc(50% - 57px))"
+                          : "min(72%, calc(100% - 120px))",
                   }}
                   transition={
                     reduceMotion

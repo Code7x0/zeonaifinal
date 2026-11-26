@@ -45,10 +45,10 @@ export function ArchitectureFlow({
         played.current = true;
 
         animate(nodes, {
-          opacity: [0, 1],
-          y: [12, 0],
-          delay: stagger(70),
-          duration: 480,
+          opacity: [0.6, 1],
+          y: [8, 0],
+          delay: stagger(60),
+          duration: 420,
           ease: "outQuad",
         });
 
@@ -56,13 +56,13 @@ export function ArchitectureFlow({
           animate(links, {
             strokeDashoffset: [120, 0],
             opacity: [0, 1],
-            delay: stagger(55, { start: 160 }),
-            duration: 520,
+            delay: stagger(55, { start: 120 }),
+            duration: 480,
             ease: "inOutQuad",
           });
         }
       },
-      { threshold: 0.35 },
+      { threshold: 0.1 },
     );
 
     io.observe(root);
@@ -112,7 +112,7 @@ export function ArchitectureFlow({
             {layers.map((layer, i) => {
               const on = i === active;
               return (
-                <li key={layer.id} data-flow-node style={{ opacity: reduceMotion ? 1 : 0 }}>
+                <li key={layer.id} data-flow-node>
                   <button
                     type="button"
                     role="option"
@@ -122,13 +122,13 @@ export function ArchitectureFlow({
                       "flex w-full items-center gap-3 rounded-[8px] border px-3 py-3 text-left transition-colors duration-200",
                       on
                         ? "border-[#8EB8FF]/55 bg-[#1B46F5]"
-                        : "border-white/12 bg-white/[0.04] hover:bg-white/[0.08]",
+                        : "border-white/15 bg-[#12161F] hover:border-white/25 hover:bg-white/[0.08]",
                     )}
                   >
                     <span
                       className={cn(
                         "font-mono text-[11px]",
-                        on ? "text-white/80" : "text-white/45",
+                        on ? "text-white/90" : "text-[#8EB8FF]",
                       )}
                     >
                       {layer.id}

@@ -2,9 +2,9 @@ import { processSteps } from "./content";
 
 export function Process() {
   return (
-    <section className="border-t border-[var(--zeon-line)] bg-[var(--zeon-mist)]/35 px-5 py-20 md:px-8 md:py-28">
+    <section className="border-t border-[var(--zeon-line)] bg-white px-5 py-20 md:px-8 md:py-28">
       <div className="mx-auto max-w-[1200px]">
-        <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[var(--zeon-fog)]">
+        <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[var(--zeon-royal)]">
           How we work
         </p>
         <h2 className="mt-3 max-w-[16ch] text-[36px] leading-[1.08] tracking-[-0.035em] text-[var(--zeon-ink)] md:text-[52px]">
@@ -19,7 +19,7 @@ export function Process() {
           {processSteps.map((step) => (
             <li
               key={step.id}
-              className="rounded-2xl border border-[var(--zeon-line)] bg-white p-6 md:p-7"
+              className="rounded-2xl border border-[var(--zeon-line)] bg-[var(--zeon-mist)]/40 p-6 md:p-7"
             >
               <p className="font-mono text-[12px] text-[var(--zeon-fog)]">
                 {step.id}

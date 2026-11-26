@@ -45,7 +45,7 @@ export function ProductVortexHero({
       <div className="relative z-10 mx-auto flex min-h-[min(88vh,820px)] max-w-[1180px] flex-col items-center justify-center px-5 py-24 text-center md:px-8 md:py-32">
         <motion.div
           className="flex w-full max-w-[42rem] flex-col items-center"
-          initial={reduceMotion ? false : { opacity: 0, y: enterY }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={
             reduceMotion

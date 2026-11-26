@@ -229,13 +229,13 @@ export function ProductPage({ product }: { product: ProductDef }) {
             </Link>
           </Band>
 
-          <Band tone="royal">
-            <Eyebrow tone="on-royal">Industries</Eyebrow>
-            <Title tone="on-royal">Regulated, document-heavy work.</Title>
-            <Lead tone="on-royal">
+          <Band tone="ink" className="!bg-[#181D27]">
+            <Eyebrow tone="dark">Industries</Eyebrow>
+            <Title tone="dark">Regulated, document-heavy work.</Title>
+            <Lead tone="dark">
               Open a sector to see agents shaped for that workflow.
             </Lead>
-            <Panel tone="glass" className="mt-10">
+            <Panel tone="dark" className="mt-10 border-white/15 bg-[#12161F]">
               <SheetMeta
                 tone="dark"
                 left="DWG NO. ZEON-PRD-IND"
@@ -247,7 +247,7 @@ export function ProductPage({ product }: { product: ProductDef }) {
                     key={ind.id}
                     href={`/industries/${ind.id}`}
                     className={cn(
-                      "block border-b border-white/15 p-5 no-underline transition hover:bg-white/10 sm:border-r",
+                      "block border-b border-white/10 p-5 no-underline transition hover:bg-[#2962FF]/12 sm:border-r",
                       "sm:[&:nth-child(2n)]:border-r-0 lg:[&:nth-child(2n)]:border-r lg:[&:nth-child(3n)]:border-r-0",
                     )}
                   >
@@ -255,7 +255,7 @@ export function ProductPage({ product }: { product: ProductDef }) {
                     <h3 className="mt-4 text-[15px] font-medium tracking-[-0.02em] text-white">
                       {ind.label}
                     </h3>
-                    <p className="mt-2 text-[13px] leading-[1.5] text-white/70">
+                    <p className="mt-2 text-[13px] leading-[1.5] text-[#CBD5E1]">
                       {ind.intro}
                     </p>
                   </Link>

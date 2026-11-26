@@ -309,22 +309,27 @@ export function AgentLibraryPage() {
             const Icon = AGENT_CATEGORY_ICONS[cat.icon];
             return (
               <div key={cat.title}>
-                <div className="flex items-center gap-3">
-                  <span className="zeon-surface flex size-10 items-center justify-center text-[#1B46F5]">
-                    <Icon className="size-5" aria-hidden />
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <span className="zeon-surface flex size-10 items-center justify-center text-[#1B46F5]">
+                      <Icon className="size-5" aria-hidden />
+                    </span>
+                    <h2 className="font-[family-name:var(--font-aeonik)] text-[26px] tracking-[-0.03em] md:text-[32px]">
+                      {cat.title}
+                    </h2>
+                  </div>
+                  <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#717680]">
+                    {cat.agents.length} agents
                   </span>
-                  <h2 className="font-[family-name:var(--font-aeonik)] text-[28px] tracking-[-0.03em] md:text-[36px]">
-                    {cat.title}
-                  </h2>
                 </div>
                 <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                   {cat.agents.map((agent, ai) => (
                     <FadeUp
                       key={agent.name}
-                      delay={Math.min(0.04 * ai, 0.24)}
+                      delay={Math.min(0.03 * ai, 0.15)}
                       as="li"
                     >
-                      <div className="zeon-surface-quiet flex h-full flex-col p-4">
+                      <div className="zeon-surface flex h-full flex-col p-5">
                         <p className="text-[15px] font-medium text-[var(--zeon-ink)]">
                           {agent.name}
                         </p>
@@ -698,10 +703,14 @@ export function ResponsibleAiPage() {
         visual={<GovernanceStack />}
       />
       <Chapter tone="paper" min={false} className="!min-h-0">
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="max-w-[42rem]">
+          <ChapterLabel>Principles</ChapterLabel>
+          <ChapterTitle>Four product commitments.</ChapterTitle>
+        </div>
+        <div className="mt-10 grid gap-4 md:grid-cols-2">
           {principles.map((p, i) => (
-            <FadeUp key={p.title} delay={0.05 * i} as="article">
-              <div className="zeon-surface h-full p-6">
+            <FadeUp key={p.title} delay={0.04 * i} as="article">
+              <div className="zeon-surface h-full p-6 md:p-7">
                 <p className="zeon-type-meta text-[var(--zeon-royal)]">
                   0{i + 1}
                 </p>
@@ -712,6 +721,11 @@ export function ResponsibleAiPage() {
               </div>
             </FadeUp>
           ))}
+        </div>
+        <div className="mt-8">
+          <Link href="/trust" className="zeon-link-arrow inline-flex">
+            Explore the Trust Centre
+          </Link>
         </div>
       </Chapter>
       <SecondaryCta
@@ -726,6 +740,22 @@ export function ResponsibleAiPage() {
 }
 
 export function DeploymentPage() {
+  const cloudLogos: Record<string, string> = {
+    AWS: "/sites/zeonai/connectors/aws.svg",
+    GCP: "/sites/zeonai/connectors/googlecloud.svg",
+    Azure: "/sites/zeonai/connectors/azure.svg",
+  };
+
+  const descriptions: Record<string, string> = {
+    "On-premises":
+      "Run inside your own data centre or air-gapped environment with zero external egress.",
+    "Private cloud":
+      "Dedicated single-tenant hosting with isolated storage, private networking, and your keys.",
+    AWS: "Deploy inside your AWS account with your IAM roles and VPC boundary.",
+    GCP: "Deploy inside your Google Cloud project with your IAM and VPC controls.",
+    Azure: "Deploy inside your Microsoft Azure tenant with Entra ID and private endpoints.",
+  };
+
   return (
     <PageShell>
       <SecondaryHero
@@ -741,16 +771,41 @@ export function DeploymentPage() {
             Scoped to your residency rules.
           </ChapterTitle>
         </FadeUp>
-        <ul className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {deployments.map((d, i) => (
-            <FadeUp key={d} delay={0.05 * i} as="li">
-              <div className="border border-white/12 bg-white/[0.06] px-5 py-8 text-center text-[length:var(--zeon-text-sub)] font-medium tracking-[-0.02em] text-white">
-                {d}
-              </div>
-            </FadeUp>
-          ))}
+        <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {deployments.map((d, i) => {
+            const logo = cloudLogos[d];
+            return (
+              <FadeUp key={d} delay={0.04 * i} as="li">
+                <div className="flex h-full flex-col justify-between rounded-[12px] border border-white/15 bg-[#12161F] p-6 text-white">
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="font-mono text-[11px] text-[#8EB8FF]">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    {logo ? (
+                      <span className="flex size-8 items-center justify-center rounded-[6px] bg-white p-1.5">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={logo}
+                          alt={`${d} logo`}
+                          width={20}
+                          height={20}
+                          className="h-5 w-5 object-contain"
+                        />
+                      </span>
+                    ) : null}
+                  </div>
+                  <h3 className="mt-5 font-[family-name:var(--font-aeonik)] text-[22px] font-normal tracking-[-0.02em] text-[#F5F6F8]">
+                    {d}
+                  </h3>
+                  <p className="mt-2 text-[14px] leading-[1.55] text-white/65">
+                    {descriptions[d] ?? "Scoped to your environment during discovery."}
+                  </p>
+                </div>
+              </FadeUp>
+            );
+          })}
         </ul>
-        <p className="mt-8 max-w-[52ch] text-[length:var(--zeon-text-caption)] leading-[1.5] text-white/45">
+        <p className="mt-8 max-w-[52ch] text-[length:var(--zeon-text-caption)] leading-[1.5] text-white/60">
           Deployment is scoped during discovery. Controls and audit stay with
           the Trust Centre wherever you host.
         </p>
