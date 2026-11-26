@@ -13,6 +13,7 @@ import { motion, useInView, useReducedMotion } from "motion/react";
 import { caseStudies } from "@/components/sites/zeonai/content";
 import { cn } from "@/lib/utils";
 import { durationEnter, easeOut, enterY, viewportOnce } from "../motion";
+import { ScrollRevealStagger } from "../motion/scroll-reveal";
 import { CaseVisual } from "./case-visuals";
 
 const AUTOPLAY_MS = 4500;
@@ -148,8 +149,13 @@ export function CustomerStoriesSection() {
           </Link>
         </motion.div>
 
-        <div
+        <ScrollRevealStagger
+          childSelector="[data-case-card]"
+          delay={0.42}
+          stagger={0.24}
           className="mt-12"
+        >
+        <div
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
           onFocusCapture={() => setFocused(true)}
@@ -174,6 +180,7 @@ export function CustomerStoriesSection() {
               return (
                 <article
                   key={study.slug}
+                  data-case-card=""
                   ref={(el) => {
                     cardRefs.current[idx] = el;
                   }}
@@ -265,6 +272,7 @@ export function CustomerStoriesSection() {
             </div>
           ) : null}
         </div>
+        </ScrollRevealStagger>
       </div>
     </section>
   );

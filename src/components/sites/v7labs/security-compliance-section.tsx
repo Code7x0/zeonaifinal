@@ -2,7 +2,6 @@
 
 import { useId, type ComponentType } from "react";
 import Link from "next/link";
-import { motion, useReducedMotion } from "motion/react";
 import {
   Archive,
   Fingerprint,
@@ -19,9 +18,7 @@ import {
   type ComplianceStatus,
   type ProtectionItem,
 } from "./security-config";
-import { durationEnter, easeOut } from "./motion";
-
-const GROUP_STAGGER = 0.06;
+import { ScrollReveal, ScrollRevealGrid } from "./motion/scroll-reveal";
 
 const PROTECTION_ICONS: Record<
   string,
@@ -147,21 +144,6 @@ function ProtectionTile({ item }: { item: ProtectionItem }) {
 
 export function SecurityComplianceSection() {
   const baseId = useId();
-  const reduceMotion = useReducedMotion() ?? false;
-
-  const groupMotion = (i: number) =>
-    reduceMotion
-      ? undefined
-      : {
-          initial: { opacity: 0, y: 10 } as const,
-          whileInView: { opacity: 1, y: 0 } as const,
-          viewport: { once: true, amount: 0.2 } as const,
-          transition: {
-            delay: i * GROUP_STAGGER,
-            duration: durationEnter,
-            ease: easeOut,
-          },
-        };
 
   return (
     <section
@@ -176,7 +158,7 @@ export function SecurityComplianceSection() {
       />
 
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6 md:px-8">
-        <header className="max-w-[540px] text-left">
+        <ScrollReveal as="header" className="max-w-[540px] text-left">
           <h2
             id={`${baseId}-heading`}
             className="zeon-type-section !text-white"
@@ -187,11 +169,11 @@ export function SecurityComplianceSection() {
             Data security and privacy standards sit at the core of how the
             platform is designed and operated.
           </p>
-        </header>
+        </ScrollReveal>
 
         <div className="mt-12 space-y-12 md:mt-14 md:space-y-14">
           {/* Group 1 — Assurance (4-col desktop / 2x2 tablet / 1-col mobile) */}
-          <motion.div {...groupMotion(0)}>
+          <div>
             <div className="flex items-center gap-3">
               <h3 className="font-mono text-[11px] font-normal uppercase tracking-[0.14em] text-[#8EB8FF]">
                 Assurance
@@ -202,18 +184,21 @@ export function SecurityComplianceSection() {
               />
             </div>
 
-            <ul
+            <ScrollRevealGrid
+              as="ul"
+              delay={0.42}
+              stagger={0.22}
               className="mt-4 grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-4 md:gap-4"
               aria-label="Compliance positioning"
             >
               {COMPLIANCE.map((item) => (
                 <AssuranceCard key={item.id} item={item} />
               ))}
-            </ul>
-          </motion.div>
+            </ScrollRevealGrid>
+          </div>
 
           {/* Group 2 — Protection (balanced 2x2 grid aligned to Assurance width) */}
-          <motion.div {...groupMotion(1)}>
+          <div>
             <div className="flex items-center gap-3">
               <h3 className="font-mono text-[11px] font-normal uppercase tracking-[0.14em] text-[#8EB8FF]">
                 Protection
@@ -224,15 +209,18 @@ export function SecurityComplianceSection() {
               />
             </div>
 
-            <ul
+            <ScrollRevealGrid
+              as="ul"
+              delay={0.42}
+              stagger={0.24}
               className="mt-4 grid grid-cols-1 gap-3.5 md:grid-cols-2 md:gap-4"
               aria-label="Data protection"
             >
               {PROTECTION.map((item) => (
                 <ProtectionTile key={item.id} item={item} />
               ))}
-            </ul>
-          </motion.div>
+            </ScrollRevealGrid>
+          </div>
         </div>
       </div>
     </section>

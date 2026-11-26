@@ -44,17 +44,13 @@ export function V7HomePage() {
           <ScrollReveal y={14}>
             <LogoTicker />
           </ScrollReveal>
-          <ScrollReveal y={14} delay={0.04}>
-            <PartnersProgramsStrip />
-          </ScrollReveal>
+          <PartnersProgramsStrip />
           <Industries />
           <QuoteMarquee />
           <FeatureBentos />
           <ArchitectureSection />
           <RoleConfigurator />
-          <ScrollReveal y={16}>
-            <WorksWithStrip />
-          </ScrollReveal>
+          <WorksWithStrip />
           <CustomerStoriesSection />
           <TrustSection />
           <SecurityComplianceSection />

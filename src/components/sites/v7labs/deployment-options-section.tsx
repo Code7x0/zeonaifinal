@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Cloud, Server, ShieldCheck } from "lucide-react";
+import { ScrollReveal, ScrollRevealGrid } from "./motion/scroll-reveal";
 
 const CLOUD_PROVIDERS = [
   {
@@ -51,7 +52,7 @@ export function DeploymentOptionsSection() {
     >
       <div className="px-4 sm:px-6 md:px-[var(--zeon-gutter,1.25rem)]">
         <div className="mx-auto max-w-[1180px]">
-          <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+          <ScrollReveal className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
             <header className="max-w-[40rem]">
               <h2
                 id="deployment-options-heading"
@@ -67,14 +68,20 @@ export function DeploymentOptionsSection() {
             <Link href="/deployment" className="zeon-link-arrow shrink-0">
               Explore deployment options
             </Link>
-          </div>
+          </ScrollReveal>
 
           {/* 01 — Supported Cloud Environments */}
           <div className="mt-10 rounded-[12px] border border-[#E9EAEB] bg-[#FAFAFA] p-5 md:p-6">
             <h3 className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#717680]">
               Supported Cloud Environments
             </h3>
-            <ul className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
+            <ScrollRevealGrid
+              as="ul"
+              y={34}
+              delay={0.42}
+              stagger={0.22}
+              className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3"
+            >
               {CLOUD_PROVIDERS.map((provider) => (
                 <li
                   key={provider.short}
@@ -100,7 +107,7 @@ export function DeploymentOptionsSection() {
                   </span>
                 </li>
               ))}
-            </ul>
+            </ScrollRevealGrid>
           </div>
 
           {/* 02 — Deployment Models */}
@@ -108,7 +115,11 @@ export function DeploymentOptionsSection() {
             <h3 className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#717680]">
               Deployment Models
             </h3>
-            <div className="mt-3.5 grid gap-4 md:grid-cols-3">
+            <ScrollRevealGrid
+              delay={0.42}
+              stagger={0.24}
+              className="mt-3.5 grid gap-4 md:grid-cols-3"
+            >
               {DEPLOYMENT_MODES.map((mode) => {
                 const Icon = mode.icon;
                 return (
@@ -133,7 +144,7 @@ export function DeploymentOptionsSection() {
                   </div>
                 );
               })}
-            </div>
+            </ScrollRevealGrid>
           </div>
         </div>
       </div>

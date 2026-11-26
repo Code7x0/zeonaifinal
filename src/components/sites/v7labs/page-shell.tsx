@@ -1,10 +1,11 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 import { SiteFooter } from "./site-footer";
 import { SiteHeader } from "./site-header";
 import { SmoothScroll } from "./smooth-scroll";
 import { ZeonLinkButton } from "./zeon-ui";
+import { ScrollReveal, useAutoCardReveals } from "./motion/scroll-reveal";
 import { cn } from "@/lib/utils";
 
 type PageShellProps = {
@@ -15,6 +16,9 @@ type PageShellProps = {
 
 /** Shared chrome for supporting pages — matches homepage design system. */
 export function PageShell({ children, className = "" }: PageShellProps) {
+  const mainRef = useRef<HTMLElement>(null);
+  useAutoCardReveals(mainRef);
+
   return (
     <SmoothScroll>
       <div
@@ -24,7 +28,7 @@ export function PageShell({ children, className = "" }: PageShellProps) {
         )}
       >
         <SiteHeader />
-        <main>{children}</main>
+        <main ref={mainRef}>{children}</main>
         <SiteFooter />
       </div>
     </SmoothScroll>
@@ -93,7 +97,10 @@ export function PageCtaBand({
           : "bg-[var(--zeon-cream)] text-[var(--zeon-ink)]",
       )}
     >
-      <div className="mx-auto flex max-w-[var(--zeon-container,1180px)] flex-col gap-5 sm:gap-6 md:flex-row md:items-end md:justify-between">
+      <ScrollReveal
+        y={14}
+        className="mx-auto flex max-w-[var(--zeon-container,1180px)] flex-col gap-5 sm:gap-6 md:flex-row md:items-end md:justify-between"
+      >
         <div className="max-w-[40rem]">
           <h2 className="zeon-type-section text-balance">{title}</h2>
           <p
@@ -118,7 +125,7 @@ export function PageCtaBand({
             </ZeonLinkButton>
           ) : null}
         </div>
-      </div>
+      </ScrollReveal>
     </section>
   );
 }

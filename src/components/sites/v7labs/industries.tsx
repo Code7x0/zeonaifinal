@@ -1,13 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useInView, useReducedMotion } from "motion/react";
+import { useReducedMotion } from "motion/react";
 import {
   useCallback,
   useEffect,
   useRef,
   useState,
-  type ReactNode,
 } from "react";
 import { useLenis } from "lenis/react";
 import {
@@ -26,8 +25,7 @@ import {
   type IndustryCard,
   type IndustryCardId,
 } from "./industries/industries-home-config";
-
-const EASE = [0.2, 0, 0, 1] as const;
+import { ScrollReveal, ScrollRevealGrid } from "./motion/scroll-reveal";
 
 const ICONS: Record<IndustryCardId, typeof Building2> = {
   financial: Landmark,
@@ -48,12 +46,9 @@ const ICONS: Record<IndustryCardId, typeof Building2> = {
  */
 export function Industries() {
   const reduceMotion = useReducedMotion() ?? false;
-  const sectionRef = useRef<HTMLElement>(null);
-  const revealed = useInView(sectionRef, { once: true, amount: 0.08 });
 
   return (
     <section
-      ref={sectionRef}
       id="industries"
       className="border-y border-[#E5E7EB] bg-[#F4F6FA] py-0 text-[#181D27] md:py-[var(--zeon-space-section-y,5.5rem)]"
     >
@@ -78,29 +73,26 @@ export function Industries() {
         </div>
       )}
 
-      {/* Tablet & Desktop (>=768px): aligned 2-col / 3x3 elevated card grid */}
+      {/* Tablet & Desktop (>=768px): aligned 2-col / 3x3 elevated card grid with progressive row-by-row reveal */}
       <div className="hidden px-4 sm:px-6 md:block md:px-[var(--zeon-gutter,1.25rem)]">
         <div className="mx-auto max-w-[1180px]">
-          <motion.div
-            initial={reduceMotion ? false : { opacity: 0, y: 8 }}
-            animate={revealed ? { opacity: 1, y: 0 } : undefined}
-            transition={{ duration: 0.35, ease: EASE }}
-          >
+          <ScrollReveal>
             <IndustriesHeader />
-          </motion.div>
+          </ScrollReveal>
 
-          <div className="mt-12 grid auto-rows-fr grid-cols-2 gap-5 lg:grid-cols-3 lg:gap-6">
-            {INDUSTRY_CARDS.map((card, index) => (
-              <CardMotion
-                key={card.id}
-                index={index}
-                revealed={revealed}
-                reduceMotion={reduceMotion}
-              >
+          <ScrollRevealGrid
+            delay={0.42}
+            stagger={0.22}
+            y={40}
+            scale={0.96}
+            className="mt-12 grid auto-rows-fr grid-cols-2 gap-5 lg:grid-cols-3 lg:gap-6"
+          >
+            {INDUSTRY_CARDS.map((card) => (
+              <div key={card.id} className="h-full min-h-0">
                 <SectorCard card={card} />
-              </CardMotion>
+              </div>
             ))}
-          </div>
+          </ScrollRevealGrid>
 
           <div className="mt-10">
             <Link href="/industries" className="zeon-link-arrow">
@@ -118,7 +110,9 @@ function IndustriesHeader({ compact = false }: { compact?: boolean }) {
     <>
       <h2
         className={`zeon-type-section max-w-[720px] text-balance font-normal ${
-          compact ? "text-[1.5rem] leading-[1.2] tracking-[-0.02em]" : ""
+          compact
+            ? "!text-[1.75rem] !leading-[1.16] !tracking-[-0.025em]"
+            : ""
         }`}
       >
         Built for regulated,{" "}
@@ -127,7 +121,7 @@ function IndustriesHeader({ compact = false }: { compact?: boolean }) {
       </h2>
       <p
         className={`zeon-type-lead max-w-[560px] text-[#535862] ${
-          compact ? "mt-2 text-[14px] leading-[1.45]" : "mt-3.5 md:mt-4"
+          compact ? "mt-3 !text-[15px] !leading-[1.55]" : "mt-3.5 md:mt-4"
         }`}
       >
         The same platform, with agents built for each sector. Examples from our
@@ -141,11 +135,11 @@ function IndustriesHeader({ compact = false }: { compact?: boolean }) {
 const MOBILE_STACK_VH_PER_STEP = 44;
 
 /**
- * Compact stage height matched to the actual card content (icon + title +
- * 2-line description + footer) plus 24px top deck-peek clearance so cards
- * never have awkward empty vertical voids inside.
+ * Roomy mobile card stage matching the approved mockup proportions,
+ * including 24px top deck-peek clearance so cards feel spacious without
+ * leaving a large empty void beneath the section CTA.
  */
-const MOBILE_CARD_H = "h-[clamp(268px,34svh,302px)]";
+const MOBILE_CARD_H = "h-[clamp(316px,42svh,384px)]";
 
 function smoothstep(t: number) {
   const x = Math.min(1, Math.max(0, t));
@@ -306,25 +300,25 @@ function MobileIndustriesStack() {
     >
       <div
         ref={stickyRef}
-        className="sticky px-4 pb-8 pt-6 sm:px-5"
+        className="sticky px-5 pb-8 pt-7 sm:px-6"
         style={{ top: "var(--zeon-header-offset, 56px)" }}
       >
         <div className="mx-auto w-full max-w-[430px]">
           <div className="relative z-30 bg-[#F4F6FA]">
             <IndustriesHeader compact />
 
-            <div className="mt-3 flex items-center justify-between pb-2">
+            <div className="mt-6 flex items-center justify-between pb-3">
               <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#717680]">
                 {String(activeIndex + 1).padStart(2, "0")} /{" "}
                 {String(count).padStart(2, "0")}
               </span>
-              <div className="flex items-center gap-1" aria-hidden>
+              <div className="flex items-center gap-1.5" aria-hidden>
                 {INDUSTRY_CARDS.map((c, idx) => (
                   <span
                     key={c.id}
-                    className={`h-1 rounded-full transition-[width,background-color] duration-300 ease-out ${
+                    className={`h-1.5 rounded-full transition-[width,background-color] duration-300 ease-out ${
                       idx === activeIndex
-                        ? "w-4 bg-[#1B46F5]"
+                        ? "w-5 bg-[#1B46F5]"
                         : idx < activeIndex
                           ? "w-1.5 bg-[#BCD3FF]"
                           : "w-1.5 bg-[#D5D7DA]"
@@ -361,7 +355,7 @@ function MobileIndustriesStack() {
             ))}
           </div>
 
-          <div className="relative z-30 mt-3 bg-[#F4F6FA] pt-1">
+          <div className="relative z-30 mt-5 bg-[#F4F6FA] pt-1">
             <Link href="/industries" className="zeon-link-arrow">
               See all industries
             </Link>
@@ -372,35 +366,6 @@ function MobileIndustriesStack() {
   );
 }
 
-function CardMotion({
-  children,
-  index,
-  revealed,
-  reduceMotion,
-  className = "",
-}: {
-  children: ReactNode;
-  index: number;
-  revealed: boolean;
-  reduceMotion: boolean;
-  className?: string;
-}) {
-  return (
-    <motion.div
-      className={`h-full min-h-0 ${className}`}
-      initial={reduceMotion ? false : { opacity: 0, y: 10 }}
-      animate={revealed ? { opacity: 1, y: 0 } : undefined}
-      transition={{
-        duration: 0.32,
-        delay: reduceMotion ? 0 : Math.min(index * 0.04, 0.24),
-        ease: EASE,
-      }}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
 function SectorCard({ card }: { card: IndustryCard }) {
   const Icon = ICONS[card.id];
 
@@ -408,27 +373,27 @@ function SectorCard({ card }: { card: IndustryCard }) {
     <Link
       href={card.href}
       aria-label={card.a11yName}
-      className="group flex h-full flex-col rounded-[12px] border border-[#DFE3EA] bg-white p-5 text-[#181D27] no-underline shadow-[0_1px_2px_rgba(16,24,40,0.06),0_4px_12px_-2px_rgba(16,24,40,0.07),0_12px_24px_-4px_rgba(24,29,39,0.05)] transition-[border-color,box-shadow,transform] duration-200 hover:-translate-y-1 hover:border-[#BCD3FF] hover:shadow-[0_4px_10px_rgba(27,70,245,0.08),0_16px_32px_-4px_rgba(27,70,245,0.12)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2962FF] sm:p-6 md:min-h-[212px] lg:p-7"
+      className="group flex h-full flex-col rounded-[16px] border border-[#DFE3EA] bg-white p-6 text-[#181D27] no-underline shadow-[0_1px_2px_rgba(16,24,40,0.06),0_4px_12px_-2px_rgba(16,24,40,0.07),0_12px_24px_-4px_rgba(24,29,39,0.05)] transition-[border-color,box-shadow,transform] duration-200 hover:-translate-y-1 hover:border-[#BCD3FF] hover:shadow-[0_4px_10px_rgba(27,70,245,0.08),0_16px_32px_-4px_rgba(27,70,245,0.12)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2962FF] md:min-h-[212px] md:rounded-[12px] lg:p-7"
     >
       {/* 1. Restrained blue icon badge */}
-      <div className="inline-flex size-9 shrink-0 items-center justify-center rounded-[8px] border border-[#D4E2FF] bg-[#EEF4FF] text-[#2962FF] shadow-[0_1px_2px_rgba(27,70,245,0.08)] transition-colors duration-200 group-hover:border-[#BCD3FF] group-hover:bg-[#E4EEFF] md:size-10">
-        <Icon className="size-4.5 stroke-[1.75] md:size-5" aria-hidden />
+      <div className="inline-flex size-11 shrink-0 items-center justify-center rounded-[10px] border border-[#D4E2FF] bg-[#EEF4FF] text-[#2962FF] shadow-[0_1px_2px_rgba(27,70,245,0.08)] transition-colors duration-200 group-hover:border-[#BCD3FF] group-hover:bg-[#E4EEFF] md:size-10 md:rounded-[8px]">
+        <Icon className="size-5 stroke-[1.75]" aria-hidden />
       </div>
 
       {/* 2. Title */}
-      <h3 className="mt-3.5 font-[family-name:var(--font-aeonik)] text-[18px] font-medium leading-[1.3] tracking-[-0.015em] text-[#181D27] md:mt-5 md:text-[20px]">
+      <h3 className="mt-5 font-[family-name:var(--font-aeonik)] text-[20px] font-medium leading-[1.28] tracking-[-0.015em] text-[#181D27]">
         {card.label}
       </h3>
 
       {/* 3. Short description */}
-      <p className="mt-1.5 text-[14px] leading-[1.55] text-[#535862] md:mt-2.5 md:text-[15px] md:leading-[1.6]">
+      <p className="mt-2.5 text-[15px] leading-[1.58] text-[#535862] md:leading-[1.6]">
         {card.outcome}
       </p>
 
       {/* 4. Agent link footer */}
-      <div className="mt-auto pt-4 md:pt-6">
-        <div className="flex items-center justify-between gap-3 border-t border-[#F0F1F3] pt-3 md:pt-4">
-          <span className="min-w-0 text-[13.5px] font-medium text-[#181D27] transition-colors duration-150 group-hover:text-[#1B46F5] md:text-[14px]">
+      <div className="mt-auto pt-5 md:pt-6">
+        <div className="flex items-center justify-between gap-3 border-t border-[#F0F1F3] pt-4">
+          <span className="min-w-0 text-[14px] font-medium text-[#181D27] transition-colors duration-150 group-hover:text-[#1B46F5]">
             {card.agents[0]}
           </span>
           <ArrowRight

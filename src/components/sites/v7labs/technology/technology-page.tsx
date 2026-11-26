@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { SiteFooter } from "../site-footer";
 import { SiteHeader } from "../site-header";
 import { SmoothScroll } from "../smooth-scroll";
+import { useAutoCardReveals } from "../motion/scroll-reveal";
 import { ArchitectureSection } from "./architecture-section";
 import { NotesAndCta } from "./notes-cta";
 import { Pillars } from "./pillars";
@@ -37,6 +38,7 @@ export function TechnologyPage() {
   const chipsRef = useRef<HTMLDivElement>(null);
   const activeId = useScrollSpy(TECH_SECTION_IDS, chipsRef);
   useReveal(rootRef);
+  useAutoCardReveals(rootRef, ".layer, .pillar .points > div");
   useDiagramWires(rootRef);
 
   useEffect(() => {

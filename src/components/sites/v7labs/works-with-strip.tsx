@@ -1,6 +1,9 @@
+"use client";
+
 import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { ScrollReveal, ScrollRevealGrid } from "./motion/scroll-reveal";
 import {
   CONNECTOR_GROUPS,
   type ConnectorItem,
@@ -227,7 +230,7 @@ export function WorksWithStrip() {
       className="border-t border-[#E9EAEB] bg-[#FAFAFA] px-4 py-12 sm:px-6 md:px-[var(--zeon-gutter,1.25rem)] md:py-16"
     >
       <div className="mx-auto max-w-[1180px]">
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        <ScrollReveal className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <h2
               id="works-with-heading"
@@ -246,13 +249,20 @@ export function WorksWithStrip() {
           >
             Full integration catalogue
           </Link>
-        </div>
+        </ScrollReveal>
 
         {/* Mobile (<768px): rotating concentric orbital rings with upright logos */}
         <MobileOrbitalIntegrations />
 
-        {/* Tablet & Desktop (>=768px): unchanged presentation */}
-        <ul className="mt-10 hidden items-center justify-items-center gap-x-8 gap-y-8 md:grid md:grid-cols-5 lg:flex lg:items-center lg:justify-between lg:gap-6">
+        {/* Tablet & Desktop (>=768px): unchanged presentation with progressive logo reveal */}
+        <ScrollRevealGrid
+          as="ul"
+          y={28}
+          scale={0.96}
+          delay={0.42}
+          stagger={0.1}
+          className="mt-10 hidden items-center justify-items-center gap-x-8 gap-y-8 md:grid md:grid-cols-5 lg:flex lg:items-center lg:justify-between lg:gap-6"
+        >
           {WORKS_WITH.map((item) => {
             const isWordmark = item.name === "TechnologyOne";
             return (
@@ -283,7 +293,7 @@ export function WorksWithStrip() {
               </li>
             );
           })}
-        </ul>
+        </ScrollRevealGrid>
       </div>
     </section>
   );

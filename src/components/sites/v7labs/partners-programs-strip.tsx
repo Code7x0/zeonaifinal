@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { ScrollReveal, ScrollRevealGrid } from "./motion/scroll-reveal";
 
 const PARTNER_PROGRAMS = [
   {
@@ -51,16 +54,24 @@ export function PartnersProgramsStrip({
   return (
     <section aria-labelledby="partners-programs-heading" className={shell}>
       <div className="mx-auto max-w-[1180px]">
-        <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#717680]">
-          Ecosystem
-        </p>
-        <h2
-          id="partners-programs-heading"
-          className="mt-2 font-[family-name:var(--font-aeonik)] text-[20px] tracking-[-0.02em] text-[#181D27] md:text-[22px]"
+        <ScrollReveal>
+          <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#717680]">
+            Ecosystem
+          </p>
+          <h2
+            id="partners-programs-heading"
+            className="mt-2 font-[family-name:var(--font-aeonik)] text-[20px] tracking-[-0.02em] text-[#181D27] md:text-[22px]"
+          >
+            Partners and programs
+          </h2>
+        </ScrollReveal>
+        <ScrollRevealGrid
+          as="ul"
+          y={32}
+          delay={0.42}
+          stagger={0.2}
+          className="mt-6 flex flex-wrap gap-3"
         >
-          Partners and programs
-        </h2>
-        <ul className="mt-6 flex flex-wrap gap-3">
           {PARTNER_PROGRAMS.map((partner) => (
             <li
               key={partner.name}
@@ -80,7 +91,7 @@ export function PartnersProgramsStrip({
               ) : null}
             </li>
           ))}
-        </ul>
+        </ScrollRevealGrid>
       </div>
     </section>
   );
