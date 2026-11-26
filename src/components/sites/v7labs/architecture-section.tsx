@@ -178,15 +178,16 @@ export function ArchitectureSection() {
             : "relative overflow-hidden py-16 md:py-24"
         }
       >
-        <div className="relative mx-auto w-full max-w-[1280px] px-5 md:px-8">
-          <div className="mx-auto max-w-[34rem] text-center">
+        <div className="px-4 sm:px-6 md:px-[var(--zeon-gutter,1.25rem)]">
+          <div className="relative mx-auto w-full max-w-[1180px]">
+          <div className="max-w-[40rem] text-left">
             <h2
               id={`${baseId}-heading`}
               className="zeon-type-section text-balance !text-white"
             >
               The platform in one picture
             </h2>
-            <p className="mx-auto mt-3 max-w-[44ch] text-[14px] leading-[1.55] text-white/55 md:text-[15px]">
+            <p className="mt-3 max-w-[48ch] text-[14px] leading-[1.55] text-white/55 md:text-[15px]">
               Every document moves through the same six layers, from the file
               you upload to the record in your ERP. The language model can be
               swapped. The layers underneath are what make the output safe to
@@ -288,6 +289,7 @@ export function ArchitectureSection() {
               </p>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </section>

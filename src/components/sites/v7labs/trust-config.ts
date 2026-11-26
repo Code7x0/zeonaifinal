@@ -30,9 +30,9 @@ export const TRUST_CONFIG = {
     ] as const satisfies readonly TrustModule[],
   },
   steps: [
-    { n: "01", label: "Define roles" },
-    { n: "02", label: "Map to modules" },
-    { n: "03", label: "Check before retrieval" },
+    { n: "01", label: "Define Role" },
+    { n: "02", label: "Map to Module" },
+    { n: "03", label: "Audit" },
   ] as const,
   flow: {
     permitted: ["Capital expenditure policy v4.pdf", "Delegation matrix.xlsx"],

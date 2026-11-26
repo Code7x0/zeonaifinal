@@ -741,9 +741,9 @@ export function ResponsibleAiPage() {
 
 export function DeploymentPage() {
   const cloudLogos: Record<string, string> = {
-    AWS: "/sites/zeonai/connectors/aws.svg",
-    GCP: "/sites/zeonai/connectors/googlecloud.svg",
-    Azure: "/sites/zeonai/connectors/azure.svg",
+    AWS: "/sites/zeonai/connectors/aws.svg?v=2",
+    GCP: "/sites/zeonai/connectors/googlecloud.svg?v=2",
+    Azure: "/sites/zeonai/connectors/azure.svg?v=2",
   };
 
   const descriptions: Record<string, string> = {
@@ -755,6 +755,9 @@ export function DeploymentPage() {
     GCP: "Deploy inside your Google Cloud project with your IAM and VPC controls.",
     Azure: "Deploy inside your Microsoft Azure tenant with Entra ID and private endpoints.",
   };
+
+  const modelItems = ["On-premises", "Private cloud"] as const;
+  const cloudItems = ["AWS", "GCP", "Azure"] as const;
 
   return (
     <PageShell>
@@ -770,41 +773,77 @@ export function DeploymentPage() {
           <ChapterTitle className="text-white">
             Scoped to your residency rules.
           </ChapterTitle>
+          <p className="mt-3 max-w-[54ch] text-[15px] leading-[1.6] text-white/65">
+            Deployment is scoped during discovery to meet your data residency,
+            security, and infrastructure requirements.
+          </p>
         </FadeUp>
-        <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {deployments.map((d, i) => {
-            const logo = cloudLogos[d];
-            return (
+
+        {/* 01 — Deployment Models */}
+        <div className="mt-10">
+          <p className="font-mono text-[12px] uppercase tracking-[0.12em] text-[#8EB8FF]">
+            01 — Deployment Models
+          </p>
+          <ul className="mt-4 grid gap-4 md:grid-cols-2">
+            {modelItems.map((d, i) => (
               <FadeUp key={d} delay={0.04 * i} as="li">
                 <div className="flex h-full flex-col justify-between rounded-[12px] border border-white/15 bg-[#12161F] p-6 text-white">
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="font-mono text-[11px] text-[#8EB8FF]">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    {logo ? (
-                      <span className="flex size-8 items-center justify-center rounded-[6px] bg-white p-1.5">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={logo}
-                          alt={`${d} logo`}
-                          width={20}
-                          height={20}
-                          className="h-5 w-5 object-contain"
-                        />
-                      </span>
-                    ) : null}
-                  </div>
-                  <h3 className="mt-5 font-[family-name:var(--font-aeonik)] text-[22px] font-normal tracking-[-0.02em] text-[#F5F6F8]">
-                    {d}
+                  <span className="font-mono text-[11px] text-[#8EB8FF]">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className="mt-4 font-[family-name:var(--font-aeonik)] text-[22px] font-normal tracking-[-0.02em] text-[#F5F6F8]">
+                    {d === "Private cloud" ? "Private Cloud" : d}
                   </h3>
                   <p className="mt-2 text-[14px] leading-[1.55] text-white/65">
                     {descriptions[d] ?? "Scoped to your environment during discovery."}
                   </p>
                 </div>
               </FadeUp>
-            );
-          })}
-        </ul>
+            ))}
+          </ul>
+        </div>
+
+        {/* 02 — Supported Cloud Environments */}
+        <div className="mt-10">
+          <p className="font-mono text-[12px] uppercase tracking-[0.12em] text-[#8EB8FF]">
+            02 — Supported Cloud Environments
+          </p>
+          <ul className="mt-4 grid gap-4 sm:grid-cols-3">
+            {cloudItems.map((d, i) => {
+              const logo = cloudLogos[d];
+              return (
+                <FadeUp key={d} delay={0.04 * (i + 2)} as="li">
+                  <div className="flex h-full flex-col justify-between rounded-[12px] border border-white/15 bg-[#12161F] p-6 text-white">
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="font-mono text-[11px] text-[#8EB8FF]">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      {logo ? (
+                        <span className="flex size-9 items-center justify-center rounded-[8px] bg-white p-1.5">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={logo}
+                            alt={`${d} logo`}
+                            width={22}
+                            height={22}
+                            className="h-[22px] w-[22px] object-contain"
+                          />
+                        </span>
+                      ) : null}
+                    </div>
+                    <h3 className="mt-4 font-[family-name:var(--font-aeonik)] text-[22px] font-normal tracking-[-0.02em] text-[#F5F6F8]">
+                      {d}
+                    </h3>
+                    <p className="mt-2 text-[14px] leading-[1.55] text-white/65">
+                      {descriptions[d] ?? "Scoped to your environment during discovery."}
+                    </p>
+                  </div>
+                </FadeUp>
+              );
+            })}
+          </ul>
+        </div>
+
         <p className="mt-8 max-w-[52ch] text-[length:var(--zeon-text-caption)] leading-[1.5] text-white/60">
           Deployment is scoped during discovery. Controls and audit stay with
           the Trust Centre wherever you host.

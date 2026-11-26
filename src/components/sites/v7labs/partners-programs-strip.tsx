@@ -45,12 +45,12 @@ export function PartnersProgramsStrip({
 }: PartnersProgramsStripProps) {
   const shell =
     variant === "paper"
-      ? "border-y border-[#E9EAEB] bg-white px-5 py-12 md:px-8"
-      : "border-y border-[#E9EAEB] bg-[#FAFAFA] px-5 py-10 md:px-8";
+      ? "border-y border-[#E9EAEB] bg-white px-4 py-12 sm:px-6 md:px-[var(--zeon-gutter,1.25rem)]"
+      : "border-y border-[#E9EAEB] bg-[#FAFAFA] px-4 py-10 sm:px-6 md:px-[var(--zeon-gutter,1.25rem)]";
 
   return (
     <section aria-labelledby="partners-programs-heading" className={shell}>
-      <div className="mx-auto max-w-[1120px]">
+      <div className="mx-auto max-w-[1180px]">
         <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#717680]">
           Ecosystem
         </p>

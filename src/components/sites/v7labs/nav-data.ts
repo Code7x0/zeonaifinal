@@ -30,31 +30,13 @@ export const NAV_GROUPS: readonly NavGroup[] = [
         label: "Products and capabilities",
         href: "/products",
         description:
-          "Agent Hub DocAI, InvoiceAI, CashfloAI, AI Workspace and platform modules.",
+          "AI Workspace, Agent Hub, and platform modules.",
       },
       {
         label: "AI Workspace",
         href: "/products/ai-workspace",
         description:
           "Governed answers from your repositories with citations and access checks.",
-      },
-      {
-        label: "DocAI",
-        href: "/products/docai",
-        description:
-          "Unstructured documents to structured, reviewable fields.",
-      },
-      {
-        label: "InvoiceAI",
-        href: "/products/invoiceai",
-        description:
-          "Extract, match and route invoices with people on exceptions.",
-      },
-      {
-        label: "CashfloAI",
-        href: "/products/cashfloai",
-        description:
-          "Cash-flow visibility from bank statements for lending review.",
       },
       {
         label: "Agent Hub",

@@ -198,12 +198,12 @@ const Feature108 = ({
   return (
     <div
       ref={sectionRef}
-      className="px-5 py-20 md:px-8 md:py-28"
+      className="px-4 py-16 sm:px-6 md:px-[var(--zeon-gutter,1.25rem)] md:py-24"
     >
       <div className="mx-auto max-w-[1180px]">
-        <div className="mx-auto max-w-[42rem] text-center">
+        <div className="max-w-[44rem] text-left">
           {sheetLeft ? (
-            <FadeUp className="mb-3 flex justify-center">
+            <FadeUp className="mb-3 flex justify-start">
               <p className="inline-flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.14em] text-[#2962FF]">
                 {sheetLeft}
                 <span
@@ -225,16 +225,16 @@ const Feature108 = ({
           <FadeUp
             as="p"
             delay={0.08}
-            className="mx-auto mt-4 max-w-[52ch] text-[15px] leading-[1.55] text-black/60 md:text-[16px]"
+            className="mt-4 max-w-[52ch] text-[15px] leading-[1.55] text-black/60 md:text-[16px]"
           >
             {description}
           </FadeUp>
         </div>
 
-        <Tabs value={active} onValueChange={onManualSelect} className="mt-12">
+        <Tabs value={active} onValueChange={onManualSelect} className="mt-10 md:mt-12">
           <div className="w-full">
             <TabsList
-              className="mx-auto flex w-full max-w-[980px] flex-wrap items-center justify-center gap-3 bg-transparent p-0"
+              className="flex w-full flex-wrap items-center justify-start gap-2.5 bg-transparent p-0 sm:gap-3"
               aria-label="Platform modules"
             >
               {tabs.map((tab) => (

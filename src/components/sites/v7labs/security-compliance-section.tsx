@@ -10,17 +10,17 @@ import {
   Layers,
   Lock,
   RefreshCw,
+  ShieldCheck,
 } from "lucide-react";
 import {
   COMPLIANCE,
-  GOVERNED_AI_NOTE,
   PROTECTION,
+  type ComplianceItem,
   type ComplianceStatus,
   type ProtectionItem,
 } from "./security-config";
-import { durationEnter, easeOut, enterYSoft } from "./motion";
+import { durationEnter, easeOut } from "./motion";
 
-const ACCENT = "#2962FF";
 const GROUP_STAGGER = 0.06;
 
 const PROTECTION_ICONS: Record<
@@ -33,10 +33,17 @@ const PROTECTION_ICONS: Record<
   "archive-recovery": Archive,
 };
 
+const STANDARD_CODES: Record<string, { code: string; sub: string }> = {
+  iso42001: { code: "ISO", sub: "42001" },
+  iso27001: { code: "ISO", sub: "27001" },
+  "soc2-type1": { code: "SOC 2", sub: "TYPE I" },
+  "soc2-type2": { code: "SOC 2", sub: "TYPE II" },
+};
+
 function statusChipClass(status: ComplianceStatus) {
   switch (status) {
     case "Certified":
-      return "border-[#2962FF]/40 bg-[#111C32] text-[#8EB8FF]";
+      return "border-[#2962FF]/45 bg-[#111C32] text-[#8EB8FF]";
     case "In progress":
     case "Aligned":
       return "border-white/15 bg-white/[0.04] text-[#A0A7B4]";
@@ -45,51 +52,74 @@ function statusChipClass(status: ComplianceStatus) {
   }
 }
 
-function ProtectionTile({ item }: { item: ProtectionItem }) {
-  const Icon = PROTECTION_ICONS[item.id] ?? Layers;
-  const isLarge = item.size === "large";
-  const isCompact = item.size === "compact";
+function AssuranceCard({ item }: { item: ComplianceItem }) {
+  const badge = STANDARD_CODES[item.id] ?? { code: "STD", sub: "" };
 
   return (
-    <li
-      className={`group flex flex-col border border-white/10 bg-[#12161F] p-5 transition-[border-color,transform] duration-200 hover:-translate-y-px hover:border-white/20 md:p-6 ${
-        isLarge
-          ? "md:col-span-2 md:row-span-2"
-          : isCompact
-            ? "md:col-span-2"
-            : ""
-      }`}
-    >
+    <li className="flex h-full flex-col justify-between rounded-[6px] border border-white/10 bg-[#171D2B] p-5 transition-[border-color,transform] duration-200 hover:-translate-y-px hover:border-[#2962FF]/45">
+      <div>
+        <div className="flex items-start justify-between gap-3">
+          {/* Clean typographic standard seal — no fabricated/misleading logos */}
+          <div className="inline-flex items-center gap-2 rounded-[4px] border border-white/12 bg-[#111622] px-2.5 py-1.5">
+            <ShieldCheck
+              className="size-4 shrink-0 text-[#8EB8FF]"
+              aria-hidden
+            />
+            <span className="font-mono text-[11px] font-medium tracking-[0.06em] text-[#F5F6F8]">
+              {badge.code}
+              {badge.sub ? (
+                <span className="ml-1 text-[#8EB8FF]">{badge.sub}</span>
+              ) : null}
+            </span>
+          </div>
+
+          <span
+            className={`shrink-0 rounded-[3px] border px-2 py-0.5 font-mono text-[9.5px] uppercase tracking-[0.1em] ${statusChipClass(item.status)}`}
+          >
+            {item.status}
+          </span>
+        </div>
+
+        <p className="mt-4 text-[16px] font-medium tracking-[-0.015em] text-[#F5F6F8]">
+          {item.name}
+        </p>
+        <p className="mt-1.5 text-[13px] leading-[1.45] text-[#A4A7AE]">
+          {item.description}
+        </p>
+      </div>
+    </li>
+  );
+}
+
+function ProtectionTile({ item }: { item: ProtectionItem }) {
+  const Icon = PROTECTION_ICONS[item.id] ?? Layers;
+
+  return (
+    <li className="group flex h-full flex-col rounded-[6px] border border-white/10 bg-[#171D2B] p-5 transition-[border-color,transform] duration-200 hover:-translate-y-px hover:border-white/20 md:p-6">
       <div className="flex items-start justify-between gap-3">
-        <span className="flex size-8 items-center justify-center border border-white/10 text-[#8EB8FF]">
+        <span className="flex size-9 items-center justify-center rounded-[4px] border border-white/12 bg-[#111622] text-[#8EB8FF]">
           <Icon className="size-4" aria-hidden />
         </span>
         {item.linkHref && item.linkLabel ? (
           <Link
             href={item.linkHref}
-            className="font-mono text-[10px] uppercase tracking-[0.12em] text-[#8EB8FF] transition-colors hover:text-white"
+            className="font-mono text-[10.5px] uppercase tracking-[0.12em] text-[#8EB8FF] no-underline transition-colors hover:text-white"
           >
             {item.linkLabel}
           </Link>
         ) : null}
       </div>
-      <h4
-        className={`mt-4 font-medium tracking-[-0.015em] text-[#F5F6F8] ${
-          isLarge ? "text-[18px] md:text-[20px]" : "text-[15px] md:text-[16px]"
-        }`}
-      >
+
+      <h4 className="mt-4 text-[16px] font-medium tracking-[-0.015em] text-[#F5F6F8] md:text-[17px]">
         {item.title}
       </h4>
-      <p
-        className={`mt-2 leading-[1.5] text-[#A0A7B4] ${
-          isLarge ? "max-w-[42ch] text-[14px] md:text-[15px]" : "text-[13px]"
-        }`}
-      >
+      <p className="mt-2 text-[13.5px] leading-[1.55] text-[#A4A7AE] md:text-[14px]">
         {item.summary}
       </p>
+
       {item.secondaryTitle && item.secondarySummary ? (
         <div className="mt-4 border-t border-white/10 pt-4">
-          <div className="flex items-start gap-2">
+          <div className="flex items-start gap-2.5">
             <RefreshCw
               className="mt-0.5 size-3.5 shrink-0 text-[#8EB8FF]"
               aria-hidden
@@ -98,7 +128,7 @@ function ProtectionTile({ item }: { item: ProtectionItem }) {
               <p className="text-[14px] font-medium text-[#F5F6F8]">
                 {item.secondaryTitle}
               </p>
-              <p className="mt-1 text-[13px] leading-[1.5] text-[#A0A7B4]">
+              <p className="mt-1 text-[13px] leading-[1.5] text-[#A4A7AE]">
                 {item.secondarySummary}
               </p>
             </div>
@@ -130,78 +160,56 @@ export function SecurityComplianceSection() {
   return (
     <section
       id="security"
-      className="relative z-[1] scroll-mt-24 border-t border-[#252B37] bg-[#181D27] py-16 text-[#F5F6F8] md:py-24"
+      className="relative z-[1] scroll-mt-24 border-t border-white/15 bg-[#121722] bg-[radial-gradient(ellipse_60%_35%_at_50%_0%,rgba(41,98,255,0.08),transparent_70%)] py-16 text-[#F5F6F8] md:py-24"
       aria-labelledby={`${baseId}-heading`}
     >
-      <div className="mx-auto max-w-[1180px] px-5 md:px-8">
-        <header className="max-w-[40rem]">
-          <h2
-            id={`${baseId}-heading`}
-            className="zeon-type-section text-balance !text-[#F5F6F8]"
-          >
-            Security and compliance posture
-          </h2>
-          <p className="mt-4 max-w-[48ch] text-[15px] leading-[1.6] text-[#A0A7B4] md:text-[16px]">
-            Data security and privacy standards sit at the core of how the
-            platform is designed and operated.
-          </p>
-        </header>
-
-        <div className="mt-10 space-y-8 md:mt-12 md:space-y-10">
-          {/* Group 1 — Assurance */}
-          <motion.div {...groupMotion(0)}>
-            <h3 className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#727B8B]">
-              Assurance
-            </h3>
-            <ul
-              className="mt-3 grid gap-2 sm:grid-cols-3"
-              aria-label="Compliance positioning"
+      <div className="px-4 sm:px-6 md:px-[var(--zeon-gutter,1.25rem)]">
+        <div className="mx-auto max-w-[1180px]">
+          <header className="max-w-[40rem]">
+            <h2
+              id={`${baseId}-heading`}
+              className="zeon-type-section text-balance !text-[#F5F6F8]"
             >
-              {COMPLIANCE.map((item) => (
-                <li
-                  key={item.id}
-                  className="border border-white/10 bg-[#12161F] px-4 py-4 transition-[border-color,transform] duration-200 hover:-translate-y-px hover:border-white/20 md:px-5 md:py-5"
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <p className="text-[15px] font-medium tracking-[-0.015em] text-[#F5F6F8]">
-                      {item.name}
-                    </p>
-                    <span
-                      className={`shrink-0 rounded-[3px] border px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.1em] ${statusChipClass(item.status)}`}
-                    >
-                      {item.status}
-                    </span>
-                  </div>
-                  <p className="mt-2 text-[12px] leading-[1.45] text-[#8B93A1]">
-                    {item.description}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
+              Security and compliance posture
+            </h2>
+            <p className="mt-3.5 max-w-[48ch] text-[15px] leading-[1.6] text-[#A4A7AE] md:text-[16px]">
+              Data security and privacy standards sit at the core of how the
+              platform is designed and operated.
+            </p>
+          </header>
 
-          {/* Group 2 — Protection */}
-          <motion.div {...groupMotion(1)}>
-            <h3 className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#727B8B]">
-              Protection
-            </h3>
-            <ul
-              className="mt-3 grid gap-2 md:grid-cols-2 md:grid-rows-[auto_auto]"
-              aria-label="Data protection"
-            >
-              {PROTECTION.map((item) => (
-                <ProtectionTile key={item.id} item={item} />
-              ))}
-            </ul>
-          </motion.div>
+          <div className="mt-10 space-y-10 md:mt-12 md:space-y-12">
+            {/* Group 1 — Assurance (4-col desktop / 2x2 tablet / 1-col mobile) */}
+            <motion.div {...groupMotion(0)}>
+              <h3 className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#8B93A1]">
+                Assurance
+              </h3>
+              <ul
+                className="mt-3.5 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 md:gap-4"
+                aria-label="Compliance positioning"
+              >
+                {COMPLIANCE.map((item) => (
+                  <AssuranceCard key={item.id} item={item} />
+                ))}
+              </ul>
+            </motion.div>
+
+            {/* Group 2 — Protection (balanced 2x2 grid) */}
+            <motion.div {...groupMotion(1)}>
+              <h3 className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#8B93A1]">
+                Protection
+              </h3>
+              <ul
+                className="mt-3.5 grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4"
+                aria-label="Data protection"
+              >
+                {PROTECTION.map((item) => (
+                  <ProtectionTile key={item.id} item={item} />
+                ))}
+              </ul>
+            </motion.div>
+          </div>
         </div>
-
-        <p className="mt-8 max-w-[62ch] border-t border-white/10 pt-5 text-[13px] leading-[1.55] text-[#8B93A1] md:mt-10">
-          <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-[#727B8B]">
-            Governed AI
-          </span>
-          <span className="mt-2 block">{GOVERNED_AI_NOTE}</span>
-        </p>
       </div>
     </section>
   );

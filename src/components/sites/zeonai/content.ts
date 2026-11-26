@@ -117,7 +117,7 @@ export const aboutCopy = {
     "Founded by industry veterans with a wealth of experience in artificial intelligence, our team combines deep AI expertise with a proven track record in product development.",
   approach:
     "By keeping AI at the center of our solutions and employing intelligent agents to act on AI insights, we tackle document management from a fresh, impactful perspective.",
-  locations: ["India", "United Arab Emirates", "Canada"],
+  locations: ["India", "United Arab Emirates"],
 } as const;
 
 export const hero = {
@@ -1183,12 +1183,6 @@ export const offices = [
     region: "United Arab Emirates",
     flag: "🇦🇪",
     address: "Meydan Grandstand area, Dubai",
-  },
-  {
-    code: "CA",
-    region: "Canada",
-    flag: "🇨🇦",
-    address: "180 Howden Blvd, Brampton, ON L6S 0E6",
   },
 ] as const;
 

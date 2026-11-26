@@ -85,7 +85,6 @@ const SECTORS = [
 const FLAG_SRC: Record<string, string> = {
   India: "/sites/zeonai/flags/in.svg",
   "United Arab Emirates": "/sites/zeonai/flags/ae.svg",
-  Canada: "/sites/zeonai/flags/ca.svg",
 };
 
 const COMPANY_PILLARS = [
@@ -411,16 +410,16 @@ export function AboutPage() {
           <div>
             <Eyebrow tone="dark">02 · Presence</Eyebrow>
             <Title tone="dark">
-              India · UAE ·{" "}
+              India ·{" "}
               <span
                 className="text-transparent"
                 style={{ WebkitTextStroke: "1.1px #8EB8FF" }}
               >
-                Canada
+                UAE
               </span>
             </Title>
             <Lead tone="dark">
-              Three regions. One platform. Offices that sit with the work, not
+              Two regions. One platform. Offices that sit with the work, not
               beside it.
             </Lead>
             <ul className="mt-10 space-y-5 border-t border-white/10 pt-8">

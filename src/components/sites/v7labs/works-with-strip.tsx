@@ -30,46 +30,61 @@ export function WorksWithStrip() {
   return (
     <section
       aria-labelledby="works-with-heading"
-      className="border-t border-[#E9EAEB] bg-[#FAFAFA] px-5 py-12 md:px-8"
+      className="border-t border-[#E9EAEB] bg-[#FAFAFA] px-4 py-12 sm:px-6 md:px-[var(--zeon-gutter,1.25rem)] md:py-16"
     >
-      <div className="mx-auto max-w-[1120px]">
-        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+      <div className="mx-auto max-w-[1180px]">
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <h2
               id="works-with-heading"
-              className="font-[family-name:var(--font-aeonik)] text-[22px] tracking-[-0.02em] text-[#181D27] md:text-[26px]"
+              className="font-[family-name:var(--font-aeonik)] text-[22px] leading-[1.25] tracking-[-0.02em] text-[#181D27] md:text-[26px]"
             >
-              Works with
+              Integrates with the systems your business already uses
             </h2>
-            <p className="mt-2 max-w-[36rem] text-[14px] leading-[1.5] text-[#535862]">
+            <p className="mt-2 max-w-[38rem] text-[14px] leading-[1.55] text-[#535862]">
               Connectors are scoped per engagement. These are common systems of
               record we connect to AI Workspace.
             </p>
           </div>
-          <Link href="/integrations" className="zeon-link-arrow shrink-0 text-[13px]">
+          <Link
+            href="/integrations"
+            className="zeon-link-arrow shrink-0 text-[13px]"
+          >
             Full integration catalogue
           </Link>
         </div>
-        <ul className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-6 md:gap-x-10">
-          {WORKS_WITH.map((item) => (
-            <li key={item.name} className="list-none" title={item.name}>
-              {item.logoSrc ? (
-                // eslint-disable-next-line @next/next/no-img-element -- static brand SVGs from /public
-                <img
-                  src={item.logoSrc}
-                  alt={item.name}
-                  width={160}
-                  height={40}
-                  className="h-9 w-auto max-w-[9.5rem] object-contain md:h-10 md:max-w-[10.5rem]"
-                  draggable={false}
-                />
-              ) : (
-                <span className="text-[15px] font-medium text-[#535862] md:text-[16px]">
-                  {item.shortName ?? item.name}
-                </span>
-              )}
-            </li>
-          ))}
+
+        <ul className="mt-10 grid grid-cols-2 items-center justify-items-center gap-x-8 gap-y-8 sm:grid-cols-5 lg:flex lg:items-center lg:justify-between lg:gap-6">
+          {WORKS_WITH.map((item) => {
+            const isWordmark = item.name === "TechnologyOne";
+            return (
+              <li
+                key={item.name}
+                className="flex h-11 list-none items-center justify-center"
+                title={item.name}
+              >
+                {item.logoSrc ? (
+                  // eslint-disable-next-line @next/next/no-img-element -- static brand SVGs from /public
+                  <img
+                    src={item.logoSrc}
+                    alt={item.name}
+                    width={140}
+                    height={40}
+                    className={`w-auto object-contain ${
+                      isWordmark
+                        ? "h-6 max-w-[124px] md:h-7 md:max-w-[132px]"
+                        : "h-9 max-w-[104px] md:h-10 md:max-w-[116px]"
+                    }`}
+                    draggable={false}
+                  />
+                ) : (
+                  <span className="text-center text-[15px] font-medium text-[#535862]">
+                    {item.shortName ?? item.name}
+                  </span>
+                )}
+              </li>
+            );
+          })}
         </ul>
       </div>
     </section>
