@@ -55,7 +55,7 @@ export function Industries() {
     <section
       ref={sectionRef}
       id="industries"
-      className="border-y border-[#E5E7EB] bg-[#F4F6FA] pt-16 pb-14 text-[#181D27] md:py-[var(--zeon-space-section-y,5.5rem)]"
+      className="border-y border-[#E5E7EB] bg-[#F4F6FA] py-6 text-[#181D27] md:py-[var(--zeon-space-section-y,5.5rem)]"
     >
       {/* Mobile (<768px): scroll-driven sticky stacked cards (falls back to vertical list on reduced motion) */}
       {!reduceMotion ? (
@@ -139,14 +139,14 @@ function IndustriesHeader({ compact = false }: { compact?: boolean }) {
   );
 }
 
-/** Scroll distance per card — longer travel = smoother handoff. */
-const MOBILE_STACK_VH_PER_STEP = 64;
+/** Scroll distance per card — smooth travel without excess trailing space. */
+const MOBILE_STACK_VH_PER_STEP = 44;
 
 /**
- * Fixed slot height — sized comfortably to the clean card content
- * (icon badge, title, outcome, footer) with room for card shadows.
+ * Fixed stage height — includes top 24px deck-peek clearance so 2 underlying
+ * solid cards visibly stack behind the active card.
  */
-const MOBILE_CARD_H = "h-[clamp(284px,36svh,340px)]";
+const MOBILE_CARD_H = "h-[clamp(324px,42svh,392px)]";
 
 function smoothstep(t: number) {
   const x = Math.min(1, Math.max(0, t));
@@ -159,7 +159,7 @@ function MobileIndustriesStack() {
   const [activeIndex, setActiveIndex] = useState(0);
   const lastActiveRef = useRef(0);
   const count = INDUSTRY_CARDS.length;
-  const trackHeightVh = (count - 1) * MOBILE_STACK_VH_PER_STEP + 40;
+  const trackHeightVh = (count - 1) * MOBILE_STACK_VH_PER_STEP + 100;
 
   const syncFromScroll = useCallback(() => {
     const track = trackRef.current;
@@ -183,21 +183,33 @@ function MobileIndustriesStack() {
       const rawEnter =
         i === 0 ? 1 : Math.min(1, Math.max(0, floatIndex - (i - 1)));
       const enter = smoothstep(rawEnter);
-      const covered = floatIndex - i > 0.98;
+      const depth = floatIndex - i;
 
       if (i > 0 && rawEnter <= 0.001) {
-        el.style.transform = "translate3d(0, 100%, 0)";
-        el.style.opacity = "0";
+        // Waiting below stage
+        el.style.transform = "translate3d(0, 112%, 0) scale(1)";
+        el.style.opacity = "1";
         el.style.visibility = "hidden";
         el.style.pointerEvents = "none";
-      } else if (covered) {
-        el.style.transform = "translate3d(0, 0, 0)";
-        el.style.opacity = "0";
+      } else if (depth > 2.15) {
+        // Deeply buried cards hidden for clean deck
+        el.style.transform = "translate3d(0, -20px, 0) scale(0.93)";
+        el.style.opacity = "1";
         el.style.visibility = "hidden";
         el.style.pointerEvents = "none";
+      } else if (depth > 0) {
+        // Real solid cards stacked behind the active card
+        const clampedDepth = Math.min(2, depth);
+        const shiftY = -(clampedDepth * 10);
+        const scale = 1 - clampedDepth * 0.035;
+        el.style.transform = `translate3d(0, ${shiftY.toFixed(1)}px, 0) scale(${scale.toFixed(4)})`;
+        el.style.opacity = "1";
+        el.style.visibility = "visible";
+        el.style.pointerEvents = rounded === i ? "auto" : "none";
       } else {
-        const yPct = i === 0 ? 0 : (1 - enter) * 100;
-        el.style.transform = `translate3d(0, ${yPct.toFixed(2)}%, 0)`;
+        // Active or incoming solid card sliding smoothly into place
+        const yPct = i === 0 ? 0 : (1 - enter) * 112;
+        el.style.transform = `translate3d(0, ${yPct.toFixed(2)}%, 0) scale(1)`;
         el.style.opacity = "1";
         el.style.visibility = "visible";
         el.style.pointerEvents = rounded === i ? "auto" : "none";
@@ -255,14 +267,14 @@ function MobileIndustriesStack() {
       style={{ height: `${trackHeightVh}svh` }}
     >
       <div
-        className="sticky px-4 pb-4 pt-1 sm:px-5"
-        style={{ top: "max(0.5rem, var(--zeon-header-offset, 0px))" }}
+        className="sticky flex min-h-[calc(100svh-var(--zeon-header-offset,56px))] flex-col justify-center px-4 py-6 sm:px-5"
+        style={{ top: "var(--zeon-header-offset, 56px)" }}
       >
         <div className="mx-auto w-full max-w-[430px]">
           <div className="relative z-30 bg-[#F4F6FA]">
             <IndustriesHeader compact />
 
-            <div className="mt-2.5 flex items-center justify-between pb-2.5">
+            <div className="mt-3 flex items-center justify-between pb-2">
               <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#717680]">
                 {String(activeIndex + 1).padStart(2, "0")} /{" "}
                 {String(count).padStart(2, "0")}
@@ -284,7 +296,7 @@ function MobileIndustriesStack() {
             </div>
           </div>
 
-          {/* Stage with horizontal bleed padding so elevated card shadows don't clip */}
+          {/* Stage with top peek allowance for stacked deck edges and horizontal shadow bleed */}
           <div
             className={`relative z-10 -mx-2 w-[calc(100%+16px)] overflow-hidden ${MOBILE_CARD_H}`}
           >
@@ -294,14 +306,14 @@ function MobileIndustriesStack() {
                 ref={(el) => {
                   cardRefs.current[i] = el;
                 }}
-                className="absolute inset-x-2 inset-y-2 will-change-transform"
+                className="absolute inset-x-2 bottom-2 top-6 origin-top will-change-transform"
                 style={{
                   zIndex: i + 1,
                   transform:
                     i === 0
-                      ? "translate3d(0, 0, 0)"
-                      : "translate3d(0, 100%, 0)",
-                  opacity: i === 0 ? 1 : 0,
+                      ? "translate3d(0, 0, 0) scale(1)"
+                      : "translate3d(0, 112%, 0) scale(1)",
+                  opacity: 1,
                   visibility: i === 0 ? "visible" : "hidden",
                 }}
               >
@@ -310,7 +322,7 @@ function MobileIndustriesStack() {
             ))}
           </div>
 
-          <div className="relative z-30 mt-2.5 bg-[#F4F6FA] pt-0.5">
+          <div className="relative z-30 mt-3 bg-[#F4F6FA] pt-1">
             <Link href="/industries" className="zeon-link-arrow">
               See all industries
             </Link>

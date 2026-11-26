@@ -1070,7 +1070,6 @@
 }
 
 .v7-site .zeon-glass-panel {
-  position: relative;
   background: var(--zeon-glass-bg-strong);
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   box-shadow: var(--zeon-elev-3);
