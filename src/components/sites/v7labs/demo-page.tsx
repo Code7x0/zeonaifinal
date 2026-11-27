@@ -38,17 +38,74 @@ const INTEREST = ["AI Workspace", "Agent Hub", "Both"] as const;
  * No fake success: form has no backend endpoint.
  */
 export function DemoPage() {
-  const [status, setStatus] = useState<"idle" | "error">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "submitting" | "success" | "error"
+  >("idle");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (status === "submitting") return;
+
     const form = e.currentTarget;
-    const honeypot = new FormData(form).get("website");
-    if (typeof honeypot === "string" && honeypot.trim().length > 0) {
+    const formData = new FormData(form);
+    const honeypot = String(formData.get("website") ?? "").trim();
+    if (honeypot.length > 0) {
       setStatus("idle");
       return;
     }
-    setStatus("error");
+
+    const name = String(formData.get("name") ?? "").trim();
+    const email = String(formData.get("email") ?? "").trim();
+    const company = String(formData.get("company") ?? "").trim();
+    const role = String(formData.get("role") ?? "").trim();
+    const interest = String(formData.get("interest") ?? "").trim();
+    const processText = String(formData.get("process") ?? "").trim();
+
+    if (!name || !email || !company || !interest || !processText) {
+      setErrorMessage("Please complete all required fields.");
+      setStatus("error");
+      return;
+    }
+
+    setStatus("submitting");
+    setErrorMessage("");
+
+    try {
+      const res = await fetch("/api/demo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          email,
+          company,
+          role,
+          interest,
+          process: processText,
+          website: honeypot,
+          source: "demo-page",
+        }),
+      });
+
+      const data = (await res.json().catch(() => null)) as {
+        ok?: boolean;
+        error?: string;
+      } | null;
+
+      if (!res.ok || !data?.ok) {
+        setErrorMessage(
+          data?.error || "We could not send your request. Please try again.",
+        );
+        setStatus("error");
+        return;
+      }
+
+      form.reset();
+      setStatus("success");
+    } catch {
+      setErrorMessage("Network error. Please try again or email us directly.");
+      setStatus("error");
+    }
   }
 
   return (
@@ -159,13 +216,24 @@ export function DemoPage() {
               </div>
             </div>
 
+            {status === "success" ? (
+              <p
+                role="status"
+                aria-live="polite"
+                className="mt-4 border border-[#E9EAEB] bg-[#FAFAFA] px-3 py-3 text-[13px] leading-[1.5] text-[#181D27]"
+              >
+                Demo request received. Our team will reply to your work email
+                shortly.
+              </p>
+            ) : null}
+
             {status === "error" ? (
               <p
                 role="alert"
                 className="mt-4 border border-[#E9EAEB] bg-[#FAFAFA] px-3 py-3 text-[13px] leading-[1.5] text-[#535862]"
               >
-                This form is not connected to a delivery endpoint yet. Please
-                email{" "}
+                {errorMessage || "We could not send your request."}{" "}
+                You can also email{" "}
                 <a href="mailto:contact@zeonai.com" className="zeon-link">
                   contact@zeonai.com
                 </a>{" "}
@@ -174,8 +242,12 @@ export function DemoPage() {
             ) : null}
 
             <div className="mt-6 flex flex-wrap items-center gap-4">
-              <ZeonButton type="submit" tone="ink">
-                Submit request
+              <ZeonButton
+                type="submit"
+                tone="ink"
+                disabled={status === "submitting"}
+              >
+                {status === "submitting" ? "Sending..." : "Submit request"}
               </ZeonButton>
               <Link href="/privacy-policy" className="text-[12px] text-[#535862]">
                 Privacy policy

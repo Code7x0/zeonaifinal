@@ -52,7 +52,10 @@ const DEMO_HIGHLIGHTS = [
 ] as const;
 
 const Bookademo4 = () => {
-  const [status, setStatus] = useState<"idle" | "error">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "submitting" | "success" | "error"
+  >("idle");
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const [interest, setInterest] = useState<string>("AI Workspace");
   const videoRef = useRef<HTMLVideoElement>(null);
   const mediaRef = useRef<HTMLDivElement>(null);
@@ -88,15 +91,69 @@ const Bookademo4 = () => {
     return () => observer.disconnect();
   }, []);
 
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (status === "submitting") return;
+
     const form = e.currentTarget;
-    const honeypot = new FormData(form).get("website");
-    if (typeof honeypot === "string" && honeypot.trim().length > 0) {
+    const formData = new FormData(form);
+    const honeypot = String(formData.get("website") ?? "").trim();
+    if (honeypot.length > 0) {
       setStatus("idle");
       return;
     }
-    setStatus("error");
+
+    const name = String(formData.get("name") ?? "").trim();
+    const email = String(formData.get("email") ?? "").trim();
+    const company = String(formData.get("company") ?? "").trim();
+    const role = String(formData.get("role") ?? "").trim();
+    const message = String(formData.get("message") ?? "").trim();
+
+    if (!name || !email || !company || !interest) {
+      setErrorMessage("Please complete all required fields.");
+      setStatus("error");
+      return;
+    }
+
+    setStatus("submitting");
+    setErrorMessage("");
+
+    try {
+      const res = await fetch("/api/demo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          email,
+          company,
+          role,
+          interest,
+          message,
+          website: honeypot,
+          source: "homepage-demo",
+        }),
+      });
+
+      const data = (await res.json().catch(() => null)) as {
+        ok?: boolean;
+        error?: string;
+      } | null;
+
+      if (!res.ok || !data?.ok) {
+        setErrorMessage(
+          data?.error || "We could not send your request. Please try again.",
+        );
+        setStatus("error");
+        return;
+      }
+
+      form.reset();
+      setInterest("AI Workspace");
+      setStatus("success");
+    } catch {
+      setErrorMessage("Network error. Please try again or email us directly.");
+      setStatus("error");
+    }
   }
 
   return (
@@ -341,12 +398,27 @@ const Bookademo4 = () => {
                 .
               </p>
 
+              {status === "success" ? (
+                <div
+                  role="status"
+                  aria-live="polite"
+                  className="rounded-lg border border-[#DCE8FF] bg-[#EEF4FF] px-4 py-3 text-[13px] text-[#181D27]"
+                >
+                  <p className="font-medium">Demo request received.</p>
+                  <p className="mt-1 text-[#535862]">
+                    Thank you — our team will reply to your work email shortly.
+                  </p>
+                </div>
+              ) : null}
+
               {status === "error" ? (
                 <div
                   role="alert"
                   className="rounded-lg border border-[#DCE8FF] bg-[#EEF4FF] px-4 py-3 text-[13px] text-[#181D27]"
                 >
-                  <p className="font-medium">We could not send your request.</p>
+                  <p className="font-medium">
+                    {errorMessage || "We could not send your request."}
+                  </p>
                   <p className="mt-1 text-[#535862]">
                     Email us at{" "}
                     <a
@@ -357,18 +429,16 @@ const Bookademo4 = () => {
                     </a>{" "}
                     and we will reply directly.
                   </p>
-                  <p className="mt-1.5 text-[11px] text-[#717680]">
-                    Staging build: no form endpoint is configured, so nothing
-                    was sent or stored.
-                  </p>
                 </div>
               ) : null}
 
               <Button
                 type="submit"
-                className="h-11 w-full rounded-lg bg-[#1B46F5] text-[15px] font-medium text-white hover:bg-[#1433E1]"
+                disabled={status === "submitting"}
+                aria-busy={status === "submitting"}
+                className="h-11 w-full rounded-lg bg-[#1B46F5] text-[15px] font-medium text-white hover:bg-[#1433E1] disabled:opacity-60"
               >
-                Book Demo
+                {status === "submitting" ? "Sending..." : "Book Demo"}
               </Button>
 
               <noscript>

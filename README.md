@@ -34,8 +34,13 @@ npm run dev
 | Variable | Required | Description |
 | --- | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Optional | Canonical base URL used for metadata, `sitemap.xml`, and `robots.txt`. Defaults to `https://zeonai.com`. |
+| `RESEND_API_KEY` | Required for demo form | Server-side Resend API key used by `POST /api/demo` to deliver Book a Demo requests to `contact@zeonai.com`. |
+| `RESEND_FROM_EMAIL` | Required for demo form | Verified sender address in Resend (for example `ZeonAI <demo@mail.zeonai.com>`). Must use a domain verified in Resend. |
+| `DEMO_RATE_LIMIT_SECRET` | Optional | Secret used to sign the stateless submission cooldown cookie (defaults to `RESEND_API_KEY` if omitted). |
+| `UPSTASH_REDIS_REST_URL` | Optional | Upstash Redis REST URL for distributed IP rate limiting on serverless deployments. |
+| `UPSTASH_REDIS_REST_TOKEN` | Optional | Upstash Redis REST token paired with `UPSTASH_REDIS_REST_URL`. |
 
-Create a `.env.local` file in the project root to override environment variables locally (never commit `.env.local`).
+Copy `.env.example` to `.env.local` for local development (never commit `.env.local`).
 
 ## Available Scripts
 
