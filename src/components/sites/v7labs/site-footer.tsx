@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { offices } from "@/components/sites/zeonai/content";
 import { cn } from "@/lib/utils";
 
@@ -189,7 +190,7 @@ export function SiteFooter() {
           {/* Identity */}
           <div className="flex flex-col justify-between p-5 md:p-6">
             <div>
-              <a
+              <Link
                 href="/"
                 className="inline-flex items-center gap-2 no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B46F5]"
                 aria-label="ZeonAI home"
@@ -204,7 +205,7 @@ export function SiteFooter() {
                 <span className="font-[family-name:var(--font-aeonik)] text-[17px] tracking-[-0.02em] text-[#181D27]">
                   ZeonAI
                 </span>
-              </a>
+              </Link>
               <p className="mt-3 max-w-[26ch] font-[family-name:var(--font-aeonik)] text-[17px] leading-[1.25] tracking-[-0.025em] text-[#181D27] md:text-[19px]">
                 Governed AI agents for enterprise.
               </p>

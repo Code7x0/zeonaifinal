@@ -10,6 +10,7 @@ import {
 } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { useLenis } from "lenis/react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
@@ -112,13 +113,13 @@ function HeaderBar({
     <header className="zeon-glass-nav relative z-50" data-zeon-nav-bar>
       <div className="mx-auto flex h-[56px] max-w-[var(--zeon-container-wide,1280px)] items-center justify-between gap-2 px-4 sm:h-[60px] sm:gap-4 sm:px-5 md:px-8">
         <div className="flex min-w-0 items-center gap-6 lg:gap-8">
-          <a
+          <Link
             href="/"
             aria-label="ZeonAI home"
             className="zeon-press min-w-0 shrink rounded-sm text-black"
           >
             <V7Logo className="text-[15px]" />
-          </a>
+          </Link>
 
           <nav
             className="hidden items-center gap-1 lg:flex"

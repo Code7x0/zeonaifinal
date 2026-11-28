@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { homeNav, nav } from "./content";
 import { ZeonLogo } from "./logo";
@@ -41,9 +42,9 @@ export function SiteHeader({
         Skip to content
       </a>
       <div className="mx-auto flex h-[4.25rem] max-w-[1200px] items-center justify-between gap-4 px-5 md:h-[4.5rem] md:px-8">
-        <a href="/" className="no-underline">
+        <Link href="/" className="no-underline">
           <ZeonLogo variant={ink ? "dark" : "light"} showTagline />
-        </a>
+        </Link>
 
         <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Primary">
           {items.map((item) => (

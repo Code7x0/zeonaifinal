@@ -33,8 +33,8 @@ export function useDiagramWires(rootRef: RefObject<HTMLElement | null>) {
       d.dataset.links?.split(",").forEach((l) => {
         const [a, b] = l.split(">");
         if (!a || !b) return;
-        let A = get(a);
-        let B = get(b);
+        const A = get(a);
+        const B = get(b);
         if (!A || !B) return;
 
         let ra = A.getBoundingClientRect();
