@@ -1,17 +1,21 @@
 import type { VideoAsset, VideoPlacement } from "./types";
 
 const POSTER = (name: string) => `/sites/v7labs/video/posters/${name}.svg`;
-const FILM = (name: string) => `/sites/v7labs/video/${name}.mp4`;
+const R2_VIDEO_BASE =
+  "https://pub-c1b7c901d0184675ba05b3d290e6582d.r2.dev/";
+const R2_FILM = (filename: string) =>
+  `${R2_VIDEO_BASE}${encodeURIComponent(filename)}`;
+const LOCAL_FILM = (name: string) => `/sites/v7labs/video/${name}.mp4`;
 
-/** Product films supplied Nov 2026 — muted autoplay loops across matching slots. */
+/** Product films hosted on Cloudflare R2 — muted autoplay loops across matching slots. */
 const FILMS = {
-  knowledge: FILM("deepprobe-knowledge"),
-  invoice: FILM("invoice-to-bill"),
-  financial: FILM("financial-close"),
-  bricks: FILM("agent-bricks"),
-  hypercare: FILM("hypercare-agent"),
-  about: FILM("about-founder"),
-  demo: FILM("demo-expectations"),
+  knowledge: R2_FILM("ZeonAI_DeepProbe_Knowledge_Box_v2.mp4"),
+  invoice: R2_FILM("ZeonAI_Invoice_to_Bill_Agentic_v2.mp4"),
+  financial: R2_FILM("ZeonAI_Financial_Close_CFO_Product_Film_v4.mp4"),
+  bricks: R2_FILM("ZeonAI_Agent_Bricks_1080p (1).mp4"),
+  hypercare: R2_FILM("Hypercare_Agent_film (1).mp4"),
+  about: LOCAL_FILM("about-founder"),
+  demo: LOCAL_FILM("demo-expectations"),
 } as const;
 
 function ready(
